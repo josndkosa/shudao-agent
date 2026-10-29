@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# 密钥与环境（绝不入库）
+.env
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+*.log
+
+# 临时产物
+*.tmp.*

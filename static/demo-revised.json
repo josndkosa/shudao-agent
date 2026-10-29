@@ -1,0 +1,730 @@
+{
+  "itinerary": {
+    "days": [
+      {
+        "day": 1,
+        "city": "成都",
+        "weather": {
+          "day": "多云",
+          "night": "阴",
+          "temp": [
+            10,
+            17
+          ],
+          "rain_prob": 0.35,
+          "advice": "早晚微凉备薄外套，偶有小雨备伞",
+          "city": "成都",
+          "day_offset": 0,
+          "source": "local-snapshot"
+        },
+        "items": [
+          {
+            "type": "poi",
+            "poi_id": "CD-03",
+            "name": "武侯祠",
+            "city": "成都",
+            "arrival": "08:36",
+            "departure": "10:36",
+            "leg_hours": 0.09,
+            "visit_hours": 2.0,
+            "ticket": 50,
+            "tags": [
+              "历史文化",
+              "园林"
+            ],
+            "reasons": [],
+            "summary": "中国唯一君臣合祀祠庙，三国圣地，红墙竹影是出片天花板"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-14",
+            "name": "金沙遗址博物馆",
+            "city": "成都",
+            "arrival": "10:51",
+            "departure": "13:21",
+            "leg_hours": 0.25,
+            "visit_hours": 2.5,
+            "ticket": 70,
+            "tags": [
+              "博物馆",
+              "历史文化"
+            ],
+            "reasons": [],
+            "summary": "太阳神鸟金饰出土地，古蜀文明祭祀区的原址陈列"
+          },
+          {
+            "type": "meal",
+            "label": "午餐",
+            "arrival": "12:00",
+            "departure": "13:00"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-01",
+            "name": "宽窄巷子",
+            "city": "成都",
+            "arrival": "13:35",
+            "departure": "16:05",
+            "leg_hours": 0.24,
+            "visit_hours": 2.5,
+            "ticket": 0,
+            "tags": [
+              "历史文化",
+              "美食",
+              "街区"
+            ],
+            "reasons": [],
+            "summary": "清代川西民居街巷，宽巷子品闲、窄巷子寻味，体验最成都的慢生活"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-17",
+            "name": "奎星楼街",
+            "city": "成都",
+            "arrival": "16:06",
+            "departure": "17:36",
+            "leg_hours": 0.02,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "美食"
+            ],
+            "reasons": [],
+            "summary": "冒椒火辣带头的小吃一条街，签签妹与钵钵鸡的深夜战场"
+          },
+          {
+            "type": "meal",
+            "label": "晚餐",
+            "arrival": "17:36",
+            "departure": "18:36"
+          }
+        ],
+        "load": {
+          "hours": 11.61,
+          "intensity": 5.4,
+          "tickets": 120
+        },
+        "narrative": "第1天·成都：武侯祠、金沙遗址博物馆、宽窄巷子、奎星楼街。天气多云、10~17℃，早晚微凉备薄外套，偶有小雨备伞。武侯祠——中国唯一君臣合祀祠庙，三国圣地，红墙竹影是出片天花板。金沙遗址博物馆——太阳神鸟金饰出土地，古蜀文明祭祀区的原址陈列。"
+      },
+      {
+        "day": 2,
+        "city": "成都",
+        "weather": {
+          "day": "多云",
+          "night": "阴",
+          "temp": [
+            10,
+            17
+          ],
+          "rain_prob": 0.35,
+          "advice": "早晚微凉备薄外套，偶有小雨备伞",
+          "city": "成都",
+          "day_offset": 0,
+          "source": "local-snapshot"
+        },
+        "items": [
+          {
+            "type": "poi",
+            "poi_id": "CD-05",
+            "name": "人民公园·鹤鸣茶社",
+            "city": "成都",
+            "arrival": "08:30",
+            "departure": "10:00",
+            "leg_hours": 0.0,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "茶文化",
+              "美食",
+              "园林"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "百年露天茶馆，盖碗茶配采耳，成都闲适文化的活标本"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-09",
+            "name": "文殊院",
+            "city": "成都",
+            "arrival": "10:02",
+            "departure": "11:32",
+            "leg_hours": 0.04,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "宗教",
+              "历史文化",
+              "美食"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "川西四大丛林之首，院里素斋馆的甜水面值得一碗"
+          },
+          {
+            "type": "meal",
+            "label": "午餐",
+            "arrival": "12:00",
+            "departure": "13:00"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-02",
+            "name": "锦里古街",
+            "city": "成都",
+            "arrival": "13:00",
+            "departure": "15:00",
+            "leg_hours": 0.14,
+            "visit_hours": 2.0,
+            "ticket": 0,
+            "tags": [
+              "历史文化",
+              "美食",
+              "街区"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "西蜀历史上最古老的商业街，红灯笼夜景与三大炮表演是招牌"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-16",
+            "name": "铁像寺水街",
+            "city": "成都",
+            "arrival": "15:25",
+            "departure": "16:55",
+            "leg_hours": 0.41,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "美食",
+              "夜生活",
+              "街区"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "陈锦茶铺与临河川菜馆构成的高颜值夜食街，本地人聚落"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CD-07",
+            "name": "春熙路·太古里",
+            "city": "成都",
+            "arrival": "17:26",
+            "departure": "19:56",
+            "leg_hours": 0.51,
+            "visit_hours": 2.5,
+            "ticket": 0,
+            "tags": [
+              "购物",
+              "美食",
+              "街区"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "百年商埠与新锐街区共生，大慈寺古建群藏在奢侈品橱窗之间"
+          },
+          {
+            "type": "meal",
+            "label": "晚餐",
+            "arrival": "19:56",
+            "departure": "20:56"
+          }
+        ],
+        "load": {
+          "hours": 12.61,
+          "intensity": 5.6,
+          "tickets": 0
+        },
+        "narrative": "第2天·成都：人民公园·鹤鸣茶社、文殊院、锦里古街、铁像寺水街、春熙路·太古里。天气多云、10~17℃，早晚微凉备薄外套，偶有小雨备伞。人民公园·鹤鸣茶社——百年露天茶馆，盖碗茶配采耳，成都闲适文化的活标本。文殊院——川西四大丛林之首，院里素斋馆的甜水面值得一碗。"
+      },
+      {
+        "day": 3,
+        "city": "重庆",
+        "weather": {
+          "day": "阴转多云",
+          "night": "多云",
+          "temp": [
+            12,
+            19
+          ],
+          "rain_prob": 0.4,
+          "advice": "江边风大，观景台看夜景建议加件外套",
+          "city": "重庆",
+          "day_offset": 0,
+          "source": "local-snapshot"
+        },
+        "items": [
+          {
+            "type": "intercity",
+            "label": "成渝高铁",
+            "arrival": "08:30",
+            "departure": "10:18"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CQ-01",
+            "name": "洪崖洞",
+            "city": "重庆",
+            "arrival": "10:20",
+            "departure": "12:20",
+            "leg_hours": 0.04,
+            "visit_hours": 2.0,
+            "ticket": 0,
+            "tags": [
+              "夜景",
+              "历史文化",
+              "美食"
+            ],
+            "reasons": [
+              "标签命中['美食']",
+              "必游地标"
+            ],
+            "summary": "11 层吊脚楼凭崖而建，亮灯后像千与千寻的现实版"
+          },
+          {
+            "type": "meal",
+            "label": "午餐",
+            "arrival": "12:00",
+            "departure": "13:00"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CQ-07",
+            "name": "南山一棵树观景台",
+            "city": "重庆",
+            "arrival": "13:00",
+            "departure": "14:30",
+            "leg_hours": 0.18,
+            "visit_hours": 1.5,
+            "ticket": 30,
+            "tags": [
+              "夜景",
+              "观景"
+            ],
+            "reasons": [
+              "必游地标"
+            ],
+            "summary": "看重庆夜景的经典机位，渝中半岛灯火尽收眼底"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CQ-04",
+            "name": "长江索道",
+            "city": "重庆",
+            "arrival": "14:39",
+            "departure": "16:09",
+            "leg_hours": 0.14,
+            "visit_hours": 1.5,
+            "ticket": 30,
+            "tags": [
+              "奇观",
+              "观景"
+            ],
+            "reasons": [
+              "必游地标",
+              "预约难度2"
+            ],
+            "summary": "万里长江第一条空中走廊，4 分钟横渡看两岸立体山城"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CQ-02",
+            "name": "解放碑步行街",
+            "city": "重庆",
+            "arrival": "16:11",
+            "departure": "17:41",
+            "leg_hours": 0.05,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "购物",
+              "美食",
+              "建筑"
+            ],
+            "reasons": [
+              "标签命中['美食']"
+            ],
+            "summary": "抗战精神堡垒原址，八一路好吃街的酸辣粉从街头排到街尾"
+          },
+          {
+            "type": "poi",
+            "poi_id": "CQ-13",
+            "name": "北仓文创园",
+            "city": "重庆",
+            "arrival": "17:52",
+            "departure": "19:22",
+            "leg_hours": 0.19,
+            "visit_hours": 1.5,
+            "ticket": 0,
+            "tags": [
+              "文创"
+            ],
+            "reasons": [
+              "基础候选"
+            ],
+            "summary": "老纺织仓库改造的社区图书馆式文创空间，闹中取静"
+          },
+          {
+            "type": "meal",
+            "label": "晚餐",
+            "arrival": "19:22",
+            "departure": "20:22"
+          }
+        ],
+        "load": {
+          "hours": 12.89,
+          "intensity": 11.8,
+          "tickets": 60
+        },
+        "narrative": "第3天·重庆：洪崖洞、南山一棵树观景台、长江索道、解放碑步行街、北仓文创园。天气阴转多云、12~19℃，江边风大，观景台看夜景建议加件外套。洪崖洞——11 层吊脚楼凭崖而建，亮灯后像千与千寻的现实版。南山一棵树观景台——看重庆夜景的经典机位，渝中半岛灯火尽收眼底。今日步行强度偏高，晚上回酒店泡个脚刚好。"
+      }
+    ],
+    "budget": {
+      "tickets": 180,
+      "meals": 360,
+      "transit": 259,
+      "total": 799,
+      "per_day": 266.3
+    },
+    "mode": "offline-planner"
+  },
+  "timeline": [
+    {
+      "seq": 1,
+      "stage": "system",
+      "type": "start",
+      "title": "蜀道智行·三段式管线启动",
+      "reason": "LLM 模式 offline（auto/offline/online 可切换，离线为断网演示保底）",
+      "detail": {
+        "mode": "offline"
+      }
+    },
+    {
+      "seq": 2,
+      "stage": "plan",
+      "type": "start",
+      "title": "规划段开始",
+      "reason": "偏好打分→城市分天→逐日装箱→时间线推算",
+      "detail": {}
+    },
+    {
+      "seq": 3,
+      "stage": "plan",
+      "type": "thought",
+      "title": "解析行程需求",
+      "reason": "3天 预算1200元 偏好['美食']",
+      "detail": {}
+    },
+    {
+      "seq": 4,
+      "stage": "plan",
+      "type": "tool_call",
+      "title": "poi_search(成都)",
+      "reason": "检索成都候选并按偏好打分",
+      "detail": {
+        "tool": "poi_search",
+        "args": {
+          "city": "成都",
+          "tags": [
+            "美食"
+          ]
+        }
+      }
+    },
+    {
+      "seq": 5,
+      "stage": "plan",
+      "type": "tool_result",
+      "title": "成都候选 22 个",
+      "reason": "top3: 宽窄巷子、金沙遗址博物馆、武侯祠",
+      "detail": {
+        "count": 22
+      }
+    },
+    {
+      "seq": 6,
+      "stage": "plan",
+      "type": "tool_call",
+      "title": "poi_search(重庆)",
+      "reason": "检索重庆候选并按偏好打分",
+      "detail": {
+        "tool": "poi_search",
+        "args": {
+          "city": "重庆",
+          "tags": [
+            "美食"
+          ]
+        }
+      }
+    },
+    {
+      "seq": 7,
+      "stage": "plan",
+      "type": "tool_result",
+      "title": "重庆候选 18 个",
+      "reason": "top3: 洪崖洞、南山一棵树观景台、长江索道",
+      "detail": {
+        "count": 18
+      }
+    },
+    {
+      "seq": 8,
+      "stage": "plan",
+      "type": "decision",
+      "title": "城市分天：成都2天、重庆1天",
+      "reason": "按两城候选池总分比例分配",
+      "detail": {
+        "detail": {
+          "成都": 2,
+          "重庆": 1
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "stage": "plan",
+      "type": "tool_call",
+      "title": "weather(成都/重庆)",
+      "reason": "本地天气快照，校验段用于雨天调整",
+      "detail": {
+        "tool": "weather"
+      }
+    },
+    {
+      "seq": 10,
+      "stage": "plan",
+      "type": "tool_result",
+      "title": "成都多云 / 重庆阴转多云",
+      "reason": "11月成渝典型气候",
+      "detail": {
+        "detail": {
+          "成都": {
+            "day": "多云",
+            "night": "阴",
+            "temp": [
+              10,
+              17
+            ],
+            "rain_prob": 0.35,
+            "advice": "早晚微凉备薄外套，偶有小雨备伞",
+            "city": "成都",
+            "day_offset": 0,
+            "source": "local-snapshot"
+          },
+          "重庆": {
+            "day": "阴转多云",
+            "night": "多云",
+            "temp": [
+              12,
+              19
+            ],
+            "rain_prob": 0.4,
+            "advice": "江边风大，观景台看夜景建议加件外套",
+            "city": "重庆",
+            "day_offset": 0,
+            "source": "local-snapshot"
+          }
+        }
+      }
+    },
+    {
+      "seq": 11,
+      "stage": "plan",
+      "type": "decision",
+      "title": "第1天选点 5 个",
+      "reason": "武侯祠(必游地标)；金沙遗址博物馆(必游地标)；宽窄巷子(标签命中['美食']/必游地标)；玉林路·小酒馆(标签命中['美食'])；奎星楼街(标签命中['美食'])",
+      "detail": {
+        "detail": [
+          "CD-03",
+          "CD-14",
+          "CD-01",
+          "CD-22",
+          "CD-17"
+        ]
+      }
+    },
+    {
+      "seq": 12,
+      "stage": "plan",
+      "type": "decision",
+      "title": "第2天选点 5 个",
+      "reason": "人民公园·鹤鸣茶社(标签命中['美食'])；文殊院(标签命中['美食'])；锦里古街(标签命中['美食'])；铁像寺水街(标签命中['美食'])；春熙路·太古里(标签命中['美食'])",
+      "detail": {
+        "detail": [
+          "CD-05",
+          "CD-09",
+          "CD-02",
+          "CD-16",
+          "CD-07"
+        ]
+      }
+    },
+    {
+      "seq": 13,
+      "stage": "plan",
+      "type": "decision",
+      "title": "第3天选点 5 个",
+      "reason": "洪崖洞(标签命中['美食']/必游地标)；南山一棵树观景台(必游地标)；长江索道(必游地标/预约难度2)；解放碑步行街(标签命中['美食'])；北仓文创园(基础候选)",
+      "detail": {
+        "detail": [
+          "CQ-01",
+          "CQ-07",
+          "CQ-04",
+          "CQ-02",
+          "CQ-13"
+        ]
+      }
+    },
+    {
+      "seq": 14,
+      "stage": "plan",
+      "type": "tool_call",
+      "title": "budget(...)",
+      "reason": "核算门票+餐饮+交通",
+      "detail": {
+        "tool": "budget"
+      }
+    },
+    {
+      "seq": 15,
+      "stage": "plan",
+      "type": "tool_result",
+      "title": "预估总花费 799 元",
+      "reason": "预算1200元",
+      "detail": {
+        "detail": {
+          "tickets": 180,
+          "meals": 360,
+          "transit": 259,
+          "total": 799,
+          "per_day": 266.3
+        }
+      }
+    },
+    {
+      "seq": 16,
+      "stage": "validate",
+      "type": "start",
+      "title": "校验段开始",
+      "reason": "纯规则引擎：V1时长/V2开放窗口/V4预算/V5亲子为硬约束，V3强度为软提醒",
+      "detail": {}
+    },
+    {
+      "seq": 17,
+      "stage": "validate",
+      "type": "violation",
+      "title": "[V2-open-window] 第1天",
+      "reason": "排 16.3-17.8h 但开放 19-24h",
+      "detail": {
+        "detail": {
+          "rule": "V2-open-window",
+          "severity": "hard",
+          "day": 1,
+          "poi": "CD-22",
+          "detail": "排 16.3-17.8h 但开放 19-24h",
+          "fix_hint": "drop"
+        }
+      }
+    },
+    {
+      "seq": 18,
+      "stage": "plan",
+      "type": "fix",
+      "title": "第1轮修复回流规划段",
+      "reason": "定向修复硬违规点位后重排时间线",
+      "detail": {}
+    },
+    {
+      "seq": 19,
+      "stage": "plan",
+      "type": "fix",
+      "title": "第1天移除 玉林路·小酒馆",
+      "reason": "开放时间冲突：排 16.3-17.8h 但开放 19-24h",
+      "detail": {
+        "violation": "V2-open-window",
+        "removed": [
+          "CD-22"
+        ]
+      }
+    },
+    {
+      "seq": 20,
+      "stage": "validate",
+      "type": "advisory",
+      "title": "[V3-intensity] 第3天",
+      "reason": "强度 11.8 超过 8.5；强度是软约束，自动删点会误伤必游地标，故保留行程并提示",
+      "detail": {
+        "detail": {
+          "rule": "V3-intensity",
+          "severity": "soft",
+          "day": 3,
+          "poi": "CQ-07",
+          "detail": "强度 11.8 超过 8.5",
+          "fix_hint": "none"
+        }
+      }
+    },
+    {
+      "seq": 21,
+      "stage": "validate",
+      "type": "pass",
+      "title": "第2轮校验通过",
+      "reason": "硬约束零违规；另有 1 条软提醒（已如实标注）",
+      "detail": {}
+    },
+    {
+      "seq": 22,
+      "stage": "narrate",
+      "type": "start",
+      "title": "叙事段开始",
+      "reason": "每日导览词生成",
+      "detail": {}
+    },
+    {
+      "seq": 23,
+      "stage": "narrate",
+      "type": "done",
+      "title": "第1天文案生成",
+      "reason": "模板兜底，串联快照 summary",
+      "detail": {}
+    },
+    {
+      "seq": 24,
+      "stage": "narrate",
+      "type": "done",
+      "title": "第2天文案生成",
+      "reason": "模板兜底，串联快照 summary",
+      "detail": {}
+    },
+    {
+      "seq": 25,
+      "stage": "narrate",
+      "type": "done",
+      "title": "第3天文案生成",
+      "reason": "模板兜底，串联快照 summary",
+      "detail": {}
+    },
+    {
+      "seq": 26,
+      "stage": "system",
+      "type": "done",
+      "title": "管线完成",
+      "reason": "共 3 天行程，预估花费 799 元",
+      "detail": {}
+    }
+  ],
+  "mode": "offline",
+  "budget": {
+    "tickets": 180,
+    "meals": 360,
+    "transit": 259,
+    "total": 799,
+    "per_day": 266.3
+  }
+}

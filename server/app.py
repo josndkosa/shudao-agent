@@ -1,0 +1,197 @@
+"""蜀道智行 FastAPI 应用：API 服务 + SSE 事件流 + 对话式改行程。
+
+契约与 static/js/api.js 的 LiveApi 严格对齐（前端零改动切换）：
+  GET  /api/health   → {status, mode, llm}
+  POST /api/plan     → {plan_id, itinerary, timeline, mode, budget}
+  POST /api/stream   → SSE 逐条事件，最后 {"type":"done"}
+  POST /api/revise   → {itinerary, timeline, revised_day, message}
+  GET  /api/geo      → {points: {城市: [...]}, cities: [...]}（成渝分城投影）
+  GET  /api/meta     → {cities, tags, meta}
+  GET  /             → static/index.html（零构建前端）
+断网保命：SD_LLM_MODE=offline 默认完整可用；在线分支失败一律降级不报错。
+"""
+from __future__ import annotations
+
+import asyncio
+import json
+import uuid
+from functools import lru_cache
+from pathlib import Path
+
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
+
+from .agent import TripRequest, run_pipeline
+from .agent.events import EventBus
+from .agent.revise import revise_plan
+from .agent import llm as llm_mod
+from .tools import obs
+from .tools.geo import Projector
+from .tools.poi_search import load_pois, TAG_ALIASES
+
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+
+app = FastAPI(title="蜀道智行 API", version="1.0.0")
+
+# ── 计划缓存：plan_id → {itinerary, timeline, request, bus} ──
+# FIFO 淘汰（上限 50），防内存泄漏；只为「改行程」拿原计划，不是用户系统
+_PLANS: dict[str, dict] = {}
+_PLAN_CAP = 50
+
+
+class PlanRequest(BaseModel):
+    days: int = Field(3, ge=1, le=7)
+    budget: int = Field(3000, ge=500)
+    tags: list[str] = Field(default_factory=list)
+    family: bool = False
+
+
+class ReviseRequest(BaseModel):
+    plan_id: str
+    message: str
+
+
+def _to_trip(req: PlanRequest) -> TripRequest:
+    return TripRequest(days=req.days, budget=req.budget, tags=req.tags, family=req.family)
+
+
+def _cache_plan(req: PlanRequest, result: dict, bus: EventBus) -> str:
+    plan_id = uuid.uuid4().hex[:12]
+    _PLANS[plan_id] = {
+        "itinerary": result["itinerary"],
+        "timeline": result["timeline"],
+        "request": _to_trip(req),
+        "bus": bus,
+    }
+    while len(_PLANS) > _PLAN_CAP:              # FIFO 淘汰最旧
+        _PLANS.pop(next(iter(_PLANS)))
+    return plan_id
+
+
+@lru_cache(maxsize=1)
+def _build_geo(city: str | None = None) -> dict:
+    """成渝分城投影：每城各建一个 Projector，坐标口径与 static/demo-geo.json 完全一致。"""
+    out = {}
+    for c in ("成都", "重庆"):
+        if city and c != city:
+            continue
+        pois = [p for p in load_pois() if p["city"] == c]
+        pr = Projector(pois)
+        out[c] = [
+            {**{k: p[k] for k in ("id", "name", "city", "lat", "lng", "tags", "ticket",
+                                  "open_hour", "slope", "crowd_level", "family", "must_see",
+                                  "night_friendly", "summary")},
+             **dict(zip(("x", "y"), pr.project(p["lat"], p["lng"])))}
+            for p in pois
+        ]
+    return {"points": out, "cities": list(out.keys())}
+
+
+# ── 基础端点 ──────────────────────────────────────────────
+
+@app.get("/api/health")
+async def health():
+    mode = llm_mod.resolve_mode()
+    return {"status": "ok", "mode": mode, "llm": mode == "online"}
+
+
+@app.post("/api/plan")
+async def plan(req: PlanRequest):
+    """同步跑完三段式管线，返回完整行程 + 事件流（前端先 plan 后 stream，确定性保证一致）。"""
+    bus = EventBus()
+    result = run_pipeline(_to_trip(req), bus)
+    plan_id = _cache_plan(req, result, bus)
+    return {"plan_id": plan_id, **result}
+
+
+@app.post("/api/stream")
+async def stream(req: PlanRequest, request: Request):
+    """SSE 流式：管线在线程池跑，emit 回调实时推事件，结束发 {"type":"done"}。"""
+    q: asyncio.Queue = asyncio.Queue()
+
+    def on_event(ev: dict):
+        q.put_nowait(ev)
+
+    def run_and_signal():
+        run_pipeline(_to_trip(req), on_event=on_event)
+        q.put_nowait({"type": "stream_end"})   # 流结束哨兵：与业务 done 事件（narrate/system）区分
+
+    asyncio.get_running_loop().run_in_executor(None, run_and_signal)
+
+    async def gen():
+        try:
+            while True:
+                try:
+                    ev = await asyncio.wait_for(q.get(), timeout=0.5)
+                except asyncio.TimeoutError:
+                    if await request.is_disconnected():
+                        break                  # 客户端断连：停止推流（线程自然跑完，结果丢弃）
+                    continue
+                if ev.get("type") == "stream_end":
+                    # 转换为前端契约的最终信号；业务事件里的 done（阶段事件）原样透传
+                    yield 'data: {"type": "done"}\n\n'
+                    break
+                yield f"data: {json.dumps(ev, ensure_ascii=False)}\n\n"
+                await asyncio.sleep(0)         # 让出事件循环，防背压
+        finally:
+            pass
+
+    return StreamingResponse(gen(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.post("/api/revise")
+async def revise(req: ReviseRequest):
+    """对话式改行程：纯规则意图解析（离线可用），只重排目标天并复查。"""
+    entry = _PLANS.get(req.plan_id)
+    if not entry:
+        return JSONResponse({"error": "plan_id 不存在或已过期"}, status_code=404)
+    result = revise_plan(entry, req.message)
+    entry["itinerary"] = result["itinerary"]   # 缓存更新为新行程（可继续 revise）
+    entry["timeline"] = result["timeline"]
+    return {**result, "budget": result["itinerary"].get("budget")}
+
+
+@app.get("/api/geo")
+async def geo(plan_id: str | None = None, city: str | None = None):
+    """plan_id 兼容参数（当前投影与具体计划无关，全局快照）；city 为空返回双城分组。"""
+    return _build_geo(city)
+
+
+@app.get("/api/plan/{plan_id}/geo")
+async def geo_alias(plan_id: str, city: str | None = None):
+    """别名端点（/api/geo 的同构包装）。"""
+    return _build_geo(city)
+
+
+@app.get("/api/meta")
+async def meta():
+    pois = load_pois()
+    return {
+        "cities": sorted({p["city"] for p in pois}),
+        "tags": sorted(TAG_ALIASES.keys()),
+        "meta": {"source": "local-snapshot", "count": len(pois)},
+    }
+
+
+@app.post("/api/plan/{plan_id}/save")
+async def save_plan(plan_id: str):
+    """OBS 可选接入：把缓存的行程 JSON 上传华为云 OBS，结果进事件流。"""
+    entry = _PLANS.get(plan_id)
+    if not entry:
+        return JSONResponse({"error": "plan_id 不存在或已过期"}, status_code=404)
+    bus: EventBus = entry["bus"]
+    bus.emit("system", "tool_call", "obs.save_plan(...)",
+             reason="华为云 OBS 可选接入：持久化行程 JSON")
+    result = obs.save_plan(json.dumps(entry["itinerary"], ensure_ascii=False), plan_id)
+    bus.emit("system", "tool_result",
+             "OBS 上传成功" if result.get("ok") else "OBS 未启用/失败（已跳过）",
+             reason=str(result.get("reason") or result.get("url") or "OBS_ENABLED"), detail=result)
+    entry["timeline"] = bus.timeline()
+    return result
+
+
+# ── 静态前端（零构建：原生单页 + demo 资产，Live/Mock 同源）──
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="front")

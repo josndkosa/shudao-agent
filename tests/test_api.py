@@ -1,0 +1,131 @@
+"""Prompt 02 API 测试：FastAPI 六端点契约 + SSE + 对话式改行程（TestClient，不启真实端口）。"""
+import json
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+os.environ["SD_LLM_MODE"] = "offline"
+
+from fastapi.testclient import TestClient
+
+from server.app import app
+
+client = TestClient(app)
+
+
+def test_health():
+    r = client.get("/api/health")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] == "ok"
+    assert "mode" in body and "llm" in body
+
+
+def test_plan_days_match_request():
+    r = client.post("/api/plan", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"]})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["plan_id"]
+    assert len(body["itinerary"]["days"]) == 3
+    assert isinstance(body["timeline"], list) and body["timeline"]
+    assert body["mode"]
+
+
+def test_plan_deterministic():
+    """相同请求必须产出完全一致的行程（确定性，录屏与答辩复现依赖）。"""
+    a = client.post("/api/plan", json={"days": 2, "budget": 2000, "tags": ["夜景"]}).json()
+    b = client.post("/api/plan", json={"days": 2, "budget": 2000, "tags": ["夜景"]}).json()
+    assert json.dumps(a["itinerary"], ensure_ascii=False, sort_keys=True) == \
+           json.dumps(b["itinerary"], ensure_ascii=False, sort_keys=True)
+
+
+def test_stream_sse_frames_and_done():
+    r = client.post("/api/stream", json={"days": 2, "budget": 2000, "tags": ["夜景"]})
+    assert r.status_code == 200
+    assert "text/event-stream" in r.headers["content-type"]
+    frames = [f for f in r.text.strip().split("\n\n") if f]
+    assert frames and all(f.startswith("data: ") for f in frames)
+    events = [json.loads(f[len("data: "):]) for f in frames]
+    assert events[0]["stage"] == "system"          # 与 MockApi 同构：管线启动开头
+    # 哨兵帧必须是纯 {"type":"done"}（无 stage/seq），且业务事件全部在其之前送达
+    assert events[-1].get("type") == "done" and "stage" not in events[-1], \
+        f"末帧应为流结束哨兵，实际：{events[-1]}"
+    assert events[-2]["stage"] in ("narrate", "system"), \
+        f"哨兵之前应完整送达业务事件，实际倒数第二帧：{events[-2]}"
+    for ev in events[:-1]:
+        for k in ("seq", "stage", "type", "title"):
+            assert k in ev, f"事件缺字段 {k}：{ev}"
+
+
+def test_revise_reduce_day2():
+    p = client.post("/api/plan", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"]}).json()
+    pid = p["plan_id"]
+    d2 = p["itinerary"]["days"][1]
+    before_n = len([it for it in d2["items"] if it["type"] == "poi"])
+    before_h = d2["load"]["hours"]
+
+    r = client.post("/api/revise", json={"plan_id": pid, "message": "第二天太赶"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["revised_day"] == 2
+    d2a = body["itinerary"]["days"][1]
+    after_n = len([it for it in d2a["items"] if it["type"] == "poi"])
+    assert after_n < before_n or d2a["load"]["hours"] < before_h, \
+        f"减载未生效：{before_n}→{after_n} 点，{before_h}→{d2a['load']['hours']}h"
+    assert any(e["stage"] == "revise" for e in body["timeline"]), "事件流须含 revise 分组（第二幕）"
+    assert any(e["type"] == "start" and e["stage"] == "revise" for e in body["timeline"])
+
+
+def test_revise_unparseable_keeps_plan():
+    p = client.post("/api/plan", json={"days": 2, "budget": 2500, "tags": ["亲子"]}).json()
+    pid = p["plan_id"]
+    r = client.post("/api/revise", json={"plan_id": pid, "message": "随便改改"})
+    assert r.status_code == 200
+    body = r.json()
+    assert len(body["itinerary"]["days"]) == 2, "无法解析时行程不得被破坏"
+    assert body["message"], "须有友好提示"
+
+
+def test_revise_remove_poi_by_name():
+    p = client.post("/api/plan", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"]}).json()
+    pid = p["plan_id"]
+    r = client.post("/api/revise", json={"plan_id": pid, "message": "第一天换掉文殊院"})
+    assert r.status_code == 200
+    d1 = r.json()["itinerary"]["days"][0]
+    names = [it["name"] for it in d1["items"] if it["type"] == "poi"]
+    assert all("文殊院" not in n for n in names), f"文殊院应被移除：{names}"
+
+
+def test_geo_dual_city_projection_range():
+    r = client.get("/api/geo")
+    assert r.status_code == 200
+    body = r.json()
+    assert set(body["points"].keys()) == {"成都", "重庆"}      # 必须是城市分组对象，不是数组
+    for city, pts in body["points"].items():
+        assert len(pts) > 0
+        for p in pts:
+            assert 0 <= p["x"] <= 1000 and 0 <= p["y"] <= 700, f"{p['id']} 坐标越界"
+            for k in ("id", "name", "must_see", "slope", "crowd_level", "open_hour", "ticket", "tags"):
+                assert k in p, f"{p['id']} 缺字段 {k}"
+
+
+def test_geo_city_filter_keeps_shape():
+    r = client.get("/api/geo", params={"city": "重庆"})
+    body = r.json()
+    assert list(body["points"].keys()) == ["重庆"]              # 外层结构不变
+    assert body["cities"] == ["重庆"]
+
+
+def test_meta():
+    r = client.get("/api/meta")
+    assert r.status_code == 200
+    body = r.json()
+    assert set(body["cities"]) >= {"成都", "重庆"}
+    assert "美食" in body["tags"]
+
+
+def test_index_served():
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "蜀道智行" in r.text

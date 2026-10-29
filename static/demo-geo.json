@@ -1,0 +1,974 @@
+{
+  "成都": [
+    {
+      "id": "CD-01",
+      "name": "宽窄巷子",
+      "city": "成都",
+      "lat": 30.6651,
+      "lng": 104.0618,
+      "tags": [
+        "历史文化",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "清代川西民居街巷，宽巷子品闲、窄巷子寻味，体验最成都的慢生活",
+      "x": 384.9,
+      "y": 303.8
+    },
+    {
+      "id": "CD-02",
+      "name": "锦里古街",
+      "city": "成都",
+      "lat": 30.6427,
+      "lng": 104.0477,
+      "tags": [
+        "历史文化",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "西蜀历史上最古老的商业街，红灯笼夜景与三大炮表演是招牌",
+      "x": 290.8,
+      "y": 379.9
+    },
+    {
+      "id": "CD-03",
+      "name": "武侯祠",
+      "city": "成都",
+      "lat": 30.6446,
+      "lng": 104.0487,
+      "tags": [
+        "历史文化",
+        "园林"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        8,
+        20
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "中国唯一君臣合祀祠庙，三国圣地，红墙竹影是出片天花板",
+      "x": 297.5,
+      "y": 373.4
+    },
+    {
+      "id": "CD-04",
+      "name": "杜甫草堂",
+      "city": "成都",
+      "lat": 30.6598,
+      "lng": 104.0256,
+      "tags": [
+        "历史文化",
+        "园林"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        8,
+        18.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "诗圣流寓成都的故居，茅屋、梅园与工部祠串联一部唐诗",
+      "x": 143.4,
+      "y": 321.8
+    },
+    {
+      "id": "CD-05",
+      "name": "人民公园·鹤鸣茶社",
+      "city": "成都",
+      "lat": 30.6606,
+      "lng": 104.0558,
+      "tags": [
+        "茶文化",
+        "美食",
+        "园林"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "百年露天茶馆，盖碗茶配采耳，成都闲适文化的活标本",
+      "x": 344.9,
+      "y": 319.1
+    },
+    {
+      "id": "CD-06",
+      "name": "大熊猫繁育研究基地",
+      "city": "成都",
+      "lat": 30.7369,
+      "lng": 104.145,
+      "tags": [
+        "动物",
+        "亲子",
+        "自然"
+      ],
+      "ticket": 55,
+      "open_hour": [
+        7.5,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "全球最大熊猫迁地保护种群，早上去看最活跃的滚滚吃笋",
+      "x": 940.0,
+      "y": 60.0
+    },
+    {
+      "id": "CD-07",
+      "name": "春熙路·太古里",
+      "city": "成都",
+      "lat": 30.6598,
+      "lng": 104.0817,
+      "tags": [
+        "购物",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "百年商埠与新锐街区共生，大慈寺古建群藏在奢侈品橱窗之间",
+      "x": 517.7,
+      "y": 321.8
+    },
+    {
+      "id": "CD-08",
+      "name": "东郊记忆",
+      "city": "成都",
+      "lat": 30.6733,
+      "lng": 104.1385,
+      "tags": [
+        "文创",
+        "音乐"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "红砖厂房改造的艺术区，工业管道与涂鸦墙是赛博朋克取景地",
+      "x": 896.6,
+      "y": 276.0
+    },
+    {
+      "id": "CD-09",
+      "name": "文殊院",
+      "city": "成都",
+      "lat": 30.6649,
+      "lng": 104.0631,
+      "tags": [
+        "宗教",
+        "历史文化",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "川西四大丛林之首，院里素斋馆的甜水面值得一碗",
+      "x": 393.6,
+      "y": 304.5
+    },
+    {
+      "id": "CD-10",
+      "name": "四川博物院",
+      "city": "成都",
+      "lat": 30.6522,
+      "lng": 104.0332,
+      "tags": [
+        "博物馆"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "张大千临摹敦煌壁画真迹的常驻展馆，巴蜀青铜器序列完整",
+      "x": 194.1,
+      "y": 347.6
+    },
+    {
+      "id": "CD-11",
+      "name": "成都博物馆",
+      "city": "成都",
+      "lat": 30.6562,
+      "lng": 104.0637,
+      "tags": [
+        "博物馆"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "皮影与木偶馆藏全国之最，镇馆之宝石犀出自天府广场地层",
+      "x": 397.6,
+      "y": 334.0
+    },
+    {
+      "id": "CD-12",
+      "name": "青羊宫",
+      "city": "成都",
+      "lat": 30.6603,
+      "lng": 104.0311,
+      "tags": [
+        "宗教"
+      ],
+      "ticket": 10,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "道教全国重点宫观，八卦亭铜铸工艺与三清殿铜羊是寻宝点",
+      "x": 180.1,
+      "y": 320.1
+    },
+    {
+      "id": "CD-13",
+      "name": "望江楼公园",
+      "city": "成都",
+      "lat": 30.6403,
+      "lng": 104.0919,
+      "tags": [
+        "园林",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "纪念薛涛的竹类公园，两百余种竹沿锦江成林",
+      "x": 585.7,
+      "y": 388.0
+    },
+    {
+      "id": "CD-14",
+      "name": "金沙遗址博物馆",
+      "city": "成都",
+      "lat": 30.6801,
+      "lng": 104.0131,
+      "tags": [
+        "博物馆",
+        "历史文化"
+      ],
+      "ticket": 70,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "太阳神鸟金饰出土地，古蜀文明祭祀区的原址陈列",
+      "x": 60.0,
+      "y": 252.9
+    },
+    {
+      "id": "CD-15",
+      "name": "天府艺术公园",
+      "city": "成都",
+      "lat": 30.7135,
+      "lng": 104.0342,
+      "tags": [
+        "艺术",
+        "园林"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "天府美术馆与图书馆临湖而立，芙蓉花开时湖面倒影成画",
+      "x": 200.8,
+      "y": 139.5
+    },
+    {
+      "id": "CD-16",
+      "name": "铁像寺水街",
+      "city": "成都",
+      "lat": 30.5661,
+      "lng": 104.0572,
+      "tags": [
+        "美食",
+        "夜生活",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "陈锦茶铺与临河川菜馆构成的高颜值夜食街，本地人聚落",
+      "x": 354.2,
+      "y": 640.0
+    },
+    {
+      "id": "CD-17",
+      "name": "奎星楼街",
+      "city": "成都",
+      "lat": 30.6692,
+      "lng": 104.0596,
+      "tags": [
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "冒椒火辣带头的小吃一条街，签签妹与钵钵鸡的深夜战场",
+      "x": 370.2,
+      "y": 289.9
+    },
+    {
+      "id": "CD-18",
+      "name": "浣花溪公园",
+      "city": "成都",
+      "lat": 30.6553,
+      "lng": 104.0279,
+      "tags": [
+        "园林",
+        "观景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        21
+      ],
+      "slope": 1,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "诗歌大道沿浣花溪铺开，与杜甫草堂一墙之隔的免费园林",
+      "x": 158.7,
+      "y": 337.1
+    },
+    {
+      "id": "CD-19",
+      "name": "成都自然博物馆",
+      "city": "成都",
+      "lat": 30.6991,
+      "lng": 104.1374,
+      "tags": [
+        "博物馆",
+        "亲子"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "恐龙化石与地质演化常设展，蜀龙骨架是孩子们的最爱",
+      "x": 889.3,
+      "y": 188.4
+    },
+    {
+      "id": "CD-20",
+      "name": "九眼桥·锦江夜游",
+      "city": "成都",
+      "lat": 30.6469,
+      "lng": 104.0843,
+      "tags": [
+        "夜景",
+        "夜生活"
+      ],
+      "ticket": 98,
+      "open_hour": [
+        19,
+        23
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "乘船看合江亭与廊桥灯火，酒吧一条街在岸上接续下半场",
+      "x": 535.0,
+      "y": 365.6
+    },
+    {
+      "id": "CD-21",
+      "name": "成都动物园",
+      "city": "成都",
+      "lat": 30.6905,
+      "lng": 104.1085,
+      "tags": [
+        "动物",
+        "亲子"
+      ],
+      "ticket": 20,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "性价比之王，熊猫馆之外金丝猴与小熊猫同样能打",
+      "x": 696.5,
+      "y": 217.6
+    },
+    {
+      "id": "CD-22",
+      "name": "玉林路·小酒馆",
+      "city": "成都",
+      "lat": 30.6298,
+      "lng": 104.0633,
+      "tags": [
+        "音乐",
+        "美食",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        19,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 1,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "赵雷唱火的那个小酒馆，玉林西路沿街串串与咖啡馆密度惊人",
+      "x": 394.9,
+      "y": 423.7
+    }
+  ],
+  "重庆": [
+    {
+      "id": "CQ-01",
+      "name": "洪崖洞",
+      "city": "重庆",
+      "lat": 29.563,
+      "lng": 106.581,
+      "tags": [
+        "夜景",
+        "历史文化",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        23
+      ],
+      "slope": 1,
+      "crowd_level": 5,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "11 层吊脚楼凭崖而建，亮灯后像千与千寻的现实版",
+      "x": 755.2,
+      "y": 281.9
+    },
+    {
+      "id": "CQ-02",
+      "name": "解放碑步行街",
+      "city": "重庆",
+      "lat": 29.5568,
+      "lng": 106.577,
+      "tags": [
+        "购物",
+        "美食",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "抗战精神堡垒原址，八一路好吃街的酸辣粉从街头排到街尾",
+      "x": 736.6,
+      "y": 337.8
+    },
+    {
+      "id": "CQ-03",
+      "name": "磁器口古镇",
+      "city": "重庆",
+      "lat": 29.5806,
+      "lng": 106.443,
+      "tags": [
+        "古镇",
+        "美食",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "千年水陆码头，陈麻花与毛血旺发源地，主街之外的横街更安静",
+      "x": 114.3,
+      "y": 123.1
+    },
+    {
+      "id": "CQ-04",
+      "name": "长江索道",
+      "city": "重庆",
+      "lat": 29.5546,
+      "lng": 106.5864,
+      "tags": [
+        "奇观",
+        "观景"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        7.5,
+        22.5
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "万里长江第一条空中走廊，4 分钟横渡看两岸立体山城",
+      "x": 780.3,
+      "y": 357.7
+    },
+    {
+      "id": "CQ-05",
+      "name": "李子坝轻轨穿楼",
+      "city": "重庆",
+      "lat": 29.5467,
+      "lng": 106.5088,
+      "tags": [
+        "奇观"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "2 号线列车从 19 层居民楼腹中穿过，楼下观景平台专供打卡",
+      "x": 419.9,
+      "y": 428.9
+    },
+    {
+      "id": "CQ-06",
+      "name": "鹅岭二厂文创园",
+      "city": "重庆",
+      "lat": 29.5516,
+      "lng": 106.5428,
+      "tags": [
+        "文创",
+        "观景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "从《从你的全世界路过》走红的印钞厂改造园区，天台看两江",
+      "x": 577.8,
+      "y": 384.7
+    },
+    {
+      "id": "CQ-07",
+      "name": "南山一棵树观景台",
+      "city": "重庆",
+      "lat": 29.551,
+      "lng": 106.6168,
+      "tags": [
+        "夜景",
+        "观景"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        9,
+        23
+      ],
+      "slope": 3,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "看重庆夜景的经典机位，渝中半岛灯火尽收眼底",
+      "x": 921.4,
+      "y": 390.1
+    },
+    {
+      "id": "CQ-08",
+      "name": "白公馆·渣滓洞",
+      "city": "重庆",
+      "lat": 29.5683,
+      "lng": 106.4313,
+      "tags": [
+        "红色历史",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        16
+      ],
+      "slope": 3,
+      "crowd_level": 3,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "歌乐山下的两处红岩遗址，需预约且步行坡道较多",
+      "x": 60.0,
+      "y": 234.1
+    },
+    {
+      "id": "CQ-09",
+      "name": "重庆中国三峡博物馆",
+      "city": "重庆",
+      "lat": 29.5603,
+      "lng": 106.5458,
+      "tags": [
+        "博物馆"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "壮丽三峡展厅与汉代画像砖序列，山城历史一馆读懂",
+      "x": 591.7,
+      "y": 306.3
+    },
+    {
+      "id": "CQ-10",
+      "name": "人民大礼堂",
+      "city": "重庆",
+      "lat": 29.5601,
+      "lng": 106.5462,
+      "tags": [
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "仿明清宫殿的标志性建筑，与三峡博物馆隔广场相望",
+      "x": 593.6,
+      "y": 308.1
+    },
+    {
+      "id": "CQ-11",
+      "name": "湖广会馆",
+      "city": "重庆",
+      "lat": 29.5643,
+      "lng": 106.5857,
+      "tags": [
+        "建筑",
+        "历史文化"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        9,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "全国城市中保存最好的会馆建筑群，禹王宫戏台雕梁精美",
+      "x": 777.0,
+      "y": 270.2
+    },
+    {
+      "id": "CQ-12",
+      "name": "朝天门·来福士",
+      "city": "重庆",
+      "lat": 29.5653,
+      "lng": 106.5867,
+      "tags": [
+        "建筑",
+        "观景",
+        "夜景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "两江交汇处的横向摩天楼，水晶连廊悬空 250 米看江对岸",
+      "x": 781.6,
+      "y": 261.2
+    },
+    {
+      "id": "CQ-13",
+      "name": "北仓文创园",
+      "city": "重庆",
+      "lat": 29.5652,
+      "lng": 106.5384,
+      "tags": [
+        "文创"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 1,
+      "crowd_level": 1,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "老纺织仓库改造的社区图书馆式文创空间，闹中取静",
+      "x": 557.4,
+      "y": 262.1
+    },
+    {
+      "id": "CQ-14",
+      "name": "山城步道·第三步道",
+      "city": "重庆",
+      "lat": 29.5526,
+      "lng": 106.572,
+      "tags": [
+        "徒步",
+        "历史文化",
+        "观景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 3,
+      "crowd_level": 2,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "沿崖而建的石板栈道，串联厚庐石库门与领事旧址，爬升明显",
+      "x": 713.4,
+      "y": 375.7
+    },
+    {
+      "id": "CQ-15",
+      "name": "弹子石老街",
+      "city": "重庆",
+      "lat": 29.5717,
+      "lng": 106.6208,
+      "tags": [
+        "历史文化",
+        "夜景",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "一街两公园三层空间，法国水师兵营旧址与龙门浩老街隔江相望",
+      "x": 940.0,
+      "y": 203.4
+    },
+    {
+      "id": "CQ-16",
+      "name": "重庆动物园",
+      "city": "重庆",
+      "lat": 29.5233,
+      "lng": 106.4893,
+      "tags": [
+        "动物",
+        "亲子"
+      ],
+      "ticket": 25,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "渝中区外的高性价比动物园，大熊猫馆与两栖爬行馆孩子能玩半天",
+      "x": 329.3,
+      "y": 640.0
+    },
+    {
+      "id": "CQ-17",
+      "name": "观音桥商圈",
+      "city": "重庆",
+      "lat": 29.5817,
+      "lng": 106.5141,
+      "tags": [
+        "购物",
+        "美食",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "本地人浓度最高的商圈，不夜街的烤苕皮和梯坎豆花饭",
+      "x": 444.5,
+      "y": 113.2
+    },
+    {
+      "id": "CQ-18",
+      "name": "鸿恩寺公园·鸿恩阁",
+      "city": "重庆",
+      "lat": 29.5876,
+      "lng": 106.4944,
+      "tags": [
+        "园林",
+        "夜景",
+        "观景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "主城制高点之一的桂花主题公园，登阁可俯瞰嘉陵江两岸",
+      "x": 353.0,
+      "y": 60.0
+    }
+  ]
+}
