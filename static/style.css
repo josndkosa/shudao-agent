@@ -332,7 +332,7 @@ body::after {
 .it-meal { color: var(--fg-dim); font-size: 12px; letter-spacing: 2px; }
 .it-rail {
   height: 24px; border-radius: 2px; display: flex; align-items: center; padding-left: 12px;
-  font-family: var(--mono); font-size: 11px; color: #0E1116; font-weight: 600; letter-spacing: .5px;
+  font-family: var(--mono); font-size: 11px; color: #141008; font-weight: 600; letter-spacing: .5px;
   background: linear-gradient(90deg, var(--cd), var(--cq));
 }
 .it-item.advisory { border-left: 3px solid var(--warn); padding-left: 10px; }
