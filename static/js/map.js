@@ -47,7 +47,7 @@ export class CityMaps {
 
   _drawMarkers(city, pts) {
     const g = this._layer[city].mark;
-    for (const p of pts) {
+    pts.forEach((p, idx) => {   // idx 仅写入 CSS 变量 --i 供 stagger 动画用，不改任何逻辑
       const c = el("circle", {
         cx: p.x, cy: p.y,
         r: p.must_see ? 8 : 5.5,
@@ -58,6 +58,7 @@ export class CityMaps {
       c.addEventListener("mouseenter", ev => this._showTip(ev, p));
       c.addEventListener("mouseleave", () => this.tip.classList.remove("on"));
       c.addEventListener("click", () => this.onPoiClick?.(p));
+      c.style.setProperty("--i", idx);   // stagger 索引：CSS 动画 delay 消费
       g.appendChild(c);
       this.index[p.id] = { point: p, city, circle: c };
       if (p.must_see) {
@@ -68,7 +69,7 @@ export class CityMaps {
           class: "poi-marker dim", "data-poi": p.id,
         }));
       }
-    }
+    });
   }
 
   _showTip(ev, p) {

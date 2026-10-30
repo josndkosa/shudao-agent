@@ -9,19 +9,31 @@
 <body>
 <header class="topbar">
   <div class="brand">
-    <span class="brand-mark">蜀道</span>
-    <h1>蜀道智行<span class="brand-sub">成渝行程规划智能体</span></h1>
+    <span class="brand-mark">蜀道智行</span>
+    <h1>成渝行程规划智能体<span class="brand-sub">规划 → 校验 → 叙事</span></h1>
   </div>
   <div class="badges">
     <span class="badge badge-offline" id="badge-offline">离线</span>
     <span class="badge" id="badge-api">检测中…</span>
+    <button class="drawer-btn" id="drawer-btn" aria-expanded="false">Agent 决策回放 ▾</button>
   </div>
 </header>
 
+<section class="hero">
+  <h1 class="hero-title">规划 → 校验 → 叙事：把 Agent 的决策过程做成可回放的产品</h1>
+  <p class="hero-sub">输入天数、预算与偏好，三段式管线生成成渝双城行程——每一次选点、每一次校验、每一次修复，都可倒带回放。</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n">40</span><span class="stat-l">POI 本地快照</span></div>
+    <div class="stat"><span class="stat-n">2</span><span class="stat-l">城 · 分幅路网</span></div>
+    <div class="stat"><span class="stat-n">3</span><span class="stat-l">段式管线</span></div>
+    <div class="stat"><span class="stat-n">22</span><span class="stat-l">决策事件可回放</span></div>
+  </div>
+</section>
+
 <div class="layout">
-  <!-- 左栏：参数 + 双城路线图 + 逐日行程 -->
+  <!-- 单栏主列：参数 + 双城路线图 + 逐日行程 -->
   <main class="left">
-    <form class="params panel-frame" id="params-form">
+    <form class="params" id="params-form">
       <label>天数<input id="p-days" type="number" min="1" max="5" value="3"></label>
       <label>预算<input id="p-budget" type="number" min="500" step="100" value="3000"></label>
       <label>偏好<input id="p-tags" type="text" value="美食,文化" placeholder="美食,文化,亲子…"></label>
@@ -30,52 +42,29 @@
     </form>
 
     <section class="map-row">
-      <div class="map-card panel-frame">
-        <div class="map-frame">
-          <div class="map-title c-cd"><span class="city-cn">成都</span><span class="city-meta">CHENGDU · 30.67°N 104.07°E</span></div>
-          <div class="map-scale"><span class="bar"></span>10 km</div>
-          <div class="compass"><span>N</span></div>
-        </div>
+      <div class="map-card">
+        <div class="map-title"><span class="c-cd">成都</span><span class="city-meta">CHENGDU · 30.67°N 104.07°E</span></div>
         <div id="map-chengdu" class="map-svg"></div>
       </div>
-      <div class="rail-link" id="rail-link" title="成渝高铁 1.8h ¥154">
-        <svg viewBox="0 0 120 40" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="railGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#E8A33D"/>
-              <stop offset="1" stop-color="#4EA8DE"/>
-            </linearGradient>
-          </defs>
-          <line x1="4" y1="20" x2="116" y2="20" stroke="url(#railGrad)"
-                stroke-width="2" stroke-dasharray="7 5" class="rail-dash"/>
-          <circle r="3" fill="#E8A33D" class="rail-dot">
-            <animateMotion dur="2.4s" repeatCount="indefinite" path="M4,20 L116,20"/>
-          </circle>
-          <text x="60" y="12" class="rail-text" text-anchor="middle">高铁 1.8h · ¥154</text>
-        </svg>
-      </div>
-      <div class="map-card panel-frame">
-        <div class="map-frame">
-          <div class="map-title c-cq"><span class="city-cn">重庆</span><span class="city-meta">CHONGQING · 29.56°N 106.55°E</span></div>
-          <div class="map-scale"><span class="bar"></span>10 km</div>
-          <div class="compass"><span>N</span></div>
-        </div>
+      <div class="map-card">
+        <div class="map-title"><span class="c-cq">重庆</span><span class="city-meta">CHONGQING · 29.56°N 106.55°E</span></div>
         <div id="map-chongqing" class="map-svg"></div>
       </div>
     </section>
 
-    <section class="days panel-frame">
+    <section class="days">
       <nav class="day-tabs" id="day-tabs"></nav>
       <div class="day-panel" id="day-panel"></div>
       <div class="budget-bar" id="budget-bar"></div>
     </section>
   </main>
 
-  <!-- 右栏：Agent 决策回放 -->
-  <aside class="right panel-frame">
+  <!-- 底部抽屉：Agent 决策回放（默认收起） -->
+  <aside class="right">
     <div class="player-head">
       <h2>Agent 决策回放</h2>
       <input id="evt-search" type="search" placeholder="过滤事件（标题/理由）…">
+      <button class="drawer-close" id="drawer-close" title="关闭（Esc）">✕ 关闭</button>
     </div>
     <div class="player-ctrl">
       <button id="pc-first" title="跳到开头">⏮</button>

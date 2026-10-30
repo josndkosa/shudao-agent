@@ -273,8 +273,35 @@ async function boot() {
     hintEl.appendChild(s);
   }
 
+  // 底部抽屉开关（第八轮新增：按钮 / 关闭钮 / Esc / 遮罩，四种路径）
+  const drawerBtn = document.getElementById("drawer-btn");
+  drawerBtn?.addEventListener("click", () => {
+    const open = document.body.classList.toggle("drawer-open");
+    drawerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.getElementById("drawer-close")?.addEventListener("click", () => {
+    document.body.classList.remove("drawer-open");
+    drawerBtn?.setAttribute("aria-expanded", "false");
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      document.body.classList.remove("drawer-open");
+      drawerBtn?.setAttribute("aria-expanded", "false");
+    }
+  });
+  // 遮罩点击关闭：抽屉外的遮罩区（body.drawer-open::after 不可绑事件，用一次性全局点击兜底）
+  document.addEventListener("click", e => {
+    if (!document.body.classList.contains("drawer-open")) return;
+    const inDrawer = e.target.closest(".right, #drawer-btn");
+    if (!inDrawer) {
+      document.body.classList.remove("drawer-open");
+      drawerBtn?.setAttribute("aria-expanded", "false");
+    }
+  });
+
   if (q.auto === "1" || q.auto === 1) run();
 }
+
 
 boot().catch(err => {
   console.error(err);

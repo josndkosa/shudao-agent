@@ -12,7 +12,7 @@ const STATIC = path.join(ROOT, "static");
 function makeEl() {
   const el = {
     textContent: "", value: "0", max: "0", disabled: false,
-    style: {}, dataset: {}, innerHTML: "",
+    style: { setProperty() {}, removeProperty() {} }, dataset: {}, innerHTML: "",
     classList: { _s: new Set(), add(...c) { c.forEach(x => this._s.add(x)); },
                  remove(...c) { c.forEach(x => this._s.delete(x)); },
                  toggle(c, on) { on === false ? this._s.delete(c) : this._s.add(c); } },
