@@ -1,17 +1,25 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .venv/
 venv/
+*.egg-info/
 
-# 密钥与环境（绝不入库）
+# 环境与密钥（.env 绝不入库）
 .env
-
-# 系统与编辑器
-.DS_Store
-Thumbs.db
-*.log
+.env.local
 
 # 临时产物
-*.tmp.*
+*.tmp.json
+plan_resp.tmp.json
+node_modules/
+
+# 工具目录（码道自身的配置，不属于本项目源码）
+.codeartsdoer/
+
+# 保留（勿忽略）：
+#   static/demo*.json  ← 前端离线兜底数据，必须提交
+#   docs/baseline/     ← 基线与缺陷复现证据，必须提交
