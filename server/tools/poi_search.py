@@ -1,44 +1,70 @@
+"""POI 检索与打分工具。
+
+数据层 v2：分城快照（chengdu.json / chongqing.json）+ meta.json（词表/枢纽/城际）。
+load_pois() 遍历 data 目录下的城市快照合并——新增城市只需新增数据文件，不用改代码。
+字段规范见 server/data/schema.md。
+"""
 import json
 from functools import lru_cache
 from pathlib import Path
 
-DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "pois.json"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
-TAG_ALIASES = {
-    "文化": ["历史文化", "博物馆", "红色历史", "宗教", "古镇"],
-    "历史": ["历史文化", "红色历史", "古镇"],
-    "美食": ["美食"],
-    "吃货": ["美食"],
-    "亲子": ["亲子", "动物"],
-    "遛娃": ["亲子", "动物"],
-    "自然": ["自然", "动物", "园林"],
-    "购物": ["购物"],
-    "夜景": ["夜景"],
-    "夜生活": ["夜生活", "夜景"],
-    "文创": ["文创", "音乐"],
-    "艺术": ["艺术", "文创"],
-    "网红": ["奇观", "夜景", "文创"],
-    "打卡": ["奇观", "夜景", "文创", "建筑"],
-    "徒步": ["徒步"],
-    "博物馆": ["博物馆"],
-    "茶": ["茶文化"],
-}
+
+@lru_cache(maxsize=1)
+def _load_meta():
+    with open(DATA_DIR / "meta.json", encoding="utf-8") as f:
+        return json.load(f)
+
+
+TAG_ALIASES = None      # 延迟初始化：从 meta.json 读取（见 _ensure_aliases）
+
+
+def _ensure_aliases():
+    global TAG_ALIASES
+    if TAG_ALIASES is None:
+        TAG_ALIASES = _load_meta()["tag_aliases"]
+    return TAG_ALIASES
 
 
 @lru_cache(maxsize=1)
 def load_pois():
-    with open(DATA_PATH, encoding="utf-8") as f:
-        return json.load(f)["pois"]
+    """遍历 data/*.json（除 meta.json 外的城市快照）合并返回全量 POI 列表。
+
+    对外接口与 v1（单文件 pois.json）完全一致：返回 list[dict]。
+    """
+    pois = []
+    for fn in sorted(DATA_DIR.glob("*.json")):
+        if fn.name == "meta.json" or fn.name == "pois.json":
+            continue
+        with open(fn, encoding="utf-8") as f:
+            pois.extend(json.load(f))
+    return pois
+
+
+@lru_cache(maxsize=4)
+def load_city_pois(city):
+    """单城快照读取（分城文件的直接用途）。"""
+    fn = {
+        "成都": "chengdu.json",
+        "重庆": "chongqing.json",
+    }.get(city)
+    if fn is None:
+        # 泛化路径：城市名转拼音文件名的映射不在本层维护，未收录城市返回空
+        return []
+    with open(DATA_DIR / fn, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def expand_tags(user_tags):
     """用户口语化偏好映射到受控标签词表。"""
+    aliases = _ensure_aliases()
     out = set()
     for t in user_tags or []:
         t = t.strip()
         if not t:
             continue
-        out.update(TAG_ALIASES.get(t, [t]))
+        out.update(aliases.get(t, [t]))
     return sorted(out)
 
 
@@ -48,6 +74,7 @@ def poi_search(city=None, tags=None, family=False, must_first=False, limit=None)
     评分构成：标签命中 x3 + must_see x5 + 亲子加成 - 预约/拥挤惩罚。
     打分可解释，事件流会带 reason 供前端倒带回放。
     """
+    _ensure_aliases()
     pois = load_pois()
     want = expand_tags(tags)
     scored = []

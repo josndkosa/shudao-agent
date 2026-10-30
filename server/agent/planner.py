@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 
 from ..tools import budget, leg_time, load_pois, poi_search, route, weather
+from ..tools.poi_search import _load_meta
 from . import llm as llm_mod
 from .events import EventBus
 
@@ -16,10 +17,8 @@ DAY_START = 8.5
 DAY_END = 22.0
 MEAL_HOURS = 2.0
 BUFFER = 0.5
-CITY_HUB = {
-    "成都": {"lat": 30.6606, "lng": 104.0558, "name": "人民公园"},
-    "重庆": {"lat": 29.5568, "lng": 106.5770, "name": "解放碑"},
-}
+# 城市枢纽坐标来自 data/meta.json——新增城市只改数据文件，不改代码（任务 D）
+CITY_HUB = _load_meta()["city_hub"]
 POI_INDEX = {p["id"]: p for p in load_pois()}
 
 

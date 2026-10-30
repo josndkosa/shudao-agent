@@ -1,9 +1,11 @@
 from .geo import haversine
+from .poi_search import _load_meta
 
 ROAD_FACTOR = 1.35
 CITY_SPEED = 28.0
 WALK_SPEED = 4.5
-INTERCITY_RAIL = {"成都-重庆": {"hours": 1.8, "price": 154}}
+# 城际铁路参数来自 data/meta.json（数据层 v2：新增城际线只改数据文件）
+INTERCITY_RAIL = _load_meta()["intercity_rail"]
 
 
 def _mode_kmh(a, b):

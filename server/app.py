@@ -29,7 +29,7 @@ from .agent.events import EventBus
 from .agent.revise import revise_plan
 from .tools import obs
 from .tools.geo import Projector
-from .tools.poi_search import TAG_ALIASES, load_pois
+from .tools.poi_search import _ensure_aliases, load_pois
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
@@ -171,7 +171,7 @@ async def meta():
     pois = load_pois()
     return {
         "cities": sorted({p["city"] for p in pois}),
-        "tags": sorted(TAG_ALIASES.keys()),
+        "tags": sorted(_ensure_aliases().keys()),
         "meta": {"source": "local-snapshot", "count": len(pois)},
     }
 

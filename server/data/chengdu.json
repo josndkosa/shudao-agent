@@ -1,0 +1,622 @@
+[
+  {
+    "id": "CD-01",
+    "name": "宽窄巷子",
+    "city": "成都",
+    "lat": 30.6651,
+    "lng": 104.0618,
+    "tags": [
+      "历史文化",
+      "美食",
+      "街区"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.5,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      11,
+      16
+    ],
+    "crowd_level": 3,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": true,
+    "must_see": true,
+    "summary": "清代川西民居街巷，宽巷子品闲、窄巷子寻味，体验最成都的慢生活"
+  },
+  {
+    "id": "CD-02",
+    "name": "锦里古街",
+    "city": "成都",
+    "lat": 30.6427,
+    "lng": 104.0477,
+    "tags": [
+      "历史文化",
+      "美食",
+      "街区"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.0,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      18,
+      22
+    ],
+    "crowd_level": 4,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "西蜀历史上最古老的商业街，红灯笼夜景与三大炮表演是招牌"
+  },
+  {
+    "id": "CD-03",
+    "name": "武侯祠",
+    "city": "成都",
+    "lat": 30.6446,
+    "lng": 104.0487,
+    "tags": [
+      "历史文化",
+      "园林"
+    ],
+    "ticket": 50,
+    "visit_hours": 2.0,
+    "open_hour": [
+      8,
+      20
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 3,
+    "slope": 1,
+    "family": 3,
+    "night_friendly": false,
+    "must_see": true,
+    "summary": "中国唯一君臣合祀祠庙，三国圣地，红墙竹影是出片天花板"
+  },
+  {
+    "id": "CD-04",
+    "name": "杜甫草堂",
+    "city": "成都",
+    "lat": 30.6598,
+    "lng": 104.0256,
+    "tags": [
+      "历史文化",
+      "园林"
+    ],
+    "ticket": 50,
+    "visit_hours": 2.0,
+    "open_hour": [
+      8,
+      18.5
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 3,
+    "slope": 1,
+    "family": 3,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "诗圣流寓成都的故居，茅屋、梅园与工部祠串联一部唐诗"
+  },
+  {
+    "id": "CD-05",
+    "name": "人民公园·鹤鸣茶社",
+    "city": "成都",
+    "lat": 30.6606,
+    "lng": 104.0558,
+    "tags": [
+      "茶文化",
+      "美食",
+      "园林"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      6,
+      22
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      14,
+      17
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "百年露天茶馆，盖碗茶配采耳，成都闲适文化的活标本"
+  },
+  {
+    "id": "CD-06",
+    "name": "大熊猫繁育研究基地",
+    "city": "成都",
+    "lat": 30.7369,
+    "lng": 104.145,
+    "tags": [
+      "动物",
+      "亲子",
+      "自然"
+    ],
+    "ticket": 55,
+    "visit_hours": 3.5,
+    "open_hour": [
+      7.5,
+      18
+    ],
+    "reserve": 2,
+    "crowd_peak": [
+      8,
+      11
+    ],
+    "crowd_level": 4,
+    "slope": 1,
+    "family": 5,
+    "night_friendly": false,
+    "must_see": true,
+    "summary": "全球最大熊猫迁地保护种群，早上去看最活跃的滚滚吃笋"
+  },
+  {
+    "id": "CD-07",
+    "name": "春熙路·太古里",
+    "city": "成都",
+    "lat": 30.6598,
+    "lng": 104.0817,
+    "tags": [
+      "购物",
+      "美食",
+      "街区"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.5,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      16,
+      21
+    ],
+    "crowd_level": 4,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "百年商埠与新锐街区共生，大慈寺古建群藏在奢侈品橱窗之间"
+  },
+  {
+    "id": "CD-08",
+    "name": "东郊记忆",
+    "city": "成都",
+    "lat": 30.6733,
+    "lng": 104.1385,
+    "tags": [
+      "文创",
+      "音乐"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.0,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      14,
+      20
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 3,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "红砖厂房改造的艺术区，工业管道与涂鸦墙是赛博朋克取景地"
+  },
+  {
+    "id": "CD-09",
+    "name": "文殊院",
+    "city": "成都",
+    "lat": 30.6649,
+    "lng": 104.0631,
+    "tags": [
+      "宗教",
+      "历史文化",
+      "美食"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      8,
+      17
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 3,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "川西四大丛林之首，院里素斋馆的甜水面值得一碗"
+  },
+  {
+    "id": "CD-10",
+    "name": "四川博物院",
+    "city": "成都",
+    "lat": 30.6522,
+    "lng": 104.0332,
+    "tags": [
+      "博物馆"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.5,
+    "open_hour": [
+      9,
+      17
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "张大千临摹敦煌壁画真迹的常驻展馆，巴蜀青铜器序列完整"
+  },
+  {
+    "id": "CD-11",
+    "name": "成都博物馆",
+    "city": "成都",
+    "lat": 30.6562,
+    "lng": 104.0637,
+    "tags": [
+      "博物馆"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.5,
+    "open_hour": [
+      9,
+      17
+    ],
+    "reserve": 2,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 3,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "皮影与木偶馆藏全国之最，镇馆之宝石犀出自天府广场地层"
+  },
+  {
+    "id": "CD-12",
+    "name": "青羊宫",
+    "city": "成都",
+    "lat": 30.6603,
+    "lng": 104.0311,
+    "tags": [
+      "宗教"
+    ],
+    "ticket": 10,
+    "visit_hours": 1.0,
+    "open_hour": [
+      8,
+      18
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      10,
+      16
+    ],
+    "crowd_level": 1,
+    "slope": 0,
+    "family": 2,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "道教全国重点宫观，八卦亭铜铸工艺与三清殿铜羊是寻宝点"
+  },
+  {
+    "id": "CD-13",
+    "name": "望江楼公园",
+    "city": "成都",
+    "lat": 30.6403,
+    "lng": 104.0919,
+    "tags": [
+      "园林",
+      "历史文化"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      6,
+      21
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      9,
+      16
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 3,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "纪念薛涛的竹类公园，两百余种竹沿锦江成林"
+  },
+  {
+    "id": "CD-14",
+    "name": "金沙遗址博物馆",
+    "city": "成都",
+    "lat": 30.6801,
+    "lng": 104.0131,
+    "tags": [
+      "博物馆",
+      "历史文化"
+    ],
+    "ticket": 70,
+    "visit_hours": 2.5,
+    "open_hour": [
+      8,
+      18
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": false,
+    "must_see": true,
+    "summary": "太阳神鸟金饰出土地，古蜀文明祭祀区的原址陈列"
+  },
+  {
+    "id": "CD-15",
+    "name": "天府艺术公园",
+    "city": "成都",
+    "lat": 30.7135,
+    "lng": 104.0342,
+    "tags": [
+      "艺术",
+      "园林"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.0,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      15,
+      20
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 4,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "天府美术馆与图书馆临湖而立，芙蓉花开时湖面倒影成画"
+  },
+  {
+    "id": "CD-16",
+    "name": "铁像寺水街",
+    "city": "成都",
+    "lat": 30.5661,
+    "lng": 104.0572,
+    "tags": [
+      "美食",
+      "夜生活",
+      "街区"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      0,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      17,
+      21
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 3,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "陈锦茶铺与临河川菜馆构成的高颜值夜食街，本地人聚落"
+  },
+  {
+    "id": "CD-17",
+    "name": "奎星楼街",
+    "city": "成都",
+    "lat": 30.6692,
+    "lng": 104.0596,
+    "tags": [
+      "美食"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      10,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      17,
+      21
+    ],
+    "crowd_level": 3,
+    "slope": 0,
+    "family": 2,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "冒椒火辣带头的小吃一条街，签签妹与钵钵鸡的深夜战场"
+  },
+  {
+    "id": "CD-18",
+    "name": "浣花溪公园",
+    "city": "成都",
+    "lat": 30.6553,
+    "lng": 104.0279,
+    "tags": [
+      "园林",
+      "观景"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      6,
+      21
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      8,
+      16
+    ],
+    "crowd_level": 1,
+    "slope": 1,
+    "family": 4,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "诗歌大道沿浣花溪铺开，与杜甫草堂一墙之隔的免费园林"
+  },
+  {
+    "id": "CD-19",
+    "name": "成都自然博物馆",
+    "city": "成都",
+    "lat": 30.6991,
+    "lng": 104.1374,
+    "tags": [
+      "博物馆",
+      "亲子"
+    ],
+    "ticket": 0,
+    "visit_hours": 2.0,
+    "open_hour": [
+      9,
+      17
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 5,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "恐龙化石与地质演化常设展，蜀龙骨架是孩子们的最爱"
+  },
+  {
+    "id": "CD-20",
+    "name": "九眼桥·锦江夜游",
+    "city": "成都",
+    "lat": 30.6469,
+    "lng": 104.0843,
+    "tags": [
+      "夜景",
+      "夜生活"
+    ],
+    "ticket": 98,
+    "visit_hours": 1.5,
+    "open_hour": [
+      19,
+      23
+    ],
+    "reserve": 1,
+    "crowd_peak": [
+      20,
+      22
+    ],
+    "crowd_level": 3,
+    "slope": 0,
+    "family": 3,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "乘船看合江亭与廊桥灯火，酒吧一条街在岸上接续下半场"
+  },
+  {
+    "id": "CD-21",
+    "name": "成都动物园",
+    "city": "成都",
+    "lat": 30.6905,
+    "lng": 104.1085,
+    "tags": [
+      "动物",
+      "亲子"
+    ],
+    "ticket": 20,
+    "visit_hours": 2.5,
+    "open_hour": [
+      8,
+      17
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      10,
+      15
+    ],
+    "crowd_level": 3,
+    "slope": 1,
+    "family": 5,
+    "night_friendly": false,
+    "must_see": false,
+    "summary": "性价比之王，熊猫馆之外金丝猴与小熊猫同样能打"
+  },
+  {
+    "id": "CD-22",
+    "name": "玉林路·小酒馆",
+    "city": "成都",
+    "lat": 30.6298,
+    "lng": 104.0633,
+    "tags": [
+      "音乐",
+      "美食",
+      "夜生活"
+    ],
+    "ticket": 0,
+    "visit_hours": 1.5,
+    "open_hour": [
+      19,
+      24
+    ],
+    "reserve": 0,
+    "crowd_peak": [
+      20,
+      23
+    ],
+    "crowd_level": 2,
+    "slope": 0,
+    "family": 1,
+    "night_friendly": true,
+    "must_see": false,
+    "summary": "赵雷唱火的那个小酒馆，玉林西路沿街串串与咖啡馆密度惊人"
+  }
+]
