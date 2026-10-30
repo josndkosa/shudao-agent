@@ -1,74 +1,98 @@
-# 蜀道智行 · 三段式行程规划智能体
+# 蜀道智行 · 成渝行程规划智能体
 
-2026 华为开发者大赛·智能体创新赛（西南赛区）参赛作品。
+> **规划 → 校验 → 叙事** 三段式管线，把 Agent 的决策过程做成**可回放的产品**。
 
-输入天数/预算/偏好，三段式管线生成成渝行程，前端以 SVG 自绘路线图 + 可倒带时间轴呈现 Agent 决策过程。
+![Python](https://img.shields.io/badge/Python-3.10%2B-000000) ![前端零构建](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E6%9E%84%E5%BB%BA-000000) ![测试](https://img.shields.io/badge/pytest-60%20passed-000000) ![许可证](https://img.shields.io/badge/License-MIT-000000) ![码道开发](https://img.shields.io/badge/%E5%BC%80%E5%8F%91-%E5%8D%8E%E4%B8%BA%E4%BA%91%E7%A0%81%E9%81%93-000000)
 
-## 架构
+> 2026 华为开发者大赛·智能体创新赛（西南赛区）参赛作品。
+> 截图资产待人工补录（规格见 `docs/images/README.md`，下文配图位与之一一对应）。
 
-```
-规划段 Planner   LLM Function Calling（在线）/ 贪心装箱（离线兜底）
-  ↕ 违规回流修复（最多 3 轮）
-校验段 Validator 纯规则引擎：V1时长 / V2开放窗口 / V3强度 / V4预算 / V5亲子
-  ↓
-叙事段 Narrator  LLM 导览词（在线）/ 模板兜底
-```
+## 它解决什么问题
 
-- 全程事件流 `EventBus`：每个决策带 `reason`，前端渲染**可倒带时间轴**，回放"为什么第二天排这三个点"
-- 数据为**本地快照**（40 个 POI 厚字段：开放时间/预约难度/人流时段/爬坡强度/亲子友好度），保证断网演示稳定，数据层可对接 OTA 开放接口
-- LLM 模式开关 `SD_LLM_MODE=auto|offline|online`，断网自动降级规则引擎
+行程规划 Agent 的通病是「黑盒给答案」：用户只看到最终行程，看不到**为什么**。
+蜀道智行把三段式管线的每一次选点、每一次校验、每一次修复都做成带 `reason` 的结构化事件——
+前端可以**倒带回放**到任何一步，看它当时怎么想的。
 
-## 快速开始
+## 快速开始（四种运行方式）
 
 ```bash
-pip install -r requirements.txt   # CLI 仅用标准库，可不装依赖直接跑
+# ① CLI（断网保命形态，仅标准库零依赖）
 python cli.py --days 3 --budget 3000 --tags 美食,文化
-python cli.py --days 2 --budget 2500 --tags 亲子,遛娃 --family
-python cli.py --days 3 --json > plan.json    # 供前端联调
-SD_LLM_MODE=online python cli.py ...         # 接入 DeepSeek FC（需 .env 配 key）
+
+# ② Web 服务（API + SSE + 前端一条命令）
+python scripts/ctl.py serve
+# 浏览器 http://localhost:8000/?days=3&budget=3000&tags=美食,文化&auto=1
+
+# ③ 纯静态演示（后端不起，前端自动切本地演示数据）
+python -m http.server 8765 --directory static
+
+# ④ 开发自检（ruff + pytest + 前端冒烟）
+python scripts/ctl.py ci
 ```
 
-## Web 服务（前端 + API + SSE + 对话改行程）
+URL 参数预置：`?days=&budget=&tags=&family=1&auto=1`——录视频/答辩免现场输入。
 
-```bash
-scripts/start_server.bat                      # Windows（或 .sh）：venv + 依赖 + uvicorn 8000
-# 浏览器打开 http://127.0.0.1:8000/?auto=1   # 后端在场走真实接口；不在场自动切本地演示数据
+## 系统架构
+
+```mermaid
+flowchart TB
+    U[用户输入] --> P[规划段 Planner<br/>贪心装箱/LLM FC] --> V[校验段 Validator<br/>纯规则引擎 V1-V5 软硬分流]
+    V -->|hard 违规·回流≤3轮·收敛检测| P
+    V -->|soft→advisory 提醒| N[叙事段 Narrator<br/>LLM/模板]
+    P & V & N -.-> E[EventBus 事件流<br/>每条决策带 reason]
+    E -->|SSE 逐条推| FE[前端可倒带时间轴<br/>+ 双城 SVG 路线图]
 ```
 
-API 契约（与 `static/js/api.js` 的 LiveApi 严格对齐）：
-`GET /api/health` · `POST /api/plan` · `POST /api/stream`（SSE）· `POST /api/revise` · `GET /api/geo` · `GET /api/meta`
+详见 `docs/架构设计.md`（含 ASCII 版与前端模块数据流）。
 
-可选华为云接入（配置才启用，未配置自动跳过）：
-- OBS：`OBS_ENDPOINT/OBS_BUCKET/OBS_AK/OBS_SK`（可选 `OBS_REGION`）→ `POST /api/plan/{id}/save`
-- FunctionGraph 天气：`FG_WEATHER_URL`（2s 超时静默回落本地快照）
+## 核心功能
 
-## 测试
+| 功能 | 说明 | 配图 |
+|---|---|---|
+| 可倒带决策时间轴 | 拖进度条回到任何一步：地图点位/行程卡同步回退，`reason` 列解释「为什么」 | `docs/images/player.png`（待补） |
+| 双城 SVG 自绘路线图 | 成渝分城投影、朱红当日路线、修复移除点灰叉标注 | `docs/images/map.png`（待补） |
+| 对话式改行程 | 「第二天太赶」→ 规则意图解析 → 只重排目标天，第二幕事件可回放 | `docs/images/chat.png`（待补） |
+| 断网兜底 | 后端缺席自动切本地演示数据（徽标如实标注），演示永不中断 | — |
 
-```bash
-pytest -q
-```
+## 规则引擎一览
 
-## 目录
+| 规则 | severity | 判定 | 修复 |
+|---|---|---|---|
+| V1 时长 | hard | 内容时长 ≤ 容量 11.0h（跨城 9.2h），收班 ≤ 22:00 | 摘点回流 |
+| V2 开放窗口 | hard | 到离时间落在 open_hour 内 | 移除回流 |
+| V3 强度 | **soft** | Σ(slope+crowd×0.4) ≤ 8.5 | 不自动修复，advisory 提醒 |
+| V4 预算 | hard | 总花费 ≤ 用户预算 | 摘高价点回流 |
+| V5 亲子 | hard | family ≥ 2 | 移除回流 |
 
-```
-cli.py                 命令行入口（答辩保命形态）
-server/
-  app.py               FastAPI：六端点 + SSE 流式 + 对话改行程 + 静态托管
-  agent/
-    pipeline.py        三段式编排（on_event 回调供 SSE 推流）
-    planner.py         规划段（LLM FC + 离线贪心 + 修复）
-    validator.py       校验段（纯规则引擎，软硬分级）
-    narrator.py        叙事段
-    revise.py          对话式改行程（规则意图解析 + 定向重排）
-    llm.py             DeepSeek 客户端 + 模式开关
-    events.py          事件流（可倒带时间轴数据源）
-  tools/               poi_search / route / weather / budget / geo / obs
-  data/pois.json       40 点本地快照（厚字段）
-static/                零构建前端（原生单页 + demo 资产 + api/map/timeline/player/main）
-scripts/               export_demo_assets.py / start_server.{sh,bat}
-tests/                 pytest 覆盖工具、校验规则、全管线、API 契约
-```
+完整规格（容量口径不变量/摘点排序键/收敛检测/真实 CLI 示例）：`docs/规则引擎规格.md`。
 
-## 环境变量
+## 数据说明
 
-见 `.env.example`。`DEEPSEEK_API_KEY` 配置后 `auto` 模式自动走在线 FC。
+40 点本地快照（成都 22 + 重庆 18），**分城文件 + meta.json 数据层**——新增城市零代码改动。
+厚字段（开放时段/预约难度/人流高峰/爬坡强度/亲子友好度/夜间体验）即决策依据：
+字段规范见 `server/data/schema.md`。
+
+## 演示视频
+
+待录制（3 分钟逐镜头分镜：`docs/演示脚本.md`；PPT 分镜：`ppt/` 由 Prompt 05 产出）。
+
+## 文档索引
+
+| 文档 | 内容 |
+|---|---|
+| `docs/架构设计.md` | 三段式管线 + 事件流时序 + 关键设计决策 |
+| `docs/规则引擎规格.md` | V1–V5 完整规格（最值钱的一份） |
+| `docs/API.md` | 六端点契约 + SSE 帧格式 + 事件枚举 |
+| `docs/华为云接入说明.md` | OBS / FunctionGraph / CodeArts 三条可选接入线 |
+| `docs/开发指南.md` | 新增城市 / 新增规则 / 新增事件类型 |
+| `docs/演示脚本.md` | 3 分钟视频逐镜头表 |
+| `docs/赛题情报/` | 大赛官网抓取的赛题与评分标准原文 |
+| `readme/README.md` | 赛题提交四条说明（含码道应用总结） |
+
+## 团队分工
+
+见 `readme/团队分工.md`（空模板，待参赛者按实际贡献填写）。
+
+## 许可
+
+MIT（见 `LICENSE`，署名行待填队伍名）。
