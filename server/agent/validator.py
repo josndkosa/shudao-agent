@@ -11,7 +11,7 @@ severity: hard=必须自动修复并回流；soft=仅 advisory 提醒，不进�
 from __future__ import annotations
 
 from ..tools import budget
-from .planner import POI_INDEX, DAY_START, DAY_END, MEAL_HOURS, BUFFER
+from .planner import BUFFER, DAY_END, DAY_START, MEAL_HOURS, POI_INDEX
 
 INTENSITY_CAP = 8.5
 
@@ -28,12 +28,13 @@ def validate(plan, request):
         has_ic = any(it["type"] == "intercity" for it in d["items"])
 
         if poi_items:
-            first_arr, last_dep = _parse_h(poi_items[0]["arrival"]), _parse_h(poi_items[-1]["departure"])
+            last_dep = _parse_h(poi_items[-1]["departure"])
             # 与规划器同款容量模型：跨城日的城际 1.8h 在容量里预留，不在 span 里重复加
             cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (1.8 if has_ic else 0)
             content_hours = sum(it.get("leg_hours", 0) + it.get("visit_hours", 0) for it in poi_items)
             if last_dep > DAY_END:
-                violations.append({"rule": "V1-duration", "severity": "hard", "day": d["day"], "poi": poi_items[-1]["poi_id"],
+                violations.append({"rule": "V1-duration", "severity": "hard",
+                                   "day": d["day"], "poi": poi_items[-1]["poi_id"],
                                    "detail": f"收班超时：{_parse_h(poi_items[-1]['departure']):.2f}h 结束超过 22:00",
                                    "fix_hint": "drop"})
             if content_hours > cap + 0.01:
@@ -70,6 +71,7 @@ def validate(plan, request):
     plan["budget"] = b
     if b["total"] > request.budget:
         day_max = max(plan.get("days", []), key=lambda d: d["load"]["tickets"]) if plan.get("days") else None
-        violations.append({"rule": "V4-budget", "severity": "hard", "day": day_max["day"] if day_max else 0, "poi": None,
+        violations.append({"rule": "V4-budget", "severity": "hard",
+                           "day": day_max["day"] if day_max else 0, "poi": None,
                            "detail": f"预估 {b['total']} 元 > 预算 {request.budget} 元", "fix_hint": "drop"})
     return violations

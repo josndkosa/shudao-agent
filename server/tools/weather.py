@@ -10,8 +10,10 @@ import os
 import urllib.request
 
 NOVEMBER = {
-    "成都": {"day": "多云", "night": "阴", "temp": [10, 17], "rain_prob": 0.35, "advice": "早晚微凉备薄外套，偶有小雨备伞"},
-    "重庆": {"day": "阴转多云", "night": "多云", "temp": [12, 19], "rain_prob": 0.4, "advice": "江边风大，观景台看夜景建议加件外套"},
+    "成都": {"day": "多云", "night": "阴", "temp": [10, 17], "rain_prob": 0.35,
+             "advice": "早晚微凉备薄外套，偶有小雨备伞"},
+    "重庆": {"day": "阴转多云", "night": "多云", "temp": [12, 19], "rain_prob": 0.4,
+             "advice": "江边风大，观景台看夜景建议加件外套"},
 }
 
 FG_URL_ENV = "FG_WEATHER_URL"
@@ -48,7 +50,8 @@ def weather(city, day_offset=0):
             "city": city, "day_offset": day_offset, "source": "functiongraph",
         }
         return w
-    base = NOVEMBER.get(city, {"day": "多云", "night": "阴", "temp": [10, 18], "rain_prob": 0.3, "advice": "出行关注天气"})
+    base = NOVEMBER.get(city, {"day": "多云", "night": "阴", "temp": [10, 18],
+                              "rain_prob": 0.3, "advice": "出行关注天气"})
     w = dict(base)
     w["city"] = city
     w["day_offset"] = day_offset

@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from server.tools import poi_search, budget, weather, route
+from server.tools import budget, poi_search, route, weather
 
 
 def test_poi_search_tag_hit():

@@ -18,8 +18,14 @@ os.environ.setdefault("SD_LLM_MODE", "offline")
 from server.agent import TripRequest, run_pipeline
 from server.agent.events import EventBus
 from server.agent.planner import (
-    POI_INDEX, DAY_START, DAY_END, MEAL_HOURS, BUFFER, CITY_HUB,
-    _order_day, _trim_to_capacity,
+    BUFFER,
+    CITY_HUB,
+    DAY_END,
+    DAY_START,
+    MEAL_HOURS,
+    POI_INDEX,
+    _order_day,
+    _trim_to_capacity,
 )
 from server.agent.validator import validate
 
@@ -149,7 +155,7 @@ def test_v1_zero_false_positive(kw):
     r = run_pipeline(TripRequest(**kw), EventBus())
     v1 = [e for e in r["timeline"]
           if e["type"] in ("violation", "advisory") and "V1-duration" in e["title"]]
-    assert not v1, f"V1 误报：{[(e["title"], e["reason"]) for e in v1]}"
+    assert not v1, f"V1 误报：{[(e['title'], e['reason']) for e in v1]}"
     # 每日内容时长（相邻跳口径）≤ 容量
     for d in r["itinerary"]["days"]:
         has_ic = any(it["type"] == "intercity" for it in d["items"])
@@ -255,7 +261,7 @@ def test_trim_drop_rank_same_score():
         saved[pid] = (POI_INDEX[pid].get("_score"), POI_INDEX[pid]["must_see"], POI_INDEX[pid]["night_friendly"])
         POI_INDEX[pid]["_score"] = score
     try:
-        from server.agent.planner import _order_day, _content_hours
+        from server.agent.planner import _content_hours, _order_day
         ordered = _order_day(pois, CITY_HUB["成都"])
         cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - 1.8   # 跨城容量，确保要摘 2 个
         assert _content_hours(ordered, "成都") > cap, "测试前提：构造必须超容"

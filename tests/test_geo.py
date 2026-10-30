@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from server.tools import haversine, Projector, load_pois
+from server.tools import Projector, haversine, load_pois
 
 
 def test_haversine_chengdu_chongqing():

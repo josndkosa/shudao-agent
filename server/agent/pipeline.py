@@ -10,9 +10,9 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 
-from .events import EventBus
 from . import llm as llm_mod
-from . import planner, validator, narrator
+from . import narrator, planner, validator
+from .events import EventBus
 
 
 @dataclass

@@ -19,7 +19,8 @@ TOOL_SCHEMAS = [
                 "type": "object",
                 "properties": {
                     "city": {"type": "string", "enum": ["成都", "重庆"]},
-                    "tags": {"type": "array", "items": {"type": "string"}, "description": "偏好标签，如 美食/亲子/文化/夜景"},
+                    "tags": {"type": "array", "items": {"type": "string"},
+                            "description": "偏好标签：美食/亲子/文化/夜景"},
                     "family": {"type": "boolean", "description": "是否亲子模式"},
                 },
                 "required": ["city"],

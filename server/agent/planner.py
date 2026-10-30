@@ -8,15 +8,18 @@ from __future__ import annotations
 
 import json
 
-from ..tools import poi_search, route, weather, budget, leg_time, load_pois
-from .events import EventBus
+from ..tools import budget, leg_time, load_pois, poi_search, route, weather
 from . import llm as llm_mod
+from .events import EventBus
 
 DAY_START = 8.5
 DAY_END = 22.0
 MEAL_HOURS = 2.0
 BUFFER = 0.5
-CITY_HUB = {"成都": {"lat": 30.6606, "lng": 104.0558, "name": "人民公园"}, "重庆": {"lat": 29.5568, "lng": 106.5770, "name": "解放碑"}}
+CITY_HUB = {
+    "成都": {"lat": 30.6606, "lng": 104.0558, "name": "人民公园"},
+    "重庆": {"lat": 29.5568, "lng": 106.5770, "name": "解放碑"},
+}
 POI_INDEX = {p["id"]: p for p in load_pois()}
 
 
@@ -137,7 +140,8 @@ def _trim_to_capacity(ordered, city, has_intercity=False):
     kept = list(ordered)
     while len(kept) > 1 and _content_hours(kept, city) > capacity + 1e-9:
         # 升序键：低分先摘；同分时非必游（False=0）先摘、再非夜间（False=0）先摘
-        drop_rank = sorted(kept, key=lambda p: (p.get("_score", 0), p.get("must_see", False), p.get("night_friendly", False)))
+        drop_rank = sorted(kept, key=lambda p: (
+            p.get("_score", 0), p.get("must_see", False), p.get("night_friendly", False)))
         kept.remove(drop_rank[0])
     return kept
 
@@ -146,7 +150,8 @@ def _build_timeline(day_pois, hub, has_intercity=False):
     """时间线推算：逐点累加交通+游玩，12:00 午餐 / 18:00 晚餐各 1h。"""
     items, t, cur = [], DAY_START, hub
     if has_intercity:
-        items.append({"type": "intercity", "label": "成渝高铁", "arrival": _fmt(DAY_START), "departure": _fmt(DAY_START + 1.8)})
+        items.append({"type": "intercity", "label": "成渝高铁",
+                       "arrival": _fmt(DAY_START), "departure": _fmt(DAY_START + 1.8)})
         t = DAY_START + 1.8
     lunch, dinner = False, False
     for p in day_pois:
@@ -170,7 +175,8 @@ def _build_timeline(day_pois, hub, has_intercity=False):
         })
         t, cur = departure, p
     if not dinner and items:
-        items.append({"type": "meal", "label": "晚餐", "arrival": _fmt(min(t, 20.0)), "departure": _fmt(min(t + 1, 21.0))})
+        items.append({"type": "meal", "label": "晚餐",
+                       "arrival": _fmt(min(t, 20.0)), "departure": _fmt(min(t + 1, 21.0))})
     return items
 
 
@@ -190,7 +196,8 @@ def _day_load(day_pois, city, has_intercity=False):
 def offline_plan(request, bus: EventBus):
     """离线贪心规划：管线默认底座。"""
     bus.emit("plan", "thought", "解析行程需求",
-             reason=f"{request.days}天 预算{request.budget}元 偏好{request.tags or '不限'}{' 亲子模式' if request.family else ''}")
+             reason=f"{request.days}天 预算{request.budget}元 偏好{request.tags or '不限'}"
+                    f"{' 亲子模式' if request.family else ''}")
     pools = {}
     for city in ("成都", "重庆"):
         r = poi_search(city=city, tags=request.tags, family=request.family)
@@ -198,7 +205,7 @@ def offline_plan(request, bus: EventBus):
                  reason=f"检索{city}候选并按偏好打分", tool="poi_search", args={"city": city, "tags": request.tags})
         pools[city] = r["pois"]
         bus.emit("plan", "tool_result", f"{city}候选 {r['count']} 个",
-                 reason=f"top3: " + "、".join(x["name"] for x in r["pois"][:3]), count=r["count"])
+                 reason="top3: " + "、".join(x["name"] for x in r["pois"][:3]), count=r["count"])
     if all(not pools[c] for c in pools):
         bus.emit("plan", "fallback", "无匹配候选", reason="偏好过滤后为空，放宽标签重试")
         pools = {c: poi_search(city=c)["pois"] for c in pools}
@@ -217,7 +224,8 @@ def offline_plan(request, bus: EventBus):
 
     wx = {c: weather(c) for c in alloc}
     bus.emit("plan", "tool_call", "weather(成都/重庆)", reason="本地天气快照，校验段用于雨天调整", tool="weather")
-    bus.emit("plan", "tool_result", f"成都{wx.get('成都', {}).get('day', '')} / 重庆{wx.get('重庆', {}).get('day', '')}",
+    cd, cq = wx.get("成都", {}).get("day", ""), wx.get("重庆", {}).get("day", "")
+    bus.emit("plan", "tool_result", f"成都{cd} / 重庆{cq}",
              reason="11月成渝典型气候", detail=wx)
 
     itinerary_days, day_no, prev_city = [], 1, None
@@ -293,7 +301,9 @@ def fix(plan, violations, request, bus: EventBus):
                          removed=[target.get("poi_id")])
                 _refresh_day(d)
     tickets_total = sum(dd["load"]["tickets"] for dd in plan["days"])
-    plan["budget"] = budget(request.days, tickets_total, intercity_price=154 if len({dd["city"] for dd in plan["days"]}) > 1 else 0, family=request.family)
+    multi = len({dd["city"] for dd in plan["days"]}) > 1
+    plan["budget"] = budget(request.days, tickets_total, intercity_price=154 if multi else 0,
+                            family=request.family)
     return plan
 
 
@@ -386,7 +396,8 @@ def llm_plan(request, bus: EventBus):
             if name == "weather":
                 return weather(args["city"], args.get("day_offset", 0))
             if name == "budget":
-                return budget(args["days"], args["tickets_total"], args.get("intercity_price", 0), args.get("family", request.family))
+                return budget(args["days"], args["tickets_total"], args.get("intercity_price", 0),
+                              args.get("family", request.family))
             return {"error": f"unknown tool {name}"}
 
         msg, kind = llm_mod.chat(messages, tools=llm_mod.TOOL_SCHEMAS)
@@ -394,7 +405,8 @@ def llm_plan(request, bus: EventBus):
         while kind == "tool_call" and rounds < 6:
             rounds += 1
             messages.append({"role": "assistant", "content": msg.content or "", "tool_calls": [
-                {"id": c.id, "type": "function", "function": {"name": c.function.name, "arguments": c.function.arguments}}
+                {"id": c.id, "type": "function",
+                 "function": {"name": c.function.name, "arguments": c.function.arguments}}
                 for c in msg.tool_calls]})
             for c in msg.tool_calls:
                 args = json.loads(c.function.arguments or "{}")
@@ -403,7 +415,8 @@ def llm_plan(request, bus: EventBus):
                 result = exec_tool(c.function.name, args)
                 bus.emit("plan", "tool_result", f"{c.function.name} 返回",
                          reason="本地快照执行结果", detail=str(result)[:200])
-                messages.append({"role": "tool", "tool_call_id": c.id, "content": json.dumps(result, ensure_ascii=False)[:4000]})
+                messages.append({"role": "tool", "tool_call_id": c.id,
+                                 "content": json.dumps(result, ensure_ascii=False)[:4000]})
             msg, kind = llm_mod.chat(messages, tools=llm_mod.TOOL_SCHEMAS)
         content = msg.content or ""
         start = content.find("{")

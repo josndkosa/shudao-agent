@@ -47,7 +47,8 @@ def narrate(plan, bus: EventBus, mode="offline"):
                               for it in day["items"] if it["type"] == "poi"],
                 }
                 msg, _ = llm_mod.chat([{"role": "system", "content": system},
-                                       {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}], tools=None)
+                                       {"role": "user",
+                                        "content": json.dumps(payload, ensure_ascii=False)}], tools=None)
                 text = (msg.content or "").strip()
                 if not text:
                     raise ValueError("LLM 返回空文案")

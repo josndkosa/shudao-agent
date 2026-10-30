@@ -8,15 +8,16 @@ from __future__ import annotations
 import itertools
 import json
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 
 _t0 = time.time()   # 进程级时间基准：跨实例共享，保证 t 单调不减
 
 
 @dataclass
 class Event:
-    stage: str            # plan / validate / narrate / system
-    type: str             # start / thought / tool_call / tool_result / decision / violation / fix / pass / done / fallback
+    stage: str            # plan / validate / narrate / revise / system
+    type: str             # start/thought/tool_call/tool_result/decision/violation/fix/pass
+    # ...以及 done/fallback/advisory/unfixable —— 全部取值见 docs/API.md 事件流帧格式一节
     title: str
     reason: str = ""      # 决策依据，倒带回放的核心字段
     detail: dict = field(default_factory=dict)

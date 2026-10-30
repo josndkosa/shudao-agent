@@ -47,7 +47,7 @@ def print_itinerary(itinerary, mode):
     print(_c(f"════════ 行程单（模式：{mode}）════════", "\033[1m"))
     for d in itinerary.get("days", []):
         wx = d.get("weather", {})
-        print(_c(f"\nDay {d['day']} · {d['city']}", f"\033[1m\033[36m") + _c(
+        print(_c(f"\nDay {d['day']} · {d['city']}", "\033[1m\033[36m") + _c(
             f"  {wx.get('day', '')} {wx.get('temp', [''])[0]}~{wx.get('temp', [''])[1]}℃", DIM))
         for it in d["items"]:
             if it["type"] == "meal":
@@ -60,11 +60,13 @@ def print_itinerary(itinerary, mode):
                 if it.get("reasons"):
                     print(f"        {_c('入选理由：' + '；'.join(it['reasons']), DIM)}")
         load = d.get("load", {})
-        print(_c(f"   本日负载：{load.get('hours', '?')}h · 强度 {load.get('intensity', '?')} · 门票 ¥{load.get('tickets', 0)}", DIM))
+        print(_c(f"   本日负载：{load.get('hours', '?')}h · 强度 {load.get('intensity', '?')}"
+                 f" · 门票 ¥{load.get('tickets', 0)}", DIM))
         if d.get("narrative"):
             print(f"   {d['narrative']}")
     if b:
-        print(_c(f"\n预算核算：门票 ¥{b['tickets']} + 餐饮 ¥{b['meals']} + 交通 ¥{b['transit']} = ¥{b['total']}（日均 ¥{b['per_day']}）", "\033[1m"))
+        print(_c(f"\n预算核算：门票 ¥{b['tickets']} + 餐饮 ¥{b['meals']} + 交通 ¥{b['transit']}"
+                 f" = ¥{b['total']}（日均 ¥{b['per_day']}）", "\033[1m"))
 
 
 def main():

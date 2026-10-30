@@ -24,12 +24,12 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .agent import TripRequest, run_pipeline
+from .agent import llm as llm_mod
 from .agent.events import EventBus
 from .agent.revise import revise_plan
-from .agent import llm as llm_mod
 from .tools import obs
 from .tools.geo import Projector
-from .tools.poi_search import load_pois, TAG_ALIASES
+from .tools.poi_search import TAG_ALIASES, load_pois
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 

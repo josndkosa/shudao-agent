@@ -15,14 +15,24 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 
+from ..tools import poi_search
 from .events import EventBus
 from .narrator import narrate
 from .planner import (
-    POI_INDEX, CITY_HUB, DAY_START, DAY_END, MEAL_HOURS, BUFFER,
-    _pick_day_pois, _order_day, _trim_to_capacity, _build_timeline, _day_load, fix,
+    BUFFER,
+    CITY_HUB,
+    DAY_END,
+    DAY_START,
+    MEAL_HOURS,
+    POI_INDEX,
+    _build_timeline,
+    _day_load,
+    _order_day,
+    _pick_day_pois,
+    _trim_to_capacity,
+    fix,
 )
 from .validator import validate
-from ..tools import poi_search
 
 CN_NUM = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7}
 REMOVE_WORDS = ("换掉", "去掉", "不想去", "删掉")

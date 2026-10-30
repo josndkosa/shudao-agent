@@ -1,0 +1,30 @@
+[project]
+name = "shudao-agent"
+version = "1.0.0"
+description = "蜀道智行 · 成渝行程规划智能体——三段式管线（规划→校验→叙事），把 Agent 的决策过程做成可回放的产品"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+llm = ["openai>=1.55"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# tests/scripts：sys.path.insert 先于 import 是既有模式（E402）；长中文断言语本可读性优先（E501）
+"tests/*" = ["E402", "E501"]
+"scripts/*" = ["E402", "E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["server"]
