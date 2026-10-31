@@ -1,8 +1,8 @@
-# 蜀道智行 · 成渝行程规划智能体
+# 蜀道智行 · 西南行程规划智能体
 
 > **规划 → 校验 → 叙事** 三段式管线，把 Agent 的决策过程做成**可回放的产品**。
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-000000) ![前端零构建](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E6%9E%84%E5%BB%BA-000000) ![测试](https://img.shields.io/badge/pytest-60%20passed-000000) ![许可证](https://img.shields.io/badge/License-MIT-000000) ![码道开发](https://img.shields.io/badge/%E5%BC%80%E5%8F%91-%E5%8D%8E%E4%B8%BA%E4%BA%91%E7%A0%81%E9%81%93-000000)
+![Python](https://img.shields.io/badge/Python-3.10%2B-000000) ![前端零构建](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E6%9E%84%E5%BB%BA-000000) ![测试](https://img.shields.io/badge/pytest-79%20passed-000000) ![许可证](https://img.shields.io/badge/License-MIT-000000) ![码道开发](https://img.shields.io/badge/%E5%BC%80%E5%8F%91-%E5%8D%8E%E4%B8%BA%E4%BA%91%E7%A0%81%E9%81%93-000000)
 
 > 2026 华为开发者大赛·智能体创新赛（西南赛区）参赛作品。
 > 截图资产待人工补录（规格见 `docs/images/README.md`，下文配图位与之一一对应）。
@@ -40,7 +40,7 @@ flowchart TB
     V -->|hard 违规·回流≤3轮·收敛检测| P
     V -->|soft→advisory 提醒| N[叙事段 Narrator<br/>LLM/模板]
     P & V & N -.-> E[EventBus 事件流<br/>每条决策带 reason]
-    E -->|SSE 逐条推| FE[前端可倒带时间轴<br/>+ 双城 SVG 路线图]
+    E -->|SSE 逐条推| FE[前端可倒带时间轴<br/>+ 分城 SVG 路线图]
 ```
 
 详见 `docs/架构设计.md`（含 ASCII 版与前端模块数据流）。
@@ -50,7 +50,7 @@ flowchart TB
 | 功能 | 说明 | 配图 |
 |---|---|---|
 | 可倒带决策时间轴 | 拖进度条回到任何一步：地图点位/行程卡同步回退，`reason` 列解释「为什么」 | `docs/images/player.png`（待补） |
-| 双城 SVG 自绘路线图 | 成渝分城投影、朱红当日路线、修复移除点灰叉标注 | `docs/images/map.png`（待补） |
+| 双城 SVG 自绘路线图 | 西南多城分城投影、朱红当日路线、修复移除点灰叉标注 | `docs/images/map.png`（待补） |
 | 对话式改行程 | 「第二天太赶」→ 规则意图解析 → 只重排目标天，第二幕事件可回放 | `docs/images/chat.png`（待补） |
 | 断网兜底 | 后端缺席自动切本地演示数据（徽标如实标注），演示永不中断 | — |
 
@@ -60,7 +60,7 @@ flowchart TB
 |---|---|---|---|
 | V1 时长 | hard | 内容时长 ≤ 容量 11.0h（跨城 9.2h），收班 ≤ 22:00 | 摘点回流 |
 | V2 开放窗口 | hard | 到离时间落在 open_hour 内 | 移除回流 |
-| V3 强度 | **soft** | Σ(slope+crowd×0.4) ≤ 8.5 | 不自动修复，advisory 提醒 |
+| V3 强度 | **soft** | Σ(slope+crowd×0.4) ≤ 城市地形分档阈值（盆地 8.5 / 丘陵 8.0 / 喀斯特 7.5 / 高原 7.0 / 极高海拔 6.0） | 不自动修复，advisory 提醒 |
 | V4 预算 | hard | 总花费 ≤ 用户预算 | 摘高价点回流 |
 | V5 亲子 | hard | family ≥ 2 | 移除回流 |
 
@@ -68,8 +68,10 @@ flowchart TB
 
 ## 数据说明
 
-40 点本地快照（成都 22 + 重庆 18），**分城文件 + meta.json 数据层**——新增城市零代码改动。
-厚字段（开放时段/预约难度/人流高峰/爬坡强度/亲子友好度/夜间体验）即决策依据：
+西南 15 城总表 + 批次1 落地 6 城 101 点快照（成都 22 / 重庆 18 / 昆明 15 / 大理 15 / 贵阳 15 / 桂林 16），
+**分城文件 + meta.json 数据层**——新增城市零代码改动。
+厚字段（开放时段/预约难度/人流高峰/爬坡强度/亲子友好度/夜间体验）即决策依据；
+V3 强度阈值按城市地形分档（盆地/丘陵/喀斯特/高原/极高海拔），城际交通按枢纽距离自动生成。
 字段规范见 `server/data/schema.md`。
 
 ## 演示视频

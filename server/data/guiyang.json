@@ -1,0 +1,122 @@
+[
+  {
+    "id": "GY-01", "name": "甲秀楼", "city": "贵阳", "lat": 26.5647, "lng": 106.7168,
+    "tags": ["建筑", "历史文化", "夜景", "摄影"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [8, 22], "reserve": 0,
+    "crowd_peak": [19, 22], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": true,
+    "summary": "明代楼阁立在南明河鳌矶石上四百年不倒，贵阳的城市图腾，夜景最佳"
+  },
+  {
+    "id": "GY-02", "name": "青岩古镇", "city": "贵阳", "lat": 26.3456, "lng": 106.6781,
+    "tags": ["古镇", "民族", "美食", "建筑"],
+    "ticket": 10, "visit_hours": 2.5, "open_hour": [8.5, 18], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "六百年军事屯堡的石板巷，卤猪脚配玫瑰糖，北城门敌楼上看古镇全景"
+  },
+  {
+    "id": "GY-03", "name": "黔灵山公园", "city": "贵阳", "lat": 26.5888, "lng": 106.6923,
+    "tags": ["自然", "动物", "徒步", "亲子"],
+    "ticket": 5, "visit_hours": 2.5, "open_hour": [6, 21], "reserve": 0,
+    "crowd_peak": [9, 13], "crowd_level": 4, "slope": 2, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "半城山水的城市公园，野生猕猴半路讨食注意护包，弘福寺香火黔中第一"
+  },
+  {
+    "id": "GY-04", "name": "贵州省博物馆", "city": "贵阳", "lat": 26.6648, "lng": 106.6223,
+    "tags": ["博物馆", "历史文化", "民族"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "苗族银饰与侗族大歌的立体教科书，看完贵州故事展厅就对全省有了谱"
+  },
+  {
+    "id": "GY-05", "name": "阳明祠", "city": "贵阳", "lat": 26.5845, "lng": 106.7227,
+    "tags": ["历史文化", "园林", "茶文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 1, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "王阳明龙场悟道后讲学的扶风山麓，祠内茶室坐一下午是贵阳人的避世法"
+  },
+  {
+    "id": "GY-06", "name": "文昌阁", "city": "贵阳", "lat": 26.591, "lng": 106.7246,
+    "tags": ["建筑", "历史文化", "夜景"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "全国唯一三重檐不等边九角攒尖顶，老东门城墙上看晚霞染透老城屋顶"
+  },
+  {
+    "id": "GY-07", "name": "花溪公园", "city": "贵阳", "lat": 26.4396, "lng": 106.6722,
+    "tags": ["园林", "自然"],
+    "ticket": 6, "visit_hours": 2.0, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "十里河滩明如镜的城市湿地，陈毅诗中真山真水到处是的原型地"
+  },
+  {
+    "id": "GY-08", "name": "天河潭", "city": "贵阳", "lat": 26.5165, "lng": 106.5986,
+    "tags": ["喀斯特", "溶洞", "自然", "山水"],
+    "ticket": 50, "visit_hours": 2.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "山水溶洞瀑布挤在一公里内的喀斯特盆景，贵阳人周末遛娃的后花园"
+  },
+  {
+    "id": "GY-09", "name": "观山湖公园", "city": "贵阳", "lat": 26.6646, "lng": 106.6131,
+    "tags": ["自然", "湖泊", "徒步", "亲子"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 22], "reserve": 0,
+    "crowd_peak": [8, 11], "crowd_level": 2, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "城市中央的湿地湖，清晨环湖跑道上遇见白鹭，是贵阳新城的门面"
+  },
+  {
+    "id": "GY-10", "name": "青云市集", "city": "贵阳", "lat": 26.5851, "lng": 106.7098,
+    "tags": ["夜市", "美食", "文创", "购物"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [10, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "老针织厂改造的深夜食堂集合体，酸汤牛肉到烙锅一栋楼里吃完"
+  },
+  {
+    "id": "GY-11", "name": "二七路小吃街", "city": "贵阳", "lat": 26.5903, "lng": 106.7109,
+    "tags": ["美食", "夜市", "街区"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [10, 22], "reserve": 0,
+    "crowd_peak": [12, 20], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "肠旺面丝恋烤脑花的老牌战场，白天肠旺面晚上烤串，中间不打烊"
+  },
+  {
+    "id": "GY-12", "name": "花果园湿地公园", "city": "贵阳", "lat": 26.5867, "lng": 106.6334,
+    "tags": ["自然", "夜景", "奇观"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [19, 23], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "双子塔与白宫楼群环抱的城中湿地，贵阳高密度奇观的具象现场"
+  },
+  {
+    "id": "GY-13", "name": "河滨公园", "city": "贵阳", "lat": 26.5709, "lng": 106.7127,
+    "tags": ["园林", "亲子", "自然"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [6, 21], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "南明河边最老牌的市民公园，摩天轮转了几代贵阳人的童年"
+  },
+  {
+    "id": "GY-14", "name": "多彩贵州风景眼文创园", "city": "贵阳", "lat": 26.5752, "lng": 106.7471,
+    "tags": ["文创", "民族", "艺术"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 1, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "非遗小镇里苗族银匠现场锻打，蜡染工坊可以上手做一块手帕带走"
+  },
+  {
+    "id": "GY-15", "name": "图云关森林公园", "city": "贵阳", "lat": 26.5579, "lng": 106.7623,
+    "tags": ["自然", "徒步"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [6, 19], "reserve": 0,
+    "crowd_peak": [8, 12], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "图云关上的省森林公园，抗战救护纪念碑群藏在林间，本地人的晨练秘径"
+  }
+]

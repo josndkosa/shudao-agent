@@ -1,97 +1,212 @@
 {
-  "version": "2.0.0",
-  "note": "数据层 v2：分城快照。字段规范见 schema.md；load_pois() 遍历 data/*.json 合并，新增城市只加文件不改代码",
+  "version": "3.0.0",
+  "note": "数据层 v3：西南赛区 15 城总表（对齐赛题七省市定义）。批次1 落地深度层 6 城 POI（成都/重庆/昆明/大理/贵阳/桂林），广度层 9 城随批次2/3 补齐。terrain 分档驱动 V3 强度阈值；weather 为每城 11 月快照；城际自动生成以 city_hub 球面距离为默认值、intercity_rail 人工覆盖优先",
   "cities": [
     "成都",
-    "重庆"
+    "重庆",
+    "昆明",
+    "大理",
+    "贵阳",
+    "桂林",
+    "乐山",
+    "阆中",
+    "丽江",
+    "西双版纳",
+    "安顺",
+    "西江千户苗寨",
+    "北海",
+    "三亚",
+    "拉萨"
   ],
-  "city_hub": {
+  "city_info": {
     "成都": {
-      "lat": 30.6606,
-      "lng": 104.0558,
-      "name": "人民公园"
+      "slug": "CHENGDU",
+      "province": "四川",
+      "priority": 1,
+      "note": "西南枢纽·市井生活",
+      "line": "CHENGDU · 30.67°N 104.07°E",
+      "weather": {"day": "多云", "night": "阴", "temp": [10, 17], "rain_prob": 0.35, "advice": "早晚微凉备薄外套，偶有小雨备伞"},
+      "terrain": {"type": "basin", "intensity_cap": 8.5, "alt_m": 500}
     },
     "重庆": {
-      "lat": 29.5568,
-      "lng": 106.577,
-      "name": "解放碑"
+      "slug": "CHONGQING",
+      "province": "重庆",
+      "priority": 1,
+      "note": "立体山城·夜景",
+      "line": "CHONGQING · 29.56°N 106.55°E",
+      "weather": {"day": "阴转多云", "night": "多云", "temp": [12, 19], "rain_prob": 0.4, "advice": "江边风大，观景台看夜景建议加件外套"},
+      "terrain": {"type": "hill", "intensity_cap": 8.0, "alt_m": 400}
+    },
+    "昆明": {
+      "slug": "KUNMING",
+      "province": "云南",
+      "priority": 1,
+      "note": "高原春城·石林",
+      "line": "KUNMING · 25.02°N 102.72°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [8, 19], "rain_prob": 0.15, "advice": "高原紫外线强且早晚温差大，防晒与外套都要备"},
+      "terrain": {"type": "plateau", "intensity_cap": 7.0, "alt_m": 1891}
+    },
+    "大理": {
+      "slug": "DALI",
+      "province": "云南",
+      "priority": 1,
+      "note": "洱海苍山·白族",
+      "line": "DALI · 25.69°N 100.16°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [8, 19], "rain_prob": 0.2, "advice": "洱海环湖风大，骑行备防风外套，苍山海拔高注意保暖"},
+      "terrain": {"type": "hill", "intensity_cap": 8.0, "alt_m": 1976}
+    },
+    "贵阳": {
+      "slug": "GUIYANG",
+      "province": "贵州",
+      "priority": 1,
+      "note": "喀斯特·苗族·酸汤",
+      "line": "GUIYANG · 26.56°N 106.72°E",
+      "weather": {"day": "阴", "night": "阴", "temp": [9, 15], "rain_prob": 0.55, "advice": "湿冷天气居多以保暖为主，青岩古镇石板路雨天防滑"},
+      "terrain": {"type": "karst", "intensity_cap": 7.5, "alt_m": 1100}
+    },
+    "桂林": {
+      "slug": "GUILIN",
+      "province": "广西",
+      "priority": 1,
+      "note": "喀斯特山水",
+      "line": "GUILIN · 25.26°N 110.29°E",
+      "weather": {"day": "多云", "night": "阴", "temp": [12, 22], "rain_prob": 0.4, "advice": "漓江竹筏受水位影响，出发前确认航班；遇雨改看溶洞"},
+      "terrain": {"type": "karst", "intensity_cap": 7.5, "alt_m": 150}
+    },
+    "乐山": {
+      "slug": "LESHAN",
+      "province": "四川",
+      "priority": 2,
+      "note": "大佛·美食",
+      "line": "LESHAN · 29.55°N 103.76°E",
+      "weather": {"day": "阴", "night": "多云", "temp": [11, 17], "rain_prob": 0.45, "advice": "江边观佛平台风大，豆腐脑要趁热"},
+      "terrain": {"type": "hill", "intensity_cap": 8.0, "alt_m": 380}
+    },
+    "阆中": {
+      "slug": "LANGZHONG",
+      "province": "四川",
+      "priority": 2,
+      "note": "古城·风水",
+      "line": "LANGZHONG · 31.58°N 105.98°E",
+      "weather": {"day": "多云", "night": "阴", "temp": [10, 16], "rain_prob": 0.4, "advice": "古城巷道早晚阴凉，张飞牛肉配保宁醋"},
+      "terrain": {"type": "basin", "intensity_cap": 8.5, "alt_m": 340}
+    },
+    "丽江": {
+      "slug": "LIJIANG",
+      "province": "云南",
+      "priority": 2,
+      "note": "古城·雪山",
+      "line": "LIJIANG · 26.87°N 100.23°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [5, 18], "rain_prob": 0.15, "advice": "高海拔日照强夜间降温快，羽绒服早晚必备"},
+      "terrain": {"type": "plateau", "intensity_cap": 7.0, "alt_m": 2418}
+    },
+    "西双版纳": {
+      "slug": "XISHUANGBANNA",
+      "province": "云南",
+      "priority": 2,
+      "note": "热带·跨境",
+      "line": "XISHUANGBANNA · 22.00°N 100.79°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [18, 28], "rain_prob": 0.2, "advice": "湿热注意补水防蚊，雨林徒步穿速干衣"},
+      "terrain": {"type": "tropical", "intensity_cap": 8.0, "alt_m": 552}
+    },
+    "安顺": {
+      "slug": "ANSHUN",
+      "province": "贵州",
+      "priority": 2,
+      "note": "大瀑布",
+      "line": "ANSHUN · 26.25°N 105.93°E",
+      "weather": {"day": "阴", "night": "小雨", "temp": [10, 16], "rain_prob": 0.5, "advice": "瀑布区水汽大备雨衣，黄果树旺季限流需预约"},
+      "terrain": {"type": "karst", "intensity_cap": 7.5, "alt_m": 1362}
+    },
+    "西江千户苗寨": {
+      "slug": "XIJIANG",
+      "province": "贵州",
+      "priority": 2,
+      "note": "苗族聚落",
+      "line": "XIJIANG · 26.38°N 108.32°E",
+      "weather": {"day": "阴", "night": "阴", "temp": [9, 15], "rain_prob": 0.5, "advice": "寨内石阶湿滑穿防滑鞋，观景台夜景值得等"},
+      "terrain": {"type": "karst", "intensity_cap": 7.5, "alt_m": 833}
+    },
+    "北海": {
+      "slug": "BEIHAI",
+      "province": "广西",
+      "priority": 2,
+      "note": "滨海·涠洲岛",
+      "line": "BEIHAI · 21.48°N 109.12°E",
+      "weather": {"day": "晴", "night": "多云", "temp": [19, 26], "rain_prob": 0.25, "advice": "海风大且日照强，防晒与风衣同备"},
+      "terrain": {"type": "plain", "intensity_cap": 8.5, "alt_m": 21}
+    },
+    "三亚": {
+      "slug": "SANYA",
+      "province": "海南",
+      "priority": 2,
+      "note": "热带海滨",
+      "line": "SANYA · 18.24°N 109.44°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [23, 29], "rain_prob": 0.15, "advice": "紫外线极强防晒必备，下海注意离岸流"},
+      "terrain": {"type": "tropical", "intensity_cap": 8.0, "alt_m": 18}
+    },
+    "拉萨": {
+      "slug": "LHASA",
+      "province": "西藏",
+      "priority": 2,
+      "note": "高原·人文",
+      "line": "LHASA · 29.66°N 91.12°E",
+      "weather": {"day": "晴", "night": "晴", "temp": [-2, 12], "rain_prob": 0.05, "advice": "海拔3650m前两天避免剧烈运动，布宫预约要提前"},
+      "terrain": {"type": "alpine", "intensity_cap": 6.0, "alt_m": 3650}
     }
+  },
+  "city_hub": {
+    "成都": {"lat": 30.6606, "lng": 104.0558, "name": "人民公园"},
+    "重庆": {"lat": 29.5568, "lng": 106.577, "name": "解放碑"},
+    "昆明": {"lat": 25.0287, "lng": 102.7195, "name": "金马碧鸡坊"},
+    "大理": {"lat": 25.6938, "lng": 100.1611, "name": "大理古城"},
+    "贵阳": {"lat": 26.5647, "lng": 106.7168, "name": "甲秀楼"},
+    "桂林": {"lat": 25.2601, "lng": 110.2902, "name": "东西巷·逍遥楼"},
+    "乐山": {"lat": 29.5528, "lng": 103.7656, "name": "张公桥美食街"},
+    "阆中": {"lat": 31.5805, "lng": 105.9775, "name": "阆中古城"},
+    "丽江": {"lat": 26.8733, "lng": 100.2357, "name": "丽江古城"},
+    "西双版纳": {"lat": 22.0036, "lng": 100.7942, "name": "告庄西双景"},
+    "安顺": {"lat": 26.2455, "lng": 105.9286, "name": "安顺老城"},
+    "西江千户苗寨": {"lat": 26.3777, "lng": 108.3165, "name": "西江寨门"},
+    "北海": {"lat": 21.4767, "lng": 109.1177, "name": "北海老街"},
+    "三亚": {"lat": 18.2441, "lng": 109.4393, "name": "三亚湾"},
+    "拉萨": {"lat": 29.6579, "lng": 91.1172, "name": "布达拉宫广场"}
   },
   "tag_aliases": {
-    "文化": [
-      "历史文化",
-      "博物馆",
-      "红色历史",
-      "宗教",
-      "古镇"
-    ],
-    "历史": [
-      "历史文化",
-      "红色历史",
-      "古镇"
-    ],
-    "美食": [
-      "美食"
-    ],
-    "吃货": [
-      "美食"
-    ],
-    "亲子": [
-      "亲子",
-      "动物"
-    ],
-    "遛娃": [
-      "亲子",
-      "动物"
-    ],
-    "自然": [
-      "自然",
-      "动物",
-      "园林"
-    ],
-    "购物": [
-      "购物"
-    ],
-    "夜景": [
-      "夜景"
-    ],
-    "夜生活": [
-      "夜生活",
-      "夜景"
-    ],
-    "文创": [
-      "文创",
-      "音乐"
-    ],
-    "艺术": [
-      "艺术",
-      "文创"
-    ],
-    "网红": [
-      "奇观",
-      "夜景",
-      "文创"
-    ],
-    "打卡": [
-      "奇观",
-      "夜景",
-      "文创",
-      "建筑"
-    ],
-    "徒步": [
-      "徒步"
-    ],
-    "博物馆": [
-      "博物馆"
-    ],
-    "茶": [
-      "茶文化"
-    ]
+    "文化": ["历史文化", "博物馆", "红色历史", "宗教", "古镇"],
+    "历史": ["历史文化", "红色历史", "古镇"],
+    "美食": ["美食"],
+    "吃货": ["美食"],
+    "亲子": ["亲子", "动物"],
+    "遛娃": ["亲子", "动物"],
+    "自然": ["自然", "动物", "园林"],
+    "购物": ["购物"],
+    "夜景": ["夜景"],
+    "夜生活": ["夜生活", "夜景"],
+    "文创": ["文创", "音乐"],
+    "艺术": ["艺术", "文创"],
+    "网红": ["奇观", "夜景", "文创"],
+    "打卡": ["奇观", "夜景", "文创", "建筑"],
+    "徒步": ["徒步"],
+    "博物馆": ["博物馆"],
+    "茶": ["茶文化"],
+    "山水": ["山水", "喀斯特", "湖泊"],
+    "看水": ["山水", "湖泊", "海滨"],
+    "海边": ["海滨"],
+    "看海": ["海滨"],
+    "海岛": ["海滨"],
+    "民族": ["民族"],
+    "民族风情": ["民族"],
+    "雪山": ["雪山"],
+    "梯田": ["梯田"],
+    "溶洞": ["溶洞", "喀斯特"],
+    "夜市": ["夜市", "街区", "美食"],
+    "寺庙": ["佛教", "宗教"],
+    "拜佛": ["佛教", "宗教"],
+    "摄影": ["摄影"],
+    "骑行": ["骑行"]
   },
   "intercity_rail": {
-    "成都-重庆": {
-      "hours": 1.8,
-      "price": 154
-    }
+    "成都-重庆": {"hours": 1.8, "price": 154, "km": 268, "label": "成渝高铁"}
   }
 }

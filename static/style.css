@@ -137,6 +137,16 @@ body {
   display: flex; flex-direction: column; gap: 5px;
   font-size: 11px; color: var(--ink2); letter-spacing: 1.2px; text-transform: uppercase;
 }
+/* 城市多选（03E：默认勾成渝，全不勾 = 自动选城） */
+.city-pick {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-size: 11px; color: var(--ink2); letter-spacing: 1.2px; text-transform: uppercase;
+}
+.city-pick .chk {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--ink2); letter-spacing: 1.2px; text-transform: none;
+  cursor: pointer; margin: 0;
+}
 .params input[type="number"], .params input[type="text"] {
   background: var(--bg); border: none; border-bottom: 1px solid var(--ink);
   color: var(--ink); padding: 4px 2px 6px; font-size: 15px; outline: none;
@@ -157,18 +167,19 @@ body {
 .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn-primary:disabled { opacity: .35; cursor: not-allowed; }
 
-/* ═══ 双城图幅：1fr 1fr，中间 1px 竖线 ═════════════ */
+/* ═══ 多城图幅：flex 横滚（双城各占半幅与旧 1fr/1fr 视觉一致，>2 城容器内横向滚动） ═══ */
 .map-row {
-  display: grid; grid-template-columns: 1fr 1fr;
+  display: flex; overflow-x: auto; scrollbar-width: thin;
   border-bottom: 1px solid var(--rule);
 }
 .map-card {
+  flex: 0 0 calc((100% - 1px) / 2); min-width: 0;
   position: relative; padding: 18px 20px 14px;
   background: var(--bg);
 }
 .map-card:first-child { border-right: 1px solid var(--rule); animation: slideL .48s var(--ease-out) 460ms both; }
 .map-card:last-child  { animation: slideR .48s var(--ease-out) 550ms both; }
-/* 图幅标题：瑞士式小标签（位置区分双城，不靠颜色） */
+/* 图幅标题：瑞士式小标签（位置区分城市，不靠颜色） */
 .map-title {
   position: static; display: flex; align-items: baseline; gap: 12px;
   font-family: var(--sans); font-size: 13px; font-weight: 700;
@@ -500,7 +511,7 @@ body.drawer-open .evt:nth-child(n+11) { animation-delay: 220ms; }
   .hero-stats { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(4, 1fr); }
   .it-item { grid-template-columns: 72px 1fr; }
   .it-sum { grid-column: 2; }
-  .map-row { grid-template-columns: 1fr; }
+  .map-card { flex: 0 0 100%; }
   .map-card:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
   .map-svg { height: 240px; }
   .evt { grid-template-columns: 56px 1fr; }

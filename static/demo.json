@@ -631,14 +631,14 @@
       "stage": "validate",
       "type": "advisory",
       "title": "[V3-intensity] 第3天",
-      "reason": "强度 12.2 超过 8.5；强度是软约束，自动删点会误伤必游地标，故保留行程并提示",
+      "reason": "强度 12.2 超过 8.0；强度是软约束，自动删点会误伤必游地标，故保留行程并提示",
       "detail": {
         "detail": {
           "rule": "V3-intensity",
           "severity": "soft",
           "day": 3,
           "poi": "CQ-07",
-          "detail": "强度 12.2 超过 8.5",
+          "detail": "强度 12.2 超过 8.0",
           "fix_hint": "none"
         }
       }

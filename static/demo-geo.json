@@ -1,4 +1,21 @@
 {
+  "_city_meta": {
+    "成都": "CHENGDU · 30.67°N 104.07°E",
+    "重庆": "CHONGQING · 29.56°N 106.55°E",
+    "昆明": "KUNMING · 25.02°N 102.72°E",
+    "大理": "DALI · 25.69°N 100.16°E",
+    "贵阳": "GUIYANG · 26.56°N 106.72°E",
+    "桂林": "GUILIN · 25.26°N 110.29°E",
+    "乐山": "LESHAN · 29.55°N 103.76°E",
+    "阆中": "LANGZHONG · 31.58°N 105.98°E",
+    "丽江": "LIJIANG · 26.87°N 100.23°E",
+    "西双版纳": "XISHUANGBANNA · 22.00°N 100.79°E",
+    "安顺": "ANSHUN · 26.25°N 105.93°E",
+    "西江千户苗寨": "XIJIANG · 26.38°N 108.32°E",
+    "北海": "BEIHAI · 21.48°N 109.12°E",
+    "三亚": "SANYA · 18.24°N 109.44°E",
+    "拉萨": "LHASA · 29.66°N 91.12°E"
+  },
   "成都": [
     {
       "id": "CD-01",
@@ -969,6 +986,1561 @@
       "summary": "主城制高点之一的桂花主题公园，登阁可俯瞰嘉陵江两岸",
       "x": 353.0,
       "y": 60.0
+    }
+  ],
+  "昆明": [
+    {
+      "id": "KM-01",
+      "name": "石林风景区",
+      "city": "昆明",
+      "lat": 24.8235,
+      "lng": 103.3173,
+      "tags": [
+        "喀斯特",
+        "山水",
+        "奇观",
+        "摄影",
+        "徒步"
+      ],
+      "ticket": 130,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "2.7亿年海底石灰岩溶蚀成的石头森林，彝语撒尼人的家园，阿诗玛化石峰是必找机位",
+      "x": 940.0,
+      "y": 640.0
+    },
+    {
+      "id": "KM-02",
+      "name": "滇池海埂公园",
+      "city": "昆明",
+      "lat": 24.9529,
+      "lng": 102.6647,
+      "tags": [
+        "自然",
+        "湖泊",
+        "动物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        20
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "每年11月至次年3月红嘴鸥从西伯利亚如约而至，海埂大坝喂鸥是昆明冬季限定",
+      "x": 100.5,
+      "y": 341.3
+    },
+    {
+      "id": "KM-03",
+      "name": "翠湖公园",
+      "city": "昆明",
+      "lat": 25.0513,
+      "lng": 102.7108,
+      "tags": [
+        "园林",
+        "自然",
+        "动物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6.5,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "昆明城的眼睛，冬季海鸥最集中之处，周边云南大学与文林街咖啡馆可串成半日",
+      "x": 159.8,
+      "y": 114.2
+    },
+    {
+      "id": "KM-04",
+      "name": "云南民族村",
+      "city": "昆明",
+      "lat": 24.9501,
+      "lng": 102.6532,
+      "tags": [
+        "民族",
+        "亲子",
+        "街区"
+      ],
+      "ticket": 90,
+      "open_hour": [
+        9,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "25个云南少数民族村寨一比一复原，泼水节火把节等节庆期间白天表演最密",
+      "x": 85.7,
+      "y": 347.8
+    },
+    {
+      "id": "KM-05",
+      "name": "西山龙门",
+      "city": "昆明",
+      "lat": 24.9807,
+      "lng": 102.6332,
+      "tags": [
+        "徒步",
+        "奇观",
+        "园林",
+        "佛教"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "千仞绝壁上凿出的石窟道观，登龙门望五百里滇池，索道可直达半山省脚力",
+      "x": 60.0,
+      "y": 277.2
+    },
+    {
+      "id": "KM-06",
+      "name": "金马碧鸡坊",
+      "city": "昆明",
+      "lat": 25.0287,
+      "lng": 102.7195,
+      "tags": [
+        "建筑",
+        "夜景",
+        "街区",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "昆明城市原点的两座牌坊，六十年一遇的金碧交辉奇观，夜里灯光与小吃摊才热闹",
+      "x": 171.0,
+      "y": 166.4
+    },
+    {
+      "id": "KM-07",
+      "name": "官渡古镇",
+      "city": "昆明",
+      "lat": 25.0046,
+      "lng": 102.7437,
+      "tags": [
+        "古镇",
+        "美食",
+        "宗教"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "唐宋古渡口，金刚塔立在镇中已五百年，官渡粑粑与八大碗是本地人专程来吃的",
+      "x": 202.1,
+      "y": 222.0
+    },
+    {
+      "id": "KM-08",
+      "name": "云南省博物馆",
+      "city": "昆明",
+      "lat": 24.9847,
+      "lng": 102.729,
+      "tags": [
+        "博物馆",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "牛虎铜案与战国青铜器是镇馆之宝，周一闭馆，与官渡古镇步行可达可同日",
+      "x": 183.2,
+      "y": 268.0
+    },
+    {
+      "id": "KM-09",
+      "name": "斗南花市",
+      "city": "昆明",
+      "lat": 24.9006,
+      "lng": 102.8236,
+      "tags": [
+        "购物",
+        "夜市",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        19,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "亚洲最大鲜切花交易市场，晚八点后拍卖钟声与花农地摊是按把买花的深夜现场",
+      "x": 304.9,
+      "y": 462.1
+    },
+    {
+      "id": "KM-10",
+      "name": "大观公园",
+      "city": "昆明",
+      "lat": 25.0316,
+      "lng": 102.6589,
+      "tags": [
+        "园林",
+        "历史文化",
+        "湖泊"
+      ],
+      "ticket": 20,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "大观楼上五百里滇池奔来眼底的天下第一长联，登楼可见滇池草海与西山睡美人",
+      "x": 93.1,
+      "y": 159.7
+    },
+    {
+      "id": "KM-11",
+      "name": "圆通寺",
+      "city": "昆明",
+      "lat": 25.0533,
+      "lng": 102.7131,
+      "tags": [
+        "佛教",
+        "宗教",
+        "园林"
+      ],
+      "ticket": 8,
+      "open_hour": [
+        7,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "昆明最古老的唐代古刹，殿宇沿坡层层跌落，放生池里的百年巨鼋难得露面",
+      "x": 162.8,
+      "y": 109.6
+    },
+    {
+      "id": "KM-12",
+      "name": "世博园",
+      "city": "昆明",
+      "lat": 25.0748,
+      "lng": 102.7328,
+      "tags": [
+        "园林",
+        "亲子",
+        "街区"
+      ],
+      "ticket": 100,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "1999年世园会旧址的万国园艺博览，如今人少树大，适合慢逛和拍照",
+      "x": 188.1,
+      "y": 60.0
+    },
+    {
+      "id": "KM-13",
+      "name": "南强街夜市",
+      "city": "昆明",
+      "lat": 25.0318,
+      "lng": 102.7166,
+      "tags": [
+        "夜市",
+        "美食",
+        "街区",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        17,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "昆明老城仅存的青石板巷，庭院剧场与小吃摊共生，下班后的烟火气全在这里",
+      "x": 167.3,
+      "y": 159.2
+    },
+    {
+      "id": "KM-14",
+      "name": "云南大学会泽院",
+      "city": "昆明",
+      "lat": 25.052,
+      "lng": 102.7062,
+      "tags": [
+        "建筑",
+        "历史文化",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "民国法式会泽院立在九十五级石阶顶上，十一月银杏正黄，与翠湖文林街一线串游",
+      "x": 153.9,
+      "y": 112.6
+    },
+    {
+      "id": "KM-15",
+      "name": "昆明老街文明街",
+      "city": "昆明",
+      "lat": 25.0322,
+      "lng": 102.7143,
+      "tags": [
+        "街区",
+        "历史文化",
+        "购物",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "昆明保存最完整的老街区，马家大院与聂耳旧居藏在其中，花鸟市场的余韵还在",
+      "x": 164.3,
+      "y": 158.3
+    }
+  ],
+  "大理": [
+    {
+      "id": "DL-01",
+      "name": "崇圣寺三塔",
+      "city": "大理",
+      "lat": 25.5555,
+      "lng": 100.1527,
+      "tags": [
+        "佛教",
+        "历史文化",
+        "建筑",
+        "摄影"
+      ],
+      "ticket": 75,
+      "open_hour": [
+        8.5,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "大理国九位帝王出家之地，三塔倒影公园拍永镇山川三塔与苍山同框",
+      "x": 547.3,
+      "y": 640.0
+    },
+    {
+      "id": "DL-02",
+      "name": "大理古城",
+      "city": "大理",
+      "lat": 25.6938,
+      "lng": 100.1632,
+      "tags": [
+        "古镇",
+        "街区",
+        "美食",
+        "民族",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "南诏古都的棋盘格局，复兴路白天看扎染，人民路夜里听歌喝酒",
+      "x": 624.2,
+      "y": 428.4
+    },
+    {
+      "id": "DL-03",
+      "name": "洱海才村码头",
+      "city": "大理",
+      "lat": 25.6753,
+      "lng": 100.1853,
+      "tags": [
+        "湖泊",
+        "自然",
+        "骑行",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        20
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "古城离洱海最近的码头，日出朝海舌方向最佳，环海骑行从这里出发",
+      "x": 786.1,
+      "y": 456.7
+    },
+    {
+      "id": "DL-04",
+      "name": "苍山洗马潭索道",
+      "city": "大理",
+      "lat": 25.6889,
+      "lng": 100.0862,
+      "tags": [
+        "雪山",
+        "徒步",
+        "自然",
+        "奇观"
+      ],
+      "ticket": 240,
+      "open_hour": [
+        8.5,
+        16
+      ],
+      "slope": 3,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "索道直上3920米洗马潭，七龙女池步道走一段就能俯瞰洱海全景",
+      "x": 60.0,
+      "y": 435.9
+    },
+    {
+      "id": "DL-05",
+      "name": "喜洲古镇",
+      "city": "大理",
+      "lat": 25.7515,
+      "lng": 100.1804,
+      "tags": [
+        "古镇",
+        "民族",
+        "美食",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "白族民居三坊一照壁的露天博物馆，破酥粑粑要在四方街现烤的那家吃",
+      "x": 750.2,
+      "y": 340.1
+    },
+    {
+      "id": "DL-06",
+      "name": "双廊古镇",
+      "city": "大理",
+      "lat": 25.9345,
+      "lng": 100.1861,
+      "tags": [
+        "古镇",
+        "湖泊",
+        "摄影",
+        "艺术"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "洱海东岸看苍山全景的正面机位，杨丽萍的太阳宫就建在玉几岛上",
+      "x": 792.0,
+      "y": 60.0
+    },
+    {
+      "id": "DL-07",
+      "name": "海舌生态公园",
+      "city": "大理",
+      "lat": 25.7732,
+      "lng": 100.1718,
+      "tags": [
+        "自然",
+        "湖泊",
+        "摄影",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "一条绿舌伸进洱海的半岛，夫妻树与枯木栈道是日落的网红机位",
+      "x": 687.2,
+      "y": 306.8
+    },
+    {
+      "id": "DL-08",
+      "name": "挖色小普陀",
+      "city": "大理",
+      "lat": 25.8572,
+      "lng": 100.2063,
+      "tags": [
+        "湖泊",
+        "佛教",
+        "摄影",
+        "动物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "离岸十来米的迷你观音阁，冬季海鸥绕岛，是环海东路的骑行高潮段",
+      "x": 940.0,
+      "y": 178.3
+    },
+    {
+      "id": "DL-09",
+      "name": "寂照庵",
+      "city": "大理",
+      "lat": 25.7084,
+      "lng": 100.1146,
+      "tags": [
+        "佛教",
+        "园林"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "被称为中国最美尼姑庵，多肉长满庭院，二十元斋饭十二点开抢周日休",
+      "x": 268.1,
+      "y": 406.0
+    },
+    {
+      "id": "DL-10",
+      "name": "三月街",
+      "city": "大理",
+      "lat": 25.6885,
+      "lng": 100.1615,
+      "tags": [
+        "民族",
+        "街区",
+        "购物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "千年白族赶集地，观音市三月最盛，平日也看得到马帮铜器与乳扇摊",
+      "x": 611.7,
+      "y": 436.5
+    },
+    {
+      "id": "DL-11",
+      "name": "龙龛码头",
+      "city": "大理",
+      "lat": 25.6967,
+      "lng": 100.1962,
+      "tags": [
+        "湖泊",
+        "摄影",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        5.5,
+        20
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "洱海看日出的头号机位，十一月的晨雾与红水杉同框，拍完回古城吃早点",
+      "x": 866.0,
+      "y": 423.9
+    },
+    {
+      "id": "DL-12",
+      "name": "磻溪村S湾",
+      "city": "大理",
+      "lat": 25.7204,
+      "lng": 100.1803,
+      "tags": [
+        "骑行",
+        "湖泊",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        20
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "环海西路最出片的S形弯道，骑电瓶车减速那一秒所有人都在拍",
+      "x": 749.5,
+      "y": 387.6
+    },
+    {
+      "id": "DL-13",
+      "name": "蝴蝶泉",
+      "city": "大理",
+      "lat": 25.7842,
+      "lng": 100.1626,
+      "tags": [
+        "自然",
+        "徒步"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "五朵金花故事的发生地，蝴蝶大爆发在四五月，泉边合欢树倒影值得一看",
+      "x": 619.8,
+      "y": 290.0
+    },
+    {
+      "id": "DL-14",
+      "name": "天龙八部影视城",
+      "city": "大理",
+      "lat": 25.5598,
+      "lng": 100.1619,
+      "tags": [
+        "建筑",
+        "文创",
+        "亲子"
+      ],
+      "ticket": 52,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "按宋代大理国形制搭建的片场，天龙八部取景地，可换装拍一组武侠照",
+      "x": 614.7,
+      "y": 633.4
+    },
+    {
+      "id": "DL-15",
+      "name": "凤阳邑茶马古道",
+      "city": "大理",
+      "lat": 25.6381,
+      "lng": 100.1557,
+      "tags": [
+        "徒步",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "扎进苍山松林的茶马古道遗段，青石上的马蹄印还在，游客少得像古道该有的样子",
+      "x": 569.2,
+      "y": 513.6
+    }
+  ],
+  "贵阳": [
+    {
+      "id": "GY-01",
+      "name": "甲秀楼",
+      "city": "贵阳",
+      "lat": 26.5647,
+      "lng": 106.7168,
+      "tags": [
+        "建筑",
+        "历史文化",
+        "夜景",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "明代楼阁立在南明河鳌矶石上四百年不倒，贵阳的城市图腾，夜景最佳",
+      "x": 695.4,
+      "y": 241.9
+    },
+    {
+      "id": "GY-02",
+      "name": "青岩古镇",
+      "city": "贵阳",
+      "lat": 26.3456,
+      "lng": 106.6781,
+      "tags": [
+        "古镇",
+        "民族",
+        "美食",
+        "建筑"
+      ],
+      "ticket": 10,
+      "open_hour": [
+        8.5,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "六百年军事屯堡的石板巷，卤猪脚配玫瑰糖，北城门敌楼上看古镇全景",
+      "x": 487.4,
+      "y": 640.0
+    },
+    {
+      "id": "GY-03",
+      "name": "黔灵山公园",
+      "city": "贵阳",
+      "lat": 26.5888,
+      "lng": 106.6923,
+      "tags": [
+        "自然",
+        "动物",
+        "徒步",
+        "亲子"
+      ],
+      "ticket": 5,
+      "open_hour": [
+        6,
+        21
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "半城山水的城市公园，野生猕猴半路讨食注意护包，弘福寺香火黔中第一",
+      "x": 563.7,
+      "y": 198.1
+    },
+    {
+      "id": "GY-04",
+      "name": "贵州省博物馆",
+      "city": "贵阳",
+      "lat": 26.6648,
+      "lng": 106.6223,
+      "tags": [
+        "博物馆",
+        "历史文化",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "苗族银饰与侗族大歌的立体教科书，看完贵州故事展厅就对全省有了谱",
+      "x": 187.4,
+      "y": 60.0
+    },
+    {
+      "id": "GY-05",
+      "name": "阳明祠",
+      "city": "贵阳",
+      "lat": 26.5845,
+      "lng": 106.7227,
+      "tags": [
+        "历史文化",
+        "园林",
+        "茶文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "王阳明龙场悟道后讲学的扶风山麓，祠内茶室坐一下午是贵阳人的避世法",
+      "x": 727.1,
+      "y": 205.9
+    },
+    {
+      "id": "GY-06",
+      "name": "文昌阁",
+      "city": "贵阳",
+      "lat": 26.591,
+      "lng": 106.7246,
+      "tags": [
+        "建筑",
+        "历史文化",
+        "夜景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "全国唯一三重檐不等边九角攒尖顶，老东门城墙上看晚霞染透老城屋顶",
+      "x": 737.3,
+      "y": 194.1
+    },
+    {
+      "id": "GY-07",
+      "name": "花溪公园",
+      "city": "贵阳",
+      "lat": 26.4396,
+      "lng": 106.6722,
+      "tags": [
+        "园林",
+        "自然"
+      ],
+      "ticket": 6,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "十里河滩明如镜的城市湿地，陈毅诗中真山真水到处是的原型地",
+      "x": 455.7,
+      "y": 469.2
+    },
+    {
+      "id": "GY-08",
+      "name": "天河潭",
+      "city": "贵阳",
+      "lat": 26.5165,
+      "lng": 106.5986,
+      "tags": [
+        "喀斯特",
+        "溶洞",
+        "自然",
+        "山水"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "山水溶洞瀑布挤在一公里内的喀斯特盆景，贵阳人周末遛娃的后花园",
+      "x": 60.0,
+      "y": 329.5
+    },
+    {
+      "id": "GY-09",
+      "name": "观山湖公园",
+      "city": "贵阳",
+      "lat": 26.6646,
+      "lng": 106.6131,
+      "tags": [
+        "自然",
+        "湖泊",
+        "徒步",
+        "亲子"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "城市中央的湿地湖，清晨环湖跑道上遇见白鹭，是贵阳新城的门面",
+      "x": 137.9,
+      "y": 60.4
+    },
+    {
+      "id": "GY-10",
+      "name": "青云市集",
+      "city": "贵阳",
+      "lat": 26.5851,
+      "lng": 106.7098,
+      "tags": [
+        "夜市",
+        "美食",
+        "文创",
+        "购物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "老针织厂改造的深夜食堂集合体，酸汤牛肉到烙锅一栋楼里吃完",
+      "x": 657.8,
+      "y": 204.8
+    },
+    {
+      "id": "GY-11",
+      "name": "二七路小吃街",
+      "city": "贵阳",
+      "lat": 26.5903,
+      "lng": 106.7109,
+      "tags": [
+        "美食",
+        "夜市",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "肠旺面丝恋烤脑花的老牌战场，白天肠旺面晚上烤串，中间不打烊",
+      "x": 663.7,
+      "y": 195.4
+    },
+    {
+      "id": "GY-12",
+      "name": "花果园湿地公园",
+      "city": "贵阳",
+      "lat": 26.5867,
+      "lng": 106.6334,
+      "tags": [
+        "自然",
+        "夜景",
+        "奇观"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "双子塔与白宫楼群环抱的城中湿地，贵阳高密度奇观的具象现场",
+      "x": 247.1,
+      "y": 201.9
+    },
+    {
+      "id": "GY-13",
+      "name": "河滨公园",
+      "city": "贵阳",
+      "lat": 26.5709,
+      "lng": 106.7127,
+      "tags": [
+        "园林",
+        "亲子",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "南明河边最老牌的市民公园，摩天轮转了几代贵阳人的童年",
+      "x": 673.4,
+      "y": 230.6
+    },
+    {
+      "id": "GY-14",
+      "name": "多彩贵州风景眼文创园",
+      "city": "贵阳",
+      "lat": 26.5752,
+      "lng": 106.7471,
+      "tags": [
+        "文创",
+        "民族",
+        "艺术"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "非遗小镇里苗族银匠现场锻打，蜡染工坊可以上手做一块手帕带走",
+      "x": 858.3,
+      "y": 222.8
+    },
+    {
+      "id": "GY-15",
+      "name": "图云关森林公园",
+      "city": "贵阳",
+      "lat": 26.5579,
+      "lng": 106.7623,
+      "tags": [
+        "自然",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "图云关上的省森林公园，抗战救护纪念碑群藏在林间，本地人的晨练秘径",
+      "x": 940.0,
+      "y": 254.2
+    }
+  ],
+  "桂林": [
+    {
+      "id": "GL-01",
+      "name": "漓江兴坪竹筏",
+      "city": "桂林",
+      "lat": 24.9163,
+      "lng": 110.5438,
+      "tags": [
+        "山水",
+        "喀斯特",
+        "摄影",
+        "自然"
+      ],
+      "ticket": 216,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "杨堤到兴坪的漓江精华段，九马画山与黄布倒影（二十元人民币背面）都在这程水里",
+      "x": 806.4,
+      "y": 539.1
+    },
+    {
+      "id": "GL-02",
+      "name": "阳朔西街",
+      "city": "桂林",
+      "lat": 24.774,
+      "lng": 110.489,
+      "tags": [
+        "古镇",
+        "街区",
+        "夜生活",
+        "美食",
+        "文创"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "一千四百年的古街被叫作洋人街，白天买油纸伞晚上泡酒吧，啤酒鱼在西街口那几家",
+      "x": 664.2,
+      "y": 616.7
+    },
+    {
+      "id": "GL-03",
+      "name": "遇龙河漂流",
+      "city": "桂林",
+      "lat": 24.7829,
+      "lng": 110.4629,
+      "tags": [
+        "山水",
+        "自然",
+        "亲子"
+      ],
+      "ticket": 240,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "漓江的支流人称小漓江，人力竹筏过堤坝的落差点是全程的尖叫位",
+      "x": 596.5,
+      "y": 611.9
+    },
+    {
+      "id": "GL-04",
+      "name": "象鼻山",
+      "city": "桂林",
+      "lat": 25.2619,
+      "lng": 110.2942,
+      "tags": [
+        "山水",
+        "奇观",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "桂林城徽水月洞，如今免费预约即可入园，象山水月的夜景灯光别错过",
+      "x": 158.8,
+      "y": 350.7
+    },
+    {
+      "id": "GL-05",
+      "name": "两江四湖夜游",
+      "city": "桂林",
+      "lat": 25.2684,
+      "lng": 110.29,
+      "tags": [
+        "夜景",
+        "山水",
+        "湖泊"
+      ],
+      "ticket": 215,
+      "open_hour": [
+        19,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "乘船穿城而过看日月双塔与古南门，城在景中这句话的夜巡式证明",
+      "x": 147.9,
+      "y": 347.2
+    },
+    {
+      "id": "GL-06",
+      "name": "日月双塔",
+      "city": "桂林",
+      "lat": 25.267,
+      "lng": 110.2877,
+      "tags": [
+        "夜景",
+        "建筑",
+        "湖泊"
+      ],
+      "ticket": 35,
+      "open_hour": [
+        8,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "杉湖中的金塔银塔，日塔水下十八米有地宫，夜里是两江四湖的灯芯",
+      "x": 142.0,
+      "y": 347.9
+    },
+    {
+      "id": "GL-07",
+      "name": "芦笛岩",
+      "city": "桂林",
+      "lat": 25.2935,
+      "lng": 110.2561,
+      "tags": [
+        "溶洞",
+        "喀斯特",
+        "奇观"
+      ],
+      "ticket": 90,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "接待过上百位元首的国宾洞，狮岭朝霞与雪山飞瀑的灯光下石乳最出片",
+      "x": 60.0,
+      "y": 333.5
+    },
+    {
+      "id": "GL-08",
+      "name": "七星公园",
+      "city": "桂林",
+      "lat": 25.2736,
+      "lng": 110.312,
+      "tags": [
+        "山水",
+        "自然",
+        "亲子",
+        "动物"
+      ],
+      "ticket": 55,
+      "open_hour": [
+        7,
+        18.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "七峰排列如北斗，骆驼山下有七星岩，桂海碑林刻在龙隐洞口",
+      "x": 205.0,
+      "y": 344.3
+    },
+    {
+      "id": "GL-09",
+      "name": "兴坪古镇",
+      "city": "桂林",
+      "lat": 24.9186,
+      "lng": 110.5406,
+      "tags": [
+        "古镇",
+        "街区",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "漓江边一千七百年的小码头，老寨山顶拍二十元人民币同款机位要爬二十分钟",
+      "x": 798.1,
+      "y": 537.9
+    },
+    {
+      "id": "GL-10",
+      "name": "阳朔十里画廊",
+      "city": "桂林",
+      "lat": 24.7313,
+      "lng": 110.4481,
+      "tags": [
+        "骑行",
+        "山水",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "阳朔骑行的主干道，工农桥上看月亮山，大榕树与蝴蝶泉一路排开",
+      "x": 558.1,
+      "y": 640.0
+    },
+    {
+      "id": "GL-11",
+      "name": "银子岩",
+      "city": "桂林",
+      "lat": 24.7427,
+      "lng": 110.5188,
+      "tags": [
+        "溶洞",
+        "喀斯特",
+        "奇观"
+      ],
+      "ticket": 65,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "游了银子岩一世不缺钱，三宝音乐石屏与雪山飞瀑配着声光电看",
+      "x": 741.5,
+      "y": 633.8
+    },
+    {
+      "id": "GL-12",
+      "name": "相公山",
+      "city": "桂林",
+      "lat": 24.9471,
+      "lng": 110.5953,
+      "tags": [
+        "摄影",
+        "山水",
+        "自然"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        5.5,
+        19
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "漓江第一湾的日出机位，云海翻过喀斯特群峰的那几分钟值回票价",
+      "x": 940.0,
+      "y": 522.3
+    },
+    {
+      "id": "GL-13",
+      "name": "龙脊梯田",
+      "city": "桂林",
+      "lat": 25.7951,
+      "lng": 110.2685,
+      "tags": [
+        "梯田",
+        "民族",
+        "徒步",
+        "摄影"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 3,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "平安壮寨与金坑红瑶的梯田群，十一月收割后放水，镜面梯田正是摄影季",
+      "x": 92.2,
+      "y": 60.0
+    },
+    {
+      "id": "GL-14",
+      "name": "东西巷逍遥楼",
+      "city": "桂林",
+      "lat": 25.2601,
+      "lng": 110.2902,
+      "tags": [
+        "街区",
+        "建筑",
+        "美食",
+        "夜景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "唐代逍遥楼重建在漓江边，正阳东西巷的骑楼下吃完桂林米粉再看江",
+      "x": 148.5,
+      "y": 351.7
+    },
+    {
+      "id": "GL-15",
+      "name": "独秀峰王城",
+      "city": "桂林",
+      "lat": 25.271,
+      "lng": 110.296,
+      "tags": [
+        "历史文化",
+        "建筑",
+        "徒步"
+      ],
+      "ticket": 100,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "靖江王府与南天一柱独秀峰，山腰看全城，贡院里还能体验一场科举",
+      "x": 163.5,
+      "y": 345.7
+    },
+    {
+      "id": "GL-16",
+      "name": "叠彩山",
+      "city": "桂林",
+      "lat": 25.2846,
+      "lng": 110.3,
+      "tags": [
+        "山水",
+        "徒步",
+        "摄影"
+      ],
+      "ticket": 25,
+      "open_hour": [
+        7,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "漓江边的叠彩亭与风洞，山顶是看漓江大转弯和全城的第二机位",
+      "x": 173.9,
+      "y": 338.3
     }
   ]
 }

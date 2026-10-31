@@ -11,9 +11,15 @@ severity: hard=必须自动修复并回流；soft=仅 advisory 提醒，不进�
 from __future__ import annotations
 
 from ..tools import budget
+from ..tools.poi_search import _load_meta
+from ..tools.route import intercity_cost
 from .planner import BUFFER, DAY_END, DAY_START, MEAL_HOURS, POI_INDEX
 
+# V3 强度阈值按城市地形分档（meta.json city_info.terrain.intensity_cap）：
+# 同样的"强度 8.5"，在成都盆地只是多走路，在昆明 1891m 高原与拉萨 3650m 高原完全是另一回事。
+# 无地形配置的城市回落到该默认值（保持旧行为）。
 INTENSITY_CAP = 8.5
+_TERRAIN_CAP = {c: v["terrain"]["intensity_cap"] for c, v in _load_meta()["city_info"].items()}
 
 
 def _parse_h(s):
@@ -21,16 +27,24 @@ def _parse_h(s):
     return int(h) + int(m) / 60.0
 
 
+def _ic_hours(day):
+    """从 day 的 intercity 条目推导城际时长——时间线是唯一事实源，与城市对解耦。"""
+    for it in day["items"]:
+        if it["type"] == "intercity":
+            return round(_parse_h(it["departure"]) - _parse_h(it["arrival"]), 2)
+    return 0.0
+
+
 def validate(plan, request):
     violations = []
     for d in plan.get("days", []):
         poi_items = [it for it in d["items"] if it["type"] == "poi"]
-        has_ic = any(it["type"] == "intercity" for it in d["items"])
+
 
         if poi_items:
             last_dep = _parse_h(poi_items[-1]["departure"])
-            # 与规划器同款容量模型：跨城日的城际 1.8h 在容量里预留，不在 span 里重复加
-            cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (1.8 if has_ic else 0)
+            # 与规划器同款容量模型：跨城日的城际时长在容量里预留，不在 span 里重复加
+            cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - _ic_hours(d)
             content_hours = sum(it.get("leg_hours", 0) + it.get("visit_hours", 0) for it in poi_items)
             if last_dep > DAY_END:
                 violations.append({"rule": "V1-duration", "severity": "hard",
@@ -60,14 +74,15 @@ def validate(plan, request):
 
         intensity = sum(POI_INDEX[it["poi_id"]]["slope"] + POI_INDEX[it["poi_id"]]["crowd_level"] * 0.4
                         for it in poi_items if it["poi_id"] in POI_INDEX)
-        if intensity > INTENSITY_CAP:
+        cap = _TERRAIN_CAP.get(d["city"], INTENSITY_CAP)
+        if intensity > cap:
             worst = max(poi_items, key=lambda x: POI_INDEX[x["poi_id"]]["slope"] if x["poi_id"] in POI_INDEX else 0)
             violations.append({"rule": "V3-intensity", "severity": "soft", "day": d["day"], "poi": worst["poi_id"],
-                               "detail": f"强度 {intensity:.1f} 超过 {INTENSITY_CAP}", "fix_hint": "none"})
+                               "detail": f"强度 {intensity:.1f} 超过 {cap}", "fix_hint": "none"})
 
     tickets_total = sum(d["load"]["tickets"] for d in plan.get("days", []))
-    multi_city = len({d["city"] for d in plan.get("days", [])}) > 1
-    b = budget(request.days, tickets_total, intercity_price=154 if multi_city else 0, family=request.family)
+    b = budget(request.days, tickets_total, intercity_price=intercity_cost(plan.get("days", [])),
+               family=request.family)
     plan["budget"] = b
     if b["total"] > request.budget:
         day_max = max(plan.get("days", []), key=lambda d: d["load"]["tickets"]) if plan.get("days") else None

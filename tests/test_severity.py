@@ -179,7 +179,7 @@ def test_trim_to_capacity_drops_low_score_keeps_must_night():
     POI_INDEX["CQ-01"]["_score"] = 9.0   # 洪崖洞 must+夜间
     POI_INDEX["CQ-07"]["_score"] = 8.0   # 南山 must+夜间
     ordered = _order_day(pois, CITY_HUB["重庆"])
-    trimmed = _trim_to_capacity(ordered, "重庆", has_intercity=True)
+    trimmed = _trim_to_capacity(ordered, "重庆", ic={"hours": 1.8})
     ids = [p["id"] for p in trimmed]
     assert len(trimmed) < len(ordered), "应摘掉至少一个点"
     assert "CQ-01" in ids and "CQ-07" in ids, "must/夜间点必须保留"
@@ -204,8 +204,11 @@ def test_trim_noop_when_within_capacity():
 # ─────────────────── D：强度惩罚不摘光必游地标 ───────────────────
 
 def test_intensity_penalty_keeps_must_see():
-    """轻度强度惩罚后：默认场景重庆天的 must_see 点（洪崖洞/南山一棵树）仍在。"""
-    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"]), EventBus())
+    """轻度强度惩罚后：默认场景重庆天的 must_see 点（洪崖洞/南山一棵树）仍在。
+
+    多城化后默认演示仍是成渝（任务 G），此处显式指定城市锁死双城语义。
+    """
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"], cities=["成都", "重庆"]), EventBus())
     cq_days = [d for d in r["itinerary"]["days"] if d["city"] == "重庆"]
     assert cq_days, "默认场景应含重庆天"
     ids = {it["poi_id"] for d in cq_days for it in d["items"] if it["type"] == "poi"}
@@ -217,7 +220,7 @@ def test_intensity_penalty_keeps_must_see():
 
 def test_intensity_penalty_keeps_every_must_see_night_poi():
     """默认场景重庆天：必游地标逐个点名，南山一棵树必须在（经典夜景机位）。"""
-    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"]), EventBus())
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"], cities=["成都", "重庆"]), EventBus())
     cq = [d for d in r["itinerary"]["days"] if d["city"] == "重庆"]
     ids = {it["poi_id"] for d in cq for it in d["items"] if it["type"] == "poi"}
     assert "CQ-07" in ids, "南山一棵树（必游+夜间+经典夜景机位）必须在行程中"
@@ -227,7 +230,7 @@ def test_intensity_penalty_keeps_every_must_see_night_poi():
 def test_night_finale_and_narrative_consistency():
     """夜景收尾断言：默认场景至少一天有 arrival ≥ 19:00 的 poi；
     叙事文案提到夜景的当天，必须确有夜景时段的点位（文案与行程一致）。"""
-    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"]), EventBus())
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"], cities=["成都", "重庆"]), EventBus())
     days = r["itinerary"]["days"]
 
     def h(s):
@@ -265,7 +268,7 @@ def test_trim_drop_rank_same_score():
         ordered = _order_day(pois, CITY_HUB["成都"])
         cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - 1.8   # 跨城容量，确保要摘 2 个
         assert _content_hours(ordered, "成都") > cap, "测试前提：构造必须超容"
-        trimmed = _trim_to_capacity(ordered, "成都", has_intercity=True)
+        trimmed = _trim_to_capacity(ordered, "成都", ic={"hours": 1.8})
         ids = [p["id"] for p in trimmed]
         # D、E（非必游非夜间）应最先被摘；A（必游+夜间）必须保留
         assert "CD-09" not in ids and "CD-19" not in ids, f"同分下应先摘非必游非夜间：{ids}"
@@ -280,7 +283,7 @@ def test_trim_drop_rank_same_score():
 
 def test_advisory_shown_once_in_default():
     """默认场景（01C 修复后）：软提醒恰好 1 条且 reason 含软约束说明，事件流无重复。"""
-    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"]), EventBus())
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"], cities=["成都", "重庆"]), EventBus())
     adv = [e for e in r["timeline"] if e["type"] == "advisory"]
     assert len(adv) == 1, f"默认场景应恰好 1 条软提醒，实际 {len(adv)}"
     assert "软约束" in adv[0]["reason"]
@@ -293,7 +296,7 @@ def test_advisory_shown_once_in_default():
 
 def test_fix_events_carry_removed_poi_ids():
     """fix 事件 detail 必须带 removed 的 poi_id 列表（前端地图打叉联动）。"""
-    r = run_pipeline(TripRequest(days=2, budget=2000, tags=["夜景"]), EventBus())
+    r = run_pipeline(TripRequest(days=2, budget=2000, tags=["夜景"], cities=["成都", "重庆"]), EventBus())
     fixes = [e for e in r["timeline"] if e["type"] == "fix" and "移除" in e["title"]]
     assert fixes, "夜景场景应有移除事件（V2 硬违规修复）"
     for f in fixes:

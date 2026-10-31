@@ -86,6 +86,10 @@ step("import map.js（fmtHour 路径）", async () => {
   const geo = JSON.parse(readFileSync(path.join(STATIC, "demo-geo.json"), "utf8"));
   globalThis.__maps = new CityMaps(geo, () => {});
 });
+step("CityMaps.setCities 动态挂载双城", () => {
+  globalThis.__maps.setCities(["成都", "重庆"], { "成都": "CHENGDU · 30.67°N 104.07°E" });
+  if (Object.keys(globalThis.__maps._layer).length !== 2) throw new Error("双城图幅未挂载");
+});
 step("CityMaps.render（含 removed 灰叉分支）", () => {
   const evs = globalThis.__events.filter(e => e.type === "fix");
   const removed = new Map();

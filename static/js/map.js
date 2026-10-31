@@ -1,8 +1,11 @@
-// map.js — 双城 SVG 自绘路线图（成都 #E8A33D / 重庆 #4EA8DE）
+// map.js — 分城 SVG 自绘路线图（西南多城动态图幅）
 // 坐标全部来自 demo-geo.json（后端 Projector 投影，前端不重算）。
 // 渲染受 main.js 的视图状态驱动：revealed（已揭示点位）/ activeDay（当前天）/ advisories（软提醒天）
+// 多城化（03E）：constructor 只建全量 index；setCities(cities) 按「行程涉及城市」动态重建图幅卡，
+// 双城时 DOM 结构与旧静态双卡完全一致（class 同名同层级），视觉零回归。
 
 const CITY_COLOR = { "成都": "#E8A33D", "重庆": "#4EA8DE" };
+const FALLBACK_COLOR = "#E8A33D";
 const SVG_W = 1000, SVG_H = 700;
 const NS = "http://www.w3.org/2000/svg";
 
@@ -21,20 +24,51 @@ function el(tag, attrs = {}) {
 
 export class CityMaps {
   constructor(geoData, onPoiClick) {
-    this.geo = geoData;                       // {"成都":[...], "重庆":[...]}
+    this.geo = geoData;                       // {"成都":[...], ...} 全量城市投影
     this.onPoiClick = onPoiClick;
     this.index = {};                          // poi_id → {point, city, circle}
     this.lines = {};                          // day → polyline
     this.tip = this._makeTip();
+    this._row = document.getElementById("map-row");
+    this._layer = {};                         // city → {line, mark}（仅已挂载城市）
+    this._mounted = [];
     for (const [city, pts] of Object.entries(geoData)) {
-      const domId = city === "成都" ? "map-chengdu" : "map-chongqing";
-      const host = document.getElementById(domId);
+      if (!Array.isArray(pts)) continue;     // 跳过 _city_meta 等元数据键（非城市点位组）
+      for (const p of pts) this.index[p.id] = { point: p, city, circle: null };
+    }
+  }
+
+  /** 按「行程涉及的城市」重建图幅卡（城市集合未变时零开销跳过）。
+   *  cityMeta：{城市 → "CHENGDU · 30.67°N 104.07°E" 图幅注记行}，缺省回退城市名。 */
+  setCities(cities, cityMeta = {}) {
+    const want = (cities || []).filter(c => Array.isArray(this.geo[c]));
+    const unchanged = want.length === this._mounted.length
+      && want.every((c, i) => c === this._mounted[i]);
+    if (unchanged) return;
+    this._mounted = want;
+    this._layer = {};
+    this._row.replaceChildren();
+    for (const city of want) {
+      const card = document.createElement("div");
+      card.className = "map-card";
+      const title = document.createElement("div");
+      title.className = "map-title";
+      const name = document.createElement("span");
+      name.textContent = city;
+      const meta = document.createElement("span");
+      meta.className = "city-meta";
+      meta.textContent = cityMeta[city] || city;
+      title.append(name, meta);
+      const host = document.createElement("div");
+      host.className = "map-svg";
       const svg = el("svg", { viewBox: `0 0 ${SVG_W} ${SVG_H}` });
-      // 底图层：路线线在下，marker 在上
-      this._layer = { [city]: { line: el("g"), mark: el("g") } };
-      svg.append(this._layer[city].line, this._layer[city].mark);
+      const line = el("g"), mark = el("g");
+      svg.append(line, mark);
       host.appendChild(svg);
-      this._drawMarkers(city, pts);
+      card.append(title, host);
+      this._row.appendChild(card);
+      this._layer[city] = { line, mark };
+      this._drawMarkers(city, this.geo[city]);
     }
   }
 
@@ -51,7 +85,7 @@ export class CityMaps {
       const c = el("circle", {
         cx: p.x, cy: p.y,
         r: p.must_see ? 8 : 5.5,
-        fill: CITY_COLOR[city],
+        fill: CITY_COLOR[city] || FALLBACK_COLOR,
         class: "poi-marker dim",
         "data-poi": p.id,
       });
@@ -65,7 +99,7 @@ export class CityMaps {
         // 必游地标加描边环，识别度更高
         g.appendChild(el("circle", {
           cx: p.x, cy: p.y, r: 12, fill: "none",
-          stroke: CITY_COLOR[city], "stroke-width": 1.2, opacity: 0.45,
+          stroke: CITY_COLOR[city] || FALLBACK_COLOR, "stroke-width": 1.2, opacity: 0.45,
           class: "poi-marker dim", "data-poi": p.id,
         }));
       }
@@ -92,6 +126,7 @@ export class CityMaps {
     if (!itinerary) return;
 
     for (const d of itinerary.days) {
+      if (!this._layer[d.city]) continue;   // 未挂载城市（行程外的快照城市）不画
       const ids = revealed.get(d.day);
       const drop = removed?.get(d.day) || new Set();
       const pts = (ids ? [...ids] : [])
@@ -101,13 +136,13 @@ export class CityMaps {
           const order = d.items.filter(it => it.type === "poi").map(it => it.poi_id);
           return order.indexOf(a) - order.indexOf(b);
         });
-      // 连线（同城点才有线；跨城点由高铁线表达）
+      // 连线（同城点才有线；跨城点由行程卡 intercity 条目承载）
       const sameCity = pts.filter(id => this.index[id].city === d.city);
       if (sameCity.length >= 2) {
         const hubLine = el("polyline", {
           points: sameCity.map(id => `${this.index[id].point.x},${this.index[id].point.y}`).join(" "),
           class: "route-line" + (d.day === activeDay ? "" : " dim"),
-          stroke: CITY_COLOR[d.city],
+          stroke: CITY_COLOR[d.city] || FALLBACK_COLOR,
           "stroke-width": d.day === activeDay ? 3 : 2,
           "stroke-dasharray": d.day === activeDay ? "none" : "6 6",
           opacity: d.day === activeDay ? 0.95 : 0.5,
@@ -131,6 +166,7 @@ export class CityMaps {
     const removedAll = new Set();
     for (const set of (removed || new Map()).values()) for (const id of set) removedAll.add(id);
     for (const [id, rec] of Object.entries(this.index)) {
+      if (!rec.circle) continue;             // 未挂载城市的点位无 DOM
       let revealedSomewhere = false;
       for (const [day, set] of revealed) {
         if (set.has(id) && !removed?.get(day)?.has(id)) { revealedSomewhere = true; break; }
@@ -138,11 +174,12 @@ export class CityMaps {
       const isRemoved = removedAll.has(id);
       rec.circle.classList.toggle("dim", !revealedSomewhere || isRemoved);
       rec.circle.classList.toggle("done", revealedSomewhere && !isRemoved);
-      rec.circle.setAttribute("fill", isRemoved ? "#6e7681" : CITY_COLOR[rec.city]);
+      rec.circle.setAttribute("fill", isRemoved ? "#6e7681" : (CITY_COLOR[rec.city] || FALLBACK_COLOR));
       if (isRemoved) {
         // 打叉（画在线路层，随 render 重建）
         const s = 9;
-        const g = this._layer[rec.city].line;
+        const g = this._layer[rec.city]?.line;
+        if (!g) continue;
         for (const [dx1, dy1, dx2, dy2] of [[-s, -s, s, s], [-s, s, s, -s]]) {
           g.appendChild(el("line", {
             x1: rec.point.x + dx1, y1: rec.point.y + dy1,

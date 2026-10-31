@@ -42,12 +42,22 @@ def load_pois():
     return pois
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=1)
+def load_cities():
+    """西南赛区城市总表（meta.json city_info）：terrain 分档 / 天气快照 / 省份 / 图幅注记行。"""
+    return _load_meta()["city_info"]
+
+
+@lru_cache(maxsize=16)
 def load_city_pois(city):
-    """单城快照读取（分城文件的直接用途）。"""
+    """单城快照读取（分城文件的直接用途；未收录城市返回空）。"""
     fn = {
         "成都": "chengdu.json",
         "重庆": "chongqing.json",
+        "昆明": "kunming.json",
+        "大理": "dali.json",
+        "贵阳": "guiyang.json",
+        "桂林": "guilin.json",
     }.get(city)
     if fn is None:
         # 泛化路径：城市名转拼音文件名的映射不在本层维护，未收录城市返回空

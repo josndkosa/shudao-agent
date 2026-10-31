@@ -74,6 +74,7 @@ def main():
     ap.add_argument("--days", type=int, default=3)
     ap.add_argument("--budget", type=int, default=3000)
     ap.add_argument("--tags", default="", help="偏好标签，逗号分隔，如 美食,亲子,夜景")
+    ap.add_argument("--cities", default="", help="城市列表，逗号分隔，如 成都,重庆,昆明；留空按候选池总分自动选城")
     ap.add_argument("--family", action="store_true", help="亲子模式")
     ap.add_argument("--json", action="store_true", help="输出 JSON（供前端/W2 SSE 联调）")
     args = ap.parse_args()
@@ -85,7 +86,8 @@ def main():
 
     req = TripRequest(days=args.days, budget=args.budget,
                       tags=[t for t in args.tags.split(",") if t.strip()],
-                      family=args.family)
+                      family=args.family,
+                      cities=[c for c in args.cities.split(",") if c.strip()])
     result = run_pipeline(req, EventBus())
 
     if args.json:

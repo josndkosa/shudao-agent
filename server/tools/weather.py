@@ -6,13 +6,10 @@
 接口形态与 scripts/export_demo_assets.py 的本地口径完全一致，前端无感。
 """
 from ..cloud.functiongraph import fg_weather
+from .poi_search import _load_meta
 
-NOVEMBER = {
-    "成都": {"day": "多云", "night": "阴", "temp": [10, 17], "rain_prob": 0.35,
-             "advice": "早晚微凉备薄外套，偶有小雨备伞"},
-    "重庆": {"day": "阴转多云", "night": "多云", "temp": [12, 19], "rain_prob": 0.4,
-             "advice": "江边风大，观景台看夜景建议加件外套"},
-}
+# 11 月气候快照来自 meta.json city_info（数据层 v3：15 城全配，成渝值与历史完全一致）
+NOVEMBER = {c: v["weather"] for c, v in _load_meta()["city_info"].items()}
 
 
 def weather(city, day_offset=0):

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "KM-01", "name": "石林风景区", "city": "昆明", "lat": 24.8235, "lng": 103.3173,
+    "tags": ["喀斯特", "山水", "奇观", "摄影", "徒步"],
+    "ticket": 130, "visit_hours": 3.5, "open_hour": [8.5, 17.5], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "2.7亿年海底石灰岩溶蚀成的石头森林，彝语撒尼人的家园，阿诗玛化石峰是必找机位"
+  },
+  {
+    "id": "KM-02", "name": "滇池海埂公园", "city": "昆明", "lat": 24.9529, "lng": 102.6647,
+    "tags": ["自然", "湖泊", "动物"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [7, 20], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 4, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "每年11月至次年3月红嘴鸥从西伯利亚如约而至，海埂大坝喂鸥是昆明冬季限定"
+  },
+  {
+    "id": "KM-03", "name": "翠湖公园", "city": "昆明", "lat": 25.0513, "lng": 102.7108,
+    "tags": ["园林", "自然", "动物"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6.5, 22], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "昆明城的眼睛，冬季海鸥最集中之处，周边云南大学与文林街咖啡馆可串成半日"
+  },
+  {
+    "id": "KM-04", "name": "云南民族村", "city": "昆明", "lat": 24.9501, "lng": 102.6532,
+    "tags": ["民族", "亲子", "街区"],
+    "ticket": 90, "visit_hours": 3.0, "open_hour": [9, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "25个云南少数民族村寨一比一复原，泼水节火把节等节庆期间白天表演最密"
+  },
+  {
+    "id": "KM-05", "name": "西山龙门", "city": "昆明", "lat": 24.9807, "lng": 102.6332,
+    "tags": ["徒步", "奇观", "园林", "佛教"],
+    "ticket": 60, "visit_hours": 3.0, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "千仞绝壁上凿出的石窟道观，登龙门望五百里滇池，索道可直达半山省脚力"
+  },
+  {
+    "id": "KM-06", "name": "金马碧鸡坊", "city": "昆明", "lat": 25.0287, "lng": 102.7195,
+    "tags": ["建筑", "夜景", "街区", "美食"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "昆明城市原点的两座牌坊，六十年一遇的金碧交辉奇观，夜里灯光与小吃摊才热闹"
+  },
+  {
+    "id": "KM-07", "name": "官渡古镇", "city": "昆明", "lat": 25.0046, "lng": 102.7437,
+    "tags": ["古镇", "美食", "宗教"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [8, 21], "reserve": 0,
+    "crowd_peak": [11, 17], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "唐宋古渡口，金刚塔立在镇中已五百年，官渡粑粑与八大碗是本地人专程来吃的"
+  },
+  {
+    "id": "KM-08", "name": "云南省博物馆", "city": "昆明", "lat": 24.9847, "lng": 102.729,
+    "tags": ["博物馆", "历史文化"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "牛虎铜案与战国青铜器是镇馆之宝，周一闭馆，与官渡古镇步行可达可同日"
+  },
+  {
+    "id": "KM-09", "name": "斗南花市", "city": "昆明", "lat": 24.9006, "lng": 102.8236,
+    "tags": ["购物", "夜市", "夜生活"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [19, 24], "reserve": 0,
+    "crowd_peak": [20, 23], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "亚洲最大鲜切花交易市场，晚八点后拍卖钟声与花农地摊是按把买花的深夜现场"
+  },
+  {
+    "id": "KM-10", "name": "大观公园", "city": "昆明", "lat": 25.0316, "lng": 102.6589,
+    "tags": ["园林", "历史文化", "湖泊"],
+    "ticket": 20, "visit_hours": 1.5, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "大观楼上五百里滇池奔来眼底的天下第一长联，登楼可见滇池草海与西山睡美人"
+  },
+  {
+    "id": "KM-11", "name": "圆通寺", "city": "昆明", "lat": 25.0533, "lng": 102.7131,
+    "tags": ["佛教", "宗教", "园林"],
+    "ticket": 8, "visit_hours": 1.5, "open_hour": [7, 17], "reserve": 0,
+    "crowd_peak": [9, 15], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "昆明最古老的唐代古刹，殿宇沿坡层层跌落，放生池里的百年巨鼋难得露面"
+  },
+  {
+    "id": "KM-12", "name": "世博园", "city": "昆明", "lat": 25.0748, "lng": 102.7328,
+    "tags": ["园林", "亲子", "街区"],
+    "ticket": 100, "visit_hours": 2.5, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "1999年世园会旧址的万国园艺博览，如今人少树大，适合慢逛和拍照"
+  },
+  {
+    "id": "KM-13", "name": "南强街夜市", "city": "昆明", "lat": 25.0318, "lng": 102.7166,
+    "tags": ["夜市", "美食", "街区", "夜生活"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [17, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "昆明老城仅存的青石板巷，庭院剧场与小吃摊共生，下班后的烟火气全在这里"
+  },
+  {
+    "id": "KM-14", "name": "云南大学会泽院", "city": "昆明", "lat": 25.052, "lng": 102.7062,
+    "tags": ["建筑", "历史文化", "徒步"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [8, 18], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "民国法式会泽院立在九十五级石阶顶上，十一月银杏正黄，与翠湖文林街一线串游"
+  },
+  {
+    "id": "KM-15", "name": "昆明老街文明街", "city": "昆明", "lat": 25.0322, "lng": 102.7143,
+    "tags": ["街区", "历史文化", "购物", "美食"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [12, 20], "crowd_level": 2, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "昆明保存最完整的老街区，马家大院与聂耳旧居藏在其中，花鸟市场的余韵还在"
+  }
+]

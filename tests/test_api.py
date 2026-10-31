@@ -59,7 +59,9 @@ def test_stream_sse_frames_and_done():
 
 
 def test_revise_reduce_day2():
-    p = client.post("/api/plan", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"]}).json()
+    # 双城场景（多城化后默认演示仍是成渝，revise 减载语义锁死在双城行程上）
+    p = client.post("/api/plan", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"],
+                                       "cities": ["成都", "重庆"]}).json()
     pid = p["plan_id"]
     d2 = p["itinerary"]["days"][1]
     before_n = len([it for it in d2["items"] if it["type"] == "poi"])
@@ -101,7 +103,8 @@ def test_geo_dual_city_projection_range():
     r = client.get("/api/geo")
     assert r.status_code == 200
     body = r.json()
-    assert set(body["points"].keys()) == {"成都", "重庆"}      # 必须是城市分组对象，不是数组
+    # 多城化后 geo 返回全部有快照的城市（仍为城市分组对象，不是数组），成渝必在
+    assert set(body["points"].keys()) >= {"成都", "重庆", "昆明", "大理", "贵阳", "桂林"}
     for city, pts in body["points"].items():
         assert len(pts) > 0
         for p in pts:

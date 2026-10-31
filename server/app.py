@@ -29,7 +29,7 @@ from .agent.events import EventBus
 from .agent.revise import revise_plan
 from .tools import obs
 from .tools.geo import Projector
-from .tools.poi_search import _ensure_aliases, load_pois
+from .tools.poi_search import _ensure_aliases, _load_meta, load_pois
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
@@ -46,6 +46,7 @@ class PlanRequest(BaseModel):
     budget: int = Field(3000, ge=500)
     tags: list[str] = Field(default_factory=list)
     family: bool = False
+    cities: list[str] = Field(default_factory=list)   # 空 = 按候选池总分自动选城
 
 
 class ReviseRequest(BaseModel):
@@ -54,7 +55,8 @@ class ReviseRequest(BaseModel):
 
 
 def _to_trip(req: PlanRequest) -> TripRequest:
-    return TripRequest(days=req.days, budget=req.budget, tags=req.tags, family=req.family)
+    return TripRequest(days=req.days, budget=req.budget, tags=req.tags,
+                       family=req.family, cities=req.cities)
 
 
 def _cache_plan(req: PlanRequest, result: dict, bus: EventBus) -> str:
@@ -72,9 +74,18 @@ def _cache_plan(req: PlanRequest, result: dict, bus: EventBus) -> str:
 
 @lru_cache(maxsize=1)
 def _build_geo(city: str | None = None) -> dict:
-    """成渝分城投影：每城各建一个 Projector，坐标口径与 static/demo-geo.json 完全一致。"""
+    """分城投影：每城各建一个 Projector，坐标口径与 static/demo-geo.json 完全一致。
+
+    城市集合 = 当前有 POI 快照的城市（meta 顺序），前端按行程涉及城市动态渲染图幅。
+    city_meta 为每城图幅注记行（如 "CHENGDU · 30.67°N 104.07°E"）。
+    """
+
+    meta = _load_meta()
+    lines = {c: v["line"] for c, v in meta["city_info"].items()}
+    poi_cities = {p["city"] for p in load_pois()}
+    order = [c for c in meta["cities"] if c in poi_cities]
     out = {}
-    for c in ("成都", "重庆"):
+    for c in order:
         if city and c != city:
             continue
         pois = [p for p in load_pois() if p["city"] == c]
@@ -86,7 +97,8 @@ def _build_geo(city: str | None = None) -> dict:
              **dict(zip(("x", "y"), pr.project(p["lat"], p["lng"])))}
             for p in pois
         ]
-    return {"points": out, "cities": list(out.keys())}
+    return {"points": out, "cities": list(out.keys()),
+            "city_meta": {c: lines.get(c, c) for c in out}}
 
 
 # ── 基础端点 ──────────────────────────────────────────────
@@ -156,7 +168,7 @@ async def revise(req: ReviseRequest):
 
 @app.get("/api/geo")
 async def geo(plan_id: str | None = None, city: str | None = None):
-    """plan_id 兼容参数（当前投影与具体计划无关，全局快照）；city 为空返回双城分组。"""
+    """plan_id 兼容参数（当前投影与具体计划无关，全局快照）；city 为空返回全部分城分组。"""
     return _build_geo(city)
 
 

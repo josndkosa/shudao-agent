@@ -21,6 +21,7 @@ class TripRequest:
     budget: int = 3000
     tags: list[str] = field(default_factory=list)
     family: bool = False
+    cities: list[str] = field(default_factory=list)   # 空 = 按候选池总分自动选城
 
 
 def _load_dotenv():

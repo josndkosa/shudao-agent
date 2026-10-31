@@ -1,0 +1,122 @@
+[
+  {
+    "id": "DL-01", "name": "崇圣寺三塔", "city": "大理", "lat": 25.5555, "lng": 100.1527,
+    "tags": ["佛教", "历史文化", "建筑", "摄影"],
+    "ticket": 75, "visit_hours": 2.5, "open_hour": [8.5, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "大理国九位帝王出家之地，三塔倒影公园拍永镇山川三塔与苍山同框"
+  },
+  {
+    "id": "DL-02", "name": "大理古城", "city": "大理", "lat": 25.6938, "lng": 100.1632,
+    "tags": ["古镇", "街区", "美食", "民族", "夜生活"],
+    "ticket": 0, "visit_hours": 2.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [19, 23], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": true,
+    "summary": "南诏古都的棋盘格局，复兴路白天看扎染，人民路夜里听歌喝酒"
+  },
+  {
+    "id": "DL-03", "name": "洱海才村码头", "city": "大理", "lat": 25.6753, "lng": 100.1853,
+    "tags": ["湖泊", "自然", "骑行", "摄影"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [6, 20], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "古城离洱海最近的码头，日出朝海舌方向最佳，环海骑行从这里出发"
+  },
+  {
+    "id": "DL-04", "name": "苍山洗马潭索道", "city": "大理", "lat": 25.6889, "lng": 100.0862,
+    "tags": ["雪山", "徒步", "自然", "奇观"],
+    "ticket": 240, "visit_hours": 3.5, "open_hour": [8.5, 16], "reserve": 2,
+    "crowd_peak": [10, 14], "crowd_level": 2, "slope": 3, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "索道直上3920米洗马潭，七龙女池步道走一段就能俯瞰洱海全景"
+  },
+  {
+    "id": "DL-05", "name": "喜洲古镇", "city": "大理", "lat": 25.7515, "lng": 100.1804,
+    "tags": ["古镇", "民族", "美食", "建筑"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "白族民居三坊一照壁的露天博物馆，破酥粑粑要在四方街现烤的那家吃"
+  },
+  {
+    "id": "DL-06", "name": "双廊古镇", "city": "大理", "lat": 25.9345, "lng": 100.1861,
+    "tags": ["古镇", "湖泊", "摄影", "艺术"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 17], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "洱海东岸看苍山全景的正面机位，杨丽萍的太阳宫就建在玉几岛上"
+  },
+  {
+    "id": "DL-07", "name": "海舌生态公园", "city": "大理", "lat": 25.7732, "lng": 100.1718,
+    "tags": ["自然", "湖泊", "摄影", "徒步"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [8, 19], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "一条绿舌伸进洱海的半岛，夫妻树与枯木栈道是日落的网红机位"
+  },
+  {
+    "id": "DL-08", "name": "挖色小普陀", "city": "大理", "lat": 25.8572, "lng": 100.2063,
+    "tags": ["湖泊", "佛教", "摄影", "动物"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "离岸十来米的迷你观音阁，冬季海鸥绕岛，是环海东路的骑行高潮段"
+  },
+  {
+    "id": "DL-09", "name": "寂照庵", "city": "大理", "lat": 25.7084, "lng": 100.1146,
+    "tags": ["佛教", "园林"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [11, 14], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "被称为中国最美尼姑庵，多肉长满庭院，二十元斋饭十二点开抢周日休"
+  },
+  {
+    "id": "DL-10", "name": "三月街", "city": "大理", "lat": 25.6885, "lng": 100.1615,
+    "tags": ["民族", "街区", "购物"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [13, 18], "crowd_level": 2, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "千年白族赶集地，观音市三月最盛，平日也看得到马帮铜器与乳扇摊"
+  },
+  {
+    "id": "DL-11", "name": "龙龛码头", "city": "大理", "lat": 25.6967, "lng": 100.1962,
+    "tags": ["湖泊", "摄影", "自然"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [5.5, 20], "reserve": 0,
+    "crowd_peak": [6, 9], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "洱海看日出的头号机位，十一月的晨雾与红水杉同框，拍完回古城吃早点"
+  },
+  {
+    "id": "DL-12", "name": "磻溪村S湾", "city": "大理", "lat": 25.7204, "lng": 100.1803,
+    "tags": ["骑行", "湖泊", "摄影"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [6, 20], "reserve": 0,
+    "crowd_peak": [14, 18], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "环海西路最出片的S形弯道，骑电瓶车减速那一秒所有人都在拍"
+  },
+  {
+    "id": "DL-13", "name": "蝴蝶泉", "city": "大理", "lat": 25.7842, "lng": 100.1626,
+    "tags": ["自然", "徒步"],
+    "ticket": 40, "visit_hours": 1.5, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 14], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "五朵金花故事的发生地，蝴蝶大爆发在四五月，泉边合欢树倒影值得一看"
+  },
+  {
+    "id": "DL-14", "name": "天龙八部影视城", "city": "大理", "lat": 25.5598, "lng": 100.1619,
+    "tags": ["建筑", "文创", "亲子"],
+    "ticket": 52, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "按宋代大理国形制搭建的片场，天龙八部取景地，可换装拍一组武侠照"
+  },
+  {
+    "id": "DL-15", "name": "凤阳邑茶马古道", "city": "大理", "lat": 25.6381, "lng": 100.1557,
+    "tags": ["徒步", "历史文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [9, 17], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "扎进苍山松林的茶马古道遗段，青石上的马蹄印还在，游客少得像古道该有的样子"
+  }
+]

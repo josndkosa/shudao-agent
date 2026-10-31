@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>蜀道智行 · 成渝行程规划智能体</title>
+<title>蜀道智行 · 西南行程规划智能体</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="brand-mark">蜀道智行</span>
-    <h1>成渝行程规划智能体<span class="brand-sub">规划 → 校验 → 叙事</span></h1>
+    <h1>西南行程规划智能体<span class="brand-sub">规划 → 校验 → 叙事</span></h1>
   </div>
   <div class="badges">
     <span class="badge badge-offline" id="badge-offline">离线</span>
@@ -21,10 +21,10 @@
 
 <section class="hero">
   <h1 class="hero-title">规划 → 校验 → 叙事：把 Agent 的决策过程做成可回放的产品</h1>
-  <p class="hero-sub">输入天数、预算与偏好，三段式管线生成成渝双城行程——每一次选点、每一次校验、每一次修复，都可倒带回放。</p>
+  <p class="hero-sub">输入天数、预算与偏好，三段式管线生成西南多城行程——每一次选点、每一次校验、每一次修复，都可倒带回放。</p>
   <div class="hero-stats">
-    <div class="stat"><span class="stat-n">40</span><span class="stat-l">POI 本地快照</span></div>
-    <div class="stat"><span class="stat-n">2</span><span class="stat-l">城 · 分幅路网</span></div>
+    <div class="stat"><span class="stat-n">101</span><span class="stat-l">POI 本地快照</span></div>
+    <div class="stat"><span class="stat-n">6</span><span class="stat-l">城 · 分幅路网</span></div>
     <div class="stat"><span class="stat-n">3</span><span class="stat-l">段式管线</span></div>
     <div class="stat"><span class="stat-n">22</span><span class="stat-l">决策事件可回放</span></div>
   </div>
@@ -37,19 +37,13 @@
       <label>天数<input id="p-days" type="number" min="1" max="5" value="3"></label>
       <label>预算<input id="p-budget" type="number" min="500" step="100" value="3000"></label>
       <label>偏好<input id="p-tags" type="text" value="美食,文化" placeholder="美食,文化,亲子…"></label>
+      <div class="city-pick" id="p-cities"></div>
       <label class="chk"><input id="p-family" type="checkbox">亲子</label>
       <button type="submit" class="btn-primary" id="btn-run">开始规划</button>
     </form>
 
-    <section class="map-row">
-      <div class="map-card">
-        <div class="map-title"><span class="c-cd">成都</span><span class="city-meta">CHENGDU · 30.67°N 104.07°E</span></div>
-        <div id="map-chengdu" class="map-svg"></div>
-      </div>
-      <div class="map-card">
-        <div class="map-title"><span class="c-cq">重庆</span><span class="city-meta">CHONGQING · 29.56°N 106.55°E</span></div>
-        <div id="map-chongqing" class="map-svg"></div>
-      </div>
+    <section class="map-row" id="map-row">
+      <!-- 图幅卡由 map.js setCities() 按行程涉及城市动态渲染（双城结构与旧静态双卡一致） -->
     </section>
 
     <section class="days">

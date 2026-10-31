@@ -1,0 +1,130 @@
+[
+  {
+    "id": "GL-01", "name": "漓江兴坪竹筏", "city": "桂林", "lat": 24.9163, "lng": 110.5438,
+    "tags": ["山水", "喀斯特", "摄影", "自然"],
+    "ticket": 216, "visit_hours": 3.0, "open_hour": [8, 17], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "杨堤到兴坪的漓江精华段，九马画山与黄布倒影（二十元人民币背面）都在这程水里"
+  },
+  {
+    "id": "GL-02", "name": "阳朔西街", "city": "桂林", "lat": 24.774, "lng": 110.489,
+    "tags": ["古镇", "街区", "夜生活", "美食", "文创"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [19, 23], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": true,
+    "summary": "一千四百年的古街被叫作洋人街，白天买油纸伞晚上泡酒吧，啤酒鱼在西街口那几家"
+  },
+  {
+    "id": "GL-03", "name": "遇龙河漂流", "city": "桂林", "lat": 24.7829, "lng": 110.4629,
+    "tags": ["山水", "自然", "亲子"],
+    "ticket": 240, "visit_hours": 3.0, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "漓江的支流人称小漓江，人力竹筏过堤坝的落差点是全程的尖叫位"
+  },
+  {
+    "id": "GL-04", "name": "象鼻山", "city": "桂林", "lat": 25.2619, "lng": 110.2942,
+    "tags": ["山水", "奇观", "摄影"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [7, 22], "reserve": 2,
+    "crowd_peak": [10, 16], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "桂林城徽水月洞，如今免费预约即可入园，象山水月的夜景灯光别错过"
+  },
+  {
+    "id": "GL-05", "name": "两江四湖夜游", "city": "桂林", "lat": 25.2684, "lng": 110.29,
+    "tags": ["夜景", "山水", "湖泊"],
+    "ticket": 215, "visit_hours": 1.5, "open_hour": [19, 22], "reserve": 1,
+    "crowd_peak": [19, 21], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "乘船穿城而过看日月双塔与古南门，城在景中这句话的夜巡式证明"
+  },
+  {
+    "id": "GL-06", "name": "日月双塔", "city": "桂林", "lat": 25.267, "lng": 110.2877,
+    "tags": ["夜景", "建筑", "湖泊"],
+    "ticket": 35, "visit_hours": 1.0, "open_hour": [8, 22], "reserve": 0,
+    "crowd_peak": [19, 22], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "杉湖中的金塔银塔，日塔水下十八米有地宫，夜里是两江四湖的灯芯"
+  },
+  {
+    "id": "GL-07", "name": "芦笛岩", "city": "桂林", "lat": 25.2935, "lng": 110.2561,
+    "tags": ["溶洞", "喀斯特", "奇观"],
+    "ticket": 90, "visit_hours": 1.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "接待过上百位元首的国宾洞，狮岭朝霞与雪山飞瀑的灯光下石乳最出片"
+  },
+  {
+    "id": "GL-08", "name": "七星公园", "city": "桂林", "lat": 25.2736, "lng": 110.312,
+    "tags": ["山水", "自然", "亲子", "动物"],
+    "ticket": 55, "visit_hours": 2.5, "open_hour": [7, 18.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "七峰排列如北斗，骆驼山下有七星岩，桂海碑林刻在龙隐洞口"
+  },
+  {
+    "id": "GL-09", "name": "兴坪古镇", "city": "桂林", "lat": 24.9186, "lng": 110.5406,
+    "tags": ["古镇", "街区", "摄影"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 17], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "漓江边一千七百年的小码头，老寨山顶拍二十元人民币同款机位要爬二十分钟"
+  },
+  {
+    "id": "GL-10", "name": "阳朔十里画廊", "city": "桂林", "lat": 24.7313, "lng": 110.4481,
+    "tags": ["骑行", "山水", "自然", "摄影"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [9, 17], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "阳朔骑行的主干道，工农桥上看月亮山，大榕树与蝴蝶泉一路排开"
+  },
+  {
+    "id": "GL-11", "name": "银子岩", "city": "桂林", "lat": 24.7427, "lng": 110.5188,
+    "tags": ["溶洞", "喀斯特", "奇观"],
+    "ticket": 65, "visit_hours": 1.5, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "游了银子岩一世不缺钱，三宝音乐石屏与雪山飞瀑配着声光电看"
+  },
+  {
+    "id": "GL-12", "name": "相公山", "city": "桂林", "lat": 24.9471, "lng": 110.5953,
+    "tags": ["摄影", "山水", "自然"],
+    "ticket": 60, "visit_hours": 1.5, "open_hour": [5.5, 19], "reserve": 1,
+    "crowd_peak": [6, 9], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "漓江第一湾的日出机位，云海翻过喀斯特群峰的那几分钟值回票价"
+  },
+  {
+    "id": "GL-13", "name": "龙脊梯田", "city": "桂林", "lat": 25.7951, "lng": 110.2685,
+    "tags": ["梯田", "民族", "徒步", "摄影"],
+    "ticket": 80, "visit_hours": 3.0, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 3, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "平安壮寨与金坑红瑶的梯田群，十一月收割后放水，镜面梯田正是摄影季"
+  },
+  {
+    "id": "GL-14", "name": "东西巷逍遥楼", "city": "桂林", "lat": 25.2601, "lng": 110.2902,
+    "tags": ["街区", "建筑", "美食", "夜景"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "唐代逍遥楼重建在漓江边，正阳东西巷的骑楼下吃完桂林米粉再看江"
+  },
+  {
+    "id": "GL-15", "name": "独秀峰王城", "city": "桂林", "lat": 25.271, "lng": 110.296,
+    "tags": ["历史文化", "建筑", "徒步"],
+    "ticket": 100, "visit_hours": 2.0, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "靖江王府与南天一柱独秀峰，山腰看全城，贡院里还能体验一场科举"
+  },
+  {
+    "id": "GL-16", "name": "叠彩山", "city": "桂林", "lat": 25.2846, "lng": 110.3,
+    "tags": ["山水", "徒步", "摄影"],
+    "ticket": 25, "visit_hours": 1.5, "open_hour": [7, 18], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 2, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "漓江边的叠彩亭与风洞，山顶是看漓江大转弯和全城的第二机位"
+  }
+]

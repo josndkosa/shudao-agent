@@ -171,16 +171,18 @@ class MockApi {
 
   async geo() {
     const data = await this._load("demo-geo.json");
-    return { points: data, cities: Object.keys(data) };
+    const { _city_meta, ...pts } = data;
+    return { points: pts, cities: Object.keys(pts), city_meta: _city_meta || {} };
   }
 
   async meta() {
     const data = await this._load("demo-geo.json");
+    const { _city_meta, ...pts } = data;
     const tags = new Set();
-    for (const city of Object.values(data)) {
+    for (const city of Object.values(pts)) {
       for (const p of city) (p.tags || []).forEach(t => tags.add(t));
     }
-    return { cities: Object.keys(data), tags: [...tags], meta: { source: "local-snapshot" } };
+    return { cities: Object.keys(pts), tags: [...tags], meta: { source: "local-snapshot" } };
   }
 }
 

@@ -31,7 +31,7 @@ TOOL_SCHEMAS = [
         "type": "function",
         "function": {
             "name": "route",
-            "description": "估算两点间交通耗时（市内）或成渝城际高铁。",
+            "description": "估算两点间交通耗时（市内）或城际列车。",
             "parameters": {
                 "type": "object",
                 "properties": {

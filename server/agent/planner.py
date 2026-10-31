@@ -10,6 +10,7 @@ import json
 
 from ..tools import budget, leg_time, load_pois, poi_search, route, weather
 from ..tools.poi_search import _load_meta
+from ..tools.route import intercity, intercity_cost
 from . import llm as llm_mod
 from .events import EventBus
 
@@ -34,8 +35,43 @@ def _poi_brief(p):
     }
 
 
+def _ic_leg(city_a, city_b):
+    """城际段参数（hours + 车次名）：覆盖表带 label（成渝高铁），自动生成的城对用通用名。"""
+    info = intercity(city_a, city_b)
+    return {"hours": info["hours"], "label": info.get("label", f"{city_a}→{city_b} 列车")}
+
+
+def _select_cities(request, bus: EventBus):
+    """城市选择：request.cities 显式指定优先（过滤未收录城市）；空则按候选池总分自动选 N 城。
+
+    N = min(days, 有 POI 的城市数)——三天三城是西南赛区的真实节奏（成渝高铁 1.8h、
+    昆明-大理 2h 级），选城顺序 = 总分降序，即行程的城市顺序。
+    """
+    if request.cities:
+        chosen = [c for c in request.cities if c in CITY_HUB]
+        missing = [c for c in request.cities if c not in CITY_HUB]
+        if missing:
+            bus.emit("plan", "fallback", f"跳过未收录城市：{'、'.join(missing)}",
+                     reason="本地快照暂未覆盖该城市，已从指定清单中剔除")
+        if chosen:
+            return chosen
+        bus.emit("plan", "fallback", "指定城市均未收录", reason="回落为按候选池总分自动选城")
+    r = poi_search(tags=request.tags, family=request.family)
+    by_city = {}
+    for p in r["pois"]:
+        by_city[p["city"]] = by_city.get(p["city"], 0.0) + p.get("_score", 0)
+    ranked = sorted(by_city, key=lambda c: -by_city[c])
+    n = min(request.days, len(ranked)) if ranked else 0
+    chosen = ranked[:n]
+    if chosen:
+        score_desc = "、".join(f"{c}{by_city[c]:.1f}分" for c in chosen)
+        bus.emit("plan", "decision", f"自动选城：{'、'.join(chosen)}",
+                 reason=f"候选池总分 top {n}（{score_desc}）", detail=chosen)
+    return chosen
+
+
 def _allocate_days(days, pools):
-    """按候选池总分比例给两城分配天数；days=1 时聚焦总分更高的单一城市。"""
+    """按候选池总分比例给各城分配天数；days=1 时聚焦总分更高的单一城市。"""
     cities = [c for c in pools if pools[c]]
     if not cities:
         return {}
@@ -127,15 +163,16 @@ def _content_hours(pois, city):
     return total
 
 
-def _trim_to_capacity(ordered, city, has_intercity=False):
+def _trim_to_capacity(ordered, city, ic=None):
     """排序后用相邻跳真实值复核容量，超容摘点。
 
+    ic 为城际段参数（{"hours": ...}）或 None；跨城日容量按实际城际时长扣减。
     摘点优先级：低分先摘 → 同分非必游先摘 → 再非夜间先摘（夜间点是压轴体验）。
     每次摘点后重算 content，直到满足容量；不允许摘到当天一个点都不剩。
     必须在 emit 选点 decision 之前调用，保证事件流就是最终结果。
     返回新列表，不修改调用方的 ordered。
     """
-    capacity = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (1.8 if has_intercity else 0)
+    capacity = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - ((ic or {}).get("hours", 0.0))
     kept = list(ordered)
     while len(kept) > 1 and _content_hours(kept, city) > capacity + 1e-9:
         # 升序键：低分先摘；同分时非必游（False=0）先摘、再非夜间（False=0）先摘
@@ -145,13 +182,16 @@ def _trim_to_capacity(ordered, city, has_intercity=False):
     return kept
 
 
-def _build_timeline(day_pois, hub, has_intercity=False):
-    """时间线推算：逐点累加交通+游玩，12:00 午餐 / 18:00 晚餐各 1h。"""
+def _build_timeline(day_pois, hub, ic=None):
+    """时间线推算：逐点累加交通+游玩，12:00 午餐 / 18:00 晚餐各 1h。
+
+    ic 为城际段参数（{"hours": ..., "label": ...}）或 None；跨城日以城际车次开场。
+    """
     items, t, cur = [], DAY_START, hub
-    if has_intercity:
-        items.append({"type": "intercity", "label": "成渝高铁",
-                       "arrival": _fmt(DAY_START), "departure": _fmt(DAY_START + 1.8)})
-        t = DAY_START + 1.8
+    if ic:
+        items.append({"type": "intercity", "label": ic["label"],
+                      "arrival": _fmt(DAY_START), "departure": _fmt(DAY_START + ic["hours"])})
+        t = DAY_START + ic["hours"]
     lunch, dinner = False, False
     for p in day_pois:
         leg = leg_time(cur, p)
@@ -179,9 +219,9 @@ def _build_timeline(day_pois, hub, has_intercity=False):
     return items
 
 
-def _day_load(day_pois, city, has_intercity=False):
+def _day_load(day_pois, city, ic=None):
     """日负载：含枢纽→首点的第一段交通，与 timeline 实际排程一致。"""
-    hours = MEAL_HOURS + BUFFER + (1.8 if has_intercity else 0)
+    hours = MEAL_HOURS + BUFFER + ((ic or {}).get("hours", 0.0))
     hours += sum(p["visit_hours"] for p in day_pois)
     prev = CITY_HUB[city]
     for p in day_pois:
@@ -198,7 +238,8 @@ def offline_plan(request, bus: EventBus):
              reason=f"{request.days}天 预算{request.budget}元 偏好{request.tags or '不限'}"
                     f"{' 亲子模式' if request.family else ''}")
     pools = {}
-    for city in ("成都", "重庆"):
+    city_list = _select_cities(request, bus)
+    for city in city_list:
         r = poi_search(city=city, tags=request.tags, family=request.family)
         bus.emit("plan", "tool_call", f"poi_search({city})",
                  reason=f"检索{city}候选并按偏好打分", tool="poi_search", args={"city": city, "tags": request.tags})
@@ -212,40 +253,51 @@ def offline_plan(request, bus: EventBus):
     alloc = _allocate_days(request.days, pools)
     alloc_desc = "、".join(f"{c}{n}天" for c, n in alloc.items())
     if len(alloc) > 1:
-        reason = "按两城候选池总分比例分配"
+        n_txt = "两" if len(alloc) == 2 else str(len(alloc))
+        reason = f"按{n_txt}城候选池总分比例分配"
     elif request.days == 1 and len(pools) > 1:
         best_city = next(iter(alloc))
         other = [c for c in pools if c != best_city][0]
         reason = f"单日行程聚焦{best_city}：候选池总分高于{other}"
+    elif len(pools) == 1 and not request.cities:
+        c0 = next(iter(pools))
+        reason = f"单日行程聚焦{c0}：候选池总分最高（西南多城快照中自动选出）"
     else:
         reason = "单城深耕"
     bus.emit("plan", "decision", f"城市分天：{alloc_desc}", reason=reason, detail=alloc)
 
     wx = {c: weather(c) for c in alloc}
-    bus.emit("plan", "tool_call", "weather(成都/重庆)", reason="本地天气快照，校验段用于雨天调整", tool="weather")
-    cd, cq = wx.get("成都", {}).get("day", ""), wx.get("重庆", {}).get("day", "")
-    bus.emit("plan", "tool_result", f"成都{cd} / 重庆{cq}",
-             reason="11月成渝典型气候", detail=wx)
+    bus.emit("plan", "tool_call", f"weather({'/'.join(alloc)})",
+             reason="本地天气快照，校验段用于雨天调整", tool="weather")
+    if set(alloc) == {"成都", "重庆"}:
+        cd, cq = wx.get("成都", {}).get("day", ""), wx.get("重庆", {}).get("day", "")
+        wx_summary = f"成都{cd} / 重庆{cq}"
+        wx_reason = "11月成渝典型气候"
+    else:
+        wx_summary = " / ".join(f"{c}{wx[c]['day']}" for c in alloc)
+        wx_reason = f"11月{'、'.join(alloc)}典型气候"
+    bus.emit("plan", "tool_result", wx_summary, reason=wx_reason, detail=wx)
 
     itinerary_days, day_no, prev_city = [], 1, None
     for city, n_days in alloc.items():
         for i in range(n_days):
             switch = prev_city is not None and prev_city != city
-            capacity = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (1.8 if switch else 0)
+            ic = _ic_leg(prev_city, city) if switch else None
+            capacity = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (ic["hours"] if ic else 0)
             pool = pools[city]
             picked = _pick_day_pois(pool, capacity, CITY_HUB[city])
             if not picked:
                 continue
             ordered = _order_day(picked, CITY_HUB[city])
             # 相邻跳口径复核容量（与 validator 同尺），超容摘点在 emit 决策前完成
-            ordered = _trim_to_capacity(ordered, city, has_intercity=switch)
+            ordered = _trim_to_capacity(ordered, city, ic=ic)
             if not ordered:
                 continue
             bus.emit("plan", "decision", f"第{day_no}天选点 {len(ordered)} 个",
                      reason="；".join(f"{p['name']}({'/'.join(p.get('_reasons', ['基础候选']))})" for p in ordered),
                      detail=[p["id"] for p in ordered])
-            items = _build_timeline(ordered, CITY_HUB[city], has_intercity=switch)
-            load = _day_load(ordered, city, has_intercity=switch)
+            items = _build_timeline(ordered, CITY_HUB[city], ic=ic)
+            load = _day_load(ordered, city, ic=ic)
             itinerary_days.append({
                 "day": day_no, "city": city, "weather": wx[city], "items": items, "load": load,
             })
@@ -256,7 +308,8 @@ def offline_plan(request, bus: EventBus):
             prev_city = city
 
     tickets_total = sum(d["load"]["tickets"] for d in itinerary_days)
-    b = budget(request.days, tickets_total, intercity_price=154 if len(alloc) > 1 else 0, family=request.family)
+    b = budget(request.days, tickets_total, intercity_price=intercity_cost(itinerary_days),
+               family=request.family)
     bus.emit("plan", "tool_call", "budget(...)", reason="核算门票+餐饮+交通", tool="budget")
     bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元", reason=f"预算{request.budget}元", detail=b)
     return {"days": itinerary_days, "budget": b, "mode": "offline-planner"}
@@ -300,9 +353,8 @@ def fix(plan, violations, request, bus: EventBus):
                          removed=[target.get("poi_id")])
                 _refresh_day(d)
     tickets_total = sum(dd["load"]["tickets"] for dd in plan["days"])
-    multi = len({dd["city"] for dd in plan["days"]}) > 1
-    plan["budget"] = budget(request.days, tickets_total, intercity_price=154 if multi else 0,
-                            family=request.family)
+    plan["budget"] = budget(request.days, tickets_total,
+                            intercity_price=intercity_cost(plan["days"]), family=request.family)
     return plan
 
 
@@ -311,12 +363,24 @@ def _is_must(item):
     return bool(p and p.get("must_see"))
 
 
+def _ic_of_day(d):
+    """从 day 的既有 intercity 条目还原城际段参数（时间线是唯一事实源）。"""
+    for it in d["items"]:
+        if it["type"] == "intercity":
+            h, m = it["departure"].split(":")
+            dep = int(h) + int(m) / 60.0
+            h, m = it["arrival"].split(":")
+            arr = int(h) + int(m) / 60.0
+            return {"hours": round(dep - arr, 2), "label": it["label"]}
+    return None
+
+
 def _refresh_day(d):
     day_pois = [POI_INDEX[it["poi_id"]] for it in d["items"] if it["type"] == "poi"]
     hub = CITY_HUB[d["city"]]
-    has_ic = any(it["type"] == "intercity" for it in d["items"])
-    d["items"] = _build_timeline(day_pois, hub, has_intercity=has_ic)
-    d["load"] = _day_load(day_pois, d["city"], has_intercity=has_ic)
+    ic = _ic_of_day(d)
+    d["items"] = _build_timeline(day_pois, hub, ic=ic)
+    d["load"] = _day_load(day_pois, d["city"], ic=ic)
 
 
 def _normalize_llm_plan(raw, request, bus: EventBus):
@@ -349,8 +413,9 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
             continue
         city = d.get("city") if d.get("city") in CITY_HUB else day_pois[0]["city"]
         has_ic = prev_city is not None and prev_city != city
-        items = _build_timeline(day_pois, CITY_HUB[city], has_intercity=has_ic)
-        load = _day_load(day_pois, city, has_intercity=has_ic)
+        ic = _ic_leg(prev_city, city) if has_ic else None
+        items = _build_timeline(day_pois, CITY_HUB[city], ic=ic)
+        load = _day_load(day_pois, city, ic=ic)
         days_out.append({
             "day": d.get("day") or i, "city": city,
             "weather": weather(city), "items": items, "load": load,
@@ -359,8 +424,7 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
     if not days_out:
         raise ValueError("LLM 计划无合法点位")
     tickets_total = sum(d["load"]["tickets"] for d in days_out)
-    multi_city = len({d["city"] for d in days_out}) > 1
-    b = budget(request.days, tickets_total, intercity_price=154 if multi_city else 0, family=request.family)
+    b = budget(request.days, tickets_total, intercity_price=intercity_cost(days_out), family=request.family)
     bus.emit("plan", "tool_call", "budget(...)", reason="归一化后按本地口径重算预算", tool="budget")
     bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元", reason=f"预算{request.budget}元", detail=b)
     return {"days": days_out, "budget": b, "mode": "llm-fc"}
@@ -369,15 +433,16 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
 def llm_plan(request, bus: EventBus):
     """在线规划：DeepSeek FC，工具结果来自本地快照。任何异常降级离线。"""
     try:
+        city_list = _select_cities(request, bus)
         system = (
-            "你是西南文旅行程规划师。规则：先调用 poi_search 获取两城候选并打分，"
+            "你是西南文旅行程规划师。规则：先调用 poi_search 获取候选城市并打分，"
             "再调用 route 估算交通，最后输出 JSON 行程（含 days/items/budget）。"
             "每日 08:30 出发 22:00 前结束，午晚餐各 1 小时，点位须在开放时段内。"
             "输出 JSON，不要输出其他文字。"
         )
         user = json.dumps({
             "days": request.days, "budget": request.budget, "tags": request.tags,
-            "family": request.family, "cities": ["成都", "重庆"],
+            "family": request.family, "cities": city_list,
         }, ensure_ascii=False)
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
 

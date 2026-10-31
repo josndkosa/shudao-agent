@@ -27,6 +27,7 @@ from .planner import (
     POI_INDEX,
     _build_timeline,
     _day_load,
+    _ic_of_day,
     _order_day,
     _pick_day_pois,
     _trim_to_capacity,
@@ -116,11 +117,11 @@ def revise_plan(entry, message: str) -> dict:
     d = next(x for x in days if x["day"] == day_no)
     city = d["city"]
     hub = CITY_HUB[city]
-    has_ic = any(it["type"] == "intercity" for it in d["items"])
+    ic = _ic_of_day(d)
     cur_pois = [POI_INDEX[it["poi_id"]] for it in d["items"] if it["type"] == "poi"]
     if not cur_pois:
         return _fallback(entry, message, f"第{day_no}天没有可调整的点位")
-    base_cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - (1.8 if has_ic else 0)
+    base_cap = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - ((ic or {}).get("hours", 0.0))
 
     # 偏好分与规划段同口径（poi_search 打分），保证重选决策一致；显式覆盖防跨请求残留
     scored = poi_search(city=city, tags=list(request.tags), family=request.family)["pois"]
@@ -155,9 +156,9 @@ def revise_plan(entry, message: str) -> dict:
 
     before_n = len(cur_pois)
     ordered = _order_day(picked, hub)
-    ordered = _trim_to_capacity(ordered, city, has_intercity=has_ic)
-    d["items"] = _build_timeline(ordered, hub, has_intercity=has_ic)
-    d["load"] = _day_load(ordered, city, has_intercity=has_ic)
+    ordered = _trim_to_capacity(ordered, city, ic=ic)
+    d["items"] = _build_timeline(ordered, hub, ic=ic)
+    d["load"] = _day_load(ordered, city, ic=ic)
 
     bus.emit("revise", "decision", f"第{day_no}天重排：{before_n} → {len(ordered)} 个点", reason=reason)
     bus.emit("revise", "tool_call", "rebuild_timeline(...)",

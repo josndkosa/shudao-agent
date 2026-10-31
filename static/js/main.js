@@ -33,6 +33,9 @@ function freshView() {
 }
 
 function applyEvent(view, ev) {
+  // violation/advisory 事件的 detail 为 {"detail": 违规dict}（EventBus.emit 的 kwargs 收集所致），
+  // 兼容两种结构取内层（嵌套时 .detail.detail，直传时 .detail）
+  const vd = ev.detail && ev.detail.detail ? ev.detail.detail : ev.detail;
   if (ev.type === "decision") {
     let m = ev.title.match(/第(\d+)天选点/);
     if (m) {
@@ -41,9 +44,9 @@ function applyEvent(view, ev) {
       view.activeDay = day;
     }
   } else if (ev.type === "violation") {
-    if (ev.detail && ev.detail.day) view.violations.set(ev.detail.day, ev);
+    if (vd && vd.day) view.violations.set(vd.day, ev);
   } else if (ev.type === "advisory") {
-    if (ev.detail && ev.detail.day) view.advisories.set(ev.detail.day, ev);
+    if (vd && vd.day) view.advisories.set(vd.day, ev);
   } else if (ev.type === "fix") {
     view.fixes.push(ev);
     // F2：fix 事件 detail.removed 携带被移除 poi_id → 写入 view.removed
@@ -115,11 +118,12 @@ state.player = new Player({
     renderAll(cursor);
   },
   onEventClick: ev => {
-    // 点联动：从 detail 解析 poi id
+    // 点联动：从 detail 解析 poi id（violation 等事件的 detail 为嵌套结构，取内层）
     const detail = ev.detail;
+    const vd = detail && detail.detail ? detail.detail : detail;
     const ids = [];
     if (Array.isArray(detail)) ids.push(...detail);
-    if (detail && typeof detail === "object" && detail.poi) ids.push(detail.poi);
+    if (vd && typeof vd === "object" && vd.poi) ids.push(vd.poi);
     for (const id of ids) {
       state.maps?.highlight(id);
       dayPanel.highlightPoi(id);
@@ -139,8 +143,11 @@ function setBadge() {
 }
 
 // ── 主流程 ──────────────────────────────────────────────────
+const DEFAULT_CITIES = ["成都", "重庆"];   // 默认演示仍是成渝（数据最扎实；城市多选是可选增强）
+
 async function loadGeo() {
   const res = await api.geo(state.planId, null);
+  state.cityMeta = res.city_meta || {};
   state.maps = new CityMaps(res.points, p => {
     // 点击点位：跳到含它的那一天 + 行程卡高亮
     if (state.itinerary) {
@@ -148,6 +155,14 @@ async function loadGeo() {
       if (d) { state.activeDay = d.day; renderAll(); dayPanel.highlightPoi(p.id); }
     }
   });
+  state.maps.setCities(DEFAULT_CITIES, state.cityMeta);
+}
+
+/** 行程涉及城市（按天数首次出现序）→ 动态重建图幅卡 */
+function syncMapCities() {
+  if (!state.itinerary?.days?.length || !state.maps) return;
+  const cities = [...new Set(state.itinerary.days.map(d => d.city))];
+  state.maps.setCities(cities, state.cityMeta || {});
 }
 
 async function run() {
@@ -161,6 +176,7 @@ async function run() {
     state.budget = res.budget;
     state.events = [];
     state.player.setEvents([]);
+    syncMapCities();
     renderAll(0);
     // F5：流式期间进入"实时跟随"态——播放器控件禁用置灰，避免 cursor 与新事件打架
     setStreaming(true);
@@ -206,6 +222,7 @@ async function revise(message) {
     state.itinerary = res.itinerary;
     state.budget = res.budget;
     state.events = res.timeline;
+    syncMapCities();
     // F1：先算目标 cursor 再一次性 setEvents+seek，避免按旧 cursor 先闪一帧；
     // cursor 语义=前 k 条已生效，divider（stage=revise）本身要生效须 cut+1
     const cut = state.events.findIndex(e => e.stage === "revise");
@@ -224,11 +241,13 @@ async function revise(message) {
 
 // ── 参数读写 ────────────────────────────────────────────────
 function readParams() {
+  const cityBoxes = [...document.querySelectorAll("#p-cities input:checked")].map(i => i.value);
   return {
     days: +$("p-days").value || 3,
     budget: +$("p-budget").value || 3000,
     tags: $("p-tags").value.split(",").map(s => s.trim()).filter(Boolean),
     family: $("p-family").checked,
+    cities: cityBoxes,   // 空数组 = 按候选池总分自动选城
   };
 }
 
@@ -237,6 +256,27 @@ function applyParams(q) {
   if (q.budget) $("p-budget").value = q.budget;
   if (q.tags) $("p-tags").value = Array.isArray(q.tags) ? q.tags.join(",") : q.tags;
   if (q.family != null) $("p-family").checked = !!q.family;
+  if (Array.isArray(q.cities)) {
+    for (const box of document.querySelectorAll("#p-cities input")) {
+      box.checked = q.cities.includes(box.value);
+    }
+  }
+}
+
+/** 城市多选：默认勾选成渝（赛题版本默认演示），全不勾 = 自动选城 */
+async function buildCityPicker() {
+  const m = await api.meta();
+  const box = $("p-cities");
+  for (const c of m.cities) {
+    const lab = document.createElement("label");
+    lab.className = "chk";
+    const inp = document.createElement("input");
+    inp.type = "checkbox";
+    inp.value = c;
+    if (DEFAULT_CITIES.includes(c)) inp.checked = true;
+    lab.append(inp, document.createTextNode(c));
+    box.appendChild(lab);
+  }
 }
 
 function saveParams(p) {
@@ -255,6 +295,7 @@ async function boot() {
   await api.health();           // 懒选择在此触发
   setBadge();
   await loadGeo();
+  buildCityPicker();            // 城市多选（不阻塞首屏）
   const q = restoreParams();
   applyParams(q);
 
