@@ -1,10 +1,11 @@
 // main.js — 装配与状态：参数条 / 地图 / 行程区 / 回放器 / 对话改行程 / URL 与持久化
-// 视图状态机：回放第 k 条事件时的界面 = 依序 apply 前 k 条事件（见 applyEvent 映射表）。
+// 视图状态机在 view.js（纯函数）：回放第 k 条事件时的界面 = 依序 apply 前 k 条事件。
 
 import { api } from "./api.js";
 import { CityMaps } from "./map.js";
 import { DayPanel } from "./timeline.js";
 import { Player } from "./player.js";
+import { payload, viewAt } from "./view.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = id => document.getElementById(id);
@@ -18,58 +19,6 @@ const state = {
   activeDay: 1,
 };
 
-// ── 视图状态机（回放语义的落点）────────────────────────────────
-function freshView() {
-  return {
-    revealed: new Map(),     // day → Set(poi_id)  已揭示点位
-    activeDay: 1,
-    advisories: new Map(),   // day → 软提醒事件
-    violations: new Map(),   // day → 硬违规事件
-    removed: new Map(),      // day → Set(poi_id)  被规则移除的点位（F2：地图灰叉/行程卡删除线联动）
-    narrated: new Set(),     // 已生成导览词的天
-    finished: false,         // 管线完成
-    fixes: [],               // 修复动作记录
-  };
-}
-
-function applyEvent(view, ev) {
-  // violation/advisory 事件的 detail 为 {"detail": 违规dict}（EventBus.emit 的 kwargs 收集所致），
-  // 兼容两种结构取内层（嵌套时 .detail.detail，直传时 .detail）
-  const vd = ev.detail && ev.detail.detail ? ev.detail.detail : ev.detail;
-  if (ev.type === "decision") {
-    let m = ev.title.match(/第(\d+)天选点/);
-    if (m) {
-      const day = +m[1];
-      view.revealed.set(day, new Set(Array.isArray(ev.detail) ? ev.detail : []));
-      view.activeDay = day;
-    }
-  } else if (ev.type === "violation") {
-    if (vd && vd.day) view.violations.set(vd.day, ev);
-  } else if (ev.type === "advisory") {
-    if (vd && vd.day) view.advisories.set(vd.day, ev);
-  } else if (ev.type === "fix") {
-    view.fixes.push(ev);
-    // F2：fix 事件 detail.removed 携带被移除 poi_id → 写入 view.removed
-    const m = ev.title.match(/第(\d+)天/);
-    if (m && ev.detail && Array.isArray(ev.detail.removed)) {
-      const day = +m[1];
-      if (!view.removed.has(day)) view.removed.set(day, new Set());
-      ev.detail.removed.forEach(id => view.removed.get(day).add(id));
-    }
-  } else if (ev.type === "done" && ev.stage === "narrate") {
-    const m = ev.title.match(/第(\d+)天文案/);
-    if (m) view.narrated.add(+m[1]);
-  } else if (ev.type === "done" && ev.stage === "system") {
-    view.finished = true;
-  }
-  return view;
-}
-
-function viewAt(cursor, events) {
-  let view = freshView();
-  for (let i = 0; i < cursor && i < events.length; i++) applyEvent(view, events[i]);
-  return view;
-}
 
 // ── 渲染 ─────────────────────────────────────────────────────
 const dayPanel = new DayPanel(day => { state.activeDay = day; renderAll(); });
@@ -124,11 +73,10 @@ state.player = new Player({
     renderAll(cursor);
   },
   onEventClick: ev => {
-    // 点联动：从 detail 解析 poi id（violation 等事件的 detail 为嵌套结构，取内层）
-    const detail = ev.detail;
-    const vd = detail && detail.detail ? detail.detail : detail;
+    // 点联动：从 detail 解析 poi id（嵌套/扁平统一走 payload 解包）
+    const vd = payload(ev);
     const ids = [];
-    if (Array.isArray(detail)) ids.push(...detail);
+    if (Array.isArray(vd)) ids.push(...vd);
     if (vd && typeof vd === "object" && vd.poi) ids.push(vd.poi);
     for (const id of ids) {
       state.maps?.highlight(id);

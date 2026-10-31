@@ -35,7 +35,8 @@ project\scripts\install.bat
 
 ```bash
 python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --port 8000
-# 浏览器打开 http://localhost:8000/?days=3&budget=3000&tags=美食,文化&auto=1
+# 品牌首页 http://localhost:8000/ → 「进入工作台」
+# 规划工作台 http://localhost:8000/plan.html?days=3&budget=3000&tags=美食,文化&auto=1
 ```
 
 ### 华为云 ECS 部署（答辩「上线」演示）
@@ -45,7 +46,7 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 3. `bash scripts/install.sh`（建 venv + 装依赖）
 4. `nohup python -m uvicorn server.app:app --host 0.0.0.0 --port 8000 &`
 5. 冒烟验证：`curl http://localhost:8000/api/health` → `{"status":"ok","mode":"offline","llm":false}`
-6. 公网访问 `http://<ECS公网IP>:8000/?auto=1`
+6. 公网访问 `http://<ECS公网IP>:8000/plan.html?auto=1`
 
 ### 断网兜底（答辩保命）
 
@@ -64,7 +65,8 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 **郑重声明**：
 - 前端**零框架、零构建工具、零 CDN 外链**（原生 HTML/CSS/ES Module，字体全系统本地栈）——
   断网答辩时页面 100% 自包含
-- POI 数据为**本地快照**（40 点，字段与来源说明见 `project/server/data/schema.md`），
+- POI 数据为**本地快照**（西南 15 城总表 + 深度层 6 城共 101 点分城文件，
+  字段与来源说明见 `project/server/data/schema.md`），
   数据层可对接 OTA 开放接口（`server/cloud/` 已预留接入边界）
 - 不使用任何外部地图服务（自研经纬度→SVG 投影，`server/tools/geo.py`）
 
@@ -72,13 +74,13 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 
 ### 4.1 覆盖度
 
-本项目**全程由华为云码道开发**（约 11 轮任务单驱动），覆盖四类活动：
+本项目**全程由华为云码道开发**（约 14 轮任务单驱动），覆盖四类活动：
 
 | 活动 | 证据（project/codearts_proof/） |
 |---|---|
 | 环境搭建 | 首轮任务单即含项目脚手架（CLI/管线/测试骨架） |
-| 代码生成 | 全部 Python/JS/HTML/CSS 均为码道产出；`prompts/_已执行/` 11 份任务单原文 |
-| 调试排错 | `debug-log-2026-10-28.md`：八轮「先红后绿」记录（每轮含根因/修复/验证） |
+| 代码生成 | 全部 Python/JS/HTML/CSS 均为码道产出；`prompts/_已执行/` 12 份任务单原文（00–04 全轮次 + 03E 批次1），05（PPT/视频分镜）待执行 |
+| 调试排错 | `debug-log-2026-10-28.md`：十四轮「先红后绿」记录（每轮含根因/修复/验证） |
 | 文档生成 | `docs/` 七份文档（架构/规则规格/API/华为云/开发指南/演示脚本）为码道撰写 |
 
 ### 4.2 Prompt 设计质量

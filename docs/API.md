@@ -19,19 +19,33 @@
 ## 请求示例
 
 ```bash
-# plan：天数/预算/偏好标签/亲子（PlanRequest 校验 days 1-7、budget ≥ 500）
+# plan：天数/预算/偏好标签/亲子/城市（PlanRequest 校验 days 1-7、budget ≥ 500）
+# cities 可选：空数组=按候选池总分自动选 N 城（N=days）；显式指定时未收录城市剔除并如实发 fallback 事件
 curl -X POST http://localhost:8000/api/plan \
   -H "Content-Type: application/json" \
-  -d '{"days": 3, "budget": 3000, "tags": ["美食", "文化"], "family": false}'
+  -d '{"days": 3, "budget": 3000, "tags": ["美食", "文化"], "family": false, "cities": ["成都", "重庆"]}'
 
 # revise：plan_id 来自 plan 响应
 curl -X POST http://localhost:8000/api/revise \
   -H "Content-Type: application/json" \
   -d '{"plan_id": "97b1422c20ac", "message": "第二天太赶"}'
 
-# geo：city 可空——空=双城分组；指定=单城但外层结构不变
+# geo：city 可空——空=全部有快照城市分组；指定=单城但外层结构不变
 curl "http://localhost:8000/api/geo?city=重庆"
 ```
+
+## 多城契约补充（03E 批次1）
+
+- **`POST /api/plan` 请求**新增可选字段 `cities: string[]`：
+  - `[]`（缺省）= 按候选池总分自动选城（N = min(days, 可用城市数)），事件流含「自动选城」decision（reason 带各城总分）
+  - 显式列表 = 按给定顺序分天；未收录城市剔除并发 `fallback` 事件；`days < len(cities)` 时取总分前 N 城各 1 天
+  - 行程 `items` 中的城际条目：`{"type": "intercity", "label": "成渝高铁"（覆盖表）或 "A→B 列车"（自动生成）, "arrival", "departure"}`
+- **`GET /api/geo`**：返回**全部有快照的城市**（当前 6 城）；新增 `city_meta` 字段：
+  `{城市: "CHENGDU · 30.67°N 104.07°E"}`（图幅注记行，前端动态图幅用）
+- **`GET /api/meta`** 的 `cities` 现含 15 城总表全量（深度层 6 城有 POI 快照，
+  其余 9 城随批次2/3 落地）；`city_info.terrain` 契约：
+  `{type: plain|basin|hill|karst|plateau|alpine|tropical, intensity_cap: 6.0–8.5, alt_m}`——
+  V3 强度阈值按城市取 `intensity_cap`（无配置回落默认 8.5）
 
 ## 响应示例（真实运行产物）
 

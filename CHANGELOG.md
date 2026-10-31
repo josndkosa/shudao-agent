@@ -4,6 +4,51 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.1.5] — 2026-10-31 · P0 修复：地图路线从未渲染（revealed 嵌套 detail 读错层级）
+
+### Fixed（用户复核发现的 P0）
+
+- **地图路线/点位点亮从未渲染过**：事件流「第N天选点」的 detail 是嵌套结构
+  `{"detail": ["CD-09", ...]}`（EventBus.emit kwargs 收集），而消费端
+  `Array.isArray(ev.detail)` 恒 false → `revealed` 永远空集。受影响的四项核心视觉全部复活：
+  朱红当日路线折线（全仓唯一折线生成点）、「D1 起/D2 止」标签、点位点亮态与 popIn 入场动效、
+  routeDraw 描线动效；回放拖进度条时地图从「毫无变化」恢复为逐日点亮。
+  完成兜底 `if (!view.revealed.has(day))` 此前是死代码（空 set 已 put，has 恒 true），
+  修复后该分支语义恢复为「该天选点事件是否已发生」。
+- `onEventClick` 的内联解包与 `applyEvent` 统一收敛到 `payload()` 单一解包点。
+
+### Changed（结构性）
+
+- **视图状态机抽为 `static/js/view.js`**（纯函数：`freshView` / `payload` / `applyEvent` / `viewAt`，
+  不碰 DOM），main.js import——「事件流→视图状态」链路自此可被冒烟直接覆盖。
+- **冒烟 15→18 步且每步带断言**：新增 decision 嵌套 detail→revealed 非空（P0 回归锁）、
+  violation/advisory 按 day 落位、fix removed 落位三步；CityMaps.render 步改用真实
+  `viewAt(events)` 驱动并断言 revealed 非空；**删除**旧手工构造 revealed 的写法
+  （它用与 bug 一模一样的错误表达式 `Array.isArray(e.detail)` 且无断言——虚假安全感的教科书案例）。
+  脚本尾部打印总步数。
+
+### V3 地形分档回归差异（用户裁决：接受）
+
+分档收紧后重庆强度 14.4 仍 > 8.0，软提醒照常出现——说明分档既未掩盖真问题、也未制造假阳性。
+（此前 1.1.0 已记录：唯一回归差异是 V3 detail 阈值数字 8.5→8.0，advisory 数量不变。）
+
+### 文档口径统一（工程现状 v1.1.4 / 十四轮 / 82 passed / 6 城 101 点 / 双页面）
+
+- readme/README.md：40 点→101 点 6 城分城文件；11 份任务单→已执行 12 份 + 05 待执行；八轮→十四轮；URL 统一 /plan.html
+- docs/华为云接入说明.md：任务单 13 份（12 已执行 + 05 待执行）；八轮→十四轮；pytest 60→82、冒烟 18 步
+- docs/开发指南.md：40 点断言→101；load_city_pois 映射口径更新（6 城 + glob 自动发现）
+- docs/开发历程.md：轮次总览表补 03E 批次1 与第 12–16 轮（直觉性→双页→字号→Day tab→P0 复核演进线）
+- docs/API.md：补 /api/plan cities 参数语义与 /api/geo city_meta、/api/meta city_info.terrain 契约
+- docs/演示脚本.md：按「品牌首页 + 工作台」双页重排为 9 镜
+- codearts_proof/ACCEPTANCE.md：里程碑表勾选 03F/04/03E 批次1/前端四连；归档口径 8→12 份
+- 03E 任务单原文归档入 `prompts/_已执行/`（12 份）
+
+### Tested
+
+- `node scripts/smoke_frontend.mjs` → 18/18 步（含事件流→视图状态三步回归锁）
+- `python scripts/ctl.py ci` → 三连全绿（82 passed）
+- 浏览器实开 `plan.html?auto=1` 供画面级验收（路线折线/点亮态/advisory 条/事件点击高亮）
+
 ## [1.1.4] — 2026-10-31 · 修复 Day tab 点击无法切天
 
 ### Fixed

@@ -63,6 +63,7 @@ step("api.plan(...)", async () => {
   if (!r.itinerary?.days?.length) throw new Error("plan 无行程");
   if (!Array.isArray(r.timeline)) throw new Error("plan 无 timeline");
   globalThis.__events = r.timeline;
+  globalThis.__itinerary = r.itinerary;   // 供 CityMaps.render 步用真实行程
 });
 step("import player.js + new Player", async () => {
   const { Player } = await import(pathToFileURL(path.join(STATIC, "js", "player.js")));
@@ -91,14 +92,63 @@ step("CityMaps.setCities 动态挂载双城", () => {
   globalThis.__maps.setCities(["成都", "重庆"], { "成都": "CHENGDU · 30.67°N 104.07°E" });
   if (Object.keys(globalThis.__maps._layer).length !== 2) throw new Error("双城图幅未挂载");
 });
-step("CityMaps.render（含 removed 灰叉分支）", () => {
-  const evs = globalThis.__events.filter(e => e.type === "fix");
-  const removed = new Map();
-  for (const e of evs) if (e.detail?.removed) removed.set(e.detail.day ?? 1, new Set(e.detail.removed));
-  const revealed = new Map([[1, new Set(globalThis.__events.filter(e => e.type === "decision").flatMap(e => Array.isArray(e.detail) ? e.detail : []))]]);
+step("view.js：decision 嵌套 detail → revealed 非空（P0 回归锁）", async () => {
+  const { applyEvent, freshView } = await import(pathToFileURL(path.join(STATIC, "js", "view.js")));
+  const evs = globalThis.__events.filter(e => e.type === "decision" && /第\d+天选点/.test(e.title));
+  if (!evs.length) throw new Error("事件流无「第N天选点」事件（断言前提失败）");
+  const ev = evs[0];
+  if (!ev.detail || !Array.isArray(ev.detail.detail)) {
+    throw new Error("测试前提失败：decision detail 非嵌套结构 " + JSON.stringify(ev.detail).slice(0, 80));
+  }
+  const day = +ev.title.match(/第(\d+)天选点/)[1];
+  const inner = ev.detail.detail;
+  const view = freshView();
+  applyEvent(view, ev);
+  const got = view.revealed.get(day);
+  if (!got || got.size === 0) throw new Error("P0 回归：revealed 仍为空集（detail 层级读错）");
+  for (const id of inner) if (!got.has(id)) throw new Error(`revealed 缺 poi ${id}`);
+  if (view.activeDay !== day) throw new Error("activeDay 未跟随选点事件");
+});
+step("view.js：violation / advisory 嵌套 detail 按 day 落位", async () => {
+  const { applyEvent, freshView, payload } = await import(pathToFileURL(path.join(STATIC, "js", "view.js")));
+  const tl = JSON.parse(readFileSync(path.join(STATIC, "demo-revised.json"), "utf8")).timeline;
+  let nV = 0, nA = 0;
+  const view = freshView();
+  for (const ev of tl) {
+    if (ev.type !== "violation" && ev.type !== "advisory") continue;
+    applyEvent(view, ev);
+    const vd = payload(ev);
+    if (!vd || !vd.day) throw new Error(`${ev.type} 载荷缺 day：` + JSON.stringify(vd).slice(0, 60));
+    const sink = ev.type === "violation" ? view.violations : view.advisories;
+    if (sink.get(vd.day) !== ev) throw new Error(`${ev.type} 第${vd.day}天未落位`);
+    ev.type === "violation" ? nV++ : nA++;
+  }
+  if (!nV) throw new Error("demo-revised 无 violation（断言无效）");
+  if (!nA) throw new Error("demo-revised 无 advisory（断言无效）");
+});
+step("view.js：fix 事件扁平 detail.removed → view.removed 含被移除 id", async () => {
+  const { applyEvent, freshView } = await import(pathToFileURL(path.join(STATIC, "js", "view.js")));
+  const tl = JSON.parse(readFileSync(path.join(STATIC, "demo-revised.json"), "utf8")).timeline;
+  const evs = tl.filter(e => e.type === "fix" && e.detail && Array.isArray(e.detail.removed));
+  if (!evs.length) throw new Error("demo-revised 无带 removed 的 fix 事件（断言无效）");
+  const view = freshView();
+  for (const ev of evs) applyEvent(view, ev);
+  for (const ev of evs) {
+    const m = ev.title.match(/第(\d+)天/);
+    if (!m) throw new Error("fix title 缺天序：" + ev.title);
+    const set = view.removed.get(+m[1]);
+    if (!set) throw new Error(`第${m[1]}天 view.removed 缺失`);
+    for (const id of ev.detail.removed) if (!set.has(id)) throw new Error(`removed 缺 poi ${id}`);
+  }
+});
+step("CityMaps.render（真实 view 状态驱动：revealed 非空 + removed 灰叉分支）", async () => {
+  const { viewAt } = await import(pathToFileURL(path.join(STATIC, "js", "view.js")));
+  const view = viewAt(globalThis.__events.length, globalThis.__events);
+  const revealedTotal = [...view.revealed.values()].reduce((n, s) => n + s.size, 0);
+  if (!revealedTotal) throw new Error("viewAt 全量事件后 revealed 为空集——P0 回归（路线将不渲染）");
   globalThis.__maps.render({
-    itinerary: { days: [{ day: 1, city: "成都", items: [{ type: "poi", poi_id: "CD-01" }] }] },
-    revealed, activeDay: 1, removed,
+    itinerary: globalThis.__itinerary,
+    revealed: view.revealed, activeDay: 1, removed: view.removed,
   });
 });
 step("import timeline.js + DayPanel.render（removedNames 分支）", async () => {
@@ -145,5 +195,7 @@ for (const [name, fn] of steps) {
     console.error(`  ✗ ${name} → ${err.constructor.name}: ${err.message}`);
   }
 }
-console.log(failed ? `\n冒烟失败：${failed} 步异常` : "\n冒烟通过：前端关键路径全部正常");
+console.log(failed
+  ? `\n冒烟失败：${failed}/${steps.length} 步异常`
+  : `\n冒烟通过（${steps.length} 步）：前端关键路径全部正常`);
 process.exit(failed ? 1 : 0);
