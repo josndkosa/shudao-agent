@@ -92,6 +92,8 @@ function renderAll(cursor = state.player ? state.player.cursor : state.events.le
   }
   dayPanel.render(state.itinerary, { activeDay: state.activeDay, ...view, removedNames });
   renderBudgetCount(state.budget, view.finished);
+  // 核心卖点可发现性：管线完成后给「Agent 决策回放」按钮一次性高亮引导（打开抽屉后解除）
+  if (view.finished) $("drawer-btn")?.classList.add("attn");
 }
 
 let budgetAnim = null;
@@ -163,6 +165,13 @@ function syncMapCities() {
   if (!state.itinerary?.days?.length || !state.maps) return;
   const cities = [...new Set(state.itinerary.days.map(d => d.city))];
   state.maps.setCities(cities, state.cityMeta || {});
+  updateScrollHint(cities.length);
+}
+
+/** >2 城时图幅容器内横滚——给「右侧还有城市」的可见提示 */
+function updateScrollHint(n) {
+  const hint = $("map-scroll-hint");
+  if (hint) hint.hidden = n <= 2;
 }
 
 async function run() {
@@ -261,6 +270,7 @@ function applyParams(q) {
       box.checked = q.cities.includes(box.value);
     }
   }
+  updateCityDayHint();
 }
 
 /** 城市多选：默认勾选成渝（赛题版本默认演示），全不勾 = 自动选城 */
@@ -276,6 +286,22 @@ async function buildCityPicker() {
     if (DEFAULT_CITIES.includes(c)) inp.checked = true;
     lab.append(inp, document.createTextNode(c));
     box.appendChild(lab);
+  }
+  box.addEventListener("change", updateCityDayHint);
+  $("p-days").addEventListener("input", updateCityDayHint);
+}
+
+/** 勾选城市数 > 天数时的即时说明（行为 = 取候选池总分前 N 城，避免「为什么只出现两城」的困惑） */
+function updateCityDayHint() {
+  const hint = $("params-hint");
+  if (!hint) return;
+  const n = document.querySelectorAll("#p-cities input:checked").length;
+  const days = +$("p-days").value || 3;
+  if (n > days) {
+    hint.textContent = `已选 ${n} 城但只有 ${days} 天：将按候选池总分取前 ${days} 城（建议天数 ≥ 城市数）`;
+    hint.hidden = false;
+  } else {
+    hint.hidden = true;
   }
 }
 
@@ -319,6 +345,7 @@ async function boot() {
   drawerBtn?.addEventListener("click", () => {
     const open = document.body.classList.toggle("drawer-open");
     drawerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    drawerBtn.classList.remove("attn");   // 用户已发现回放入口，解除引导高亮
   });
   document.getElementById("drawer-close")?.addEventListener("click", () => {
     document.body.classList.remove("drawer-open");

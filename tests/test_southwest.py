@@ -237,3 +237,31 @@ def test_dual_city_regression_locked():
     assert r["budget"] == fixture["budget"], "预算漂移"
     assert len(r["timeline"]) == fixture["timeline_count"], "事件条数漂移"
     assert [e["type"] for e in r["timeline"]] == fixture["timeline_types"], "事件类型序列漂移"
+
+
+# ── 天数<城数的分配边界（缺陷2 多城版复发的回归锁）────────────
+
+def test_days_less_than_cities_no_overallocation():
+    """勾 4 城只给 2 天：必须恰好 2 天（旧逻辑产生负天数被 range 吞掉 → 超发 4 天）。"""
+    r = run_pipeline(TripRequest(days=2, budget=5000, cities=["成都", "重庆", "贵阳", "昆明"]), EventBus())
+    days = r["itinerary"]["days"]
+    assert len(days) == 2, f"应恰好 2 天，实际 {len(days)}"
+    assert {d["city"] for d in days} <= {"成都", "重庆", "贵阳", "昆明"}
+    ic = sum(1 for d in days for it in d["items"] if it["type"] == "intercity")
+    assert ic == len(days) - 1
+
+
+def test_days1_with_four_cities_single_day():
+    """勾 4 城只给 1 天：聚焦总分最高单城，恰好 1 天。"""
+    r = run_pipeline(TripRequest(days=1, budget=3000, cities=["成都", "重庆", "贵阳", "昆明"]), EventBus())
+    assert len(r["itinerary"]["days"]) == 1
+
+
+def test_allocate_days_never_negative():
+    """单元级：任意 days/城数组合下分配值均为正且总和 == days。"""
+    from server.agent.planner import _allocate_days
+    pools = {c: [{"_score": s}] for c, s in (("成都", 10.0), ("重庆", 6.0), ("贵阳", 4.0), ("昆明", 8.0))}
+    for days in range(1, 6):
+        alloc = _allocate_days(days, pools)
+        assert all(v >= 1 for v in alloc.values()), f"days={days} 出现非正分配：{alloc}"
+        assert sum(alloc.values()) == days, f"days={days} 分配总和 {alloc} 不等于天数"

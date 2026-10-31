@@ -1,8 +1,6 @@
 // timeline.js — 逐日行程区（Tab 切天 + 三类条目 + 负载/叙事/预算条）
 // 注意命名：本模块是"行程区"；可倒带事件时间轴在 player.js。
 
-const LOAD_CAP_INTENSITY = 8.5;   // 与后端 V3 软规则一致
-
 export class DayPanel {
   constructor(onSwitchDay) {
     this.tabsEl = document.getElementById("day-tabs");
@@ -14,7 +12,19 @@ export class DayPanel {
 
   /** 渲染整个行程单；advisories: Map(day→事件)，narrated: Set(day)，finished: bool，removedNames: Map(day→[名称]) */
   render(itinerary, { activeDay = 1, advisories = new Map(), narrated = new Set(), finished = false, removedNames = new Map() } = {}) {
-    if (!itinerary) { this.tabsEl.replaceChildren(); this.panelEl.replaceChildren(); return; }
+    if (!itinerary) {
+      // 初始空态：引导用户理解「输入→生成→回放」的主路径，而不是面对一片空白
+      this.tabsEl.replaceChildren();
+      this.panelEl.innerHTML =
+        `<div class="empty-state">
+           <div class="empty-title">还没有行程</div>
+           <div class="empty-line">① 在上方输入天数、预算与偏好（城市默认成渝，可勾选更多西南城市）</div>
+           <div class="empty-line">② 点「开始规划」——规划 → 校验 → 叙事三段式管线逐日生成行程</div>
+           <div class="empty-line">③ 打开下方「Agent 决策回放」抽屉，<b>可倒带</b>每一次选点、违规与修复的理由</div>
+         </div>`;
+      this.budgetEl.replaceChildren();
+      return;
+    }
     this.itinerary = itinerary;
     this.advisories = advisories;
     this.narrated = narrated;
@@ -86,7 +96,9 @@ export class DayPanel {
     // 负载条
     const load = document.createElement("div");
     load.className = "day-load";
-    const over = d.load.intensity > LOAD_CAP_INTENSITY;
+    // 「偏高」与后端 V3 同口径：校验段报出 advisory 才标注（地形分档 cap 各城不同，
+    // 前端不再硬编码 8.5；回放推进到校验段前不预告，与决策叙事一致）
+    const over = this.advisories.has(dayNo);
     load.innerHTML =
       `<span>负载 ${d.load.hours}h</span>` +
       `<span class="${over ? "over" : ""}">强度 ${d.load.intensity}${over ? "（偏高）" : ""}</span>` +

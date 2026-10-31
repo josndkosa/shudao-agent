@@ -106,6 +106,19 @@ step("import timeline.js + DayPanel.render（removedNames 分支）", async () =
   const itin = { days: [{ day: 1, city: "成都", weather: {}, items: [{ type: "poi", poi_id: "CD-01", name: "宽窄巷子", arrival: "09:00", departure: "11:30", visit_hours: 2.5, ticket: 0, leg_hours: 0.2, tags: [], reasons: [], summary: "" }], load: { hours: 5, intensity: 2, tickets: 0 }, narrative: "" }], budget: { tickets: 0, meals: 120, transit: 35, total: 155, per_day: 51.7 } };
   dp.render(itin, { removedNames: new Map([[1, ["测试点"]]]), advisories: new Map([[1, { reason: "软提醒" }]]) });
 });
+step("DayPanel 空态占位（首开不空白）", async () => {
+  const { DayPanel } = await import(pathToFileURL(path.join(STATIC, "js", "timeline.js")));
+  const dp = new DayPanel(() => {});
+  dp.render(null, {});
+  const html = document.getElementById("day-panel").innerHTML;
+  if (!html.includes("还没有行程")) throw new Error("空态占位缺失");
+});
+step("index.html 静态容器完整（图例/横滚提示/城市多选/参数提示）", () => {
+  const html = readFileSync(path.join(STATIC, "index.html"), "utf8");
+  for (const id of ["map-legend", "map-scroll-hint", "p-cities", "params-hint", "city-pick-hint"]) {
+    if (!html.includes(id)) throw new Error("静态容器缺失: " + id);
+  }
+});
 
 let failed = 0;
 for (const [name, fn] of steps) {

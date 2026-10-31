@@ -81,6 +81,11 @@ def _allocate_days(days, pools):
         # 单日行程无法双城：只选候选池总分更高的城市，避免天数超发
         best = max(cities, key=lambda c: sum(x["_score"] for x in pools[c]))
         return {best: 1}
+    if days < len(cities):
+        # 天数不足以覆盖所有指定城市：取候选池总分前 days 城各 1 天（保持 pools 顺序），
+        # 否则 min(take, 负数) 会产生负天数并被 range 吞掉、其余城各 1 天 → 天数超发（缺陷2的多城版）
+        top = sorted(cities, key=lambda c: -sum(x["_score"] for x in pools[c]))[:days]
+        return {c: 1 for c in cities if c in top}
     total = sum(sum(x["_score"] for x in pools[c]) for c in cities)
     alloc = {}
     if total <= 0:

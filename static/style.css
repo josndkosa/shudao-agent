@@ -194,6 +194,54 @@ body {
 .map-svg { height: 300px; position: relative; }
 .map-svg svg { width: 100%; height: 100%; display: block; }
 
+/* 图幅下方：图例 + 横滚提示（>2 城时显示） */
+.map-under {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 8px 20px; border-bottom: 1px solid var(--rule);
+  font-size: 11px; color: var(--ink2); letter-spacing: .4px;
+}
+.map-legend { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.map-legend .lg {
+  display: inline-block; width: 8px; height: 8px;
+  margin-right: 5px; vertical-align: -1px;
+}
+.map-legend .lg-on { background: var(--ink); }
+.map-legend .lg-dim { background: none; border: 1px solid var(--ink3, #9a9a9a); }
+.map-legend .lg-rm { color: var(--accent); font-weight: 700; margin-right: 5px; }
+.map-legend .lg-route { color: var(--accent); }
+.map-scroll-hint { color: var(--accent); white-space: nowrap; }
+.map-scroll-hint[hidden] { display: none; }
+
+/* 城市多选与即时提示 */
+.city-pick-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.city-pick-label {
+  font-size: 11px; color: var(--ink2); letter-spacing: 1.2px; text-transform: uppercase;
+}
+.city-pick-hint { font-size: 11px; color: var(--ink2); opacity: .7; }
+.params-hint {
+  flex-basis: 100%; font-size: 11px; color: var(--accent); letter-spacing: .3px;
+}
+.params-hint[hidden] { display: none; }
+
+/* 行程区初始空态：说明主路径（输入→生成→回放），首开不空白 */
+.empty-state { padding: 34px 20px; border-left: 2px solid var(--accent); }
+.empty-title {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  letter-spacing: .6px; margin-bottom: 14px;
+}
+.empty-line { font-size: 12px; color: var(--ink2); line-height: 2.1; }
+.empty-line b { color: var(--accent); font-weight: 700; }
+
+/* 回放入口引导：管线完成后按钮一次性高亮（打开抽屉即解除） */
+.drawer-btn.attn {
+  color: var(--accent); border-bottom: 2px solid var(--accent);
+  animation: attnPulse 1.6s var(--ease-out) 2;
+}
+@keyframes attnPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+
 /* 高铁连线（黑白化：双色渐变由 CSS 覆盖为黑） */
 .rail-link { display: none; }
 
