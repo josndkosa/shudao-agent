@@ -134,13 +134,15 @@ state.player = new Player({
 });
 
 // ── 顶部徽标 ────────────────────────────────────────────────
-function setBadge() {
+function setBadge(h) {
   const b = $("badge-api");
   if (api.kind() === "live") {
     b.textContent = "● 已连接后端";
     b.classList.add("badge-live");
+    $("badge-offline").textContent = h?.mode === "online" ? "LLM 在线" : "引擎离线";
   } else {
     b.textContent = "本地演示数据（后端未启动）";
+    $("badge-offline").textContent = "演示数据";
   }
 }
 
@@ -269,6 +271,12 @@ function applyParams(q) {
     for (const box of document.querySelectorAll("#p-cities input")) {
       box.checked = q.cities.includes(box.value);
     }
+  } else if (typeof q.cities === "string" && q.cities) {
+    // URL 透传形如 ?cities=成都,重庆（首页 passThrough 转来的字符串）
+    const sel = q.cities.split(",").map(s => s.trim()).filter(Boolean);
+    for (const box of document.querySelectorAll("#p-cities input")) {
+      box.checked = sel.includes(box.value);
+    }
   }
   updateCityDayHint();
 }
@@ -318,10 +326,10 @@ function restoreParams() {
 
 // ── 启动 ────────────────────────────────────────────────────
 async function boot() {
-  await api.health();           // 懒选择在此触发
-  setBadge();
+  const h = await api.health();   // 懒选择在此触发
+  setBadge(h);
   await loadGeo();
-  buildCityPicker();            // 城市多选（不阻塞首屏）
+  buildCityPicker();              // 城市多选（不阻塞首屏）
   const q = restoreParams();
   applyParams(q);
 

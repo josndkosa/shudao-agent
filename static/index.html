@@ -15,86 +15,46 @@
   <div class="badges">
     <span class="badge badge-offline" id="badge-offline">离线</span>
     <span class="badge" id="badge-api">检测中…</span>
-    <button class="drawer-btn" id="drawer-btn" aria-expanded="false">Agent 决策回放 ▾</button>
+    <a class="drawer-btn" href="plan.html">进入工作台 →</a>
   </div>
 </header>
 
-<section class="hero">
+<section class="hero home-hero">
   <h1 class="hero-title">规划 → 校验 → 叙事：把 Agent 的决策过程做成可回放的产品</h1>
   <p class="hero-sub">输入天数、预算与偏好，三段式管线生成西南多城行程——每一次选点、每一次校验、每一次修复，都可倒带回放。</p>
   <div class="hero-stats">
     <div class="stat"><span class="stat-n">101</span><span class="stat-l">POI 本地快照</span></div>
     <div class="stat"><span class="stat-n">6</span><span class="stat-l">城 · 分幅路网</span></div>
     <div class="stat"><span class="stat-n">3</span><span class="stat-l">段式管线</span></div>
-    <div class="stat"><span class="stat-n">22</span><span class="stat-l">决策事件可回放</span></div>
+    <div class="stat"><span class="stat-n">23</span><span class="stat-l">决策事件可回放</span></div>
   </div>
 </section>
 
-<div class="layout">
-  <!-- 单栏主列：参数 + 双城路线图 + 逐日行程 -->
-  <main class="left">
-    <form class="params" id="params-form">
-      <label>天数<input id="p-days" type="number" min="1" max="7" value="3"></label>
-      <label>预算<input id="p-budget" type="number" min="500" step="100" value="3000"></label>
-      <label>偏好<input id="p-tags" type="text" value="美食,文化" placeholder="美食,文化,亲子…"></label>
-      <div class="city-pick-wrap">
-        <span class="city-pick-label">城市</span>
-        <div class="city-pick" id="p-cities"></div>
-        <span class="city-pick-hint" id="city-pick-hint">全不勾 = 自动选城</span>
-      </div>
-      <label class="chk"><input id="p-family" type="checkbox">亲子</label>
-      <button type="submit" class="btn-primary" id="btn-run">开始规划</button>
-      <span class="params-hint" id="params-hint" hidden></span>
-    </form>
+<section class="home-steps">
+  <div class="step">
+    <span class="step-no">01</span>
+    <h3>规划 Planner</h3>
+    <p>偏好打分 → 城市分天 → 逐日贪心装箱。每个决策都带 reason 事件，不是黑盒给答案。</p>
+  </div>
+  <div class="step">
+    <span class="step-no">02</span>
+    <h3>校验 Validator</h3>
+    <p>纯规则引擎五条约束（时长/开放窗口/强度/预算/亲子），硬违规自动回流修复，软约束如实提醒。</p>
+  </div>
+  <div class="step">
+    <span class="step-no">03</span>
+    <h3>叙事 Narrator</h3>
+    <p>逐日导览词生成，在线 LLM 与离线模板双轨——断网也能完整演示。</p>
+  </div>
+</section>
 
-    <section class="map-row" id="map-row">
-      <!-- 图幅卡由 map.js setCities() 按行程涉及城市动态渲染（双城结构与旧静态双卡一致） -->
-    </section>
-    <div class="map-under">
-      <div class="map-legend">
-        <span><i class="lg lg-on"></i>排入行程</span>
-        <span><i class="lg lg-dim"></i>候选未排入</span>
-        <span><i class="lg-rm">✕</i>被规则移除</span>
-        <span class="lg-route">—— 当日路线</span>
-      </div>
-      <div class="map-scroll-hint" id="map-scroll-hint" hidden>← 横向滑动查看全部城市 →</div>
-    </div>
+<section class="home-cta">
+  <a class="btn-cta" href="plan.html">开始规划 →</a>
+  <p class="cta-sub">进入工作台：西南多城可选，城际交通自动估算，全程决策可倒带回放。</p>
+</section>
 
-    <section class="days">
-      <nav class="day-tabs" id="day-tabs"></nav>
-      <div class="day-panel" id="day-panel"></div>
-      <div class="budget-bar" id="budget-bar"></div>
-    </section>
-  </main>
+<footer class="home-foot">蜀道智行 · 2026 华为开发者大赛（西南赛区）参赛作品 · MIT License</footer>
 
-  <!-- 底部抽屉：Agent 决策回放（默认收起） -->
-  <aside class="right">
-    <div class="player-head">
-      <h2>Agent 决策回放</h2>
-      <input id="evt-search" type="search" placeholder="过滤事件（标题/理由）…">
-      <button class="drawer-close" id="drawer-close" title="关闭（Esc）">✕ 关闭</button>
-    </div>
-    <div class="player-ctrl">
-      <button id="pc-first" title="跳到开头">⏮</button>
-      <button id="pc-prev" title="上一步">◀</button>
-      <button id="pc-play" class="pc-play" title="播放/暂停">▶</button>
-      <button id="pc-next" title="下一步">▶|</button>
-      <button id="pc-last" title="跳到结尾">⏭</button>
-      <input id="pc-seek" type="range" min="0" max="0" value="0" step="1">
-      <select id="pc-speed">
-        <option value="1">1x</option><option value="2" selected>2x</option><option value="4">4x</option>
-      </select>
-    </div>
-    <div class="evt-list" id="event-list"></div>
-  </aside>
-</div>
-
-<footer class="chat-bar">
-  <span class="chat-hint" id="chat-hints">试试：</span>
-  <input id="chat-input" type="text" placeholder="和规划师说点什么，例如：第二天太赶">
-  <button class="btn-primary" id="btn-send">发送</button>
-</footer>
-
-<script type="module" src="js/main.js"></script>
+<script type="module" src="js/home.js"></script>
 </body>
 </html>

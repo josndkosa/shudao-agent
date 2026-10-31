@@ -4,6 +4,37 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.1.2] — 2026-10-31 · 双页面拆分：品牌首页 / 规划工作台
+
+### Changed
+
+- **前端拆为两个物理页面**（用户截图反馈「把这俩分成俩页面」）：
+  - `index.html` = 品牌首页：hero 大标题 + 4 数据卡 + 三步管线说明（01 规划 / 02 校验 / 03 叙事）+ 黑色大 CTA + 页脚
+  - `plan.html` = 规划工作台：参数条 + 多城地图 + 逐日行程 + 回放抽屉 + 对话栏（原单页的全部功能，去掉 hero）
+  - 共享 style.css 与 JS 模块（api/map/timeline/player 不动）；新增 `js/home.js`（首页徽标 + 透传），工作台沿用 `js/main.js`
+  - **旧链接零破坏**：`?days=&budget=&tags=&auto=1&cities=` 打到首页自动透传到 plan.html（README/演示脚本既有用法不变）
+  - 工作台顶栏品牌名可点击返回首页；FastAPI StaticFiles 天然服务 /plan.html，后端零改动
+
+### Fixed（截图评审暴露的问题）
+
+- **徽标语义矛盾**：「离线」与「● 已连接后端」并存——badge-offline 恒显「离线」从不更新。修复：badge-api 表达后端连接状态、badge-offline 表达引擎模式（LLM 在线 / 引擎离线 / 演示数据），双页同源逻辑
+- advisory 软提醒天的 Day tab 内联色 #D29922（白底对比度 2.5:1 不达 AA）→ `.day-tab.adv` class + 朱红 var(--accent)，与全站强调色统一
+- 「车乘 0.86h」术语不通用 → 「交通 0.86h」
+- chat 快捷词四连排无分隔 → 右间距 + 虚线下划线（hover 变朱红实线，可点性更可发现）
+- 首页数据卡「22 决策事件」→ 23（与 demo 资产一致）
+
+### Added
+
+- 冒烟 +2 步（双页拆分互链/职责断言、home.js 透传逻辑）→ 15/15；stub 补 `location`
+- package.py 自检 need_prompts 补齐 03D/03F/04（上轮归档后漏同步）
+- docs/images/README.md 截图规格按双页更新，新增 `home.png`（品牌首页）共 6 张
+
+### Tested
+
+- `python scripts/ctl.py ci` → 三连全绿（82 passed + 冒烟 15/15）
+- 真实端口（uvicorn）：`/` 首页 CTA、`/plan.html` 工作台容器、`/api/health` 全部 200
+- 静态 8765 双页浏览器实开验证
+
 ## [1.1.1] — 2026-10-31 · 前端直觉性优化 + 两个一致性 bug 修复
 
 ### Fixed

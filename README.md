@@ -21,7 +21,8 @@ python cli.py --days 3 --budget 3000 --tags 美食,文化
 
 # ② Web 服务（API + SSE + 前端一条命令）
 python scripts/ctl.py serve
-# 浏览器 http://localhost:8000/?days=3&budget=3000&tags=美食,文化&auto=1
+# 品牌首页 http://localhost:8000/ → 「进入工作台」进规划台
+# 规划工作台 http://localhost:8000/plan.html?days=3&budget=3000&tags=美食,文化&auto=1
 
 # ③ 纯静态演示（后端不起，前端自动切本地演示数据）
 python -m http.server 8765 --directory static
@@ -30,7 +31,8 @@ python -m http.server 8765 --directory static
 python scripts/ctl.py ci
 ```
 
-URL 参数预置：`?days=&budget=&tags=&family=1&auto=1`——录视频/答辩免现场输入。
+URL 参数预置：`?days=&budget=&tags=&family=1&cities=成都,重庆&auto=1`——录视频/答辩免现场输入
+（带参数的旧链接打到首页会自动透传到工作台 `plan.html`）。
 
 ## 系统架构
 

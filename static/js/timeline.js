@@ -37,7 +37,7 @@ export class DayPanel {
       const t = document.createElement("div");
       t.className = "day-tab" + (d.day === activeDay ? " on" : "");
       t.textContent = `Day ${d.day} · ${d.city}`;
-      if (advisories.has(d.day)) t.style.color = "#D29922";
+      if (advisories.has(d.day)) t.classList.add("adv");   // 软提醒天：朱红标记（CSS 统一管理，避免内联色值）
       t.addEventListener("click", () => { this.day = d.day; this.onSwitchDay?.(d.day); });
       this.tabsEl.appendChild(t);
     }
@@ -69,7 +69,7 @@ export class DayPanel {
           `<div class="it-body"><div class="it-name">${it.name}${price}</div>` +
           (reasons ? `<div class="it-tags">${reasons}</div>` : "") +
           `<div class="it-sum">${it.summary || ""}</div>` +
-          `<div class="it-reasons">游玩 ${it.visit_hours}h · 车乘 ${it.leg_hours}h</div></div>`;
+          `<div class="it-reasons">游玩 ${it.visit_hours}h · 交通 ${it.leg_hours}h</div></div>`;
       }
       wrap.appendChild(row);
     }

@@ -80,7 +80,8 @@ def main():
     if len(shots) < 8:
         problems.append(f"codearts_proof/ 截图仅 {len(shots)} 张（要求 ≥ 8：码道对话/生成过程留痕）")
     prompts_dir = STAGE / "codearts_proof" / "prompts" / "_已执行"
-    need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_"]
+    need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_",
+                    "03D_", "03F_", "04_"]
     for tag in need_prompts:
         if not any(prompt.name.startswith(tag) for prompt in prompts_dir.glob("*.md") if prompts_dir.exists()):
             problems.append(f"codearts_proof/prompts/_已执行/ 缺 {tag}* 任务单原文")

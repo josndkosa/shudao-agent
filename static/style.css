@@ -118,6 +118,56 @@ body {
 }
 .stat-l { display: block; font-size: 11px; color: var(--ink2); letter-spacing: .6px; margin-top: 4px; }
 
+/* ── 品牌首页（index.html 专属：hero 垂直叙事 + 三步管线 + CTA）──── */
+.home-hero {
+  display: block; padding: 72px 32px 44px;
+}
+.home-hero .hero-title { max-width: 900px; }
+.home-hero .hero-sub { max-width: 640px; margin-top: 18px; }
+.home-hero .hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  margin-top: 44px; background: var(--rule); border: 1px solid var(--rule);
+}
+.home-steps {
+  max-width: 1280px; margin: 0 auto; padding: 36px 32px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--rule);
+}
+.home-steps .step {
+  padding: 0 26px 0 0;
+  animation: riseIn .38s var(--ease-out) both;
+}
+.home-steps .step:nth-child(1) { animation-delay: 340ms; }
+.home-steps .step:nth-child(2) { animation-delay: 420ms; border-left: 1px solid var(--rule); padding-left: 26px; }
+.home-steps .step:nth-child(3) { animation-delay: 500ms; border-left: 1px solid var(--rule); padding-left: 26px; }
+.step-no {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--accent); letter-spacing: 2px;
+}
+.home-steps h3 {
+  font-size: 17px; font-weight: 700; letter-spacing: .4px;
+  margin: 8px 0 10px;
+}
+.home-steps p { font-size: 13px; color: var(--ink2); line-height: 1.75; }
+.home-cta {
+  max-width: 1280px; margin: 0 auto; padding: 56px 32px 64px;
+  animation: riseIn .38s var(--ease-out) 580ms both;
+}
+.btn-cta {
+  display: inline-block; padding: 16px 44px;
+  background: var(--ink); color: var(--bg);
+  font-size: 16px; font-weight: 700; letter-spacing: 1.6px;
+  text-decoration: none; transition: background .14s ease-out, color .14s ease-out;
+}
+.btn-cta:hover { background: var(--accent); color: #fff; }
+.cta-sub { margin-top: 16px; font-size: 12px; color: var(--ink2); letter-spacing: .4px; }
+.home-foot {
+  border-top: 1px solid var(--rule);
+  padding: 18px 32px; text-align: center;
+  font-size: 11px; color: var(--ink2); letter-spacing: .8px;
+}
+a.brand-mark { text-decoration: none; }
+
 /* ═══ 主区：单栏 12 栏 ═══════════════════════════════ */
 .layout {
   max-width: 1280px; margin: 0 auto;
@@ -294,6 +344,8 @@ svg line[stroke="#F85149"] { stroke: var(--accent) !important; }
 }
 .day-tab:hover { color: var(--ink); }
 .day-tab.on { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
+.day-tab.adv { color: var(--accent); }
+.day-tab.adv.on { color: var(--accent); border-bottom-color: var(--accent); }
 .day-panel { padding: 8px 0 4px; }
 
 /* 行程条目：左时间 + 中名称 + 右标签说明；竖线分隔 */
@@ -507,8 +559,8 @@ body.drawer-open .evt:nth-child(n+11) { animation-delay: 220ms; }
   border-top: 2px solid var(--ink);
 }
 .chat-hint { font-size: 12.5px; color: var(--ink2); white-space: nowrap; }
-.chat-hint span { color: var(--ink); cursor: pointer; margin-left: 6px; border-bottom: 1px solid var(--rule); }
-.chat-hint span:hover { border-bottom-color: var(--accent); color: var(--accent); }
+.chat-hint span { color: var(--ink); cursor: pointer; margin-left: 4px; margin-right: 10px; border-bottom: 1px dashed var(--rule); padding-bottom: 1px; }
+.chat-hint span:hover { border-bottom-color: var(--accent); color: var(--accent); border-bottom-style: solid; }
 #chat-input {
   flex: 1; background: var(--bg); border: none;
   border-bottom: 1px solid var(--ink);
@@ -564,4 +616,10 @@ body.drawer-open .evt:nth-child(n+11) { animation-delay: 220ms; }
   .map-svg { height: 240px; }
   .evt { grid-template-columns: 56px 1fr; }
   .evt-reason { grid-area: auto; grid-column: 2; border-left: none; padding-left: 0; }
+  /* 首页：数据卡 2 列、三步管线纵向堆叠 */
+  .home-hero .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .home-steps { grid-template-columns: 1fr; }
+  .home-steps .step:nth-child(2), .home-steps .step:nth-child(3) {
+    border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 20px;
+  }
 }

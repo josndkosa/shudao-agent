@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蜀道智行 · 规划工作台</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <a class="brand-mark" href="index.html" title="返回首页">蜀道智行</a>
+    <h1>规划工作台<span class="brand-sub">规划 → 校验 → 叙事</span></h1>
+  </div>
+  <div class="badges">
+    <span class="badge badge-offline" id="badge-offline">离线</span>
+    <span class="badge" id="badge-api">检测中…</span>
+    <button class="drawer-btn" id="drawer-btn" aria-expanded="false">Agent 决策回放 ▾</button>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- 单栏主列：参数 + 多城路线图 + 逐日行程 -->
+  <main class="left">
+    <form class="params" id="params-form">
+      <label>天数<input id="p-days" type="number" min="1" max="7" value="3"></label>
+      <label>预算<input id="p-budget" type="number" min="500" step="100" value="3000"></label>
+      <label>偏好<input id="p-tags" type="text" value="美食,文化" placeholder="美食,文化,亲子…"></label>
+      <div class="city-pick-wrap">
+        <span class="city-pick-label">城市</span>
+        <div class="city-pick" id="p-cities"></div>
+        <span class="city-pick-hint" id="city-pick-hint">全不勾 = 自动选城</span>
+      </div>
+      <label class="chk"><input id="p-family" type="checkbox">亲子</label>
+      <button type="submit" class="btn-primary" id="btn-run">开始规划</button>
+      <span class="params-hint" id="params-hint" hidden></span>
+    </form>
+
+    <section class="map-row" id="map-row">
+      <!-- 图幅卡由 map.js setCities() 按行程涉及城市动态渲染（双城结构与旧静态双卡一致） -->
+    </section>
+    <div class="map-under">
+      <div class="map-legend">
+        <span><i class="lg lg-on"></i>排入行程</span>
+        <span><i class="lg lg-dim"></i>候选未排入</span>
+        <span><i class="lg-rm">✕</i>被规则移除</span>
+        <span class="lg-route">—— 当日路线</span>
+      </div>
+      <div class="map-scroll-hint" id="map-scroll-hint" hidden>← 横向滑动查看全部城市 →</div>
+    </div>
+
+    <section class="days">
+      <nav class="day-tabs" id="day-tabs"></nav>
+      <div class="day-panel" id="day-panel"></div>
+      <div class="budget-bar" id="budget-bar"></div>
+    </section>
+  </main>
+
+  <!-- 底部抽屉：Agent 决策回放（默认收起） -->
+  <aside class="right">
+    <div class="player-head">
+      <h2>Agent 决策回放</h2>
+      <input id="evt-search" type="search" placeholder="过滤事件（标题/理由）…">
+      <button class="drawer-close" id="drawer-close" title="关闭（Esc）">✕ 关闭</button>
+    </div>
+    <div class="player-ctrl">
+      <button id="pc-first" title="跳到开头">⏮</button>
+      <button id="pc-prev" title="上一步">◀</button>
+      <button id="pc-play" class="pc-play" title="播放/暂停">▶</button>
+      <button id="pc-next" title="下一步">▶|</button>
+      <button id="pc-last" title="跳到结尾">⏭</button>
+      <input id="pc-seek" type="range" min="0" max="0" value="0" step="1">
+      <select id="pc-speed">
+        <option value="1">1x</option><option value="2" selected>2x</option><option value="4">4x</option>
+      </select>
+    </div>
+    <div class="evt-list" id="event-list"></div>
+  </aside>
+</div>
+
+<footer class="chat-bar">
+  <span class="chat-hint" id="chat-hints">试试：</span>
+  <input id="chat-input" type="text" placeholder="和规划师说点什么，例如：第二天太赶">
+  <button class="btn-primary" id="btn-send">发送</button>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

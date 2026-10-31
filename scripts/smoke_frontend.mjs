@@ -36,6 +36,7 @@ globalThis.requestAnimationFrame = fn => setTimeout(fn, 0);
 globalThis.cancelAnimationFrame = () => {};
 globalThis.innerWidth = 1440;
 globalThis.performance = { now: () => Date.now() };
+globalThis.location = { search: "" };   // home.js passThrough 读取；空查询=不跳转
 
 // fetch stub：/api/health 拒绝（强制走 MockApi 路径）；./demo*.json 读本地真实产物
 globalThis.fetch = async url => {
@@ -113,11 +114,25 @@ step("DayPanel 空态占位（首开不空白）", async () => {
   const html = document.getElementById("day-panel").innerHTML;
   if (!html.includes("还没有行程")) throw new Error("空态占位缺失");
 });
-step("index.html 静态容器完整（图例/横滚提示/城市多选/参数提示）", () => {
-  const html = readFileSync(path.join(STATIC, "index.html"), "utf8");
+step("plan.html 工作台静态容器完整（图例/横滚提示/城市多选/参数提示）", () => {
+  const html = readFileSync(path.join(STATIC, "plan.html"), "utf8");
   for (const id of ["map-legend", "map-scroll-hint", "p-cities", "params-hint", "city-pick-hint"]) {
     if (!html.includes(id)) throw new Error("静态容器缺失: " + id);
   }
+});
+step("双页面拆分：index=品牌首页 / plan=工作台（互链与职责断言）", () => {
+  const home = readFileSync(path.join(STATIC, "index.html"), "utf8");
+  const plan = readFileSync(path.join(STATIC, "plan.html"), "utf8");
+  if (!home.includes('href="plan.html"') || !home.includes("js/home.js")) throw new Error("首页缺少工作台入口或 home.js");
+  if (home.includes('id="params-form"') || home.includes('id="chat-input"')) throw new Error("首页不应含工作台表单/对话栏");
+  if (!plan.includes('id="params-form"') || !plan.includes('id="map-row"') || !plan.includes('id="chat-input"')) throw new Error("工作台缺关键容器");
+  if (!plan.includes("js/main.js") || plan.includes('class="hero"')) throw new Error("工作台应引 main.js 且不含 hero");
+  if (!plan.includes('href="index.html"')) throw new Error("工作台缺返回首页链接");
+});
+step("home.js 语法与透传逻辑存在", async () => {
+  const src = readFileSync(path.join(STATIC, "js", "home.js"), "utf8");
+  if (!src.includes("passThrough") || !src.includes("plan.html?")) throw new Error("home.js 缺参数透传");
+  await import(pathToFileURL(path.join(STATIC, "js", "home.js")));
 });
 
 let failed = 0;
