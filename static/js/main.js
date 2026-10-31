@@ -76,6 +76,10 @@ const dayPanel = new DayPanel(day => { state.activeDay = day; renderAll(); });
 
 function renderAll(cursor = state.player ? state.player.cursor : state.events.length) {
   const view = viewAt(cursor, state.events);
+  // 天状态单源：state.activeDay 为准（手动点tab/回放seek/流式decision 都先写它）。
+  // 修复：此前 { activeDay: state.activeDay, ...view } 的后展开使 view.activeDay
+  // （回放状态机里最后一条 decision 的天）覆盖手动选择 → Day tab 点击永远无效。
+  view.activeDay = state.activeDay;
   // 完成时全部揭示（管线收尾语义）
   if (view.finished && state.itinerary) {
     for (const d of state.itinerary.days) {
@@ -197,6 +201,11 @@ async function run() {
         if (ev.type === "done") { setStreaming(false); state.player.seek(state.events.length); return; }
         if (ev.type === "error") throw new Error("stream error");
         state.events.push(ev);
+        // 流式直播跟随：新一天的选点决策到达时同步当前天（天状态单源 state.activeDay）
+        if (ev.type === "decision") {
+          const m = ev.title.match(/第(\d+)天选点/);
+          if (m) state.activeDay = +m[1];
+        }
         state.player.appendEvents([ev]);
         renderAll(state.events.length);
       });

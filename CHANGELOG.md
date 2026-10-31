@@ -4,6 +4,23 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.1.4] — 2026-10-31 · 修复 Day tab 点击无法切天
+
+### Fixed
+
+- **Day 1/Day 2 tab 点击回不去**（用户实测反馈）：`renderAll` 里 `dayPanel.render(itinerary, { activeDay: state.activeDay, ...view })`
+  的对象展开顺序使 `view.activeDay`（回放状态机中最后一条 decision 事件的天）**覆盖**手动选择的
+  `state.activeDay`——点击设置了 state 却被 view 盖回，永远停在最后一条 decision 的天。
+  自回放状态机引入以来即存在（此前未在已跑完行程上点过 tab 而未暴露）。
+- 修复为**天状态单源化**：`viewAt` 后统一 `view.activeDay = state.activeDay`（地图路线高亮与行程卡
+  两个消费者同源）；回放 seek 路径（onSeek 写 state）不变；流式回调补 decision 时同步 state.activeDay，
+  保住「新一天开始排程自动跟随」的直播语义不退化。
+
+### Tested
+
+- `python scripts/ctl.py ci` → 三连全绿（82 passed + 冒烟 15/15）
+- 静态 8765 浏览器实开运行态供点击回归
+
 ## [1.1.3] — 2026-10-31 · 字号阶梯提升 + 空态挂载修复
 
 ### Changed（用户反馈「字体有点小」）
