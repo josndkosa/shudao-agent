@@ -19,14 +19,37 @@
 - `D:\项目代码\shudao-agent\docs\baseline\deps.md` —— 取依赖与开源组件表
 - `D:\项目代码\shudao-agent\docs\baseline\baseline-tests.txt` —— 取真实测试结果
 - `D:\项目代码\shudao-agent\docs\baseline\defects-repro.md` —— **★ 取"调试排错"那一章的原始素材（before 快照）**
-- `D:\项目代码\shudao-agent\codearts_proof\prompts\` —— **剩余待办的 prompt**（当前只有本条 05 与 04）
-- `D:\项目代码\shudao-agent\codearts_proof\prompts\_已执行\` —— **已执行过的全部 prompt 原文**（00 / 01 / 01B / 01C / 02 / 03 / 03B / 03C 共 8 条）。
+- `D:\项目代码\shudao-agent\codearts_proof\prompts\` —— **剩余待办的 prompt**（当前只有本条 05 与 03E）
+- `D:\项目代码\shudao-agent\codearts_proof\prompts\_已执行\` —— **已执行过的全部 prompt 原文**，共 **11 条**：
+  00 / 01 / 01B / 01C / 02 / 03 / 03B / 03C / 03D / 03F / 04。
   这是"码道应用成果"那一章的**原始素材，务必逐个读完**——每一条都是一个真实的
   "发现问题 → 定位根因 → 写测试 → 修复 → 验证"闭环。**只描述实际执行过的，不要写没跑的。**
-- `D:\项目代码\shudao-agent\codearts_proof\` —— 若有截图/归档目录，列出其结构用于"证明材料完整性"那一节
+- `D:\项目代码\shudao-agent\codearts_proof\` —— 列出其结构用于"证明材料完整性"那一节。
+  **如实写，不要美化**：截图归档子目录 `01-环境搭建与工程初始化/` ~ `06-一键安装与部署验证/`
+  当前可能尚未建立——若确实缺失，就写成"待补录"并给出补录计划，**不要写成"已齐全"**。
 - `D:\项目代码\shudao-agent\server\agent\` —— pipeline / planner / validator / narrator / events
-- `D:\项目代码\shudao-agent\server\data\pois.json` —— 40 个 POI 厚字段快照
-- `D:\项目代码\tab_circumstance.txt` —— 赛题的评分标准与答辩要求（**逐字对齐这一份**）
+- `D:\项目代码\shudao-agent\server\data\chengdu.json` + `chongqing.json` —— 40 个 POI 厚字段快照
+  （**数据层 v2 已按城拆文件，旧的 `pois.json` 已不存在，别去读它**）
+  - `D:\项目代码\shudao-agent\server\data\meta.json` —— 城市枢纽 / 偏好词表 / 城际表
+  - `D:\项目代码\shudao-agent\server\data\schema.md` —— 厚字段规范
+- `D:\项目代码\shudao-agent\docs\赛题情报\tab_circumstance.txt` —— 赛题的评分标准与答辩要求（**逐字对齐这一份**）
+- `D:\项目代码\shudao-agent\docs\赛题情报\tab_introduction.txt` —— 赛区划分（西南赛区 = 四川/重庆/云南/贵州/广西/海南/西藏）与赛程时间线
+- `D:\项目代码\shudao-agent\docs\images\` —— 前端截图资产目录（**当前可能只有 README.md 规格清单、尚无 PNG**；
+  若为空，第 10/12 页的配图位置写"截图待补录"占位说明，**不要用 SVG 画假界面充数**）
+
+> ### ⚠️ Space 模式的文件访问前提（先自查，再动笔）
+>
+> Space 模式是**云端对话界面**，未必能读取 `D:\` 下的本地路径。三种情况，按顺序自查：
+>
+> 1. **能读本地路径**（Space 与本机文件系统打通）→ 直接按上面的清单读。
+> 2. **读不到** → 在对话里**直接粘贴**下列内容，不要让码道猜：
+>    `readme/README.md`（主干）、`docs/赛题情报/tab_circumstance.txt`（评分标准逐字）、
+>    `codearts_proof/prompts/_已执行/` 各条 prompt 的首段（背景 + 硬约束 + 交付要求）、
+>    `docs/baseline/defects-repro.md`（排错素材）。
+> 3. **Space 里拿不到、也不便粘贴** → 降级到 **IDE 模式**跑本条，并在 PPT 的"码道应用成果"里
+>    **如实写明**文档生成是在 IDE 模式完成的。**真实性优先于形式好看。**
+>
+> ❌ 禁止因为"读不到素材"就凭空编写项目事实——那是虚构，评分细则里"真实性"是独立扣分项。
 
 > **重要**："码道应用成果"一章必须**只描述 `prompts/` 目录里真实存在、且确实执行过的 prompt**。
 > 若某条 prompt 存在但未执行过，不得把它写成"已完成"——如实说明状态。
@@ -146,13 +169,18 @@ flowchart TD
 - 文档生成：本 PPT、readme、视频分镜均由码道生成
 
 **（2）Prompt 设计质量与工具使用效率**
-- 说明四条 prompt 的组织方式：**背景 → 硬约束 → 逐条需求 → 验收标准 → 交付物**
-- 强调"每条 prompt 都自带可执行的验收标准"，把返工率压到最低
-- 举例引用 `prompts/01` 的结构（缺陷描述含根因定位，要求"先写测试再改实现"）
+- 说明 13 条 prompt 的组织方式：**背景 → 硬约束 → 逐条需求 → 验收标准 → 交付物**
+  （`prompts/` 下 11 条已执行 + 本条 05 + 03E；其中 01B/01C 是规则缺陷修复、
+  03D→03F 是视觉方向两次被人工否决后重做——**这两次返工要写出来**，它证明的是人机协作，而不是"AI 一次就对"）
+  - 强调"每条 prompt 都自带可执行的验收标准"，把返工率压到最低
+  - 举例引用 `prompts/01` 的结构（缺陷描述含根因定位，要求"先写测试再改实现"）
 
 **（3）证明材料的完整性与真实性**
 - `codearts_proof/` 目录清单：对话与 prompt 截图、生成/重构/排错过程记录、环境搭建记录
 - **如实说明**：哪些部分由码道生成、哪些由人工调整
+- **截图归档若尚未补齐，如实写"待补录"并给出补录计划**——
+  赛题细则里"使用证明材料的完整性与**真实性**"是同一行打分项，
+  宁可承认缺口并说明补救动作，也不要把不存在的截图写成已齐全。
 
 ### 第 15 页 · 华为云服务结合（对应技术架构 15 分第 3 条）
 - CodeArts Repo 托管工程（IDE 插件使用日志天然留存）
@@ -162,7 +190,7 @@ flowchart TD
 
 ### 第 16 页 · 落地规划
 - 近端：赛题版本冻结快照 + 稳定交付
-- 中期：数据层对接 OTA 开放接口，替换 `server/data/pois.json` 即可
+- 中期：数据层对接 OTA 开放接口，替换 `server/data/` 下的分城快照即可（数据层 v2 已按城拆文件，新增城市零代码改动）
 - 远期：**作为高校 AI Agent 课程实训模板**推广（换城市 / 换学科场景）
 - 商业：西南文旅定制版（旅行社 / 文旅局）
 
