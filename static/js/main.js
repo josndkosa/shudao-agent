@@ -376,6 +376,8 @@ async function boot() {
   });
 
   if (q.auto === "1" || q.auto === 1) run();
+  else renderAll(0);   // 非自动播放时先渲染空态引导（此前只有 auto 才 run，
+                       // dayPanel.render(null) 从不触发 → 空态占位从未挂载、结果区一片空白）
 }
 
 

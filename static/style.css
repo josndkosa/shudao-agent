@@ -623,3 +623,78 @@ body.drawer-open .evt:nth-child(n+11) { animation-delay: 220ms; }
     border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 20px;
   }
 }
+
+/* ═══ 字号阶梯提升（第十三轮：用户反馈「字体有点小」）══════════════════
+   原则：+1px 为主（微小字 11→12、辅助字 12/12.5→13、正文 13/13.5→14/14.5），
+   标题 +1~2px；网格/间距/字重/颜色一律不动，只调字号与 SVG 内文字。
+   集中覆盖而非逐处改原规则：可审阅、可整体回滚。 */
+
+/* 顶栏与徽标 */
+.brand-sub { font-size: 14px; }              /* 13→14 */
+.badge { font-size: 12px; }                  /* 11→12 */
+.drawer-btn { font-size: 14px; }             /* 13→14 */
+
+/* 首页 */
+.hero-sub { font-size: 16px; }               /* 15→16 */
+.stat-n { font-size: 28px; }                 /* 26→28 */
+.stat-l { font-size: 12px; }                 /* 11→12 */
+.step-no { font-size: 14px; }                /* 13→14 */
+.home-steps h3 { font-size: 18px; }          /* 17→18 */
+.home-steps p { font-size: 14px; }           /* 13→14 */
+.btn-cta { font-size: 17px; }                /* 16→17 */
+.cta-sub { font-size: 13px; }                /* 12→13 */
+.home-foot { font-size: 12px; }              /* 11→12 */
+
+/* 参数条 */
+.params label { font-size: 12px; }           /* 11→12 */
+.chk { font-size: 14px; }                    /* 13.5→14 */
+.btn-primary { font-size: 14px; }            /* 13.5→14 */
+.city-pick-label { font-size: 12px; }        /* 11→12 */
+.city-pick-hint { font-size: 12px; }         /* 11→12 */
+.city-pick .chk { font-size: 12px; }         /* 11→12（城市多选项） */
+.params-hint { font-size: 12px; }            /* 11→12 */
+
+/* 图幅与图例 */
+.map-title { font-size: 14px; }              /* 13→14 */
+.city-meta { font-size: 12px; }              /* 11→12 */
+.map-under { font-size: 12px; }              /* 11→12 */
+.daytag { font-size: 11px; }                 /* 10→11（SVG 天序标记） */
+.poi-tip { font-size: 13px; }                /* 12→13 */
+.poi-tip .t-name { font-size: 14px; }        /* 13→14 */
+.poi-tip .t-row { font-size: 12px; }         /* 11→12 */
+
+/* 空态引导 */
+.empty-title { font-size: 16px; }            /* 15→16 */
+.empty-line { font-size: 13.5px; }           /* 12→13.5 */
+
+/* 逐日行程 */
+.day-tab { font-size: 15px; }                /* 14→15 */
+.it-time { font-size: 13px; }                /* 12→13 */
+.it-name { font-size: 16px; }                /* 15→16 */
+.it-name .price { font-size: 13px; }         /* 12→13 */
+.it-tags { font-size: 12px; }                /* 11→12 */
+.it-sum { font-size: 14.5px; }               /* 13.5→14.5（行程摘要正文） */
+.it-reasons { font-size: 12px; }             /* 11→12 */
+.it-meal { font-size: 13px; }                /* 12→13 */
+.it-rail { font-size: 12px; }                /* 11→12 */
+.rm-tag { font-size: 11px; }                 /* 10→11 */
+.day-load { font-size: 13px; }               /* 12→13 */
+.day-narrative { font-size: 14.5px; }        /* 13.5→14.5 */
+.budget-bar { font-size: 14px; }             /* 13→14 */
+.budget-bar .total { font-size: 16px; }      /* 15→16 */
+
+/* 回放抽屉（核心卖点，可读性优先） */
+.player-head h2 { font-size: 13px; }         /* 12→13 */
+.drawer-close { font-size: 14px; }           /* 12→14 */
+#evt-search { font-size: 14px; }             /* 13→14 */
+.player-ctrl button { font-size: 13px; }     /* 12→13 */
+#pc-speed { font-size: 13px; }               /* 12→13 */
+.streaming-hint { font-size: 12px; }         /* 11→12 */
+.evt-seq { font-size: 11px; }                /* 10→11 */
+.evt-title { font-size: 14px; }              /* 13→14 */
+.evt-reason { font-size: 14px; }             /* 13→14 */
+.evt-stage { font-size: 10.5px; }            /* 9.5→10.5 */
+
+/* 对话栏 */
+.chat-hint { font-size: 13.5px; }            /* 12.5→13.5 */
+#chat-input { font-size: 15px; }             /* 14→15 */
