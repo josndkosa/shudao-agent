@@ -9,18 +9,27 @@ from __future__ import annotations
 
 import os
 
+from ..tools.poi_search import _load_meta, load_pois
+
+# 城市列表动态来自数据层（meta.json + POI 快照），与离线路径同源——
+# 03E 多城化前这里硬编码 ["成都","重庆"]，在线 LLM 会以为只有两城可选
+_META = _load_meta()
+_ALL_CITIES = list(_META["cities"])                                   # 15 城总表（weather 全有快照）
+_POI_CITIES = [c for c in _ALL_CITIES if c in {p["city"] for p in load_pois()}]   # 有 POI 快照的城市（poi_search 可用）
+
 TOOL_SCHEMAS = [
     {
         "type": "function",
         "function": {
             "name": "poi_search",
-            "description": "检索成都/重庆的POI候选并按偏好打分。规划行程前必须先调用。",
+            "description": f"检索西南赛区城市的POI候选并按偏好打分。规划行程前必须先调用。"
+                           f"当前有完整快照的城市：{'、'.join(_POI_CITIES)}。",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "city": {"type": "string", "enum": ["成都", "重庆"]},
+                    "city": {"type": "string", "enum": _POI_CITIES},
                     "tags": {"type": "array", "items": {"type": "string"},
-                            "description": "偏好标签：美食/亲子/文化/夜景"},
+                            "description": "偏好标签：美食/亲子/文化/夜景/山水/民族等"},
                     "family": {"type": "boolean", "description": "是否亲子模式"},
                 },
                 "required": ["city"],
@@ -50,7 +59,7 @@ TOOL_SCHEMAS = [
             "description": "查询城市天气（本地快照，可切换华为云FunctionGraph数据源）。",
             "parameters": {
                 "type": "object",
-                "properties": {"city": {"type": "string", "enum": ["成都", "重庆"]}, "day_offset": {"type": "integer"}},
+                "properties": {"city": {"type": "string", "enum": _ALL_CITIES}, "day_offset": {"type": "integer"}},
                 "required": ["city"],
             },
         },
