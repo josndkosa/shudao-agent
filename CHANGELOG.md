@@ -4,6 +4,32 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.1.6] — 2026-10-31 · DeepSeek 在线模式接入验证 + health 如实标注修复
+
+### Fixed（接入验证期间发现）
+
+- **/api/health 谎报「引擎离线」**：`_load_dotenv()` 只在 `run_pipeline()` 内调用，服务启动后首次规划前
+  health 的 `resolve_mode()` 读不到 `.env` 里的 key——徽标显示「引擎离线」而实际规划走在线，
+  违反如实标注原则。修复：`server/app.py` 模块级调用 `_load_dotenv()`（run_pipeline 内的二次调用
+  经 setdefault 幂等无害）。
+- **接入侧安全迁移**：key 初填在 `.env.example`（入库文件，未及提交即发现）——已安全移入 `.env`
+  （gitignore 覆盖），example 还原为空模板；顺带修正用户填写时带的引号（`_load_dotenv` 不去引号，
+  直接使用会认证失败）。
+
+### 在线模式首次真实执行记录（此前在线分支从未跑过）
+
+- CLI 全链路真实跑通：LLM 真实 Function Calling（自主调用 poi_search/weather 多轮）→ 归一化 →
+  校验 → 5 轮 fix 回流收敛 → 合法 3 天行程，事件流 67 条，`mode:online`
+- FC enum 动态化验证有效：LLM 调用了昆明（说明 6 城枚举被模型正确感知）
+- 已知特性（如实记录）：LLM 计划存在非确定性（temperature 0.3）——同一请求两次运行一次排三城一次
+  全排成都，行程始终合法；答辩演示若需确定性输出可切 `SD_LLM_MODE=offline`
+- 真实端口 `curl /api/health` → `{"mode":"online","llm":true}` ✓
+
+### Tested
+
+- `python scripts/ctl.py ci` → 三连全绿（82 passed + 冒烟 18/18）
+- 在线 CLI ×2（FC 链路 + 完整行程校验）+ 真实端口 health + 浏览器徽标实开
+
 ## [1.1.5] — 2026-10-31 · P0 修复：地图路线从未渲染（revealed 嵌套 detail 读错层级）
 
 ### Fixed（用户复核发现的 P0）

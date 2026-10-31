@@ -26,10 +26,16 @@ from pydantic import BaseModel, Field
 from .agent import TripRequest, run_pipeline
 from .agent import llm as llm_mod
 from .agent.events import EventBus
+from .agent.pipeline import _load_dotenv
 from .agent.revise import revise_plan
 from .tools import obs
 from .tools.geo import Projector
 from .tools.poi_search import _ensure_aliases, _load_meta, load_pois
+
+# 服务启动即加载 .env（run_pipeline 内也会再 load 一次，setdefault 幂等）——
+# 否则 /api/health 的 resolve_mode() 在首次规划前读不到 key，徽标谎报「引擎离线」
+# 而实际规划走在线（如实标注原则：徽标必须与真实模式一致）
+_load_dotenv()
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
