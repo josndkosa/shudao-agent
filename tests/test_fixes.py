@@ -179,6 +179,65 @@ def test_narrator_none_content_falls_back(monkeypatch):
     assert any(e.type == "fallback" for e in bus.events)
 
 
+# ─────────────────── 缺陷 3b：工具结果截断 → 幻觉 POI（03F 缺陷A） ───────────────────
+
+def test_llm_tool_result_projected_not_truncated(monkeypatch):
+    """03F 缺陷A回归锁：poi_search 工具结果必须经 _poi_brief 投影后再进 messages——
+    全量厚字段（大理 15 点 ≈ 5651 字符）超 [:4000] 截成烂尾 JSON，模型只能
+    「补全」出幻觉 POI id（在线实测 17 个非法 POI 的根因）。"""
+    import json
+    from types import SimpleNamespace
+
+    from server.agent import llm as llm_mod
+    from server.agent import planner as planner_mod
+
+    state = {"n": 0}
+    tool_msgs = []
+
+    def fake_chat(messages, tools=None, temperature=0.3, json_mode=False):
+        state["n"] += 1
+        tool_msgs.extend(m for m in messages if m["role"] == "tool")
+        if state["n"] == 1:
+            call = SimpleNamespace(id="call_1", function=SimpleNamespace(
+                name="poi_search", arguments='{"city": "大理"}'))
+            return SimpleNamespace(content=None, tool_calls=[call]), "tool_call"
+        return SimpleNamespace(content=json.dumps(
+            {"days": [{"day": 1, "city": "大理", "items": [{"poi_id": "DL-01"}]}]},
+            ensure_ascii=False), tool_calls=None), "final"
+
+    monkeypatch.setattr(llm_mod, "chat", fake_chat)
+    plan = planner_mod.llm_plan(
+        TripRequest(days=1, budget=3000, tags=["文化"], cities=["大理"]), EventBus())
+
+    assert plan["mode"] == "llm-fc", f"应走在线规划：{plan.get('mode')}"
+    assert len(tool_msgs) == 1, "第二轮 chat 应携带一条 tool 消息"
+    content = tool_msgs[0]["content"]
+    payload = json.loads(content)            # 烂尾 JSON 会在这里炸
+    assert len(content) < 3000, f"投影后工具结果仍超长：{len(content)} 字符"
+    pois = payload["pois"]
+    assert pois and all("id" in p for p in pois), "投影必须保留 id（LLM 回抄依据）"
+    assert all("lat" not in p and "summary" not in p and "slope" not in p for p in pois), \
+        "厚字段未投影掉——_poi_brief 没接上会重新撞截断"
+
+
+def test_tool_content_truncates_whole_elements():
+    """超长工具结果按整点丢弃截断：输出仍是合法 JSON 且带 truncated 说明，
+    绝不截在 JSON 结构中间（残缺 JSON 会被模型补全成幻觉）。"""
+    import json
+
+    from server.agent.planner import _tool_content
+
+    big = {"count": 40, "pois": [
+        {"id": f"X-{i:03d}", "name": "点" * 30, "city": "测试"} for i in range(40)]}
+    s = _tool_content(big, limit=1000)
+    payload = json.loads(s)
+    assert payload["count"] == len(payload["pois"]) < 40, "count 应与实际保留数一致"
+    assert "truncated" in payload, "截断必须显式说明，不让模型猜"
+    assert len(s) <= 1000
+    small = {"count": 2, "pois": [{"id": "A", "name": "甲"}, {"id": "B", "name": "乙"}]}
+    assert json.loads(_tool_content(small)) == small, "未超长时原样返回"
+
+
 # ─────────────────── 缺陷 4：杂项 ───────────────────
 
 def test_eventbus_seq_resets_per_instance():

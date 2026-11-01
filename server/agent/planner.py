@@ -35,17 +35,50 @@ def _poi_brief(p):
     }
 
 
+def _tool_content(result, limit=4000):
+    """工具结果进 messages 的安全序列化：超长时对 pois 列表尾部整点丢弃再序列化，
+    绝不截在 JSON 中间——残缺 JSON 会被模型「补全」成幻觉 POI（03F 缺陷A根因）。"""
+    s = json.dumps(result, ensure_ascii=False)
+    if len(s) <= limit:
+        return s
+    pois = result.get("pois")
+    if not isinstance(pois, list):
+        return s[:limit]
+    while pois:
+        dropped = len(result["pois"]) - len(pois)
+        out = {**result, "pois": pois, "count": len(pois)}
+        if dropped:
+            out["truncated"] = f"已按 score 降序截去尾部 {dropped} 个候选"
+        s = json.dumps(out, ensure_ascii=False)
+        if len(s) <= limit:
+            return s
+        pois = pois[:-1]
+    return json.dumps({"count": 0, "pois": [], "truncated": "候选全部超长丢弃"},
+                      ensure_ascii=False)
+
+
 def _ic_leg(city_a, city_b):
     """城际段参数（hours + 车次名）：覆盖表带 label（成渝高铁），自动生成的城对用通用名。"""
     info = intercity(city_a, city_b)
     return {"hours": info["hours"], "label": info.get("label", f"{city_a}→{city_b} 列车")}
 
 
-def _select_cities(request, bus: EventBus):
-    """城市选择：request.cities 显式指定优先（过滤未收录城市）；空则按候选池总分自动选 N 城。
+MAX_HOP_HOURS = 4.0   # 自动选城单跳城际上限：成渝1.8/渝贵2.5/贵昆3.5/昆大2.0 均在内；
+                      # 成都→西双版纳 5.3h、阆中→昆明 4.4h 排除——到达已过半日，容量装不下大点，
+                      # 亲子组曾因此摘成「空壳天」（坐5小时车去吃晚饭）。显式指定不受此限。
 
-    N = min(days, 有 POI 的城市数)——三天三城是西南赛区的真实节奏（成渝高铁 1.8h、
-    昆明-大理 2h 级），选城顺序 = 总分降序，即行程的城市顺序。
+
+def _hop_hours(a, b):
+    return intercity(a, b)["hours"]
+
+
+def _select_cities(request, bus: EventBus):
+    """城市选择：request.cities 显式指定优先（过滤未收录城市）；空则自动选 N 城。
+
+    批次2 算法：起点 = 候选池总分最高城；此后每跳在「距路线末端城际 ≤ MAX_HOP_HOURS」的
+    未选城市中取总分最高者，无可达候选即停（宁少选城不选绕路/超长途）。
+    一跳一跳选天然地理紧凑（不绕路）；总分优先保证城市质量——取代批次1 的
+    「总分 top N + 最近邻重排」（该法把成都→西双版纳 5.3h 也串进一日切换）。
     """
     if request.cities:
         chosen = [c for c in request.cities if c in CITY_HUB]
@@ -60,13 +93,25 @@ def _select_cities(request, bus: EventBus):
     by_city = {}
     for p in r["pois"]:
         by_city[p["city"]] = by_city.get(p["city"], 0.0) + p.get("_score", 0)
-    ranked = sorted(by_city, key=lambda c: -by_city[c])
-    n = min(request.days, len(ranked)) if ranked else 0
-    chosen = ranked[:n]
+    if not by_city:
+        return []
+    n = min(request.days, len(by_city))
+    chosen = [max(by_city, key=lambda c: by_city[c])]
+    rest = sorted((c for c in by_city if c not in chosen), key=lambda c: -by_city[c])
+    while rest and len(chosen) < n:
+        last = chosen[-1]
+        reachable = [c for c in rest if _hop_hours(last, c) <= MAX_HOP_HOURS]
+        if not reachable:
+            break   # 距路线末端已无可达城市：宁少选城，不串超长途
+        chosen.append(reachable[0])            # 可达候选中总分最高
+        rest.remove(reachable[0])
     if chosen:
         score_desc = "、".join(f"{c}{by_city[c]:.1f}分" for c in chosen)
+        hops = "、".join(f"{chosen[i]}→{chosen[i+1]} {_hop_hours(chosen[i], chosen[i+1])}h"
+                         for i in range(len(chosen) - 1)) or "单城"
         bus.emit("plan", "decision", f"自动选城：{'、'.join(chosen)}",
-                 reason=f"候选池总分 top {n}（{score_desc}）", detail=chosen)
+                 reason=f"总分最高起点+逐跳≤{MAX_HOP_HOURS}h可达最高分（{score_desc}；{hops}）",
+                 detail=chosen)
     return chosen
 
 
@@ -440,20 +485,28 @@ def llm_plan(request, bus: EventBus):
     try:
         city_list = _select_cities(request, bus)
         system = (
-            "你是西南文旅行程规划师。规则：先调用 poi_search 获取候选城市并打分，"
-            "再调用 route 估算交通，最后输出 JSON 行程（含 days/items/budget）。"
-            "每日 08:30 出发 22:00 前结束，午晚餐各 1 小时，点位须在开放时段内。"
-            "输出 JSON，不要输出其他文字。"
+            "你是西南文旅行程规划师，只根据工具返回的真实数据规划，不得使用你自己的知识补充景点。"
+            "流程：先 poi_search 获取候选（含 id/名称/开放时段/票价/游玩时长），"
+            "必要时 route 估算交通，然后输出行程 JSON。"
+            "硬约束：每日 08:30 出发、22:00 前结束；午晚餐各 1 小时；点位必须落在其 open_hour 内；"
+            "跨城日需为城际交通预留时间；总花费不得超过用户预算，超预算时减少高票价点。"
+            "禁造：poi_id 必须原样复制自 poi_search 返回的 id，禁止发明景点、票价、开放时段、天气；"
+            "城市只能在用户给定的 cities 内选择。"
+            "输出契约：只输出一个 JSON 对象，不要 markdown 代码块、不要任何解释文字。结构为 "
+            '{"days":[{"day":1,"city":"城市名","items":[{"poi_id":"工具返回的id"}]}]}。'
+            "days 长度必须等于用户天数；每天 items 2-5 个，只列 poi，不要输出用餐/城际条目；"
+            "不要输出 arrival/departure/ticket/budget/narrative，这些由系统按本地数据重算。"
         )
         user = json.dumps({
             "days": request.days, "budget": request.budget, "tags": request.tags,
             "family": request.family, "cities": city_list,
-        }, ensure_ascii=False)
+        }, ensure_ascii=False) + "\n请按契约输出 days JSON，poi_id 只能来自 poi_search 返回。"
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
         def exec_tool(name, args):
             if name == "poi_search":
-                return poi_search(**args)
+                r = poi_search(**args)
+                return {"count": r["count"], "pois": [_poi_brief(p) for p in r["pois"]]}
             if name == "route":
                 frm, to = POI_INDEX.get(args["from_id"]), POI_INDEX.get(args["to_id"])
                 mode = args.get("mode", "city")
@@ -485,18 +538,20 @@ def llm_plan(request, bus: EventBus):
                 bus.emit("plan", "tool_result", f"{c.function.name} 返回",
                          reason="本地快照执行结果", detail=str(result)[:200])
                 messages.append({"role": "tool", "tool_call_id": c.id,
-                                 "content": json.dumps(result, ensure_ascii=False)[:4000]})
+                                 "content": _tool_content(result)})
             msg, kind = llm_mod.chat(messages, tools=llm_mod.TOOL_SCHEMAS)
-        content = msg.content or ""
-        start = content.find("{")
-        end = content.rfind("}")
-        if start >= 0 and end > start:
-            plan = json.loads(content[start:end + 1])
-            plan = _normalize_llm_plan(plan, request, bus)
-            bus.emit("plan", "done", "LLM 规划完成（已归一化）",
-                     reason=f"{rounds} 轮工具调用，结构对齐离线规划器")
-            return plan
-        raise ValueError("LLM 输出中未找到 JSON")
+        content = (msg.content or "").strip()
+        try:
+            raw = json.loads(content)
+        except json.JSONDecodeError:
+            start, end = content.find("{"), content.rfind("}")
+            if start < 0 or end <= start:
+                raise ValueError("LLM 输出中未找到 JSON")
+            raw = json.loads(content[start:end + 1])
+        plan = _normalize_llm_plan(raw, request, bus)
+        bus.emit("plan", "done", "LLM 规划完成（已归一化）",
+                 reason=f"{rounds} 轮工具调用，结构对齐离线规划器")
+        return plan
     except Exception as e:
         bus.emit("plan", "fallback", "LLM 规划降级为离线规划器",
                  reason=f"{type(e).__name__}: {e}")

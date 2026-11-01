@@ -40,7 +40,8 @@ TOOL_SCHEMAS = [
         "type": "function",
         "function": {
             "name": "route",
-            "description": "估算两点间交通耗时（市内）或城际列车。",
+            "description": "估算两点间交通耗时（市内）或城际列车。"
+                           "from_id/to_id 必须来自 poi_search 返回的 id；返回小时数。",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -96,21 +97,34 @@ def resolve_mode():
     return "online" if has_key else "offline"
 
 
-def chat(messages, tools=None, temperature=0.3, max_tool_rounds=6):
-    """在线 FC 对话。返回 (content, tool_calls, usage_note)。openai 延迟导入。"""
+def chat(messages, tools=None, temperature=0.3, json_mode=False):
+    """在线 FC 对话：单次调用，多轮循环由调用方（planner）驱动。返回 (msg, kind)。
+
+    json_mode 只用于无 tools 的纯 JSON 调用点——DeepSeek 文档标注 JSON 模式与
+    function calling 不能同开，故 planner 的工具循环不传；若 API 拒绝
+    response_format，去掉该参数重试一次而不是硬闯。
+    """
     from openai import OpenAI
 
     client = OpenAI(
         api_key=os.environ["DEEPSEEK_API_KEY"],
         base_url=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+        timeout=30.0,
+        max_retries=2,
     )
     kwargs = dict(model="deepseek-chat", messages=messages, temperature=temperature)
     if tools:
         kwargs["tools"] = tools
-    for _ in range(max_tool_rounds):
+    if json_mode:
+        kwargs["response_format"] = {"type": "json_object"}
+    try:
         resp = client.chat.completions.create(**kwargs)
-        msg = resp.choices[0].message
-        if msg.tool_calls:
-            return msg, "tool_call"
-        return msg, "final"
-    return resp.choices[0].message, "final"
+    except Exception:
+        if not json_mode:
+            raise
+        kwargs.pop("response_format", None)
+        resp = client.chat.completions.create(**kwargs)
+    msg = resp.choices[0].message
+    if msg.tool_calls:
+        return msg, "tool_call"
+    return msg, "final"
