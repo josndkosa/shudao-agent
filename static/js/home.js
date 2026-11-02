@@ -32,10 +32,27 @@ function passThrough() {
   location.replace("plan.html?" + q);
 }
 
+/** 首页统计动态化（任务D）：POI 数/城数来自 api.meta() 的真实数据层——
+ *  硬编码必然随数据演进过期（「101 POI / 6 城」在 15 城 237 点后早就不实）。
+ *  后端未启动时走 MockApi 的 demo-geo 快照统计（徽标已如实标注「本地演示数据」）；
+ *  连快照都拿不到才保持占位「—」——不显示 undefined/NaN，也不显示过时的具体数字。 */
+async function fillStats() {
+  const poiEl = document.querySelector("[data-stat='poi']");
+  const cityEl = document.querySelector("[data-stat='city']");
+  try {
+    const m = await api.meta();
+    if (poiEl && m.meta?.count != null) poiEl.textContent = m.meta.count;
+    if (cityEl && Array.isArray(m.cities)) cityEl.textContent = m.cities.length;
+  } catch (err) {
+    console.warn("统计填充失败，保持占位：", err?.message || err);
+  }
+}
+
 async function boot() {
   passThrough();
   const h = await api.health();
   setBadges(h);
+  fillStats();
 }
 
 boot().catch(err => {

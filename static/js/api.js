@@ -185,10 +185,14 @@ class MockApi {
     const data = await this._load("demo-geo.json");
     const { _city_meta, ...pts } = data;
     const tags = new Set();
+    let count = 0;
     for (const city of Object.values(pts)) {
+      count += city.length;
       for (const p of city) (p.tags || []).forEach(t => tags.add(t));
     }
-    return { cities: Object.keys(pts), tags: [...tags], meta: { source: "local-snapshot" } };
+    // count 与 LiveApi 的 meta.count 同义（断网时数字来自本地演示快照，徽标如实标注）
+    return { cities: Object.keys(pts), tags: [...tags],
+             meta: { source: "local-snapshot", count } };
   }
 }
 

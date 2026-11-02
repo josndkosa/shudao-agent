@@ -63,6 +63,79 @@ def test_new_cities_data_integrity():
     assert total >= 230, f"15 城 POI 总数应 ≥230（11 城 176 + 新 4 城 ≥60）：{total}"
 
 
+# ─────────────────── 03H 任务H3：在线路径行为回归锁 ───────────────────
+
+def test_cross_day_dedupe_with_event():
+    """跨天去重锁：同 poi_id 只出现在一天，且有事件说明（03F 任务C缺陷）。"""
+    from server.agent import TripRequest
+    from server.agent.events import EventBus
+    from server.agent.planner import _normalize_llm_plan
+
+    raw = {"days": [
+        {"day": 1, "city": "成都", "items": [{"poi_id": "CD-01"}, {"poi_id": "CD-05"}]},
+        {"day": 2, "city": "成都", "items": [{"poi_id": "CD-01"}, {"poi_id": "CD-07"}]},
+    ]}
+    bus = EventBus()
+    plan = _normalize_llm_plan(raw, TripRequest(days=2, budget=5000), bus)
+    pids = [it["poi_id"] for d in plan["days"] for it in d["items"] if it["type"] == "poi"]
+    assert pids.count("CD-01") == 1, f"跨天去重失效：{pids}"
+    evs = [e for e in bus.events if e.type == "fallback" and "重复" in e.title]
+    assert evs and "第1天" in evs[0].reason, f"去重必须有可读事件：{evs}"
+
+
+def test_silent_day_drop_emits_event():
+    """静默丢天锁：某天全非法 → 有事件说明该天未安排（不是静默 continue）。"""
+    from server.agent import TripRequest
+    from server.agent.events import EventBus
+    from server.agent.planner import _normalize_llm_plan
+
+    raw = {"days": [
+        {"day": 1, "city": "成都", "items": [{"poi_id": "CD-01"}]},
+        {"day": 2, "city": "贵阳", "items": [{"poi_id": "NOT-1"}, {"poi_id": "NOT-2"}]},
+    ]}
+    bus = EventBus()
+    plan = _normalize_llm_plan(raw, TripRequest(days=2, budget=5000), bus)
+    assert len(plan["days"]) == 1
+    evs = [e for e in bus.events if "未安排整天" in e.title]
+    assert evs and "贵阳" in evs[0].reason, \
+        f"丢天事件必须说明哪座城、为什么：{[(e.title, e.reason) for e in evs]}"
+
+
+def test_meal_count_consistency_and_no_early_dinner():
+    """餐数口径锁（03F 任务B）：
+    ① 中午前结束的半天不出现晚餐，且至少有一个午餐；
+    ② 完整管线的每一天：时间线 meal 条目数 == _day_load 计入的餐数（两把尺子同口径）。"""
+    from server.agent import TripRequest, run_pipeline
+    from server.agent.events import EventBus
+    from server.agent.planner import (
+        CITY_HUB,
+        POI_INDEX,
+        _build_timeline,
+        _day_load,
+        _ic_of_day,
+    )
+
+    pois = [POI_INDEX["CD-16"]]           # 铁像寺水街 1.5h：约 10:30 结束的半天
+    items = _build_timeline(pois, CITY_HUB["成都"])
+    meals = [it for it in items if it["type"] == "meal"]
+    assert meals and all(it["label"] == "午餐" for it in meals), \
+        f"中午前结束只应有午餐（旧缺陷会硬插晚餐 10:30-11:30）：{[it['label'] for it in meals]}"
+    light = _day_load(pois, "成都", meal_count=len(meals))
+    heavy = _day_load(pois, "成都")
+    assert abs(light["hours"] - heavy["hours"]) == 1.0, \
+        "1 餐 vs 默认 2 餐的 hours 差应为 1.0（口径联动的数值证据）"
+
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"],
+                                 cities=["成都", "重庆"]), EventBus())
+    for d in r["itinerary"]["days"]:
+        day_pois = [POI_INDEX[it["poi_id"]] for it in d["items"] if it["type"] == "poi"]
+        n_meals = sum(1 for it in d["items"] if it["type"] == "meal")
+        assert n_meals >= 1, f"每天至少一餐：Day{d['day']} 只有 {n_meals} 餐"
+        expect = _day_load(day_pois, d["city"], ic=_ic_of_day(d), meal_count=n_meals)
+        assert d["load"] == expect, \
+            f"Day{d['day']} 负载与时间线餐数口径不一致：{d['load']} vs {expect}"
+
+
 def test_load_city_pois_auto_index_new_city(tmp_path, monkeypatch):
     """零代码新增城市：丢一个含 city 字段的 json 进数据目录即可被收录（开发指南承诺）。"""
     import importlib
