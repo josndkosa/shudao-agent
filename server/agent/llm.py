@@ -86,15 +86,22 @@ TOOL_SCHEMAS = [
 
 
 def resolve_mode():
+    """三级模式解析（auto/online/offline）。
+
+    公网防护（03H 任务F）：auto 路径需显式 SD_ALLOW_ONLINE=1 才允许走在线——
+    部署到公网后即使环境里残留 key，默认也只跑离线分支，不烧 DeepSeek 额度；
+    显式 SD_LLM_MODE=online 是开发/答辩的明确意图，不受此开关约束（优先级最高）。
+    """
     mode = os.environ.get("SD_LLM_MODE", "auto").lower()
     has_key = bool(os.environ.get("DEEPSEEK_API_KEY"))
+    allow_online = os.environ.get("SD_ALLOW_ONLINE", "") in ("1", "true", "True")
     if mode == "online":
         if not has_key:
             raise RuntimeError("SD_LLM_MODE=online 但未设置 DEEPSEEK_API_KEY")
         return "online"
     if mode == "offline":
         return "offline"
-    return "online" if has_key else "offline"
+    return "online" if (has_key and allow_online) else "offline"
 
 
 def chat(messages, tools=None, temperature=0.3, json_mode=False):

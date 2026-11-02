@@ -15,14 +15,16 @@ from __future__ import annotations
 
 import asyncio
 import json
+import time
 import uuid
 from functools import lru_cache
 from pathlib import Path
+from typing import Annotated
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, StringConstraints
 
 from .agent import TripRequest, run_pipeline
 from .agent import llm as llm_mod
@@ -49,16 +51,46 @@ _PLAN_CAP = 50
 
 
 class PlanRequest(BaseModel):
+    """输入长度上限（任务F）：公网开放后 tags/cities 无限堆与超长串都会打到管线。"""
     days: int = Field(3, ge=1, le=7)
     budget: int = Field(3000, ge=500)
-    tags: list[str] = Field(default_factory=list)
+    tags: list[Annotated[str, StringConstraints(max_length=24)]] = Field(
+        default_factory=list, max_length=8)
     family: bool = False
-    cities: list[str] = Field(default_factory=list)   # 空 = 按候选池总分自动选城
+    cities: list[Annotated[str, StringConstraints(max_length=16)]] = Field(
+        default_factory=list, max_length=16)   # 空 = 按候选池总分自动选城
 
 
 class ReviseRequest(BaseModel):
-    plan_id: str
-    message: str
+    plan_id: str = Field(..., min_length=1, max_length=32)
+    message: str = Field(..., min_length=1, max_length=500)
+
+
+# ── IP 限流（任务F）：滑动窗口计数，标准库实现，零新依赖 ──
+# 仅在线模式限流（离线跑管线不烧钱，本地演示/答辩断网不能被自己的限流挡住）；
+# 进程内 dict 在多 worker 下是 per-worker 的——配合单 worker 部署口径（README 部署章节）
+_RATE_WINDOW = 1.0      # 秒
+_RATE_MAX = 5           # 每 IP 每窗口内最多 5 次规划类调用
+_rate_hits: dict[str, list[float]] = {}
+
+
+def _rate_limited(ip: str) -> bool:
+    if llm_mod.resolve_mode() != "online":
+        return False
+    now = time.monotonic()
+    if len(_rate_hits) > 10000:     # 防字典膨胀：异常多 IP 时整体重置（宁松勿崩）
+        _rate_hits.clear()
+    hits = [t for t in _rate_hits.get(ip, []) if now - t < _RATE_WINDOW]
+    hits.append(now)
+    _rate_hits[ip] = hits
+    return len(hits) > _RATE_MAX
+
+
+async def _rate_guard(request: Request):
+    ip = request.client.host if request.client else "unknown"
+    if _rate_limited(ip):
+        raise HTTPException(status_code=429,
+                            detail="请求过于频繁（每秒限 5 次），请稍后再试")
 
 
 def _to_trip(req: PlanRequest) -> TripRequest:
@@ -116,7 +148,7 @@ async def health():
     return {"status": "ok", "mode": mode, "llm": mode == "online"}
 
 
-@app.post("/api/plan")
+@app.post("/api/plan", dependencies=[Depends(_rate_guard)])
 async def plan(req: PlanRequest):
     """同步跑完三段式管线，返回完整行程 + 事件流。
 
@@ -130,7 +162,7 @@ async def plan(req: PlanRequest):
     return {"plan_id": plan_id, **result}
 
 
-@app.post("/api/stream")
+@app.post("/api/stream", dependencies=[Depends(_rate_guard)])
 async def stream(req: PlanRequest, request: Request):
     """SSE 流式：管线在线程池跑，emit 回调实时推事件。
 
@@ -177,7 +209,7 @@ async def stream(req: PlanRequest, request: Request):
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
-@app.post("/api/revise")
+@app.post("/api/revise", dependencies=[Depends(_rate_guard)])
 async def revise(req: ReviseRequest):
     """对话式改行程：纯规则意图解析（离线可用），只重排目标天并复查。"""
     entry = _PLANS.get(req.plan_id)

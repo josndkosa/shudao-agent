@@ -196,3 +196,77 @@ def test_index_served():
     r = client.get("/")
     assert r.status_code == 200
     assert "蜀道智行" in r.text
+
+# ─────────────────── 任务F：公网防护（输入上限 / IP限流 / 在线开关） ───────────────────
+
+def test_input_length_limits_return_422():
+    """超长输入返回 422 而非 500：message ≤500、tags ≤8 项且每项 ≤24 字、cities ≤16 项。"""
+    p = client.post("/api/plan", json={"days": 1, "budget": 2000}).json()
+    r = client.post("/api/revise", json={"plan_id": p["plan_id"], "message": "长" * 5000})
+    assert r.status_code == 422, f"超长 message 应 422，实际 {r.status_code}"
+    r = client.post("/api/plan", json={"days": 1, "budget": 2000,
+                                       "tags": [f"标签{i}" for i in range(20)]})
+    assert r.status_code == 422, f"tags 超项数应 422，实际 {r.status_code}"
+    r = client.post("/api/plan", json={"days": 1, "budget": 2000, "tags": ["超" * 100]})
+    assert r.status_code == 422, f"tags 项超长应 422，实际 {r.status_code}"
+    r = client.post("/api/plan", json={"days": 1, "budget": 2000,
+                                       "cities": [f"城市{i}" for i in range(20)]})
+    assert r.status_code == 422, f"cities 超项数应 422，实际 {r.status_code}"
+
+
+def test_rate_limit_429_online_not_offline(monkeypatch):
+    """同 IP 高频：在线模式第 N+1 次起 429；离线模式不受限流（本地演示不被自己挡住）。
+
+    run_pipeline 打桩为即时返回——本测只测限流判定，mock resolve_mode=online
+    会让端点真跑 DeepSeek 在线管线（初版测试就这样烧了 27 秒真实调用）。
+    """
+    import server.app as app_mod
+    from server.agent import llm as llm_mod
+
+    def fast_pipeline(request, bus=None, on_event=None):
+        return {"itinerary": {"days": [], "budget": {}}, "timeline": [],
+                "mode": "online", "budget": {}}
+
+    monkeypatch.setattr(app_mod, "run_pipeline", fast_pipeline)
+    monkeypatch.setattr(llm_mod, "resolve_mode", lambda: "online")
+    app_mod._rate_hits.clear()
+    try:
+        codes = [client.post("/api/plan", json={"days": 1, "budget": 2000}).status_code
+                 for _ in range(8)]
+        assert 429 in codes, f"在线模式高频应触发 429：{codes}"
+        assert codes[:5] == [200] * 5, f"前 5 次（窗口上限）不应被限：{codes[:5]}"
+    finally:
+        app_mod._rate_hits.clear()
+
+    monkeypatch.setattr(llm_mod, "resolve_mode", lambda: "offline")
+    app_mod._rate_hits.clear()
+    try:
+        codes = [client.post("/api/plan", json={"days": 1, "budget": 2000}).status_code
+                 for _ in range(8)]
+        assert 429 not in codes, f"离线模式不应被限流：{codes}"
+    finally:
+        app_mod._rate_hits.clear()
+
+
+def test_resolve_mode_allow_online_gate(monkeypatch):
+    """SD_ALLOW_ONLINE 开关：auto+key 无开关 → offline；有开关 → online；
+    显式 SD_LLM_MODE=online 是明确意图不受开关约束；无 key 时 online 仍报错。"""
+    from server.agent import llm as llm_mod
+
+    monkeypatch.setenv("SD_LLM_MODE", "auto")
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-test")
+    monkeypatch.delenv("SD_ALLOW_ONLINE", raising=False)
+    assert llm_mod.resolve_mode() == "offline", "auto+key 但无 SD_ALLOW_ONLINE 应回落 offline"
+    monkeypatch.setenv("SD_ALLOW_ONLINE", "1")
+    assert llm_mod.resolve_mode() == "online", "auto+key+SD_ALLOW_ONLINE=1 应在线"
+    monkeypatch.setenv("SD_ALLOW_ONLINE", "0")
+    assert llm_mod.resolve_mode() == "offline", "SD_ALLOW_ONLINE=0 等价于未开"
+    monkeypatch.setenv("SD_LLM_MODE", "online")
+    monkeypatch.setenv("SD_ALLOW_ONLINE", "0")
+    assert llm_mod.resolve_mode() == "online", "显式 online 是明确意图，不受开关约束"
+    monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+    try:
+        llm_mod.resolve_mode()
+        assert False, "online 无 key 应抛 RuntimeError"
+    except RuntimeError:
+        pass
