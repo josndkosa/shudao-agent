@@ -1,0 +1,122 @@
+[
+  {
+    "id": "LZ-01", "name": "阆中古城", "city": "阆中", "lat": 31.5805, "lng": 105.9775,
+    "tags": ["古镇", "历史文化", "街区", "美食"],
+    "ticket": 0, "visit_hours": 3.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 17], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": true,
+    "summary": "嘉陵江三面环绕的千年古城，唐宋格局明清院落保存完整，张飞牛肉与保宁醋的味道满街都是"
+  },
+  {
+    "id": "LZ-02", "name": "汉桓侯祠（张飞庙）", "city": "阆中", "lat": 31.5789, "lng": 105.9783,
+    "tags": ["历史文化", "古镇"],
+    "ticket": 40, "visit_hours": 1.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "张飞镇守阆中七年的墓地与祠庙，千年古柏与敌万楼匾额，三国迷的朝圣地"
+  },
+  {
+    "id": "LZ-03", "name": "川北道贡院", "city": "阆中", "lat": 31.5812, "lng": 105.9768,
+    "tags": ["历史文化", "博物馆"],
+    "ticket": 35, "visit_hours": 1.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "全国保存最完整的清代科举考场，至公堂与号舍原样陈列，还能换考生服体验一场乡试"
+  },
+  {
+    "id": "LZ-04", "name": "中天楼", "city": "阆中", "lat": 31.5806, "lng": 105.9781,
+    "tags": ["建筑", "历史文化", "摄影"],
+    "ticket": 25, "visit_hours": 1.0, "open_hour": [9, 18], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "古城正中心的过街楼，东西南北四条街在此十字交汇，登楼看青瓦连片的风水棋盘"
+  },
+  {
+    "id": "LZ-05", "name": "华光楼", "city": "阆中", "lat": 31.5771, "lng": 105.9812,
+    "tags": ["建筑", "夜景", "摄影"],
+    "ticket": 20, "visit_hours": 1.0, "open_hour": [9, 20], "reserve": 0,
+    "crowd_peak": [15, 19], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "古城临江第一楼，楼下石阶就是老码头，傍晚灯亮后江面倒影与楼影连成一线"
+  },
+  {
+    "id": "LZ-06", "name": "锦屏山", "city": "阆中", "lat": 31.5674, "lng": 105.9801,
+    "tags": ["自然", "历史文化", "徒步", "园林"],
+    "ticket": 30, "visit_hours": 2.5, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [9, 16], "crowd_level": 2, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "嘉陵江对岸的观山，杜甫陆游都留过诗，观星楼是拍古城全景与日落的最佳机位"
+  },
+  {
+    "id": "LZ-07", "name": "阆中滕王阁", "city": "阆中", "lat": 31.5902, "lng": 105.9659,
+    "tags": ["建筑", "历史文化", "徒步"],
+    "ticket": 30, "visit_hours": 2.0, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "王勃滕王阁序写的是南昌，但滕王李元婴先在阆中建的这座才是原版，玉台山腰俯瞰江流"
+  },
+  {
+    "id": "LZ-08", "name": "巴巴寺", "city": "阆中", "lat": 31.5885, "lng": 105.9708,
+    "tags": ["宗教", "历史文化", "建筑"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [8, 17], "reserve": 0,
+    "crowd_peak": [9, 15], "crowd_level": 1, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "伊斯兰教嘎德忍耶学派先贤陵墓，砖雕与大木作被誉为川北一绝，闹中取静少有人知"
+  },
+  {
+    "id": "LZ-09", "name": "大佛寺", "city": "阆中", "lat": 31.5732, "lng": 105.9882,
+    "tags": ["佛教", "奇观", "山水"],
+    "ticket": 10, "visit_hours": 1.5, "open_hour": [8, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "唐代十米高摩崖大佛临江而坐，大佛脚下抬头看佛头在崖顶探出，唐代题刻还留在龛边"
+  },
+  {
+    "id": "LZ-10", "name": "白塔山", "city": "阆中", "lat": 31.5958, "lng": 105.9866,
+    "tags": ["徒步", "摄影", "自然"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 20], "reserve": 0,
+    "crowd_peak": [7, 10], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "明代白塔立山顶，日出前爬上去能同时看到古城晨雾与嘉陵江第一缕光，本地摄影据点"
+  },
+  {
+    "id": "LZ-11", "name": "状元洞", "city": "阆中", "lat": 31.5848, "lng": 105.9922,
+    "tags": ["历史文化", "徒步"],
+    "ticket": 15, "visit_hours": 1.0, "open_hour": [8.5, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "北宋陈氏三兄弟读书处，将相堂紫微亭读书岩一洞三名，阆中状元之乡的原点"
+  },
+  {
+    "id": "LZ-12", "name": "天宫院", "city": "阆中", "lat": 31.5119, "lng": 105.9209,
+    "tags": ["历史文化", "奇观"],
+    "ticket": 40, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "唐代天文历算家袁天罡李淳风墓地所在，罗盘造型的文化景区，风水阆中的收官一站"
+  },
+  {
+    "id": "LZ-13", "name": "嘉陵江游船", "city": "阆中", "lat": 31.5769, "lng": 105.9805,
+    "tags": ["山水", "夜景", "亲子"],
+    "ticket": 68, "visit_hours": 1.5, "open_hour": [9.5, 22], "reserve": 1,
+    "crowd_peak": [19, 21], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "从华光楼码头出发绕古城半圈，夜航时两岸灯光把三面环水的格局看得最明白"
+  },
+  {
+    "id": "LZ-14", "name": "秦家大院", "city": "阆中", "lat": 31.5795, "lng": 105.9752,
+    "tags": ["建筑", "历史文化"],
+    "ticket": 15, "visit_hours": 1.0, "open_hour": [9, 17.5], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "古城里保存最完好的清代四合院，天井照壁雕花窗一样不缺，红色标语还留在墙上"
+  },
+  {
+    "id": "LZ-15", "name": "贡院广场夜市", "city": "阆中", "lat": 31.5809, "lng": 105.9772,
+    "tags": ["夜市", "美食", "街区"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [17, 23], "reserve": 0,
+    "crowd_peak": [18, 21], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "古城入夜后的烟火中心，张飞牛肉面油茶馓子现做现卖，红灯笼下人手一碗热气"
+  }
+]

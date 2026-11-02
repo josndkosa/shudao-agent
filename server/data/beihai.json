@@ -1,0 +1,122 @@
+[
+  {
+    "id": "BH-01", "name": "北海老街", "city": "北海", "lat": 21.4812, "lng": 109.1138,
+    "tags": ["历史文化", "街区", "建筑", "美食"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [16, 21], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": true,
+    "summary": "1.44 公里中西合璧骑楼街，卷拱窗楣上长着榕树气根，虾饼和墨鱼丸的香味从街头飘到街尾"
+  },
+  {
+    "id": "BH-02", "name": "北海银滩", "city": "北海", "lat": 21.44, "lng": 109.128,
+    "tags": ["海滨", "自然"],
+    "ticket": 0, "visit_hours": 3.0, "open_hour": [6, 22], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 4, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "滩平沙白在阳光下真的泛银光，号称天下第一滩，退潮时赶小海能挖到沙蟹和蛤蜊"
+  },
+  {
+    "id": "BH-03", "name": "涠洲岛鳄鱼山", "city": "北海", "lat": 21.035, "lng": 109.111,
+    "tags": ["海滨", "奇观", "自然", "摄影"],
+    "ticket": 98, "visit_hours": 4.0, "open_hour": [8, 17], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "中国最年轻的火山岛南端，玄武岩柱状节理被海浪啃出鳄鱼嘴的轮廓，上岛票已含此景区"
+  },
+  {
+    "id": "BH-04", "name": "涠洲岛五彩滩", "city": "北海", "lat": 21.06, "lng": 109.125,
+    "tags": ["海滨", "摄影", "自然"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [5, 19], "reserve": 0,
+    "crowd_peak": [6, 8], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "全岛看日出的正位，退潮后火山岩平台上积一层海水映出朝霞，芝麻滩的黑沙白沙纹路像抽象画"
+  },
+  {
+    "id": "BH-05", "name": "涠洲岛滴水丹屏", "city": "北海", "lat": 21.048, "lng": 109.083,
+    "tags": ["海滨", "摄影", "奇观"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 19.5], "reserve": 0,
+    "crowd_peak": [17, 19], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "赤红的火山崖壁上藤蔓垂挂终日滴水，日头落到海平线的十分钟里整面崖壁被染成金红"
+  },
+  {
+    "id": "BH-06", "name": "涠洲岛盛塘天主堂", "city": "北海", "lat": 21.065, "lng": 109.095,
+    "tags": ["宗教", "建筑", "历史文化"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [8, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "1853 年珊瑚石块砌成的哥特教堂，村民后裔至今仍在里面做弥撒，堂前老榕树有百年树龄"
+  },
+  {
+    "id": "BH-07", "name": "侨港风情街", "city": "北海", "lat": 21.448, "lng": 109.115,
+    "tags": ["夜市", "美食", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [10, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "越南归侨聚居区的糖水一条街，炒冰、蟹仔粉、滴漏咖啡混着越南话叫卖声，宵夜首选地"
+  },
+  {
+    "id": "BH-08", "name": "冠头岭森林公园", "city": "北海", "lat": 21.43, "lng": 109.09,
+    "tags": ["自然", "摄影", "徒步"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [6, 19], "reserve": 0,
+    "crowd_peak": [17, 19], "crowd_level": 2, "slope": 2, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "市区唯一山头，日出日落都能看，礁石区潮池里有海葵和小螃蟹，日落档位需提前半小时占位"
+  },
+  {
+    "id": "BH-09", "name": "金海湾红树林", "city": "北海", "lat": 21.425, "lng": 109.155,
+    "tags": ["自然", "亲子", "动物"],
+    "ticket": 80, "visit_hours": 2.5, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "万亩红树林栈道走到观景塔，退潮时本地人拿着小铲子带娃赶海，弹涂鱼和招潮蟹遍地都是"
+  },
+  {
+    "id": "BH-10", "name": "北海海底世界", "city": "北海", "lat": 21.478, "lng": 109.112,
+    "tags": ["亲子", "动物", "博物馆"],
+    "ticket": 138, "visit_hours": 2.0, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "老牌海洋馆有 360 度全景海底隧道，鲨鱼从头顶游过的瞬间小孩能安静五分钟，雨天备选首选"
+  },
+  {
+    "id": "BH-11", "name": "外沙岛海鲜岛", "city": "北海", "lat": 21.495, "lng": 109.11,
+    "tags": ["美食", "海滨"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [10, 22], "reserve": 0,
+    "crowd_peak": [18, 20], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "渔船直接靠档的海鲜集散地，一楼挑二楼做，椒盐濑尿虾和白灼沙虫是本地人的点单暗号"
+  },
+  {
+    "id": "BH-12", "name": "海滩公园", "city": "北海", "lat": 21.448, "lng": 109.125,
+    "tags": ["海滨", "夜景"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [6, 22], "reserve": 0,
+    "crowd_peak": [19, 21], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "银滩中段的珍珠广场，晚上音乐喷泉开了以后 locals 拖家带口来遛弯，海风配喷泉很治愈"
+  },
+  {
+    "id": "BH-13", "name": "北海近代海关旧址", "city": "北海", "lat": 21.482, "lng": 109.1145,
+    "tags": ["历史文化", "建筑"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 1, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "1877 年开埠的老海关办公楼，现在是小展览馆，看完才知道这条骑楼街当年是面向大海的商埠前排"
+  },
+  {
+    "id": "BH-14", "name": "高德古镇", "city": "北海", "lat": 21.51, "lng": 109.12,
+    "tags": ["古镇", "美食", "历史文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [8, 20], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "老北海的发源地之一，骑楼比老街旧得多也安静得多，高德妈仔和笠汁是只有本地人知道的早餐"
+  },
+  {
+    "id": "BH-15", "name": "冯家江湿地公园", "city": "北海", "lat": 21.455, "lng": 109.135,
+    "tags": ["自然", "徒步", "亲子"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 19], "reserve": 0,
+    "crowd_peak": [7, 9], "crowd_level": 1, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "治污修复后再生的入海口湿地，木栈道穿芦苇荡，观鸟季白鹭起飞的画面比任何公园都值"
+  }
+]

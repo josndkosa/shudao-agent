@@ -1,0 +1,122 @@
+[
+  {
+    "id": "XJ-01", "name": "西江千户苗寨", "city": "西江千户苗寨", "lat": 26.3777, "lng": 108.3165,
+    "tags": ["民族", "古镇", "历史文化", "摄影"],
+    "ticket": 110, "visit_hours": 3.0, "open_hour": [0, 24], "reserve": 2,
+    "crowd_peak": [10, 16], "crowd_level": 5, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "一千多户吊脚楼从山脚叠到山脊的苗族聚落，门票是通票——博物馆、表演场、观景台全含，寨内石阶爬上爬下当锻炼"
+  },
+  {
+    "id": "XJ-02", "name": "嘎歌古巷", "city": "西江千户苗寨", "lat": 26.3802, "lng": 108.3172,
+    "tags": ["民族", "街区", "文创"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 21], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "寨子里最热闹的小巷，银匠锤声和拦门酒一起迎客，古歌堂里每天有苗族老人对着火塘唱迁徙史诗"
+  },
+  {
+    "id": "XJ-03", "name": "苗族博物馆", "city": "西江千户苗寨", "lat": 26.3805, "lng": 108.3168,
+    "tags": ["博物馆", "民族", "历史文化"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17.5], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "通票已含，五千年迁徙路用一件件绣片银饰讲完，看懂了再逛寨子完全是两个体验"
+  },
+  {
+    "id": "XJ-04", "name": "鼓藏头家", "city": "西江千户苗寨", "lat": 26.3822, "lng": 108.3185,
+    "tags": ["历史文化", "民族", "建筑"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [11, 15], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "苗寨精神领袖鼓藏头的居所，十三年一次的鼓藏节祭祖在这里起鼓，门槛上的老木头有讲究别乱踩"
+  },
+  {
+    "id": "XJ-05", "name": "也东寨吊脚楼群", "city": "西江千户苗寨", "lat": 26.384, "lng": 108.32,
+    "tags": ["古镇", "摄影", "徒步"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "往山脊上走十分钟就躲开主街人流，黑瓦木楼顺着等高线层层退台，摄影位随手就是明信片"
+  },
+  {
+    "id": "XJ-06", "name": "西江夜景观景台", "city": "西江千户苗寨", "lat": 26.3835, "lng": 108.3178,
+    "tags": ["夜景", "摄影", "民族"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [19, 23.5], "reserve": 0,
+    "crowd_peak": [20, 22], "crowd_level": 4, "slope": 2, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "一千多盏灯亮起来的瞬间整个山谷变成星河，所谓千户灯火就等这一眼，风大记得带外套"
+  },
+  {
+    "id": "XJ-07", "name": "苗家长桌宴", "city": "西江千户苗寨", "lat": 26.3808, "lng": 108.3182,
+    "tags": ["美食", "民族"],
+    "ticket": 68, "visit_hours": 1.5, "open_hour": [17, 21], "reserve": 1,
+    "crowd_peak": [18, 20], "crowd_level": 4, "slope": 1, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "酸汤鱼、糯米饭、拦门酒沿着长桌一路摆开，高山流水敬酒歌一响不喝完不让走，量力而行"
+  },
+  {
+    "id": "XJ-08", "name": "银饰刺绣工坊", "city": "西江千户苗寨", "lat": 26.3798, "lng": 108.3176,
+    "tags": ["文创", "艺术", "购物"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 19], "reserve": 0,
+    "crowd_peak": [11, 16], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "苗银一根錾子敲出蝴蝶妈妈，看着老师傅现场拉丝再决定买不买，比景区门口的义乌货靠谱十倍"
+  },
+  {
+    "id": "XJ-09", "name": "白水河风雨桥", "city": "西江千户苗寨", "lat": 26.3785, "lng": 108.3158,
+    "tags": ["建筑", "摄影", "山水"],
+    "ticket": 0, "visit_hours": 0.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "寨门口的廊桥，桥下白水河穿寨而过，清晨有雾时桥头一站就是水墨画"
+  },
+  {
+    "id": "XJ-10", "name": "游方街夜市", "city": "西江千户苗寨", "lat": 26.3795, "lng": 108.3188,
+    "tags": ["夜市", "美食", "街区"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [18, 23], "reserve": 0,
+    "crowd_peak": [19, 22], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "苗族青年以前在这里游方对歌找对象，现在是烤五花肉和米酒摊的主场，边走边吃正好消食"
+  },
+  {
+    "id": "XJ-11", "name": "西江梯田观景步道", "city": "西江千户苗寨", "lat": 26.3848, "lng": 108.3222,
+    "tags": ["梯田", "徒步", "自然", "摄影"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 19], "reserve": 0,
+    "crowd_peak": [9, 15], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "寨子后山层层叠叠的稻田，秋天金黄一片，沿着田埂慢慢走比观景台拍照舒服得多"
+  },
+  {
+    "id": "XJ-12", "name": "苗家酸汤鱼老店", "city": "西江千户苗寨", "lat": 26.3792, "lng": 108.318,
+    "tags": ["美食"],
+    "ticket": 45, "visit_hours": 1.5, "open_hour": [10, 21], "reserve": 0,
+    "crowd_peak": [12, 14], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "红酸汤用毛辣果自然发酵，稻田鱼现捞现杀，汤泡饭能吃三碗，比长桌宴更适合安静吃饭"
+  },
+  {
+    "id": "XJ-13", "name": "芦笙场歌舞表演", "city": "西江千户苗寨", "lat": 26.381, "lng": 108.317,
+    "tags": ["民族", "音乐", "艺术"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [11, 17], "reserve": 0,
+    "crowd_peak": [11.5, 12.5], "crowd_level": 4, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "通票已含，每天固定场次，几十支芦笙一起响的震动从脚底传上来，锦鸡舞 finale 别提前走"
+  },
+  {
+    "id": "XJ-14", "name": "乌嘎苗寨", "city": "西江千户苗寨", "lat": 26.3855, "lng": 108.3215,
+    "tags": ["古镇", "民族", "摄影"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "山脊最上端的寨子，游客到这里已经很少，晒着玉米辣椒的木楼前坐一下午也没人催你"
+  },
+  {
+    "id": "XJ-15", "name": "苗族蜡染坊", "city": "西江千户苗寨", "lat": 26.38, "lng": 108.319,
+    "tags": ["文创", "艺术", "民族"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 18], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 1, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "蜡刀蘸蜡在白布上画画再进靛蓝染缸，煮掉蜡就是青花纹样，可以上手体验半小时带走作品"
+  }
+]

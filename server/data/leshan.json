@@ -1,0 +1,122 @@
+[
+  {
+    "id": "LS-01", "name": "乐山大佛", "city": "乐山", "lat": 29.5446, "lng": 103.7718,
+    "tags": ["佛教", "奇观", "历史文化", "摄影"],
+    "ticket": 80, "visit_hours": 3.0, "open_hour": [8, 18.5], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "713年开凿的71米弥勒坐佛，三江汇流处凿山而成，九曲栈道贴佛脚俯瞰大渡河青衣江岷江交汇"
+  },
+  {
+    "id": "LS-02", "name": "峨眉山金顶", "city": "乐山", "lat": 29.5219, "lng": 103.3305,
+    "tags": ["雪山", "佛教", "徒步", "自然"],
+    "ticket": 160, "visit_hours": 4.0, "open_hour": [6, 17], "reserve": 2,
+    "crowd_peak": [9, 14], "crowd_level": 4, "slope": 3, "family": 3,
+    "night_friendly": false, "must_see": true,
+    "summary": "海拔3079米的十方普贤金像与云海日出，索道直达但山顶常年比市区低15度要带外套"
+  },
+  {
+    "id": "LS-03", "name": "峨眉山报国寺", "city": "乐山", "lat": 29.5551, "lng": 103.3386,
+    "tags": ["佛教", "宗教", "园林"],
+    "ticket": 8, "visit_hours": 1.5, "open_hour": [7, 18], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "峨眉山门户第一寺，康熙御题匾额仍在，山门外的峨眉山博物馆可免费先做功课"
+  },
+  {
+    "id": "LS-04", "name": "张公桥美食街", "city": "乐山", "lat": 29.5528, "lng": 103.7656,
+    "tags": ["夜市", "美食", "街区"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [17, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "乐山味道的总部的总部，跷脚牛肉钵钵鸡甜皮鸭油炸串串一条街吃完，本地人从桥头吃到桥尾"
+  },
+  {
+    "id": "LS-05", "name": "上中顺步行街", "city": "乐山", "lat": 29.5577, "lng": 103.7661,
+    "tags": ["街区", "美食", "文创"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [10, 22], "reserve": 0,
+    "crowd_peak": [12, 21], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "老城墙下的仿古街区，白天网红店拍照晚上灯笼亮起，乐山夜景最出片的一条街"
+  },
+  {
+    "id": "LS-06", "name": "东方佛都", "city": "乐山", "lat": 29.5377, "lng": 103.7727,
+    "tags": ["佛教", "奇观", "艺术"],
+    "ticket": 80, "visit_hours": 2.0, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "大佛对岸的佛像雕塑公园，170米卧佛横陈山体，仿石窟艺术适合拍人像大片"
+  },
+  {
+    "id": "LS-07", "name": "乌木苑博物馆", "city": "乐山", "lat": 29.5944, "lng": 103.7529,
+    "tags": ["博物馆", "奇观", "历史文化"],
+    "ticket": 60, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "阴沉木（乌木）雕刻的主题馆，埋藏数千年不腐的木头被雕成《西游记》全景，雨天好去处"
+  },
+  {
+    "id": "LS-08", "name": "苏稽古镇", "city": "乐山", "lat": 29.5764, "lng": 103.7026,
+    "tags": ["古镇", "美食", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [8, 21], "reserve": 0,
+    "crowd_peak": [11, 17], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "跷脚牛肉的发源地，峨眉河石桥两岸牛肉馆一字排开，周记翘脚牛肉中午要排队"
+  },
+  {
+    "id": "LS-09", "name": "罗城古镇", "city": "乐山", "lat": 29.4409, "lng": 103.8994,
+    "tags": ["古镇", "历史文化", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [8, 18], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "船形街的老镇，整条凉厅街修成一只船的样子，老茶客竹椅盖碗茶从早坐到晚"
+  },
+  {
+    "id": "LS-10", "name": "老霄顶", "city": "乐山", "lat": 29.5543, "lng": 103.7603,
+    "tags": ["历史文化", "徒步", "园林"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [8, 12], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "乐山古城墙内最高点，万寿观与丁东街民居环绕，本地老人晨练的秘诀据点"
+  },
+  {
+    "id": "LS-11", "name": "嘉定坊", "city": "乐山", "lat": 29.5654, "lng": 103.7682,
+    "tags": ["街区", "夜景", "美食"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "古嘉州城门复建的牌坊街，夜灯笼串起城楼与戏台，从大佛景区出来顺路就到"
+  },
+  {
+    "id": "LS-12", "name": "嘉阳小火车", "city": "乐山", "lat": 29.341, "lng": 103.889,
+    "tags": ["奇观", "亲子", "历史文化", "摄影"],
+    "ticket": 80, "visit_hours": 3.0, "open_hour": [9, 16.5], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "世界上还在运营的窄轨蒸汽小火车，三月油菜花季穿过花海鸣笛喷蒸汽，全国唯一"
+  },
+  {
+    "id": "LS-13", "name": "夹江千佛岩", "city": "乐山", "lat": 29.7389, "lng": 103.571,
+    "tags": ["佛教", "历史文化", "山水"],
+    "ticket": 40, "visit_hours": 2.0, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "青衣江畔162窟2400余尊摩崖造像，聚贤街古驿站与清代手工造纸遗址同在一条栈道"
+  },
+  {
+    "id": "LS-14", "name": "沫若戏剧文创园", "city": "乐山", "lat": 29.5605, "lng": 103.7538,
+    "tags": ["文创", "艺术", "亲子"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9.5, 21], "reserve": 0,
+    "crowd_peak": [14, 19], "crowd_level": 2, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "郭沫若故乡的戏剧主题园区，老工业厂房改造，周末偶有小剧场演出适合遛娃"
+  },
+  {
+    "id": "LS-15", "name": "平羌小三峡", "city": "乐山", "lat": 29.658, "lng": 103.823,
+    "tags": ["山水", "自然", "摄影"],
+    "ticket": 60, "visit_hours": 2.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [11, 16], "crowd_level": 1, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "李白峨眉山月半轮秋写的就是这里，犁头峡背峨峡平羌峡的江水清得能数石头"
+  }
+]

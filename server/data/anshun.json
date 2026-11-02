@@ -1,0 +1,122 @@
+[
+  {
+    "id": "AS-01", "name": "黄果树瀑布", "city": "安顺", "lat": 26.0113, "lng": 105.6752,
+    "tags": ["山水", "奇观", "自然", "喀斯特"],
+    "ticket": 160, "visit_hours": 3.5, "open_hour": [7.5, 18], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 5, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "亚洲第一大瀑布，77.8米落差砸进犀牛潭，水帘洞从瀑布半腰横穿而过衣衫全湿也值"
+  },
+  {
+    "id": "AS-02", "name": "黄果树天星桥", "city": "安顺", "lat": 26.0348, "lng": 105.6906,
+    "tags": ["山水", "喀斯特", "徒步", "自然"],
+    "ticket": 0, "visit_hours": 2.5, "open_hour": [7.5, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "联票三景区之一，石林长在水上水上流在石间，数生步一步一块石头找自己的生日"
+  },
+  {
+    "id": "AS-03", "name": "陡坡塘瀑布", "city": "安顺", "lat": 26.0276, "lng": 105.6557,
+    "tags": ["山水", "自然", "摄影"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [7.5, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "黄果树上游最宽的钙化滩瀑布，西游记片尾师徒四人牵马走过的就是这里的石凳桥"
+  },
+  {
+    "id": "AS-04", "name": "龙宫", "city": "安顺", "lat": 26.0917, "lng": 105.9167,
+    "tags": ["溶洞", "喀斯特", "山水", "奇观"],
+    "ticket": 130, "visit_hours": 3.0, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "两段水溶洞用船穿行，龙门飞瀑从洞口倾泻而下，中国最长最美的水上喀斯特洞穴"
+  },
+  {
+    "id": "AS-05", "name": "天龙屯堡", "city": "安顺", "lat": 26.3155, "lng": 106.0769,
+    "tags": ["古镇", "历史文化", "民族"],
+    "ticket": 60, "visit_hours": 2.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "朱元璋征南大军后裔六百年不改汉家旧制，石板房里地戏面具一戴就是一场军傩"
+  },
+  {
+    "id": "AS-06", "name": "云峰八寨", "city": "安顺", "lat": 26.2718, "lng": 106.1139,
+    "tags": ["古镇", "历史文化", "摄影"],
+    "ticket": 45, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "八个屯堡村寨沿山势排开，本寨的碉楼四合院保存最完整，游客少适合慢慢拍"
+  },
+  {
+    "id": "AS-07", "name": "旧州古镇", "city": "安顺", "lat": 26.1973, "lng": 106.0184,
+    "tags": ["古镇", "美食", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [8, 19], "reserve": 0,
+    "crowd_peak": [11, 17], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "元明之际的安顺州治所在，东西南街石板路没翻新过，旧州鸡辣子要配着屯堡菜吃"
+  },
+  {
+    "id": "AS-08", "name": "安顺文庙", "city": "安顺", "lat": 26.2445, "lng": 105.9317,
+    "tags": ["历史文化", "建筑"],
+    "ticket": 10, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "明代石雕大成殿前的透雕龙柱被称为石雕艺术的绝品，黔中学宫的建筑等级看配置便知"
+  },
+  {
+    "id": "AS-09", "name": "安顺武庙", "city": "安顺", "lat": 26.2462, "lng": 105.9296,
+    "tags": ["宗教", "建筑", "历史文化"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 1, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "老城中心的关羽庙，四十二根石柱撑起的大殿比文庙朴素，门口老大爷下棋是日常"
+  },
+  {
+    "id": "AS-10", "name": "虹山湖公园", "city": "安顺", "lat": 26.2603, "lng": 105.9285,
+    "tags": ["湖泊", "自然", "亲子", "徒步"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [6, 22], "reserve": 0,
+    "crowd_peak": [7, 10], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "安顺城心的湖，环湖步道三公里晨跑晚走都热闹，湖中小岛上白鹭比游客先到"
+  },
+  {
+    "id": "AS-11", "name": "坝陵河大桥观景台", "city": "安顺", "lat": 26.0148, "lng": 105.6204,
+    "tags": ["奇观", "摄影", "建筑"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 2, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "世界级高桥横跨坝陵河谷，桥面到水面370米，去黄果树顺路的贵州桥梁博物馆观景台"
+  },
+  {
+    "id": "AS-12", "name": "格凸河", "city": "安顺", "lat": 25.7085, "lng": 106.2236,
+    "tags": ["山水", "喀斯特", "奇观", "徒步"],
+    "ticket": 70, "visit_hours": 3.5, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "大河穿洞而过的喀斯特秘境，苗厅是世界第二大洞厅，蜘蛛人徒手攀岩表演在燕子洞"
+  },
+  {
+    "id": "AS-13", "name": "安顺古城历史文化街区", "city": "安顺", "lat": 26.2476, "lng": 105.9308,
+    "tags": ["街区", "美食", "夜景", "历史文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "儒林路与石板巷的老安顺底子，夜景灯亮后裹卷夺夺粉小锅凉粉从街头吃到巷尾"
+  },
+  {
+    "id": "AS-14", "name": "王若飞故居", "city": "安顺", "lat": 26.2487, "lng": 105.9346,
+    "tags": ["红色历史", "历史文化"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [9, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "一切要为人民打算的题词就在这座清代四合院里，安顺走出的革命家的出生地"
+  },
+  {
+    "id": "AS-15", "name": "安顺蜡染文化馆", "city": "安顺", "lat": 26.2432, "lng": 105.9339,
+    "tags": ["艺术", "文创", "民族"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9.5, 17.5], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "安顺蜡染被称为东方第一染，蓝白之间的冰纹怎么来的看完展览就能亲手画一版带走"
+  }
+]

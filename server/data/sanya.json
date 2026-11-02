@@ -1,0 +1,130 @@
+[
+  {
+    "id": "SY-01", "name": "亚龙湾", "city": "三亚", "lat": 18.216, "lng": 109.647,
+    "tags": ["海滨", "自然"],
+    "ticket": 0, "visit_hours": 3.5, "open_hour": [6, 20], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 4, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "七千米月牙湾配着能见度八米的海水，天下第一湾名不虚传，沙滩椅区外卷着毛巾躺平免费"
+  },
+  {
+    "id": "SY-02", "name": "蜈支洲岛", "city": "三亚", "lat": 18.313, "lng": 109.763,
+    "tags": ["海滨", "奇观", "自然"],
+    "ticket": 144, "visit_hours": 5.0, "open_hour": [8, 17], "reserve": 2,
+    "crowd_peak": [10, 15], "crowd_level": 5, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "船票上岛看情人桥和观日岩，海水是果冻质感的渐变蓝，环岛电瓶车一站一停最省腿"
+  },
+  {
+    "id": "SY-03", "name": "天涯海角", "city": "三亚", "lat": 18.245, "lng": 109.201,
+    "tags": ["海滨", "历史文化", "摄影"],
+    "ticket": 68, "visit_hours": 2.5, "open_hour": [7, 19], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "天涯石和海角石就立在海岸线上，被贬谪的文人给它写了几百年诗，日落前一小时人最少光线最柔"
+  },
+  {
+    "id": "SY-04", "name": "南山文化旅游区", "city": "三亚", "lat": 18.29, "lng": 109.2,
+    "tags": ["宗教", "佛教", "历史文化", "园林"],
+    "ticket": 108, "visit_hours": 3.5, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 14], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "108 米海上观音一体化三尊正面看持莲、侧面看持珠，园区大如小镇，电瓶车票值得买"
+  },
+  {
+    "id": "SY-05", "name": "亚龙湾热带天堂森林公园", "city": "三亚", "lat": 18.229, "lng": 109.655,
+    "tags": ["自然", "徒步", "奇观"],
+    "ticket": 140, "visit_hours": 2.5, "open_hour": [7.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "过江龙索桥横跨两山之间走一步晃三步，俯瞰亚龙湾的全景机位在千里伞观景台，非诚勿扰取景地"
+  },
+  {
+    "id": "SY-06", "name": "大东海", "city": "三亚", "lat": 18.213, "lng": 109.515,
+    "tags": ["海滨", "夜生活", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [16, 21], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "离市区最近的湾区，傍晚沙滩排球和酒吧驻唱一起开张，晚上踩着浪散步是三亚夜生活的平民版"
+  },
+  {
+    "id": "SY-07", "name": "三亚湾椰梦长廊", "city": "三亚", "lat": 18.247, "lng": 109.455,
+    "tags": ["海滨", "夜景", "自然"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [17, 19], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "二十公里椰林贴着海岸线铺开，本地人骑车遛弯的主场，看日落的最佳免费机位没有之一"
+  },
+  {
+    "id": "SY-08", "name": "第一市场", "city": "三亚", "lat": 18.255, "lng": 109.508,
+    "tags": ["美食", "夜市", "街区"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [7, 21], "reserve": 0,
+    "crowd_peak": [17, 20], "crowd_level": 5, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "海鲜现挑现加工的老牌市场，和乐蟹、芒果螺、椰子饭一站配齐，牢记先问价再下单防刺客"
+  },
+  {
+    "id": "SY-09", "name": "大小洞天", "city": "三亚", "lat": 18.305, "lng": 109.185,
+    "tags": ["山水", "宗教", "历史文化"],
+    "ticket": 60, "visit_hours": 2.0, "open_hour": [8, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "南山脚下的道教文化区，小洞天三个字是南宋崖州郡守手书，鳌山脚下礁石群配古榕很有仙气"
+  },
+  {
+    "id": "SY-10", "name": "鹿回头山顶公园", "city": "三亚", "lat": 18.235, "lng": 109.525,
+    "tags": ["夜景", "摄影", "历史文化"],
+    "ticket": 35, "visit_hours": 1.5, "open_hour": [7, 22.5], "reserve": 0,
+    "crowd_peak": [18, 21], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "黎族猎鹿传说发生地，山顶俯瞰三亚湾全景灯火，夜景档的票价值回，雕塑打卡人多要排队"
+  },
+  {
+    "id": "SY-11", "name": "后海村", "city": "三亚", "lat": 18.29, "lng": 109.71,
+    "tags": ["海滨", "文创", "美食"],
+    "ticket": 0, "visit_hours": 2.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [15, 18], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "冲浪教练比游客多的渔村，早上六点浪最好，村口早餐店的抱罗粉加个蛋就是本地冲浪人的标配"
+  },
+  {
+    "id": "SY-12", "name": "崖州古城", "city": "三亚", "lat": 18.53, "lng": 109.172,
+    "tags": ["古镇", "历史文化", "建筑"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [8, 18], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "两千年历史的崖州治所，文明门和孔庙还留着，黄道婆在这里学艺的传说写在学宫碑刻里"
+  },
+  {
+    "id": "SY-13", "name": "南田温泉", "city": "三亚", "lat": 18.335, "lng": 109.735,
+    "tags": ["自然", "亲子"],
+    "ticket": 150, "visit_hours": 2.0, "open_hour": [9, 22], "reserve": 1,
+    "crowd_peak": [16, 20], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "神州第一泉的硅酸重碳酸钠型热矿水，泡完皮肤滑两天，带娃的家庭池水温刚好不烫"
+  },
+  {
+    "id": "SY-14", "name": "三亚千古情", "city": "三亚", "lat": 18.26, "lng": 109.518,
+    "tags": ["夜生活", "文创", "民族"],
+    "ticket": 300, "visit_hours": 2.5, "open_hour": [14, 21], "reserve": 1,
+    "crowd_peak": [17, 19], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "落洞救鹿的黎族传说舞台化，水特效从头顶倾泻那一下全场惊呼，戏外的崖州古街有NPC拉你成亲"
+  },
+  {
+    "id": "SY-15", "name": "西岛", "city": "三亚", "lat": 18.23, "lng": 109.39,
+    "tags": ["海滨", "亲子"],
+    "ticket": 98, "visit_hours": 3.0, "open_hour": [8, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "比蜈支洲便宜一半的珊瑚岛，女民兵连的故事还在岛上流传，牛王岭看海霞是本地摄影师私藏机位"
+  },
+  {
+    "id": "SY-16", "name": "三亚国际免税城", "city": "三亚", "lat": 18.3, "lng": 109.695,
+    "tags": ["购物"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [10, 22], "reserve": 0,
+    "crowd_peak": [15, 20], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "全球最大单体免税店之一，离岛免税额度内的购物清单在这里一站式清空，离岛当天提货别记错"
+  }
+]

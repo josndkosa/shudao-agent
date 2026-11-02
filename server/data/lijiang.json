@@ -1,0 +1,122 @@
+[
+  {
+    "id": "LJ-01", "name": "丽江古城（大研）", "city": "丽江", "lat": 26.8733, "lng": 100.2357,
+    "tags": ["古镇", "街区", "夜生活", "民族"],
+    "ticket": 0, "visit_hours": 3.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [19, 23], "crowd_level": 4, "slope": 1, "family": 3,
+    "night_friendly": true, "must_see": true,
+    "summary": "茶马古道上的高原水城，四方街向外辐射的五花石板巷，水渠穿街入宅昼夜不停"
+  },
+  {
+    "id": "LJ-02", "name": "木府", "city": "丽江", "lat": 26.8721, "lng": 100.2373,
+    "tags": ["历史文化", "建筑", "民族"],
+    "ticket": 40, "visit_hours": 1.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "木氏土司四百年的府邸，北望故宫之势，徐霞客笔下宫室之丽拟于王者说的就是它"
+  },
+  {
+    "id": "LJ-03", "name": "狮子山万古楼", "city": "丽江", "lat": 26.8709, "lng": 100.2324,
+    "tags": ["摄影", "徒步", "夜景"],
+    "ticket": 50, "visit_hours": 1.5, "open_hour": [8.5, 21], "reserve": 1,
+    "crowd_peak": [17, 20], "crowd_level": 3, "slope": 2, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "古城制高点的五层楼阁，登顶一眼看尽青瓦海洋与远处玉龙雪山，日落时分最挤"
+  },
+  {
+    "id": "LJ-04", "name": "黑龙潭公园", "city": "丽江", "lat": 26.8862, "lng": 100.2265,
+    "tags": ["园林", "自然", "摄影", "湖泊"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "象山脚下涌出的四十余泉眼汇成潭水，得月楼一柱亭与玉龙雪山同框是丽江明信片"
+  },
+  {
+    "id": "LJ-05", "name": "束河古镇", "city": "丽江", "lat": 26.9088, "lng": 100.2104,
+    "tags": ["古镇", "街区", "茶文化"],
+    "ticket": 0, "visit_hours": 2.5, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [11, 18], "crowd_level": 3, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "比大研安静的茶马重镇，青龙桥四百年石拱还在马蹄印里，午后咖啡馆能坐一下午"
+  },
+  {
+    "id": "LJ-06", "name": "白沙古镇", "city": "丽江", "lat": 26.9366, "lng": 100.1945,
+    "tags": ["古镇", "艺术", "民族"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [8, 19], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "木氏家族的发祥地，白沙壁画的明代矿物颜料六百年不褪色，老街还看得到手工刺绣坊"
+  },
+  {
+    "id": "LJ-07", "name": "玉龙雪山", "city": "丽江", "lat": 27.1034, "lng": 100.18,
+    "tags": ["雪山", "徒步", "奇观", "摄影"],
+    "ticket": 240, "visit_hours": 4.0, "open_hour": [7.5, 16], "reserve": 2,
+    "crowd_peak": [9, 13], "crowd_level": 5, "slope": 3, "family": 3,
+    "night_friendly": false, "must_see": true,
+    "summary": "北半球最南的海洋性冰川，大索道直上4506米冰川公园，山脚蓝月谷的水是乳蓝色的"
+  },
+  {
+    "id": "LJ-08", "name": "蓝月谷", "city": "丽江", "lat": 27.0738, "lng": 100.1702,
+    "tags": ["山水", "湖泊", "摄影", "自然"],
+    "ticket": 30, "visit_hours": 2.0, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "雪山融水在白水河谷层层跌落成四个湖，晴天蓝得像颜料，嫁衣瀑布是必拍机位"
+  },
+  {
+    "id": "LJ-09", "name": "玉水寨", "city": "丽江", "lat": 26.9519, "lng": 100.2148,
+    "tags": ["自然", "民族", "宗教"],
+    "ticket": 50, "visit_hours": 1.5, "open_hour": [8, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "纳西族东巴教的圣地神泉，三叠水瀑布下的虹鳟鱼群与祭天场，出白沙古镇顺路"
+  },
+  {
+    "id": "LJ-10", "name": "拉市海湿地", "city": "丽江", "lat": 26.8784, "lng": 100.1011,
+    "tags": ["湖泊", "自然", "骑行", "动物"],
+    "ticket": 30, "visit_hours": 2.5, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "高原季节性湖泊，冬季候鸟成群落在水面，湖边骑马走一段茶马古道再划船看山"
+  },
+  {
+    "id": "LJ-11", "name": "纳西古乐会", "city": "丽江", "lat": 26.8757, "lng": 100.2338,
+    "tags": ["艺术", "民族", "夜生活"],
+    "ticket": 140, "visit_hours": 1.5, "open_hour": [19.5, 22], "reserve": 1,
+    "crowd_peak": [20, 21.5], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "大研纳西古乐会每晚八点开演，唐宋词曲牌的活化石，老艺人多已八十高龄"
+  },
+  {
+    "id": "LJ-12", "name": "东巴文化博物馆", "city": "丽江", "lat": 26.885, "lng": 100.2283,
+    "tags": ["博物馆", "民族", "历史文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "黑龙潭公园旁的东巴文字陈列，唯一活着的象形文字怎么写怎么念，看完再看壁画更懂"
+  },
+  {
+    "id": "LJ-13", "name": "玉湖村", "city": "丽江", "lat": 27.0142, "lng": 100.1853,
+    "tags": ["古镇", "徒步", "摄影", "民族"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [9, 16], "crowd_level": 1, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "雪山脚下石头砌墙的纳西古村，洛克旧居在此住了二十七年，游客稀少雪景最正"
+  },
+  {
+    "id": "LJ-14", "name": "忠义市场", "city": "丽江", "lat": 26.8668, "lng": 100.2342,
+    "tags": ["购物", "美食", "街区", "民族"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [7, 19.5], "reserve": 0,
+    "crowd_peak": [8, 11], "crowd_level": 4, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "丽江最大的本地农贸市场，纳西嬢嬢背着背篓卖山货菌子，物价与古城外一个天一个地"
+  },
+  {
+    "id": "LJ-15", "name": "虎跳峡（上虎跳）", "city": "丽江", "lat": 27.3075, "lng": 100.1032,
+    "tags": ["徒步", "奇观", "山水", "自然"],
+    "ticket": 45, "visit_hours": 3.0, "open_hour": [8, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 3, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "金沙江在玉龙哈巴两座雪山之间收窄成三十米，虎跳石前江水咆哮，栈道贴崖而行"
+  }
+]

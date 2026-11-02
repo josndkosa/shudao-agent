@@ -48,19 +48,34 @@ def load_cities():
     return _load_meta()["city_info"]
 
 
+@lru_cache(maxsize=1)
+def _city_file_map():
+    """城市 → 数据文件名：扫数据文件的 city 字段自动建索引。
+
+    新增城市零代码改动（docs/开发指南.md 的承诺在这里兑现）：
+    丢一个含 "city" 字段的城市 json 进 data/ 即被 load_pois/load_city_pois 同时收录。
+    """
+    m = {}
+    for fn in sorted(DATA_DIR.glob("*.json")):
+        if fn.name in ("meta.json", "pois.json"):
+            continue
+        try:
+            with open(fn, encoding="utf-8") as f:
+                pois = json.load(f)
+        except Exception:
+            continue
+        for p in pois:
+            if p.get("city"):
+                m.setdefault(p["city"], fn.name)
+                break
+    return m
+
+
 @lru_cache(maxsize=16)
 def load_city_pois(city):
     """单城快照读取（分城文件的直接用途；未收录城市返回空）。"""
-    fn = {
-        "成都": "chengdu.json",
-        "重庆": "chongqing.json",
-        "昆明": "kunming.json",
-        "大理": "dali.json",
-        "贵阳": "guiyang.json",
-        "桂林": "guilin.json",
-    }.get(city)
+    fn = _city_file_map().get(city)
     if fn is None:
-        # 泛化路径：城市名转拼音文件名的映射不在本层维护，未收录城市返回空
         return []
     with open(DATA_DIR / fn, encoding="utf-8") as f:
         return json.load(f)

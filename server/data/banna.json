@@ -1,0 +1,122 @@
+[
+  {
+    "id": "BN-01", "name": "告庄西双景·星光夜市", "city": "西双版纳", "lat": 22.0036, "lng": 100.7942,
+    "tags": ["夜市", "街区", "夜生活", "民族"],
+    "ticket": 0, "visit_hours": 2.5, "open_hour": [17, 24], "reserve": 0,
+    "crowd_peak": [19, 23], "crowd_level": 5, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": true,
+    "summary": "大金塔下湄公河畔的东南亚最大夜市之一，六国水上市场摊位连绵，傣装旅拍到午夜"
+  },
+  {
+    "id": "BN-02", "name": "勐泐大佛寺", "city": "西双版纳", "lat": 22.0047, "lng": 100.7862,
+    "tags": ["佛教", "奇观", "建筑"],
+    "ticket": 120, "visit_hours": 2.5, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": true,
+    "summary": "傣王室寺院恢复重建的皇家寺庙，45米吉祥大佛立于山顶，孔雀放飞仪式每天两场"
+  },
+  {
+    "id": "BN-03", "name": "曼听公园", "city": "西双版纳", "lat": 22.0021, "lng": 100.7885,
+    "tags": ["园林", "民族", "亲子", "夜生活"],
+    "ticket": 40, "visit_hours": 2.5, "open_hour": [8, 21], "reserve": 1,
+    "crowd_peak": [10, 16], "crowd_level": 4, "slope": 0, "family": 5,
+    "night_friendly": true, "must_see": false,
+    "summary": "傣王御花园一千三百年，白天看总佛寺与大象表演，晚上澜沧江·湄公河篝火晚会放水灯"
+  },
+  {
+    "id": "BN-04", "name": "西双版纳总佛寺", "city": "西双版纳", "lat": 22.0018, "lng": 100.7873,
+    "tags": ["佛教", "宗教", "建筑"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [7.5, 17.5], "reserve": 0,
+    "crowd_peak": [9, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "版纳佛教最高等级寺院，金顶褐瓦菩提树，与曼听公园一门之隔可顺路同游"
+  },
+  {
+    "id": "BN-05", "name": "中科院热带植物园", "city": "西双版纳", "lat": 21.9167, "lng": 101.2756,
+    "tags": ["自然", "亲子", "园林", "徒步"],
+    "ticket": 80, "visit_hours": 4.0, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": true,
+    "summary": "蔡希陶创建的万种植物王国，王莲叶片能托住一个小孩，夜游场的萤火虫季一票难求"
+  },
+  {
+    "id": "BN-06", "name": "野象谷", "city": "西双版纳", "lat": 22.1075, "lng": 100.8671,
+    "tags": ["动物", "亲子", "自然", "徒步"],
+    "ticket": 65, "visit_hours": 3.0, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 4, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "亚洲象在中国最后的栖息地，高空观象栈道四公里穿雨林，遇象全凭运气但蝴蝶园保底"
+  },
+  {
+    "id": "BN-07", "name": "原始森林公园", "city": "西双版纳", "lat": 22.0527, "lng": 100.8321,
+    "tags": ["自然", "亲子", "徒步"],
+    "ticket": 45, "visit_hours": 2.5, "open_hour": [8.5, 17.5], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 1, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "北回归线以南保存最完好的热带沟谷雨林，孔雀放飞几百只齐落的场面是园区招牌"
+  },
+  {
+    "id": "BN-08", "name": "基诺山寨", "city": "西双版纳", "lat": 22.0303, "lng": 100.9234,
+    "tags": ["民族", "文化", "徒步"],
+    "ticket": 120, "visit_hours": 2.0, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "最后一个被认定的少数民族基诺族聚居地，大鼓房里听创世传说，下山喝竹筒茶"
+  },
+  {
+    "id": "BN-09", "name": "傣族园", "city": "西双版纳", "lat": 21.9775, "lng": 100.8756,
+    "tags": ["民族", "亲子", "街区"],
+    "ticket": 45, "visit_hours": 2.5, "open_hour": [8, 18], "reserve": 1,
+    "crowd_peak": [10, 16], "crowd_level": 3, "slope": 0, "family": 5,
+    "night_friendly": false, "must_see": false,
+    "summary": "橄榄坝五个傣族村寨连成一片，天天泼水节的广场下午最热闹，傣家竹楼可以进去坐坐"
+  },
+  {
+    "id": "BN-10", "name": "曼飞龙塔", "city": "西双版纳", "lat": 21.9286, "lng": 100.8442,
+    "tags": ["佛教", "建筑", "摄影"],
+    "ticket": 10, "visit_hours": 1.5, "open_hour": [8, 17], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 2, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "八角形九塔同基的笋塔群，傣语称塔糯，奶油色的塔尖在蓝天下是上过邮票的取景地"
+  },
+  {
+    "id": "BN-11", "name": "西双版纳民族博物馆", "city": "西双版纳", "lat": 22.0121, "lng": 100.7904,
+    "tags": ["博物馆", "民族", "历史文化"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "澜沧江畔的傣汉双语博物馆，从召片领土司制度到泼水节源流，半小时看懂版纳"
+  },
+  {
+    "id": "BN-12", "name": "江边夜市", "city": "西双版纳", "lat": 22.0079, "lng": 100.7968,
+    "tags": ["夜市", "美食", "夜生活"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [18, 24], "reserve": 0,
+    "crowd_peak": [19, 22], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "澜沧江边的本地人夜市，傣味烧烤菠萝饭舂鸡脚一路吃过去，比星光夜市便宜一半"
+  },
+  {
+    "id": "BN-13", "name": "大金塔寺", "city": "西双版纳", "lat": 22.0045, "lng": 100.7946,
+    "tags": ["佛教", "建筑", "夜景"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [6, 23], "reserve": 0,
+    "crowd_peak": [18, 22], "crowd_level": 4, "slope": 1, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "告庄核心的六十六米金塔，白天庄严夜里通体金光，塔前广场就是夜市的中心舞台"
+  },
+  {
+    "id": "BN-14", "name": "望天树景区", "city": "西双版纳", "lat": 21.5735, "lng": 101.5928,
+    "tags": ["自然", "奇观", "徒步"],
+    "ticket": 55, "visit_hours": 3.5, "open_hour": [8.5, 17], "reserve": 1,
+    "crowd_peak": [10, 15], "crowd_level": 3, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "勐腊补蚌的七十米望天树群落，树冠走廊悬空三十六米走过林海顶端，胆小者贴墙挪"
+  },
+  {
+    "id": "BN-15", "name": "南糯山茶山", "city": "西双版纳", "lat": 21.9854, "lng": 100.5015,
+    "tags": ["茶文化", "自然", "徒步", "民族"],
+    "ticket": 20, "visit_hours": 2.5, "open_hour": [8.5, 17.5], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 2, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "普洱茶的重要产地八百年栽培型茶王树所在，哈尼族茶厂里从杀青到压饼看一遍再做一饼"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "LH-01", "name": "布达拉宫", "city": "拉萨", "lat": 29.6579, "lng": 91.117,
+    "tags": ["宗教", "历史文化", "建筑", "奇观"],
+    "ticket": 200, "visit_hours": 3.0, "open_hour": [8.5, 16], "reserve": 3,
+    "crowd_peak": [9, 12], "crowd_level": 5, "slope": 3, "family": 2,
+    "night_friendly": false, "must_see": true,
+    "summary": "红山之巅的宫堡 3700 米海拔，预约制一天只放几千人，爬白宫石阶慢慢走，金顶群的鎏金在高原阳光下晃眼"
+  },
+  {
+    "id": "LH-02", "name": "大昭寺", "city": "拉萨", "lat": 29.652, "lng": 91.131,
+    "tags": ["宗教", "佛教", "历史文化"],
+    "ticket": 85, "visit_hours": 2.0, "open_hour": [7.5, 17], "reserve": 1,
+    "crowd_peak": [9, 14], "crowd_level": 5, "slope": 1, "family": 2,
+    "night_friendly": false, "must_see": true,
+    "summary": "先有大昭寺后有拉萨城，殿内等身觉卧佛前酥油灯长明，天台看布宫全景是摄影党的隐藏机位"
+  },
+  {
+    "id": "LH-03", "name": "八廓街", "city": "拉萨", "lat": 29.6525, "lng": 91.13,
+    "tags": ["街区", "购物", "民族", "历史文化"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [10, 17], "crowd_level": 4, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "绕着大昭寺转了一千三百年的转经道，顺时针跟着人流走别逆行，甜茶馆和尼泊尔杂货铺都在转角"
+  },
+  {
+    "id": "LH-04", "name": "药王山观景台", "city": "拉萨", "lat": 29.654, "lng": 91.112,
+    "tags": ["摄影", "历史文化"],
+    "ticket": 0, "visit_hours": 0.5, "open_hour": [6, 19], "reserve": 0,
+    "crowd_peak": [7, 9], "crowd_level": 3, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "五十元人民币背面取景地，清晨长枪短炮一字排开等布宫倒影和晨光，两块钱门票都不收"
+  },
+  {
+    "id": "LH-05", "name": "色拉寺", "city": "拉萨", "lat": 29.68, "lng": 91.136,
+    "tags": ["宗教", "佛教", "历史文化"],
+    "ticket": 50, "visit_hours": 2.5, "open_hour": [9, 16.5], "reserve": 0,
+    "crowd_peak": [15, 17], "crowd_level": 3, "slope": 2, "family": 2,
+    "night_friendly": false, "must_see": false,
+    "summary": "辩经场下午三点半准时开辩，击掌起势提问拍案叫绝全用手势完成，看不懂逻辑也看得懂气势"
+  },
+  {
+    "id": "LH-06", "name": "哲蚌寺", "city": "拉萨", "lat": 29.67, "lng": 91.086,
+    "tags": ["宗教", "历史文化", "建筑"],
+    "ticket": 60, "visit_hours": 2.5, "open_hour": [9, 16], "reserve": 0,
+    "crowd_peak": [10, 13], "crowd_level": 3, "slope": 2, "family": 2,
+    "night_friendly": false, "must_see": false,
+    "summary": "白色建筑群铺满整面山坡如巨大米堆，雪顿节展佛那天三十米唐卡从山顶铺下来，甘丹颇章的历史比布宫展厅安静"
+  },
+  {
+    "id": "LH-07", "name": "罗布林卡", "city": "拉萨", "lat": 29.648, "lng": 91.105,
+    "tags": ["园林", "历史文化", "自然"],
+    "ticket": 60, "visit_hours": 2.0, "open_hour": [9, 17.5], "reserve": 0,
+    "crowd_peak": [10, 15], "crowd_level": 2, "slope": 1, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "历代达赖的夏宫，高原上难得的一片茂盛林卡，过林卡节时本地人在草地上搭帐篷野餐一整天"
+  },
+  {
+    "id": "LH-08", "name": "西藏博物馆", "city": "拉萨", "lat": 29.645, "lng": 91.108,
+    "tags": ["博物馆", "历史文化"],
+    "ticket": 0, "visit_hours": 2.0, "open_hour": [9, 16], "reserve": 1,
+    "crowd_peak": [10, 14], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": false, "must_see": false,
+    "summary": "免费预约制新馆，从唐卡到贝叶经到古格文物讲透高原文明史，高反体力不支时的室内避难所"
+  },
+  {
+    "id": "LH-09", "name": "光明港琼甜茶馆", "city": "拉萨", "lat": 29.653, "lng": 91.132,
+    "tags": ["美食", "街区"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [7, 19], "reserve": 0,
+    "crowd_peak": [9, 12], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "全拉萨最市井的甜茶馆，零钱堆桌上自己找零，一块钱一暖壶续到饱，藏面配甜茶就是本地人的早茶"
+  },
+  {
+    "id": "LH-10", "name": "宗角禄康公园", "city": "拉萨", "lat": 29.661, "lng": 91.118,
+    "tags": ["自然", "园林"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [7, 9], "crowd_level": 2, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "布宫背后的龙王潭，清晨转经人流和锅庄舞队同时开动，水面上倒映着布宫北墙是免费明信片"
+  },
+  {
+    "id": "LH-11", "name": "仓姑寺甜茶馆", "city": "拉萨", "lat": 29.651, "lng": 91.128,
+    "tags": ["美食", "宗教"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [8, 19], "reserve": 0,
+    "crowd_peak": [10, 12], "crowd_level": 2, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "尼姑庵自己经营的甜茶馆，藏面和牛肉包子全是庵里师太手作，所得用于寺院维护，吃着比别处多一分安心"
+  },
+  {
+    "id": "LH-12", "name": "拉萨河畔", "city": "拉萨", "lat": 29.635, "lng": 91.125,
+    "tags": ["自然", "夜景", "摄影"],
+    "ticket": 0, "visit_hours": 1.0, "open_hour": [0, 24], "reserve": 0,
+    "crowd_peak": [18, 20], "crowd_level": 1, "slope": 0, "family": 4,
+    "night_friendly": true, "must_see": false,
+    "summary": "吉曲河在城南沙洲上摊开，傍晚南岸看落日把整座城染成蜂蜜色，仙足岛的栈道是散步终点"
+  },
+  {
+    "id": "LH-13", "name": "唐卡画院", "city": "拉萨", "lat": 29.655, "lng": 91.129,
+    "tags": ["艺术", "文创", "民族"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [9, 18], "reserve": 0,
+    "crowd_peak": [10, 16], "crowd_level": 1, "slope": 0, "family": 3,
+    "night_friendly": false, "must_see": false,
+    "summary": "学徒从研矿物颜料开始学五年才能独立开脸，看一副坛城从白布到金线的过程比买现成品更值"
+  },
+  {
+    "id": "LH-14", "name": "天海夜市", "city": "拉萨", "lat": 29.66, "lng": 91.11,
+    "tags": ["夜市", "美食"],
+    "ticket": 0, "visit_hours": 1.5, "open_hour": [18, 24], "reserve": 0,
+    "crowd_peak": [19, 22], "crowd_level": 3, "slope": 0, "family": 3,
+    "night_friendly": true, "must_see": false,
+    "summary": "拉萨夜里的烟火气回答了高原有没有夜生活，烤羊肉串和青稞啤酒碰杯，海拔 3650 米的微醺来得特别快"
+  },
+  {
+    "id": "LH-15", "name": "羊卓雍措", "city": "拉萨", "lat": 29.25, "lng": 90.45,
+    "tags": ["湖泊", "山水", "自然", "摄影"],
+    "ticket": 0, "visit_hours": 5.5, "open_hour": [8, 18], "reserve": 0,
+    "crowd_peak": [11, 14], "crowd_level": 3, "slope": 2, "family": 2,
+    "night_friendly": false, "must_see": true,
+    "summary": "翻过岗巴拉山口圣湖突然撞进视野，绿松石般的蓝分不出层次，一日往返两百公里但每个过来人都说不亏"
+  }
+]
