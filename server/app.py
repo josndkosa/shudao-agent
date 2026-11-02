@@ -61,6 +61,8 @@ class PlanRequest(BaseModel):
     family: bool = False
     cities: list[Annotated[str, StringConstraints(max_length=16)]] = Field(
         default_factory=list, max_length=16)   # 空 = 按候选池总分自动选城
+    avoid_tags: list[Annotated[str, StringConstraints(max_length=24)]] = Field(
+        default_factory=list, max_length=8)   # 03J 排斥标签（前端不传，管线从偏好记忆合并）
 
 
 class ReviseRequest(BaseModel):
@@ -102,7 +104,7 @@ async def _rate_guard(request: Request):
 
 def _to_trip(req: PlanRequest) -> TripRequest:
     return TripRequest(days=req.days, budget=req.budget, tags=req.tags,
-                       family=req.family, cities=req.cities)
+                       family=req.family, cities=req.cities, avoid_tags=req.avoid_tags)
 
 
 def _cache_plan(req: PlanRequest, result: dict, bus: EventBus) -> str:
@@ -157,15 +159,17 @@ async def health():
 
 @app.post("/api/parse")
 async def parse_nl(req: ParseTextRequest):
-    """自然语言 → 结构化参数（03G：抽取与规划分离的抽取层）。
+    """自然语言 → 结构化参数 / 偏好记忆操作（03G 抽取层 + 03J 记忆）。
 
     在线模式下 parse_request 内部一次纯 JSON 调用（阻塞 HTTP），线程池执行
     与 /api/plan 同款语义。返回只含契约 schema 字段，前端按固定结构读、回填参数条；
     降级链内置（LLM 失败 → 规则实现），任何情况不抛错。
+    timeline（03J）：本次调用的事件流——「记住/忘掉偏好」的操作在回放器里可见
+    （记住了什么、为什么记不了，每条带 reason），前端选择性展示。
     """
     bus = EventBus()
     out = await asyncio.to_thread(parse_request, req.text, bus)
-    return out
+    return {**out, "timeline": bus.timeline()}
 
 
 @app.post("/api/plan", dependencies=[Depends(_rate_guard)])

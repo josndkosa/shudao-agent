@@ -221,11 +221,22 @@ function setChatNote(text) {
 }
 
 /** 无计划时发送一句话：抽取 → 回填参数条（回填不替换：未识别字段保留原值）
- *  → 对话栏展示「我理解为…」→ 自动触发规划。参数条上的值仍可见可改。 */
+ *  → 对话栏展示「我理解为…」→ 自动触发规划。参数条上的值仍可见可改。
+ *  03J 记忆分支：「记住/忘掉/查看偏好」不触发规划——对话栏回 note，
+ *  操作的事件流（已记住/已忘掉，带 reason）进回放器，评委看得到记忆起作用了。 */
 async function planByChat(message) {
   $("btn-send").disabled = true;
   try {
     const r = await api.parse(message);
+    if (r.remember || r.forget || r.view) {
+      setChatNote(r.note);
+      if (Array.isArray(r.timeline) && r.timeline.length) {
+        state.events = r.timeline;
+        state.player.setEvents(r.timeline, r.timeline.length);
+        renderAll(state.events.length);
+      }
+      return;
+    }
     const got = r.days || r.budget || r.cities?.length || r.tags?.length;
     if (r.source === "fallback" || !got) {
       setChatNote("没太看懂，也可以直接用上方参数条填写" + (r.note ? `；${r.note}` : ""));

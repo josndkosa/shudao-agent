@@ -256,12 +256,20 @@ step("03I：dragscroll.js 导入可用（拖拽滚动 + 溢出提示纯函数）
   if (enableDragScroll(el) !== el) throw new Error("enableDragScroll 应返回元素本身");
   if (enableDragScroll(null) !== null) throw new Error("空元素应安全返回");
   const hint = { hidden: false };
+
   updateOverflowHint({ scrollWidth: 500, clientWidth: 200 }, hint);
   if (hint.hidden !== false) throw new Error("溢出时应显示提示");
   updateOverflowHint({ scrollWidth: 200, clientWidth: 500 }, hint);
   if (hint.hidden !== true) throw new Error("未溢出时应隐藏提示");
   // timeline.js 引 dragscroll 后模块加载不炸（DOM stub 环境）
   await import(pathToFileURL(path.join(STATIC, "js", "timeline.js")));
+});
+step("03J：偏好记忆分支存在（对话栏入口，零 UI 改动）", () => {
+  const main = readFileSync(path.join(STATIC, "js", "main.js"), "utf8");
+  if (!main.includes("r.remember || r.forget || r.view")) throw new Error("planByChat 缺记忆意图分支");
+  if (!main.includes("setChatNote(r.note)")) throw new Error("记忆操作未回对话栏提示");
+  const apiSrc = readFileSync(path.join(STATIC, "js", "api.js"), "utf8");
+  if (!apiSrc.includes("remember: false")) throw new Error("Mock.parse 缺记忆字段（结构不同构）");
 });
 
 let failed = 0;

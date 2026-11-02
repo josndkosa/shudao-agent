@@ -72,6 +72,18 @@ def _hop_hours(a, b):
     return intercity(a, b)["hours"]
 
 
+def _apply_avoid(pois: list, avoid_tags: list) -> list:
+    """排斥标签硬排除（03J）：命中即不进候选——不是打分扣分，是选点前的过滤。
+
+    只在候选筛选这一步生效（poi_search 之后、打分装箱之前），不触碰 V1–V5 判定；
+    空列表原样返回（行为与无记忆时逐字一致）。
+    """
+    if not avoid_tags:
+        return pois
+    avoid = set(avoid_tags)
+    return [p for p in pois if not (set(p.get("tags", ())) & avoid)]
+
+
 def _select_cities(request, bus: EventBus):
     """城市选择：request.cities 显式指定优先（过滤未收录城市）；空则自动选 N 城。
 
@@ -306,12 +318,17 @@ def offline_plan(request, bus: EventBus):
         r = poi_search(city=city, tags=request.tags, family=request.family)
         bus.emit("plan", "tool_call", f"poi_search({city})",
                  reason=f"检索{city}候选并按偏好打分", tool="poi_search", args={"city": city, "tags": request.tags})
-        pools[city] = r["pois"]
-        bus.emit("plan", "tool_result", f"{city}候选 {r['count']} 个",
-                 reason="top3: " + "、".join(x["name"] for x in r["pois"][:3]), count=r["count"])
+        kept = _apply_avoid(r["pois"], request.avoid_tags)
+        if len(kept) < len(r["pois"]):
+            bus.emit("plan", "fallback", f"{city}候选排除 {len(r['pois']) - len(kept)} 个排斥点位",
+                     reason=f"命中偏好记忆的排斥标签：{'、'.join(request.avoid_tags)}（硬排除，不参与打分）")
+        pools[city] = kept
+        bus.emit("plan", "tool_result", f"{city}候选 {len(kept)} 个",
+                 reason="top3: " + "、".join(x["name"] for x in kept[:3]), count=len(kept))
     if all(not pools[c] for c in pools):
         bus.emit("plan", "fallback", "无匹配候选", reason="偏好过滤后为空，放宽标签重试")
-        pools = {c: poi_search(city=c)["pois"] for c in pools}
+        # 放宽只针对「喜欢」标签——排斥标签（avoid_tags）是硬约束，重试里也保持排除
+        pools = {c: _apply_avoid(poi_search(city=c)["pois"], request.avoid_tags) for c in pools}
 
     alloc = _allocate_days(request.days, pools)
     alloc_desc = "、".join(f"{c}{n}天" for c, n in alloc.items())
@@ -491,6 +508,11 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
             if pid not in POI_INDEX:
                 dropped += 1
                 continue
+            if request.avoid_tags and (set(POI_INDEX[pid].get("tags", ())) & set(request.avoid_tags)):
+                # 03J 兜底：LLM 仍选了排斥点位（幻觉/缓存语境）→ 丢弃并如实发事件
+                bus.emit("plan", "fallback", f"丢弃排斥点位 {POI_INDEX[pid]['name']}",
+                         reason=f"命中偏好记忆的排斥标签（{'、'.join(request.avoid_tags)}），硬排除")
+                continue
             if pid in day_local:
                 bus.emit("plan", "fallback", f"丢弃本天重复 POI {POI_INDEX[pid]['name']}",
                          reason="该点在本天已安排，只保留一次")
@@ -559,7 +581,10 @@ def llm_plan(request, bus: EventBus):
         def exec_tool(name, args):
             if name == "poi_search":
                 r = poi_search(**args)
-                return {"count": r["count"], "pois": [_poi_brief(p) for p in r["pois"]]}
+                # 03J：排斥标签硬排除在源头生效——LLM 看不到被排除的点，从根上断掉
+                # 「模型选了博物馆再被清洗」的往返；归一化层还有兜底过滤
+                kept = _apply_avoid(r["pois"], request.avoid_tags)
+                return {"count": len(kept), "pois": [_poi_brief(p) for p in kept]}
             if name == "route":
                 frm, to = POI_INDEX.get(args["from_id"]), POI_INDEX.get(args["to_id"])
                 mode = args.get("mode", "city")

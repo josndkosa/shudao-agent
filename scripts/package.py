@@ -81,9 +81,9 @@ def main():
         problems.append(f"codearts_proof/ 截图仅 {len(shots)} 张（要求 ≥ 8：码道对话/生成过程留痕）")
     prompts_dir = STAGE / "codearts_proof" / "prompts" / "_已执行"
     # 已归档任务单前缀全量清单（03H 任务H6）：03E 此前漏列；03F 前缀被两个任务单
-    # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G/03I 已归档补入
+    # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G/03I/03J 已归档补入
     need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_",
-                    "03D_", "03E_", "03F_", "03G_", "03H_", "03I_", "04_"]
+                    "03D_", "03E_", "03F_", "03G_", "03H_", "03I_", "03J_", "04_"]
     archived = list(prompts_dir.glob("*.md")) if prompts_dir.exists() else []
     for tag in need_prompts:
         if not any(p.name.startswith(tag) for p in archived):

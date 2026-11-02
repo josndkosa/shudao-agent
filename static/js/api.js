@@ -115,11 +115,12 @@ class MockApi {
   async health() { return { status: "ok", mode: "mock", llm: "offline" }; }
 
   async parse() {
-    // 如实标注：抽取器的两种实现（LLM/正则）都在服务端，后端未启动时没有抽取能力，
-    // 返回 fallback 走与「抽取失败」同一条前端路径（零分叉）——不假装能理解
+    // 如实标注：抽取器与偏好记忆（两种实现都在服务端）后端未启动时均不可用，
+    // 返回 fallback + 记忆字段缺省（remember/forget/view 恒 false）走与「抽取失败」
+    // 同一条前端路径（零分叉）——不假装能理解、不假装记住了
     return { origin: null, cities: [], days: null, budget: null, tags: [],
-             family: false, source: "fallback",
-             note: "后端未启动，自然语言抽取暂不可用；请直接用上方参数条填写" };
+             family: false, source: "fallback", note: "后端未启动，自然语言抽取与偏好记忆暂不可用；请直接用上方参数条填写",
+             remember: false, forget: false, view: false, prefs: {}, timeline: [] };
   }
 
   async plan(req) {

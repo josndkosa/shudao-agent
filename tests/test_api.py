@@ -200,15 +200,22 @@ def test_index_served():
 # ─────────────────── 03G：自然语言抽取端点 + 天数上限放开 ───────────────────
 
 def test_parse_endpoint_offline_rules():
-    """POST /api/parse（离线规则实现）：返回只含契约 schema 字段。"""
+    """POST /api/parse（离线规则实现）：返回只含契约 schema 字段。
+
+    03J 契约演进：新增 remember/forget/view/prefs/timeline（记忆意图与操作事件流）。
+    """
     r = client.post("/api/parse", json={"text": "我在北京，想去成都和重庆玩3天，预算3000，喜欢美食和夜景"})
     assert r.status_code == 200
     body = r.json()
     assert set(body.keys()) == {"origin", "cities", "days", "budget", "tags",
-                                "family", "source", "note"}, f"返回逸出契约 schema：{body.keys()}"
+                                "family", "source", "note",
+                                "remember", "forget", "view", "prefs",
+                                "timeline"}, f"返回逸出契约 schema：{body.keys()}"
     assert body["source"] in ("rules", "llm", "fallback")
     assert body["origin"] == "北京" and body["days"] == 3 and body["budget"] == 3000
     assert body["cities"] == ["成都", "重庆"]
+    assert body["remember"] is False and body["forget"] is False and body["view"] is False
+    assert isinstance(body["timeline"], list)
 
 
 def test_parse_text_limits():

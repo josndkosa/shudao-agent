@@ -37,6 +37,29 @@ curl -X POST http://localhost:8000/api/parse \
 - 前端语义：无 plan_id 时对话栏发送 = 抽取 → 回填参数条（回填不替换，未识别字段保留
   原值）→ 自动触发规划；有 plan_id = 走 `/api/revise`（改行程语义零变化）
 
+### /api/parse 契约扩展（03J：显式偏好记忆）
+
+返回新增 `remember` / `forget` / `view`（bool，互斥）+ `prefs`（当前画像）+ `timeline`
+（本次调用的事件流）。记忆操作**纯规则实现，不依赖 LLM**（离线在线都能用）：
+
+| 用户说 | 返回 | 效果 |
+|---|---|---|
+| 「记住：我带娃，不去博物馆」 | `remember=true, prefs={family, avoid_tags:[博物馆]}` | 增量写入画像 + timeline 含「已记住偏好」事件 |
+| 「记住：预算两千」 | `remember=true, prefs={budget:2000}` | 中文金额口语可识别（一万五=15000） |
+| 「记住：我不吃辣」 | `remember=true, note=「数据维度还不支持…」` | **如实拒绝**，画像零污染 |
+| 「忘掉我的偏好」/「忘掉博物馆」 | `forget=true` | 全清 / 只删指定项 |
+| 「我记住了什么」 | `view=true, note=画像列表` | 用户可见我们替他记了什么 |
+| 正常规划语句（有画像时） | `budget/family/tags` 含记忆合并值 + note「已按上次的偏好：…」 | 显式优先：这次说了预算五千就用五千 |
+
+**生效路径**（服务端权威点）：`run_pipeline` 入口读画像 → `merge_prefs` 合并进
+TripRequest → timeline 含「应用偏好记忆」事件（reason 写明记住了什么 + 上次记录时间）。
+`avoid_tags` 为**候选筛选阶段的硬排除**（poi_search 之后、打分装箱之前），不触碰
+V1–V5 判定；在线路径在 exec_tool 源头过滤 + 归一化层兜底。
+
+**隐私**：画像存于**用户主目录** `~/.shudao/preferences.json`（`SD_PREFERENCES_PATH`
+可覆盖）——不进仓库、不进提交包（`server/data/` 会被打进 zip 分发给评委，用户数据
+绝不能放那）。文件损坏/目录不可写 → 静默降级为无记忆，绝不影响主流程。
+
 ## 请求示例
 
 ```bash

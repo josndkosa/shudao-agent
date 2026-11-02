@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from . import llm as llm_mod
 from . import narrator, planner, validator
 from .events import EventBus
+from .preferences import describe_prefs, load_prefs, merge_prefs, read_profile
 
 
 @dataclass
@@ -22,6 +23,7 @@ class TripRequest:
     tags: list[str] = field(default_factory=list)
     family: bool = False
     cities: list[str] = field(default_factory=list)   # 空 = 按候选池总分自动选城
+    avoid_tags: list[str] = field(default_factory=list)   # 排斥标签：候选筛选阶段硬排除（03J）
 
 
 def _load_dotenv():
@@ -46,6 +48,25 @@ def run_pipeline(request: TripRequest, bus: EventBus | None = None, on_event=Non
     mode = llm_mod.resolve_mode()
     bus.emit("system", "start", "蜀道智行·三段式管线启动",
              reason=f"LLM 模式 {mode}（auto/offline/online 可切换，离线为断网演示保底）", mode=mode)
+
+    # ── 偏好记忆（03J）──
+    # 记忆生效的唯一权威点：任何入口（表单/自然语言/CLI）都在这里合并——
+    # 显式值优先（见 merge_prefs 的优先级铁律）；无画像文件/损坏 → 静默无记忆。
+    # 必须发事件：评委在回放器里看得到「记忆起作用了」，答辩不用靠嘴说。
+    profile = read_profile()
+    prefs = load_prefs()
+    if prefs:
+        base = {"days": request.days, "budget": request.budget, "tags": request.tags,
+                "family": request.family, "cities": request.cities,
+                "avoid_tags": request.avoid_tags}
+        merged, _applied = merge_prefs(base, prefs)
+        request = TripRequest(**merged)
+        updated = (profile or {}).get("updated_at", "未知时间")
+        bus.emit("system", "tool_call", "应用偏好记忆",
+                 reason=f"记得：{describe_prefs(prefs)}"
+                        f"（上次记录于 {updated}）；显式指定的值优先于记忆",
+                 tool="preferences")
+    request.avoid_tags = list(request.avoid_tags or [])   # 归一：恒为 list（下游过滤零判空）
 
     # ── 规划段 ──
     bus.emit("plan", "start", "规划段开始", reason="偏好打分→城市分天→逐日装箱→时间线推算")
