@@ -235,6 +235,34 @@ step("home.js 语法与透传逻辑存在", async () => {
   if (!src.includes("passThrough") || !src.includes("plan.html?")) throw new Error("home.js 缺参数透传");
   await import(pathToFileURL(path.join(STATIC, "js", "home.js")));
 });
+step("03I：对话栏归位参数条下方（form 外、map 前）+ Day 标签横向滚动容器", () => {
+  const plan = readFileSync(path.join(STATIC, "plan.html"), "utf8");
+  const formEnd = plan.indexOf("</form>");
+  const chatAt = plan.indexOf('class="chat-bar"');
+  const mapAt = plan.indexOf('id="map-row"');
+  if (!(formEnd >= 0 && chatAt > formEnd && mapAt > chatAt)) {
+    throw new Error(`chat-bar 应在 </form> 之后、map-row 之前（formEnd=${formEnd}, chat=${chatAt}, map=${mapAt}）`);
+  }
+  if (plan.lastIndexOf('class="chat-bar"') !== chatAt) throw new Error("chat-bar 应只出现一次（旧 fixed 底部条应已删除）");
+  const css = readFileSync(path.join(STATIC, "style.css"), "utf8");
+  if (!/\.day-tabs\s*\{[^}]*overflow-x:\s*auto/.test(css)) throw new Error(".day-tabs 缺 overflow-x: auto");
+  if (!/\.day-tab\s*\{[^}]*flex:\s*0 0 auto/.test(css)) throw new Error(".day-tab 缺 flex: 0 0 auto（防压缩挤断）");
+  if (!css.includes(".day-tabs.dragging") || !css.includes("cursor: grabbing")) throw new Error("拖拽光标样式缺失");
+  if (!plan.includes('id="day-scroll-hint"')) throw new Error("Day 溢出提示容器缺失");
+});
+step("03I：dragscroll.js 导入可用（拖拽滚动 + 溢出提示纯函数）", async () => {
+  const { enableDragScroll, updateOverflowHint } = await import(pathToFileURL(path.join(STATIC, "js", "dragscroll.js")));
+  const el = { addEventListener() {}, classList: { add() {}, remove() {} }, scrollLeft: 0, scrollWidth: 0, clientWidth: 0 };
+  if (enableDragScroll(el) !== el) throw new Error("enableDragScroll 应返回元素本身");
+  if (enableDragScroll(null) !== null) throw new Error("空元素应安全返回");
+  const hint = { hidden: false };
+  updateOverflowHint({ scrollWidth: 500, clientWidth: 200 }, hint);
+  if (hint.hidden !== false) throw new Error("溢出时应显示提示");
+  updateOverflowHint({ scrollWidth: 200, clientWidth: 500 }, hint);
+  if (hint.hidden !== true) throw new Error("未溢出时应隐藏提示");
+  // timeline.js 引 dragscroll 后模块加载不炸（DOM stub 环境）
+  await import(pathToFileURL(path.join(STATIC, "js", "timeline.js")));
+});
 
 let failed = 0;
 for (const [name, fn] of steps) {

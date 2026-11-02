@@ -7,6 +7,7 @@ import { DayPanel } from "./timeline.js";
 import { Player } from "./player.js";
 import { applyParseResult, describeParse } from "./parsefill.js";
 import { payload, viewAt } from "./view.js";
+import { enableDragScroll } from "./dragscroll.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = id => document.getElementById(id);
@@ -351,6 +352,11 @@ async function boot() {
   buildCityPicker();              // 城市多选（不阻塞首屏）
   const q = restoreParams();
   applyParams(q);
+
+  // 03I：两个横向滚动区域启用拖拽滚动（day-tabs 新增；map-row 锦上添花，不改宽度逻辑）
+  enableDragScroll($("day-tabs"));
+  enableDragScroll($("map-row"));
+  window.addEventListener("resize", () => dayPanel.updateScrollHint());
 
   $("params-form").addEventListener("submit", e => { e.preventDefault(); run(); });
   $("btn-send").addEventListener("click", () => {

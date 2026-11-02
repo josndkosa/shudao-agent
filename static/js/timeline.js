@@ -1,11 +1,14 @@
 // timeline.js — 逐日行程区（Tab 切天 + 三类条目 + 负载/叙事/预算条）
 // 注意命名：本模块是"行程区"；可倒带事件时间轴在 player.js。
 
+import { updateOverflowHint } from "./dragscroll.js";
+
 export class DayPanel {
   constructor(onSwitchDay) {
     this.tabsEl = document.getElementById("day-tabs");
     this.panelEl = document.getElementById("day-panel");
     this.budgetEl = document.getElementById("budget-bar");
+    this.hintEl = document.getElementById("day-scroll-hint");
     this.onSwitchDay = onSwitchDay;
     this.day = 1;
   }
@@ -23,6 +26,7 @@ export class DayPanel {
            <div class="empty-line">③ 打开下方「Agent 决策回放」抽屉，<b>可倒带</b>每一次选点、违规与修复的理由</div>
          </div>`;
       this.budgetEl.replaceChildren();
+      this.updateScrollHint();
       return;
     }
     this.itinerary = itinerary;
@@ -43,6 +47,12 @@ export class DayPanel {
     }
     this._renderDay(activeDay);
     this._renderBudget(itinerary.budget, itinerary.days);
+    this.updateScrollHint();
+  }
+
+  /** 03I：标签总宽超出容器才显示「还有更多」提示（scrollWidth 实测，不写死个数） */
+  updateScrollHint() {
+    updateOverflowHint(this.tabsEl, this.hintEl);
   }
 
   _renderDay(dayNo) {

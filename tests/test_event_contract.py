@@ -101,6 +101,48 @@ def test_silent_day_drop_emits_event():
         f"丢天事件必须说明哪座城、为什么：{[(e.title, e.reason) for e in evs]}"
 
 
+def test_llm_day_numbers_contiguous_despite_dropped_days():
+    """03I Day 跳号锁（在线路径）：模型原号在丢天后留洞（1,2,4,5…）看起来像出错——
+    天号必须由归一化层连续分配，被丢的天不占号；模型原号写进事件 reason 留参考。"""
+    from server.agent import TripRequest
+    from server.agent.events import EventBus
+    from server.agent.planner import _normalize_llm_plan
+
+    raw = {"days": [
+        {"day": 1, "city": "成都", "items": [{"poi_id": "CD-01"}, {"poi_id": "CD-05"}]},
+        {"day": 2, "city": "贵阳", "items": [{"poi_id": "FAKE-1"}]},      # 全非法被丢
+        {"day": 3, "city": "成都", "items": [{"poi_id": "CD-07"}]},       # 模型原号 3
+        {"day": 5, "city": "重庆", "items": [{"poi_id": "CQ-01"}]},       # 模型跳号到 5
+    ]}
+    bus = EventBus()
+    plan = _normalize_llm_plan(raw, TripRequest(days=4, budget=5000), bus)
+    nums = [d["day"] for d in plan["days"]]
+    assert nums == [1, 2, 3], f"丢天后天号必须连续重排（1,2,3），实际 {nums}"
+    evs = [e for e in bus.events if "未安排整天" in e.title]
+    assert evs and "模型原安排第 2 天" in evs[0].reason, \
+        f"丢天事件应说明模型原安排号：{evs[0].reason if evs else '无事件'}"
+    # 去重事件的「第N天」也必须是最终显示号（seen 记连续号）：
+    # Day1 全非法被丢 → 模型 Day2 重排为显示号 Day 1；模型 Day4 的重复点
+    # 事件应说「已在第1天安排」（连续号），而不是模型原号「第2天」
+    raw2 = {"days": [
+        {"day": 1, "city": "贵阳", "items": [{"poi_id": "FAKE-1"}]},
+        {"day": 2, "city": "成都", "items": [{"poi_id": "CD-01"}]},
+        {"day": 4, "city": "成都", "items": [{"poi_id": "CD-01"}]},
+    ]}
+    bus2 = EventBus()
+    plan2 = _normalize_llm_plan(raw2, TripRequest(days=3, budget=5000), bus2)
+    assert [d["day"] for d in plan2["days"]] == [1], \
+        f"Day1 丢弃后 Day2 重排为 1；Day4 唯一点重复被去重后空天也丢：{[d['day'] for d in plan2['days']]}"
+    dup = [e for e in bus2.events if "跨天重复" in e.title]
+    assert dup and "已在第1天安排" in dup[0].reason, \
+        f"去重事件的第N天应为连续显示号：{dup[0].reason if dup else '无事件'}"
+    # 离线路径天号本来就连续（回归保护，不能因改在线逻辑弄坏）
+    from server.agent import run_pipeline
+    r = run_pipeline(TripRequest(days=3, budget=3000, tags=["美食", "文化"],
+                                 cities=["成都", "重庆"]), EventBus())
+    assert [d["day"] for d in r["itinerary"]["days"]] == [1, 2, 3]
+
+
 def test_meal_count_consistency_and_no_early_dinner():
     """餐数口径锁（03F 任务B）：
     ① 中午前结束的半天不出现晚餐，且至少有一个午餐；

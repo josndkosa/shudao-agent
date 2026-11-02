@@ -470,17 +470,20 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
     - 同一 poi_id 只保留首次出现（跨天去重，03F 任务C：LLM 把同一点放进多天，
       fix 只修被报违规的天，残留重复点会同时出现在两天）
     - 整天无合法点位时发事件后跳过（静默丢天不可回放，违反「每条决策带 reason」内核）
+    - 天号由我们连续分配（03I：模型原号在丢天后留洞——Day 1,2,4,5 跳号看起来像
+      出错；编号连续才能让「编号=行程第几天」的直觉成立，模型原号只进事件 reason）
     - 时间线/负载/预算按离线同款口径重算，保证校验段可读
     - days 为空或无合法点位时抛 ValueError，由 llm_plan 统一降级离线
     """
     if not isinstance(raw, dict) or not isinstance(raw.get("days"), list) or not raw["days"]:
         raise ValueError("LLM 计划 days 为空")
     days_out, prev_city, seen = [], None, {}
+    day_seq = 0                      # 我们自己的连续天号，不信模型的
     for i, d in enumerate(raw["days"], start=1):
         if not isinstance(d, dict):
             continue
-        day_no, day_city_hint = d.get("day") or i, d.get("city")
-        day_pois, dropped = [], 0
+        model_day, day_city_hint = d.get("day"), d.get("city")
+        day_pois, dropped, day_local = [], 0, set()
         for it in d.get("items") or []:
             if not isinstance(it, dict) or it.get("type", "poi") != "poi":
                 continue
@@ -488,28 +491,36 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
             if pid not in POI_INDEX:
                 dropped += 1
                 continue
+            if pid in day_local:
+                bus.emit("plan", "fallback", f"丢弃本天重复 POI {POI_INDEX[pid]['name']}",
+                         reason="该点在本天已安排，只保留一次")
+                continue
             if pid in seen:
                 bus.emit("plan", "fallback", f"丢弃跨天重复 POI {POI_INDEX[pid]['name']}",
                          reason=f"该点已在第{seen[pid]}天安排（LLM 把同一点放进了多天）")
                 continue
-            seen[pid] = day_no
+            day_local.add(pid)
             day_pois.append(POI_INDEX[pid])
         if dropped:
             bus.emit("plan", "fallback", f"丢弃 {dropped} 个非法 POI",
                      reason="不在本地快照中，宁可少排不崩管线")
         if not day_pois:
-            bus.emit("plan", "fallback", f"第{day_no}天未安排整天",
-                     reason=f"{day_city_hint or '该城市'}无合法点位（候选全部非法或重复被清洗）",
-                     day=day_no)
+            extra = f"（模型原安排第 {model_day} 天）" if model_day else ""
+            bus.emit("plan", "fallback", f"第{model_day or i}天未安排整天",
+                     reason=f"{day_city_hint or '该城市'}无合法点位（候选全部非法或重复被清洗）{extra}",
+                     day=model_day or i)
             continue
         city = day_city_hint if day_city_hint in CITY_HUB else day_pois[0]["city"]
         has_ic = prev_city is not None and prev_city != city
         ic = _ic_leg(prev_city, city) if has_ic else None
+        day_seq += 1                 # 只给真正产出行程的天编号——被丢的不占号
+        for pid in day_local:
+            seen[pid] = day_seq       # 去重事件 reason 里的「第N天」= 最终显示号
         items = _build_timeline(day_pois, CITY_HUB[city], ic=ic)
         load = _day_load(day_pois, city, ic=ic,
                          meal_count=sum(1 for it in items if it["type"] == "meal"))
         days_out.append({
-            "day": d.get("day") or i, "city": city,
+            "day": day_seq, "city": city,
             "weather": weather(city), "items": items, "load": load,
         })
         prev_city = city

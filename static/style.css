@@ -335,8 +335,16 @@ svg line[stroke="#F85149"] { stroke: var(--accent) !important; }
 
 /* ═══ 逐日行程：图鉴表格化 ═══════════════════════════ */
 .days { border-bottom: 1px solid var(--rule); }
-.day-tabs { display: flex; border-bottom: 2px solid var(--ink); animation: drawX .34s var(--ease-out) 900ms both; transform-origin: left; }
+/* 03I：Day 标签横向滚动——flex 无 overflow-x 时子项撑破容器、整页横向溢出
+   （.map-row 早已同款修过，两个横向区域当时只改了一个）。 */
+.day-tabs {
+  display: flex; overflow-x: auto; scrollbar-width: thin;
+  border-bottom: 2px solid var(--ink);
+  animation: drawX .34s var(--ease-out) 900ms both; transform-origin: left;
+  scroll-behavior: smooth;
+}
 .day-tab {
+  flex: 0 0 auto;                   /* 不许被压缩，否则「Day 12 · 昆明」被挤断 */
   padding: 12px 24px 10px; font-size: 14px;
   color: var(--ink3); cursor: pointer; font-weight: 400;
   border-bottom: 2px solid transparent; margin-bottom: -2px;
@@ -347,6 +355,15 @@ svg line[stroke="#F85149"] { stroke: var(--accent) !important; }
 .day-tab.adv { color: var(--accent); }
 .day-tab.adv.on { color: var(--accent); border-bottom-color: var(--accent); }
 .day-panel { padding: 8px 0 4px; }
+/* 溢出提示行（>容器宽度才显示，scrollWidth 实测判断不写死个数） */
+.day-tabs-under { padding: 6px 0 0; }
+
+/* 横向拖动滚动（03I）：day-tabs 与 map-row 共用——细滚动条 + 抓手光标 + 拖时禁选中 */
+.day-tabs::-webkit-scrollbar, .map-row::-webkit-scrollbar { height: 6px; }
+.day-tabs::-webkit-scrollbar-thumb, .map-row::-webkit-scrollbar-thumb { background: var(--ink3); border-radius: 0; }
+.day-tabs::-webkit-scrollbar-track, .map-row::-webkit-scrollbar-track { background: transparent; }
+.day-tabs, .map-row { cursor: grab; }
+.day-tabs.dragging, .map-row.dragging { cursor: grabbing; user-select: none; }
 
 /* 行程条目：左时间 + 中名称 + 右标签说明；竖线分隔 */
 .it-item {
@@ -550,13 +567,15 @@ body.drawer-open .evt:nth-child(9)  { animation-delay: 188ms; }
 body.drawer-open .evt:nth-child(10) { animation-delay: 204ms; }
 body.drawer-open .evt:nth-child(n+11) { animation-delay: 220ms; }
 
-/* ═══ 对话条：固定底部 ═══════════════════════════════ */
+/* ═══ 对话条：参数条下方（03I 归位）═════════════════════ */
+/* 03I：原 fixed 全宽压视口底边（2px 黑线切断页面 + 内容有被压隐患）——
+   对话与参数都是「用户输入」，语义上本就该相邻；移入文档流后底部不再被切开。 */
 .chat-bar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
   display: flex; align-items: center; gap: 12px;
-  padding: 14px 32px;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
   background: var(--bg);
-  border-top: 2px solid var(--ink);
 }
 .chat-hint { font-size: 12.5px; color: var(--ink2); white-space: nowrap; }
 .chat-hint span { color: var(--ink); cursor: pointer; margin-left: 4px; margin-right: 10px; border-bottom: 1px dashed var(--rule); padding-bottom: 1px; }
