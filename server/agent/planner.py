@@ -263,15 +263,28 @@ def _build_timeline(day_pois, hub, ic=None):
             "reasons": p.get("_reasons", []), "summary": p["summary"],
         })
         t, cur = departure, p
-    if not dinner and items:
+    if not dinner and items and t > 18.0:
+        # 收尾补晚餐只在天结束时间确实晚于 18:00 时——03F 任务B实跑缺陷：
+        # 某天仅 1 点 12:55 结束也被硬插「晚餐 12:55–13:55」的时间线荒谬
         items.append({"type": "meal", "label": "晚餐",
                        "arrival": _fmt(min(t, 20.0)), "departure": _fmt(min(t + 1, 21.0))})
+    if not lunch and not dinner and items:
+        # 全天无餐（中午前结束的半天）也至少补一个午餐条目：
+        # 时间线口径「至少一餐」，与 _day_load 按实际餐数计的负载口径保持一致
+        items.append({"type": "meal", "label": "午餐",
+                      "arrival": _fmt(min(t, 11.5)), "departure": _fmt(min(t + 1, 12.5))})
     return items
 
 
-def _day_load(day_pois, city, ic=None):
-    """日负载：含枢纽→首点的第一段交通，与 timeline 实际排程一致。"""
-    hours = MEAL_HOURS + BUFFER + ((ic or {}).get("hours", 0.0))
+def _day_load(day_pois, city, ic=None, meal_count=None):
+    """日负载：含枢纽→首点的第一段交通，与 timeline 实际排程一致。
+
+    meal_count（03H 任务H1）：该天时间线里实际出现的餐条目数——时间线只有 1 餐时
+    负载不能再按 2 餐算（旧口径固定加 MEAL_HOURS=2，与时间线口径不一致）；
+    None 时按 2 餐计（历史默认，既有单测依赖）。
+    """
+    hours = (meal_count if meal_count is not None else MEAL_HOURS) * 1.0 \
+        + BUFFER + ((ic or {}).get("hours", 0.0))
     hours += sum(p["visit_hours"] for p in day_pois)
     prev = CITY_HUB[city]
     for p in day_pois:
@@ -347,7 +360,8 @@ def offline_plan(request, bus: EventBus):
                      reason="；".join(f"{p['name']}({'/'.join(p.get('_reasons', ['基础候选']))})" for p in ordered),
                      detail=[p["id"] for p in ordered])
             items = _build_timeline(ordered, CITY_HUB[city], ic=ic)
-            load = _day_load(ordered, city, ic=ic)
+            load = _day_load(ordered, city, ic=ic,
+                             meal_count=sum(1 for it in items if it["type"] == "meal"))
             itinerary_days.append({
                 "day": day_no, "city": city, "weather": wx[city], "items": items, "load": load,
             })
@@ -430,7 +444,8 @@ def _refresh_day(d):
     hub = CITY_HUB[d["city"]]
     ic = _ic_of_day(d)
     d["items"] = _build_timeline(day_pois, hub, ic=ic)
-    d["load"] = _day_load(day_pois, d["city"], ic=ic)
+    d["load"] = _day_load(day_pois, d["city"], ic=ic,
+                          meal_count=sum(1 for it in d["items"] if it["type"] == "meal"))
 
 
 def _normalize_llm_plan(raw, request, bus: EventBus):
@@ -438,34 +453,47 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
 
     LLM 只保证 days/items/budget 骨架；字段以本地快照为准：
     - 非法 poi_id 丢弃（宁可少排，不让管线崩）
+    - 同一 poi_id 只保留首次出现（跨天去重，03F 任务C：LLM 把同一点放进多天，
+      fix 只修被报违规的天，残留重复点会同时出现在两天）
+    - 整天无合法点位时发事件后跳过（静默丢天不可回放，违反「每条决策带 reason」内核）
     - 时间线/负载/预算按离线同款口径重算，保证校验段可读
     - days 为空或无合法点位时抛 ValueError，由 llm_plan 统一降级离线
     """
     if not isinstance(raw, dict) or not isinstance(raw.get("days"), list) or not raw["days"]:
         raise ValueError("LLM 计划 days 为空")
-    days_out, prev_city = [], None
+    days_out, prev_city, seen = [], None, {}
     for i, d in enumerate(raw["days"], start=1):
         if not isinstance(d, dict):
             continue
+        day_no, day_city_hint = d.get("day") or i, d.get("city")
         day_pois, dropped = [], 0
         for it in d.get("items") or []:
             if not isinstance(it, dict) or it.get("type", "poi") != "poi":
                 continue
             pid = it.get("poi_id") or it.get("id")
-            if pid in POI_INDEX:
-                day_pois.append(POI_INDEX[pid])
-            else:
+            if pid not in POI_INDEX:
                 dropped += 1
+                continue
+            if pid in seen:
+                bus.emit("plan", "fallback", f"丢弃跨天重复 POI {POI_INDEX[pid]['name']}",
+                         reason=f"该点已在第{seen[pid]}天安排（LLM 把同一点放进了多天）")
+                continue
+            seen[pid] = day_no
+            day_pois.append(POI_INDEX[pid])
         if dropped:
             bus.emit("plan", "fallback", f"丢弃 {dropped} 个非法 POI",
                      reason="不在本地快照中，宁可少排不崩管线")
         if not day_pois:
+            bus.emit("plan", "fallback", f"第{day_no}天未安排整天",
+                     reason=f"{day_city_hint or '该城市'}无合法点位（候选全部非法或重复被清洗）",
+                     day=day_no)
             continue
-        city = d.get("city") if d.get("city") in CITY_HUB else day_pois[0]["city"]
+        city = day_city_hint if day_city_hint in CITY_HUB else day_pois[0]["city"]
         has_ic = prev_city is not None and prev_city != city
         ic = _ic_leg(prev_city, city) if has_ic else None
         items = _build_timeline(day_pois, CITY_HUB[city], ic=ic)
-        load = _day_load(day_pois, city, ic=ic)
+        load = _day_load(day_pois, city, ic=ic,
+                         meal_count=sum(1 for it in items if it["type"] == "meal"))
         days_out.append({
             "day": d.get("day") or i, "city": city,
             "weather": weather(city), "items": items, "load": load,
