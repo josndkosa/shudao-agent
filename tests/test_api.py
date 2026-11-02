@@ -51,11 +51,75 @@ def test_stream_sse_frames_and_done():
     # 哨兵帧必须是纯 {"type":"done"}（无 stage/seq），且业务事件全部在其之前送达
     assert events[-1].get("type") == "done" and "stage" not in events[-1], \
         f"末帧应为流结束哨兵，实际：{events[-1]}"
-    assert events[-2]["stage"] in ("narrate", "system"), \
-        f"哨兵之前应完整送达业务事件，实际倒数第二帧：{events[-2]}"
-    for ev in events[:-1]:
+    # 契约演进（任务A方案B）：哨兵前新增 plan_result 控制帧（行程随流返回），它之前才是业务事件
+    assert events[-2].get("type") == "plan_result" and "stage" not in events[-2], \
+        f"倒数第二帧应为 plan_result，实际：{events[-2]}"
+    assert events[-3]["stage"] in ("narrate", "system"), \
+        f"plan_result 之前应完整送达业务事件，实际：{events[-3]}"
+    for ev in events[:-2]:
         for k in ("seq", "stage", "type", "title"):
             assert k in ev, f"事件缺字段 {k}：{ev}"
+
+
+def test_stream_plan_result_carries_itinerary_and_supports_revise():
+    """任务A核心：行程随事件流回来（一次规划只跑一次管线），plan_id 可直接喂 /api/revise。"""
+    r = client.post("/api/stream", json={"days": 3, "budget": 3000, "tags": ["美食", "文化"],
+                                         "cities": ["成都", "重庆"]})
+    events = [json.loads(f[len("data: "):]) for f in r.text.strip().split("\n\n") if f]
+    pr = next(e for e in events if e.get("type") == "plan_result")
+    assert pr["plan_id"] and pr["budget"] and pr["mode"]
+    days = pr["itinerary"]["days"]
+    assert len(days) == 3
+    # 同源断言：事件流「第N天选点」的 poi 集合 ⊆ 行程单 Day N 的 poi 集合
+    # （plan_result 与事件流出自同一次 run_pipeline，天然同源——锁的是契约不被改回去）
+    import re
+    for e in events:
+        m = re.match(r"第(\d+)天选点", e.get("title", ""))
+        if m and isinstance(e.get("detail"), list):
+            day = next(d for d in days if d["day"] == int(m.group(1)))
+            day_pids = {it["poi_id"] for it in day["items"] if it["type"] == "poi"}
+            assert set(e["detail"]) <= day_pids, \
+                f"事件流与行程不同源：Day{m.group(1)} 事件 {e['detail']} vs 行程 {day_pids}"
+    # revise 链路：stream 缓存的 plan_id 必须能用（对话改行程是 30 分展示项）
+    rv = client.post("/api/revise", json={"plan_id": pr["plan_id"], "message": "第二天太赶"})
+    assert rv.status_code == 200
+    assert rv.json()["revised_day"] == 2
+
+
+def test_stream_single_pipeline_run():
+    """单跑锁：一次 stream 只跑一次管线——事件流里 plan 阶段 start 事件恰 1 条。
+
+    旧路径前端先 plan 后 stream（两次独立管线），在线模式下 DeepSeek 成本 ×2。
+    """
+    r = client.post("/api/stream", json={"days": 2, "budget": 2000, "tags": ["夜景"]})
+    events = [json.loads(f[len("data: "):]) for f in r.text.strip().split("\n\n") if f]
+    starts = [e for e in events if e.get("stage") == "plan" and e.get("type") == "start"]
+    assert len(starts) == 1, f"plan start 应只有 1 条（单跑语义），实际 {len(starts)}"
+
+
+def test_plan_runs_in_threadpool(monkeypatch):
+    """任务B锁：/api/plan 的 run_pipeline 必须经 asyncio.to_thread（不阻塞事件循环）。"""
+    import asyncio as _asyncio
+
+    import server.app as app_mod
+
+    calls = []
+    orig_to_thread = _asyncio.to_thread
+
+    def fake_pipeline(request, bus):
+        return {"itinerary": {"days": [], "budget": {}}, "timeline": [], "mode": "offline"}
+
+    async def spy_to_thread(fn, *a, **k):
+        calls.append(getattr(fn, "__name__", str(fn)))
+        return await orig_to_thread(fn, *a, **k)
+
+    monkeypatch.setattr(app_mod, "run_pipeline", fake_pipeline)
+    monkeypatch.setattr(_asyncio, "to_thread", spy_to_thread)
+    r = client.post("/api/plan", json={"days": 1, "budget": 2000})
+    assert r.status_code == 200
+    # spy 记录到的是 patch 后的 fn 名——恰好证明「端点里的 run_pipeline（此刻为 fake）
+    # 经由 asyncio.to_thread 执行」这条链路本身
+    assert "fake_pipeline" in calls, f"run_pipeline 未走 asyncio.to_thread：{calls}"
 
 
 def test_revise_reduce_day2():

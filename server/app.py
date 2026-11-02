@@ -3,9 +3,10 @@
 契约与 static/js/api.js 的 LiveApi 严格对齐（前端零改动切换）：
   GET  /api/health   → {status, mode, llm}
   POST /api/plan     → {plan_id, itinerary, timeline, mode, budget}
-  POST /api/stream   → SSE 逐条事件，最后 {"type":"done"}
+  POST /api/stream   → SSE 逐条事件，倒数第二帧 {"type":"plan_result", plan_id, itinerary,
+                        budget, mode}（行程随流返回），最后 {"type":"done"}
   POST /api/revise   → {itinerary, timeline, revised_day, message}
-  GET  /api/geo      → {points: {城市: [...]}, cities: [...]}（成渝分城投影）
+  GET  /api/geo      → {points: {城市: [...]}, cities: [...]}（分城投影）
   GET  /api/meta     → {cities, tags, meta}
   GET  /             → static/index.html（零构建前端）
 断网保命：SD_LLM_MODE=offline 默认完整可用；在线分支失败一律降级不报错。
@@ -117,23 +118,39 @@ async def health():
 
 @app.post("/api/plan")
 async def plan(req: PlanRequest):
-    """同步跑完三段式管线，返回完整行程 + 事件流（前端先 plan 后 stream，确定性保证一致）。"""
+    """同步跑完三段式管线，返回完整行程 + 事件流。
+
+    asyncio.to_thread（任务 B）：在线模式下 run_pipeline → llm.chat 是阻塞 HTTP，
+    async def 里直接同步调用会卡住整个事件循环（一次请求最长占住 30 秒、其他请求全排队）；
+    线程池执行与 /api/stream 同款语义。
+    """
     bus = EventBus()
-    result = run_pipeline(_to_trip(req), bus)
+    result = await asyncio.to_thread(run_pipeline, _to_trip(req), bus)
     plan_id = _cache_plan(req, result, bus)
     return {"plan_id": plan_id, **result}
 
 
 @app.post("/api/stream")
 async def stream(req: PlanRequest, request: Request):
-    """SSE 流式：管线在线程池跑，emit 回调实时推事件，结束发 {"type":"done"}。"""
+    """SSE 流式：管线在线程池跑，emit 回调实时推事件。
+
+    结束前推 plan_result 控制帧（行程随流返回）再发 done 哨兵（任务 A 方案 B）——
+    前端一次「开始规划」只调本端点：在线模式下省一半 token，且行程与事件流必然同源
+    （旧路径 plan + stream 各跑一次独立管线，temperature 0.3 非确定性下行程卡与事件流
+    描述的是两个不同的行程）。plan_id 随流缓存，/api/revise 依赖它。
+    """
     q: asyncio.Queue = asyncio.Queue()
 
     def on_event(ev: dict):
         q.put_nowait(ev)
 
     def run_and_signal():
-        run_pipeline(_to_trip(req), on_event=on_event)
+        bus = EventBus(on_emit=on_event)
+        result = run_pipeline(_to_trip(req), bus)
+        plan_id = _cache_plan(req, result, bus)
+        q.put_nowait({"type": "plan_result", "plan_id": plan_id,
+                      "itinerary": result["itinerary"], "budget": result["budget"],
+                      "mode": result["mode"]})
         q.put_nowait({"type": "stream_end"})   # 流结束哨兵：与业务 done 事件（narrate/system）区分
 
     asyncio.get_running_loop().run_in_executor(None, run_and_signal)

@@ -2,7 +2,10 @@
 // 契约（后端 Prompt 02 严格照此实现）：
 //   health()                                   → {status, mode, llm}
 //   plan({days, budget, tags, family})         → {plan_id, itinerary, timeline, mode, budget}
-//   stream(req, onEvent)                       → 逐条回调事件；最后回调 {type:"done"}；返回 {unsubscribe()}
+//   stream(req, onEvent)                       → 逐条回调事件；倒数第二次回调
+//                                                 {type:"plan_result", plan_id, itinerary, budget, mode}
+//                                                 （行程随流返回，一次规划只跑一次管线）；
+//                                                 最后回调 {type:"done"}；返回 {unsubscribe()}
 //   revise(plan_id, message)                   → {itinerary, timeline, revised_day, message}
 //   geo(plan_id, city)                         → {points:[...], cities:[...]}
 //   meta()                                     → {cities:[...], tags:[...], meta:{...}}
@@ -120,6 +123,9 @@ class MockApi {
         onEvent(events[i++]);
         setTimeout(tick, this._baseInterval);
       } else {
+        // 与 LiveApi 契约对齐：业务事件之后先给 plan_result（行程随流返回），再发 done
+        onEvent({ type: "plan_result", plan_id: "mock-1",
+                  itinerary: data.itinerary, budget: data.budget, mode: "mock" });
         onEvent({ type: "done" });
       }
     };

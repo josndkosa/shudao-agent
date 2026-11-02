@@ -133,35 +133,52 @@ async function run() {
   saveParams(req);
   $("btn-run").disabled = true;
   try {
-    const res = await api.plan(req);
-    state.planId = res.plan_id || "mock-1";
-    state.itinerary = res.itinerary;
-    state.budget = res.budget;
+    state.planId = null;
+    state.itinerary = null;
+    state.budget = null;
     state.events = [];
     state.player.setEvents([]);
-    syncMapCities();
     renderAll(0);
     // F5：流式期间进入"实时跟随"态——播放器控件禁用置灰，避免 cursor 与新事件打架
     setStreaming(true);
-    // 流式推进事件；失败则一次性用 plan 返回的 timeline 填充（兜底2）
-    try {
-      await api.stream(req, ev => {
-        if (ev.type === "done") { setStreaming(false); state.player.seek(state.events.length); return; }
-        if (ev.type === "error") throw new Error("stream error");
-        state.events.push(ev);
-        // 流式直播跟随：新一天的选点决策到达时同步当前天（天状态单源 state.activeDay）
-        if (ev.type === "decision") {
-          const m = ev.title.match(/第(\d+)天选点/);
-          if (m) state.activeDay = +m[1];
-        }
-        state.player.appendEvents([ev]);
+    // 任务A方案B：只跑一次 stream，行程随 plan_result 控制帧回来（与事件流必然同源）；
+    // 旧路径 plan + stream 各跑一次独立管线，在线模式下既烧双份 token，
+    // 非确定性（temp 0.3）下行程卡与事件流还会描述两个不同的行程
+    let gotResult = false;
+    await api.stream(req, ev => {
+      if (ev.type === "plan_result") {
+        gotResult = true;
+        state.planId = ev.plan_id || "mock-1";
+        state.itinerary = ev.itinerary;
+        state.budget = ev.budget;
+        syncMapCities();
         renderAll(state.events.length);
-      });
-    } catch {
-      setStreaming(false);
+        return;
+      }
+      if (ev.type === "done") { setStreaming(false); state.player.seek(state.events.length); return; }
+      if (ev.type === "error") throw new Error("stream error");
+      state.events.push(ev);
+      // 流式直播跟随：新一天的选点决策到达时同步当前天（天状态单源 state.activeDay）
+      if (ev.type === "decision") {
+        const m = ev.title.match(/第(\d+)天选点/);
+        if (m) state.activeDay = +m[1];
+      }
+      state.player.appendEvents([ev]);
+      renderAll(state.events.length);
+    });
+    setStreaming(false);
+    // 兜底：流正常结束却没收到 plan_result（异常路径）——退回一次性 plan 补齐，
+    // 宁可此场景双跑也不要白屏（与 run() 顶层 catch 的红字兜底同原则）
+    if (!gotResult && !state.itinerary) {
+      const res = await api.plan(req);
+      state.planId = res.plan_id || "mock-1";
+      state.itinerary = res.itinerary;
+      state.budget = res.budget;
       state.events = res.timeline;
       state.player.setEvents(res.timeline, res.timeline.length);
+      syncMapCities();
     }
+    renderAll(state.events.length);
   } catch (err) {
     // 可见的失败：宁可红字报错，也不要白屏（答辩现场白屏等于 0 分）
     console.error(err);
