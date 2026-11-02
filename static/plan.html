@@ -23,7 +23,7 @@
   <!-- 单栏主列：参数 + 多城路线图 + 逐日行程 -->
   <main class="left">
     <form class="params" id="params-form">
-      <label>天数<input id="p-days" type="number" min="1" max="7" value="3"></label>
+      <label>天数<input id="p-days" type="number" min="1" max="30" value="3"></label>
       <label>预算<input id="p-budget" type="number" min="500" step="100" value="3000"></label>
       <label>偏好<input id="p-tags" type="text" value="美食,文化" placeholder="美食,文化,亲子…"></label>
       <div class="city-pick-wrap">
@@ -34,6 +34,8 @@
       <label class="chk"><input id="p-family" type="checkbox">亲子</label>
       <button type="submit" class="btn-primary" id="btn-run">开始规划</button>
       <span class="params-hint" id="params-hint" hidden></span>
+      <span class="city-pick-hint days-hint" id="days-hint">单城约撑 4–5 天（POI 密度决定）；天数多建议多选城市，排不满会如实说明</span>
+      <span class="city-pick-hint" id="parse-origin" hidden></span>
     </form>
 
     <section class="map-row" id="map-row">
@@ -80,7 +82,8 @@
 
 <footer class="chat-bar">
   <span class="chat-hint" id="chat-hints">试试：</span>
-  <input id="chat-input" type="text" placeholder="和规划师说点什么，例如：第二天太赶">
+  <span class="chat-note" id="chat-note" hidden></span>
+  <input id="chat-input" type="text" placeholder="说说你想怎么玩，例如：我在北京，想去成都和重庆玩3天，喜欢美食和夜景">
   <button class="btn-primary" id="btn-send">发送</button>
 </footer>
 

@@ -5,6 +5,7 @@ import { api } from "./api.js";
 import { CityMaps } from "./map.js";
 import { DayPanel } from "./timeline.js";
 import { Player } from "./player.js";
+import { applyParseResult, describeParse } from "./parsefill.js";
 import { payload, viewAt } from "./view.js";
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -153,6 +154,7 @@ async function run() {
         state.budget = ev.budget;
         syncMapCities();
         renderAll(state.events.length);
+        updateChatPlaceholder();   // 有了计划 → 对话栏切到「改行程」语义
         return;
       }
       if (ev.type === "done") { setStreaming(false); state.player.seek(state.events.length); return; }
@@ -197,6 +199,49 @@ function setStreaming(on) {
     $(id).disabled = on;
   }
   $("badge-offline").textContent = on ? "实时接收中…" : "离线";
+}
+
+// ── 对话栏双模式（03G）：无计划=自然语言规划入口，有计划=改行程（revise 语义零变化）──
+
+const PLACEHOLDER_PLAN = "说说你想怎么玩，例如：我在北京，想去成都和重庆玩3天，喜欢美食和夜景";
+const PLACEHOLDER_REVISE = "和规划师说点什么，例如：第二天太赶";
+
+function updateChatPlaceholder() {
+  const el = $("chat-input");
+  if (el) el.placeholder = state.planId ? PLACEHOLDER_REVISE : PLACEHOLDER_PLAN;
+}
+
+/** 对话栏回一条系统提示（「我理解为…」/兜底说明），不报错不清参数 */
+function setChatNote(text) {
+  const el = $("chat-note");
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+/** 无计划时发送一句话：抽取 → 回填参数条（回填不替换：未识别字段保留原值）
+ *  → 对话栏展示「我理解为…」→ 自动触发规划。参数条上的值仍可见可改。 */
+async function planByChat(message) {
+  $("btn-send").disabled = true;
+  try {
+    const r = await api.parse(message);
+    const got = r.days || r.budget || r.cities?.length || r.tags?.length;
+    if (r.source === "fallback" || !got) {
+      setChatNote("没太看懂，也可以直接用上方参数条填写" + (r.note ? `；${r.note}` : ""));
+      return;
+    }
+    applyParseResult(r, {
+      cityBoxes: () => [...document.querySelectorAll("#p-cities input")],
+      onHint: updateCityDayHint,
+    });
+    setChatNote(describeParse(r));
+    await run();     // 回填后直接规划（流畅优先）；参数条值仍可见、可改后重新点「开始规划」
+  } catch (err) {
+    console.error(err);
+    setChatNote("没太看懂（" + (err?.message || err) + "），也可以直接用上方参数条填写");
+  } finally {
+    $("btn-send").disabled = false;
+  }
 }
 
 async function revise(message) {
@@ -308,16 +353,27 @@ async function boot() {
   applyParams(q);
 
   $("params-form").addEventListener("submit", e => { e.preventDefault(); run(); });
-  $("btn-send").addEventListener("click", () => { const v = $("chat-input").value.trim(); if (v) { revise(v); $("chat-input").value = ""; } });
+  $("btn-send").addEventListener("click", () => {
+    const v = $("chat-input").value.trim();
+    if (!v) return;
+    $("chat-input").value = "";
+    // 03G 双模式：还没有 plan_id = 一句话规划（抽取→回填→自动跑管线）；
+    // 已有 plan_id = 对话改行程（走既有 /api/revise，行为零变化）
+    if (state.planId) revise(v); else planByChat(v);
+  });
   $("chat-input").addEventListener("keydown", e => { if (e.key === "Enter") $("btn-send").click(); });
+  updateChatPlaceholder();
 
-  // 示例提示语（点击即填）
-  const hints = ["第二天太赶", "第一天太松了", "换掉九眼桥", "把宽窄巷子放最前面"];
+  // 示例提示语（点击即填）：无计划时的示例是「一句话规划」，与对话栏当前语义一致
+  const hints = state.planId
+    ? ["第二天太赶", "第一天太松了", "换掉九眼桥", "把宽窄巷子放最前面"]
+    : ["我在北京，想去成都和重庆玩3天，喜欢美食和夜景", "带娃去昆明玩5天，预算5000", "从上海出发去大理和丽江玩4天"];
   const hintEl = $("chat-hints");
   hintEl.textContent = "试试：";
   for (const h of hints) {
     const s = document.createElement("span");
-    s.textContent = h;
+    s.textContent = h.length > 18 ? h.slice(0, 18) + "…" : h;
+    s.title = h;
     s.addEventListener("click", () => { $("chat-input").value = h; });
     hintEl.appendChild(s);
   }

@@ -8,13 +8,34 @@
 | 方法 | 路径 | 作用 | 返回 |
 |---|---|---|---|
 | GET | `/api/health` | 启动自检（前端 2s 探测选 Live/Mock） | `{status, mode, llm}` |
+| POST | `/api/parse` | **自然语言 → 结构化参数**（03G 抽取层，抽取与规划分离） | `{origin, cities, days, budget, tags, family, source, note}` |
 | POST | `/api/plan` | 同步跑完管线 | `{plan_id, itinerary, timeline, mode, budget}` |
-| POST | `/api/stream` | SSE 流式推事件 | `data: {...}\n\n` 逐条 + done 哨兵 |
+| POST | `/api/stream` | SSE 流式推事件 | `data: {...}\n\n` 逐条 + plan_result 帧 + done 哨兵 |
 | POST | `/api/revise` | 对话式改行程 | `{itinerary, timeline, revised_day, message, budget}` |
 | GET | `/api/geo` | 分城投影坐标 | `{points: {城市: [...]}, cities: [...]}` |
 | GET | `/api/meta` | 快照元信息 | `{cities, tags, meta}` |
 
 另有：`GET /`（静态前端）、`POST /api/plan/{plan_id}/save`（OBS 可选）、`GET /api/plan/{plan_id}/geo`（别名）。
+
+## /api/parse 契约（03G：自然语言规划入口）
+
+```bash
+curl -X POST http://localhost:8000/api/parse \
+  -H "Content-Type: application/json" \
+  -d '{"text": "我在北京，想去成都和重庆玩3天，预算3000，喜欢美食和夜景"}'
+# → {"origin": "北京", "cities": ["成都", "重庆"], "days": 3, "budget": 3000,
+#    "tags": ["美食", "夜景"], "family": false, "source": "rules", "note": "出发地 北京 仅作展示，…"}
+```
+
+- **`source`**：`"llm"`（在线 DeepSeek 纯 JSON 抽取） | `"rules"`（离线正则+词表，断网可用） |
+  `"fallback"`（完全没解析出来）——两种实现返回**完全同构**，前端零分叉
+- **校验与归一在抽取层完成**（模型自造语义在此拦死）：城市只认 `meta.city_info`
+  （不认识的城市过滤并在 `note` 如实提示）；标签必须落 `expand_tags()` 受控词表；
+  天数 clamp 1–30、预算 clamp ≥500
+- **`origin`（出发地）只抽取不计算**：note 与前端均如实标注「暂未计入行程时间与交通费」
+- LLM 返回非法 JSON / 调用失败 → 自动降级规则实现，**任何情况不抛错**
+- 前端语义：无 plan_id 时对话栏发送 = 抽取 → 回填参数条（回填不替换，未识别字段保留
+  原值）→ 自动触发规划；有 plan_id = 走 `/api/revise`（改行程语义零变化）
 
 ## 请求示例
 

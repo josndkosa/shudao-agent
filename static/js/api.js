@@ -25,6 +25,15 @@ class LiveApi {
     return r.json();
   }
 
+  async parse(text) {
+    const r = await fetch("/api/parse", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    if (!r.ok) throw new Error(`parse ${r.status}`);
+    return r.json();
+  }
+
   async plan(req) {
     const r = await fetch("/api/plan", {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -104,6 +113,14 @@ class MockApi {
   }
 
   async health() { return { status: "ok", mode: "mock", llm: "offline" }; }
+
+  async parse() {
+    // 如实标注：抽取器的两种实现（LLM/正则）都在服务端，后端未启动时没有抽取能力，
+    // 返回 fallback 走与「抽取失败」同一条前端路径（零分叉）——不假装能理解
+    return { origin: null, cities: [], days: null, budget: null, tags: [],
+             family: false, source: "fallback",
+             note: "后端未启动，自然语言抽取暂不可用；请直接用上方参数条填写" };
+  }
 
   async plan(req) {
     const data = await this._load("demo.json");
@@ -217,6 +234,7 @@ async function pick() {
 export const api = {
   kind: () => (_impl ? _impl.kind : "detecting"),
   health: () => pick().then(i => i.health()),
+  parse: (text) => pick().then(i => i.parse(text)),
   plan: (req) => pick().then(i => i.plan(req)),
   stream: (req, onEvent) => pick().then(i => i.stream(req, onEvent)),
   revise: (planId, message) => pick().then(i => i.revise(planId, message)),

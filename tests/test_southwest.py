@@ -265,3 +265,32 @@ def test_allocate_days_never_negative():
         alloc = _allocate_days(days, pools)
         assert all(v >= 1 for v in alloc.values()), f"days={days} 出现非正分配：{alloc}"
         assert sum(alloc.values()) == days, f"days={days} 分配总和 {alloc} 不等于天数"
+
+# ── 03G：天数上限放开（7→30）的连带缺陷锁 ──────────────────
+
+def test_pool_exhausted_emits_event_and_budget_denominator():
+    """单城要 10 天但成都 22 点只撑 ~8 天：候选用尽必须发事件（不静默丢天），
+    且预算按实际行程天数计（per_day == total ÷ 实际天数）。"""
+    r = run_pipeline(TripRequest(days=10, budget=12000, cities=["成都"]), EventBus())
+    days = r["itinerary"]["days"]
+    assert len(days) < 10, f"成都 22 点撑不满 10 天（断言前提），实际 {len(days)} 天"
+    evs = [e for e in r["timeline"] if "候选点已用尽" in e["title"]]
+    assert evs, f"候选用尽未发事件（静默丢天回归）：{[e['title'] for e in r['timeline'] if e['type'] == 'fallback']}"
+    assert "成都" in evs[0]["title"] and "建议多选城市" in evs[0]["reason"]
+    b = r["itinerary"]["budget"]
+    assert b["per_day"] == round(b["total"] / len(days), 1), \
+        f"日均必须 = 总花费 ÷ 实际天数：{b['per_day']} vs {b['total']}/{len(days)}"
+    # 天序连续：被丢弃的天不占用 day 序号
+    assert [d["day"] for d in days] == list(range(1, len(days) + 1))
+
+
+def test_days12_multi_city_fills_without_silent_drop():
+    """10 城 12 天：≥10 天且每个「第N天选点」都真实存在（无静默空天）。"""
+    cities = ["成都", "重庆", "贵阳", "桂林", "昆明", "大理", "乐山", "阆中", "安顺", "丽江"]
+    r = run_pipeline(TripRequest(days=12, budget=12000, tags=["文化"], cities=cities), EventBus())
+    days = r["itinerary"]["days"]
+    assert len(days) >= 10, f"12 天多城应产出 ≥10 天，实际 {len(days)}"
+    picked = [e for e in r["timeline"] if e["type"] == "decision" and "天选点" in e["title"]]
+    assert len(picked) == len(days), f"每天都应有选点事件：{len(picked)} vs {len(days)} 天"
+    for d in days:   # 每天非空（有 poi）
+        assert any(it["type"] == "poi" for it in d["items"]), f"第{d['day']}天无点位"

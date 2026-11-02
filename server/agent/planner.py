@@ -350,11 +350,18 @@ def offline_plan(request, bus: EventBus):
             pool = pools[city]
             picked = _pick_day_pois(pool, capacity, CITY_HUB[city])
             if not picked:
+                # 候选用尽不再静默丢天（03G）：用户要 12 天可能只拿到 9 天，
+                # 「这一天为什么没了」必须可回放；day_no 未自增，该天不占用序号
+                bus.emit("plan", "fallback", f"{city} 候选点已用尽，无法安排第 {day_no} 天",
+                         reason=f"{city} 的 POI 已全部排入前序天数（单城约撑 4–5 天，"
+                                f"天数多建议多选城市）")
                 continue
             ordered = _order_day(picked, CITY_HUB[city])
             # 相邻跳口径复核容量（与 validator 同尺），超容摘点在 emit 决策前完成
             ordered = _trim_to_capacity(ordered, city, ic=ic)
             if not ordered:
+                bus.emit("plan", "fallback", f"第 {day_no} 天容量不足，整天空排",
+                         reason="跨城日城际耗时挤占后装不下任何点位，该天不占用序号")
                 continue
             bus.emit("plan", "decision", f"第{day_no}天选点 {len(ordered)} 个",
                      reason="；".join(f"{p['name']}({'/'.join(p.get('_reasons', ['基础候选']))})" for p in ordered),
@@ -372,10 +379,17 @@ def offline_plan(request, bus: EventBus):
             prev_city = city
 
     tickets_total = sum(d["load"]["tickets"] for d in itinerary_days)
-    b = budget(request.days, tickets_total, intercity_price=intercity_cost(itinerary_days),
+    # 预算分母用实际行程天数（03G）：days=12 被候选密度截成 9 天时，餐饮/市内交通/日均
+    # 都按 9 算——用 request.days 会系统性低估日均；城际费用本就按实际 days 序列计
+    b = budget(len(itinerary_days), tickets_total, intercity_price=intercity_cost(itinerary_days),
                family=request.family)
     bus.emit("plan", "tool_call", "budget(...)", reason="核算门票+餐饮+交通", tool="budget")
-    bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元", reason=f"预算{request.budget}元", detail=b)
+    if len(itinerary_days) < request.days:
+        bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元",
+                 reason=f"按实际 {len(itinerary_days)} 天核算（请求 {request.days} 天，"
+                        f"因候选点用尽未排满）", detail=b)
+    else:
+        bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元", reason=f"预算{request.budget}元", detail=b)
     return {"days": itinerary_days, "budget": b, "mode": "offline-planner"}
 
 
@@ -417,7 +431,7 @@ def fix(plan, violations, request, bus: EventBus):
                          removed=[target.get("poi_id")])
                 _refresh_day(d)
     tickets_total = sum(dd["load"]["tickets"] for dd in plan["days"])
-    plan["budget"] = budget(request.days, tickets_total,
+    plan["budget"] = budget(len(plan["days"]), tickets_total,
                             intercity_price=intercity_cost(plan["days"]), family=request.family)
     return plan
 
@@ -502,7 +516,7 @@ def _normalize_llm_plan(raw, request, bus: EventBus):
     if not days_out:
         raise ValueError("LLM 计划无合法点位")
     tickets_total = sum(d["load"]["tickets"] for d in days_out)
-    b = budget(request.days, tickets_total, intercity_price=intercity_cost(days_out), family=request.family)
+    b = budget(len(days_out), tickets_total, intercity_price=intercity_cost(days_out), family=request.family)
     bus.emit("plan", "tool_call", "budget(...)", reason="归一化后按本地口径重算预算", tool="budget")
     bus.emit("plan", "tool_result", f"预估总花费 {b['total']} 元", reason=f"预算{request.budget}元", detail=b)
     return {"days": days_out, "budget": b, "mode": "llm-fc"}

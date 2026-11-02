@@ -81,7 +81,10 @@ def validate(plan, request):
                                "detail": f"强度 {intensity:.1f} 超过 {cap}", "fix_hint": "none"})
 
     tickets_total = sum(d["load"]["tickets"] for d in plan.get("days", []))
-    b = budget(request.days, tickets_total, intercity_price=intercity_cost(plan.get("days", [])),
+    # 预算分母用实际行程天数（03G，与 planner 同口径）：候选点用尽被截成 N 天时，
+    # 餐饮/市内交通/日均与 V4 判定都按 N 算——request.days 会系统性低估日均
+    b = budget(len(plan.get("days", [])), tickets_total,
+               intercity_price=intercity_cost(plan.get("days", [])),
                family=request.family)
     plan["budget"] = b
     if b["total"] > request.budget:

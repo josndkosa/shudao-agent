@@ -197,6 +197,38 @@ def test_index_served():
     assert r.status_code == 200
     assert "蜀道智行" in r.text
 
+# ─────────────────── 03G：自然语言抽取端点 + 天数上限放开 ───────────────────
+
+def test_parse_endpoint_offline_rules():
+    """POST /api/parse（离线规则实现）：返回只含契约 schema 字段。"""
+    r = client.post("/api/parse", json={"text": "我在北京，想去成都和重庆玩3天，预算3000，喜欢美食和夜景"})
+    assert r.status_code == 200
+    body = r.json()
+    assert set(body.keys()) == {"origin", "cities", "days", "budget", "tags",
+                                "family", "source", "note"}, f"返回逸出契约 schema：{body.keys()}"
+    assert body["source"] in ("rules", "llm", "fallback")
+    assert body["origin"] == "北京" and body["days"] == 3 and body["budget"] == 3000
+    assert body["cities"] == ["成都", "重庆"]
+
+
+def test_parse_text_limits():
+    r = client.post("/api/parse", json={"text": "长" * 5000})
+    assert r.status_code == 422
+    r = client.post("/api/parse", json={"text": ""})
+    assert r.status_code == 422
+
+
+def test_plan_days_up_to_30():
+    """days le=7 → le=30：12 天请求合法进入管线（前端 max=7 同步放开）。"""
+    r = client.post("/api/plan", json={"days": 12, "budget": 8000, "tags": ["文化"],
+                                       "cities": ["成都", "重庆", "贵阳", "桂林", "昆明",
+                                                  "大理", "乐山", "阆中", "安顺", "丽江"]})
+    assert r.status_code == 200
+    days = r.json()["itinerary"]["days"]
+    assert len(days) >= 10, f"12 天请求应产出 ≥10 天，实际 {len(days)}"
+    r = client.post("/api/plan", json={"days": 31})
+    assert r.status_code == 422
+
 # ─────────────────── 任务F：公网防护（输入上限 / IP限流 / 在线开关） ───────────────────
 
 def test_input_length_limits_return_422():

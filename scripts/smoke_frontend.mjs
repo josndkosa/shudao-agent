@@ -169,6 +169,57 @@ step("plan.html 工作台静态容器完整（图例/横滚提示/城市多选/�
   for (const id of ["map-legend", "map-scroll-hint", "p-cities", "params-hint", "city-pick-hint"]) {
     if (!html.includes(id)) throw new Error("静态容器缺失: " + id);
   }
+  // 03G：天数上限 30 + origin 只读提示行 + 对话栏 note 容器 + 双模式 placeholder
+  if (!html.includes('max="30"')) throw new Error("p-days 上限应放开到 30");
+  for (const id of ["parse-origin", "chat-note", "days-hint"]) {
+    if (!html.includes(`id="${id}"`)) throw new Error("03G 静态容器缺失: " + id);
+  }
+  if (!html.includes("我在北京，想去成都和重庆玩3天")) throw new Error("规划模式 placeholder 缺失");
+});
+step("parsefill.js：抽取结果回填参数条（回填不替换，未识别保留原值）", async () => {
+  const { applyParseResult, describeParse } = await import(pathToFileURL(path.join(STATIC, "js", "parsefill.js")));
+  // DOM stub 环境：document.getElementById 返回通用 makeEl（value 可断言）
+  const days = document.getElementById("p-days");
+  const budget = document.getElementById("p-budget");
+  const tags = document.getElementById("p-tags");
+  const family = document.getElementById("p-family");
+  days.value = "3"; budget.value = "3000"; tags.value = "美食,文化"; family.checked = false;
+  const boxes = [
+    { value: "成都", checked: true },
+    { value: "重庆", checked: false },
+    { value: "昆明", checked: false },
+  ];
+  const r = { origin: "北京", cities: ["重庆"], days: 12, budget: 1500,
+              tags: ["夜景"], family: true, source: "rules", note: "" };
+  const { applied, kept } = applyParseResult(r, { cityBoxes: () => boxes });
+  if (days.value !== "12") throw new Error("p-days 未回填: " + days.value);
+  if (budget.value !== "1500") throw new Error("p-budget 未回填: " + budget.value);
+  if (tags.value !== "夜景") throw new Error("p-tags 未回填: " + tags.value);
+  if (family.checked !== true) throw new Error("p-family 未回填");
+  if (!boxes.find(b => b.value === "重庆").checked) throw new Error("城市勾选未回填");
+  if (boxes.find(b => b.value === "成都").checked) throw new Error("未提及的城市勾选应取消");
+  const oEl = document.getElementById("parse-origin");
+  if (!oEl.textContent.includes("北京") || !oEl.textContent.includes("暂未计入行程时间与交通费")) {
+    throw new Error("origin 提示缺如实标注: " + oEl.textContent);
+  }
+  if (!applied.includes("days") || !applied.includes("cities")) throw new Error("applied 字段缺失: " + applied);
+  // 回填不替换：只给 tags 时其余字段保留原值
+  const before = { d: days.value, b: budget.value, f: family.checked };
+  applyParseResult({ tags: ["美食"], cities: [], days: null, budget: null, family: false, origin: null }, { cityBoxes: () => [] });
+  if (days.value !== before.d || budget.value !== before.b) throw new Error("未识别字段被清空（回填≠替换）");
+  if (family.checked !== before.f) throw new Error("family=false 不应清除原勾选");
+  if (!document.getElementById("parse-origin").hidden) throw new Error("origin 应随空值收起");
+  // 提示语拼接
+  const s = describeParse(r);
+  if (!s.includes("我理解为") || !s.includes("12 天") || !s.includes("重庆") || !s.includes("暂未计入")) {
+    throw new Error("describeParse 提示语不完整: " + s);
+  }
+});
+step("main.js：对话栏双模式分发存在（无计划=抽取规划，有计划=revise）", () => {
+  const src = readFileSync(path.join(STATIC, "js", "main.js"), "utf8");
+  if (!src.includes("planByChat") || !src.includes("api.parse")) throw new Error("缺 planByChat/api.parse 分发");
+  if (!src.includes("planByChat(v)")) throw new Error("双模式分发逻辑缺失");
+  if (!src.includes("applyParseResult")) throw new Error("缺回填调用");
 });
 step("双页面拆分：index=品牌首页 / plan=工作台（互链与职责断言）", () => {
   const home = readFileSync(path.join(STATIC, "index.html"), "utf8");

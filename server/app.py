@@ -2,6 +2,7 @@
 
 契约与 static/js/api.js 的 LiveApi 严格对齐（前端零改动切换）：
   GET  /api/health   → {status, mode, llm}
+  POST /api/parse    → {origin, cities, days, budget, tags, family, source, note}（03G 抽取层）
   POST /api/plan     → {plan_id, itinerary, timeline, mode, budget}
   POST /api/stream   → SSE 逐条事件，倒数第二帧 {"type":"plan_result", plan_id, itinerary,
                         budget, mode}（行程随流返回），最后 {"type":"done"}
@@ -29,6 +30,7 @@ from pydantic import BaseModel, Field, StringConstraints
 from .agent import TripRequest, run_pipeline
 from .agent import llm as llm_mod
 from .agent.events import EventBus
+from .agent.parse_request import parse_request
 from .agent.pipeline import _load_dotenv
 from .agent.revise import revise_plan
 from .tools import obs
@@ -52,7 +54,7 @@ _PLAN_CAP = 50
 
 class PlanRequest(BaseModel):
     """输入长度上限（任务F）：公网开放后 tags/cities 无限堆与超长串都会打到管线。"""
-    days: int = Field(3, ge=1, le=7)
+    days: int = Field(3, ge=1, le=30)     # 03G：天数上限 7→30（单城约撑 4–5 天，见开发指南）
     budget: int = Field(3000, ge=500)
     tags: list[Annotated[str, StringConstraints(max_length=24)]] = Field(
         default_factory=list, max_length=8)
@@ -64,6 +66,11 @@ class PlanRequest(BaseModel):
 class ReviseRequest(BaseModel):
     plan_id: str = Field(..., min_length=1, max_length=32)
     message: str = Field(..., min_length=1, max_length=500)
+
+
+class ParseTextRequest(BaseModel):
+    """自然语言规划入口（03G）：一句话 → 参数抽取（回填参数条用）。"""
+    text: str = Field(..., min_length=1, max_length=500)
 
 
 # ── IP 限流（任务F）：滑动窗口计数，标准库实现，零新依赖 ──
@@ -146,6 +153,19 @@ def _build_geo(city: str | None = None) -> dict:
 async def health():
     mode = llm_mod.resolve_mode()
     return {"status": "ok", "mode": mode, "llm": mode == "online"}
+
+
+@app.post("/api/parse")
+async def parse_nl(req: ParseTextRequest):
+    """自然语言 → 结构化参数（03G：抽取与规划分离的抽取层）。
+
+    在线模式下 parse_request 内部一次纯 JSON 调用（阻塞 HTTP），线程池执行
+    与 /api/plan 同款语义。返回只含契约 schema 字段，前端按固定结构读、回填参数条；
+    降级链内置（LLM 失败 → 规则实现），任何情况不抛错。
+    """
+    bus = EventBus()
+    out = await asyncio.to_thread(parse_request, req.text, bus)
+    return out
 
 
 @app.post("/api/plan", dependencies=[Depends(_rate_guard)])

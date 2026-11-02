@@ -4,6 +4,43 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.2.0] — 2026-11-02 · 03G 自然语言规划入口 + 天数上限放开（抽取与规划分离）
+
+### Added
+
+- **自然语言规划入口（抽取与规划分离）**：`server/agent/parse_request.py` 新增抽取层——
+  一句话 → `{origin, cities, days, budget, tags, family, source, note}`。在线实现为一次
+  纯 JSON 调用（无 tools，json_mode——03F 预留调用点兑现）；离线实现为正则 + meta 词表
+  （城市别名表 `meta.city_aliases`：渝/蓉/春城/山城/筑/版纳/西江……）；两种实现返回完全
+  同构，LLM 失败自动降级规则实现。校验归一在抽取层拦死模型自造语义：城市只认
+  city_info（不认识的过滤并在 note 如实提示）、标签必须落 expand_tags 受控词表、
+  数值 clamp（days 1–30 / budget ≥500）。
+- **`POST /api/parse` 端点**（线程池执行与 /api/plan 同款）；前端 `api.parse` 方法。
+- **前端对话栏双模式**：无 plan_id = 一句话规划（抽取 → `parsefill.js` 回填参数条 →
+  自动触发规划，「我理解为…」提示 + note 如实标注）；有 plan_id = 走既有 /api/revise
+  （改行程语义零变化）。回填不替换：未识别字段保留参数条原值。`origin` 只读提示行
+  如实标注「暂未计入行程时间与交通费」。
+- **天数上限 7 → 30**（前后端同步：PlanRequest le=30 / p-days max=30）。
+
+### Fixed（放开天数暴露的连带缺陷）
+
+- **候选用尽静默丢天**：某城 POI 排完后该天被静默 `continue`——用户要 12 天可能只拿到
+  9 天且界面无说明。改为发 `plan/fallback` 事件（reason 写明「建议多选城市」），该天
+  不占用 day 序号。
+- **预算分母用错**：`budget(request.days, ...)` 在截断发生时系统性低估日均（餐饮/市内
+  交通按请求天数乘、城际按实际天数计）。改为按**实际行程天数**核算——planner 三处 +
+  **validator.py:84**（该处还把预算回写进 plan，是第三个隐藏调用点，调用栈探针定位）。
+- **baseline-cli-3d.txt 误用在线模式生成**（03H 疏忽）：非确定产物不可作回归锚——
+  已用 `SD_LLM_MODE=offline` 确定性口径重生成，复跑逐字一致。
+
+### Tested
+
+- `python scripts/ctl.py ci` 三连全绿（**113 passed** + 冒烟 20 步：新增 parsefill 回填
+  DOM 断言 + 双模式分发断言）
+- 在线真实 DeepSeek 抽取 ×3（source=llm，别名/中文数字正确理解）；离线规则抽取全用例
+- `--days 12` 十城：12 天全排满、零用尽事件；单城 days=10：8 天 + 用尽事件 + 日均
+  分母锁（per_day == total ÷ 实际天数）
+
 ## [1.1.6] — 2026-10-31 · DeepSeek 在线模式接入验证 + health 如实标注修复
 
 ### Fixed（接入验证期间发现）
