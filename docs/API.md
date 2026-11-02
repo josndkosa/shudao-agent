@@ -40,10 +40,10 @@ curl "http://localhost:8000/api/geo?city=重庆"
   - `[]`（缺省）= 按候选池总分自动选城（N = min(days, 可用城市数)），事件流含「自动选城」decision（reason 带各城总分）
   - 显式列表 = 按给定顺序分天；未收录城市剔除并发 `fallback` 事件；`days < len(cities)` 时取总分前 N 城各 1 天
   - 行程 `items` 中的城际条目：`{"type": "intercity", "label": "成渝高铁"（覆盖表）或 "A→B 列车"（自动生成）, "arrival", "departure"}`
-- **`GET /api/geo`**：返回**全部有快照的城市**（当前 6 城）；新增 `city_meta` 字段：
+- **`GET /api/geo`**：返回**全部有快照的城市**（当前 15 城）；新增 `city_meta` 字段：
   `{城市: "CHENGDU · 30.67°N 104.07°E"}`（图幅注记行，前端动态图幅用）
-- **`GET /api/meta`** 的 `cities` 现含 15 城总表全量（深度层 6 城有 POI 快照，
-  其余 9 城随批次2/3 落地）；`city_info.terrain` 契约：
+- **`GET /api/meta`**：`cities` 为 15 城全量（批次1–3 全部落地，合计 237 点）；
+  `meta.count` 为 POI 总数（首页统计卡的数据源）；`city_info.terrain` 契约：
   `{type: plain|basin|hill|karst|plateau|alpine|tropical, intensity_cap: 6.0–8.5, alt_m}`——
   V3 强度阈值按城市取 `intensity_cap`（无配置回落默认 8.5）
 
@@ -103,10 +103,27 @@ curl "http://localhost:8000/api/geo?city=重庆"
 
 - 响应头：`Content-Type: text/event-stream`、`Cache-Control: no-cache`、`X-Accel-Buffering: no`
 - 每帧 `data: {json}\n\n`，json 即 `Event.to_dict()`（`seq/stage/type/title/reason/detail`）
+- **plan_result 控制帧（03H 任务A）**：业务事件全部送达后、哨兵之前，推送
+  `{"type": "plan_result", "plan_id", "itinerary", "budget", "mode"}`（纯 type 无 stage）——
+  行程随流返回，前端一次「开始规划」只跑一次管线（在线模式省一半 token，
+  行程与事件流必然同源）；`plan_id` 随流缓存，可直接喂 `/api/revise`
 - **流结束哨兵**：最后一帧 `data: {"type": "done"}`（纯 type 无 stage——与业务
   narrate/system 的 done 事件区分；该哨兵是 prompt 02 修掉的真实 bug，测试已固化）
 - 实现要点：管线跑在线程池（`run_in_executor`），`EventBus(on_emit)` 回调入
   `asyncio.Queue`；客户端断连（`request.is_disconnected()`）干净终止推送
+
+## 事件 detail 字段的确切形状（03H 任务H5 补——消费端曾在此栽过 P0）
+
+`EventBus.emit(stage, type, title, reason, **detail)` 的 kwargs 收集规则决定了形状：
+
+| 调用方写法 | detail 形状 | 典型事件 |
+|---|---|---|
+| `emit(..., detail=X)` | **嵌套** `{"detail": X}` | 选点 decision（X=poi_id 数组）、violation/advisory（X=违规对象）、tool_result 的 detail 参数 |
+| `emit(..., 具名键=值)` | **扁平** `{键: 值}` | fix（`{violation, removed}`）、tool_call（`{tool, args}`）、tool_result（`{count}`）、start（`{mode}`） |
+
+**前端唯一解包入口是 `static/js/view.js` 的 `payload(ev)`**——它对嵌套形状自动解一层
+内层 `detail`、扁平形状原样返回。任何新消费端一律 `import { payload }`，
+不许自己读 `ev.detail`（P0 复核轮的教训：map.js 各读各的层级，路线从未渲染过）。
 
 ## 事件枚举（前端 TYPE_MARK 与后端 events.py 同源）
 

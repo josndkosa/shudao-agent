@@ -20,19 +20,22 @@
 | 10/30–10/31 | Prompt 03F：瑞士网格视觉重构 + 动效编排（替换 03D 的 Survey Atlas） | ✅（115abc7） |
 | 10/29 | Prompt 02：FastAPI + SSE + 对话式改行程 + 华为云可选接入 | ✅ |
 | 10/30–10/31 | Prompt 04：大项目化（git + 文档体系 + 数据分层 + 提交包工程化） | ✅（七提交 157d8c6…89783df） |
-| 10/31 | **Prompt 03E 批次1**：西南 15 城总表 + 深度层 6 城 101 点 + 地形分档 + 城际自动生成 + 多城规划/前端 | ✅（7a82e84；批次2/3 待：广度层 9 城 POI、Provider 抽象、贪心最近邻选城） |
-| 10/31 | 前端打磨四连（用户指令驱动）：直觉性优化 → 双页拆分 → 字号阶梯 → Day tab 单源化 → **P0 地图路线渲染修复**（revealed 嵌套 detail） | ✅（7433058 / 838f5dc / 8b8909f / 440042f / 本轮） |
+| 10/31 | **Prompt 03E 批次1**：西南 15 城总表 + 深度层 6 城 101 点 + 地形分档 + 城际自动生成 + 多城规划/前端 | ✅（7a82e84） |
+| 10/31 | 前端打磨四连（用户指令驱动）：直觉性优化 → 双页拆分 → 字号阶梯 → Day tab 单源化 → **P0 地图路线渲染修复**（revealed 嵌套 detail） | ✅（7433058 / 838f5dc / 8b8909f / 440042f / fdd65d3） |
+| 11/01 | DeepSeek 在线接入验证（第十六轮）+ 03F 在线幻觉治理（第十七轮）：投影+安全截断+prompt 禁造，幻觉 POI 17→0 | ✅（4eb5d1d / 09f04a2 / f5f222c） |
+| 11/02 | **03E 批次2/3 + 03H 初筛收口**：15 城 237 点四层一致 + 单跑（行程随 SSE 返回）+ 公网防护 + 餐数口径/跨天去重/丢天事件 + 回归锁 6 条 + 文档口径统一 | ✅（e79ebb2…六提交） |
 | **11/02–11/04** | **Prompt 05：PPT（码道 Space）+ 视频分镜**（★ **先出一版完整可提交的包做保底**） | ☐ |
-| 11/04–11/09 | 03E 批次2/3（广度层 9 城 + 贪心最近邻选城 + Provider 抽象）——批次2 暂缓至 P0 修复验收后 | ☐ |
+| 11/04–11/09 | 03G（自然语言规划入口 + 天数放开 + Provider 抽象） | ☐ |
 | 11/11–11/15 | 更新 PPT/视频里的数字与截图 · zip 组装自检 · 每日提交一次 | ☐ |
 | 11/16 | **最终提交截止** | ☐ |
 | 11/21–11/27 | 区域赛线上答辩（32 强） | ☐ |
 | 11/30 | 每区前 6 晋级全国总决赛 | ☐ |
 
-> **当前进度**：代码侧已全部完成（后端 + 前端 + 规则引擎 + 82 个测试全绿 + 冒烟 18 步 +
-> CI 三连），**P0 地图路线渲染 bug 已修**（revealed 嵌套 detail 读错层级——事件流→视图状态
-> 链路已入冒烟回归锁）。剩下的是**交付物**（readme / PPT / 视频 / zip）、**留痕归档**与
-> **广度层城市覆盖（批次2/3）**。
+> **当前进度**：代码侧已全部完成（后端 + 前端 + 规则引擎 + **96 个测试**全绿 + 冒烟 18 步 +
+> CI 三连；**西南 15 城 237 点**四层口径一致；在线模式经 03F/03H 两轮治理后实测
+> **幻觉 POI 17→0、零 fallback**，实跑输出已存档 `07-在线模式实测/`；单跑/公网防护/
+> 餐数口径均已收口）。剩下的是**交付物**（readme 数字已同步 / PPT / 视频 / zip）与
+> **留痕归档**（W1 截图仍是缺口）、03G（自然语言入口 + Provider 抽象）。
 >
 > **排期原则（重要）**：**11/04 前必须有一份完整可提交的包**（PPT + 视频 + readme + zip）。
 > 全国覆盖是**渐进增强**——分 5 批推进，**每批完成即导出资产、跑测试、提交一次**，
@@ -45,114 +48,115 @@
 >
 > ⚠️ 每天最多提交 1 次，取最后一次。建议 **11/10 起每天提交一次**，不要压到 11/16。
 >
-> ℹ️ 归档：已执行完的 prompt 原文已移入 `prompts/_已执行/`（12 条：00/01/01B/01C/02/03/03B/03C/03D/03F/04/03E 批次1），
-> 顶层只留 05 一条待办。**`_已执行/` 里的原文要一并打进提交包**（见 `zip-layout.md`）。
+> ℹ️ 归档：已执行完的 prompt 原文已移入 `prompts/_已执行/`（14 条：00/01/01B/01C/02/03/03B/03C/03D/03F×2/04/03E/03H），
+> 顶层留 03G 与 05 两条待办。**`_已执行/` 里的原文要一并打进提交包**（见 `zip-layout.md`，
+> `scripts/package.py` 的 need_prompts 清单逐一校验）。
 
 ---
 
 ## Prompt 00 · 基线自检与公共素材
 
-- ☐ `docs/baseline/` 下 **9 个**文件齐全（tests / cli×3 / demo.json / deps.md / architecture.md / defects-repro.md / tree.md）
-- ☐ `baseline-demo.json` 通过 JSON 合法性校验，且**未手工编辑**
-- ☐ `baseline-demo.json` 是**修复前**状态 → 它是 before/after 对照素材，**不得**直接当前端 demo 用
-- ☐ `deps.md` 的许可证信息来自包元数据，查不到的写"未在元数据中声明"
-- ☐ `architecture.md` 含 mermaid 图 + ASCII 版 + 事件流字段枚举
-- ☐ `defects-repro.md` **如实复现 4 个缺陷**，与预期不符的标注"与预期不符"
-- ☐ **D1 误报是否属实、磁器口/湖广会馆是否真被误删** —— 有明确结论
+- ☑ `docs/baseline/` 下 **9 个**文件齐全（tests / cli×3 / demo.json / deps.md / architecture.md / defects-repro.md / tree.md）
+- ☑ `baseline-demo.json` 通过 JSON 合法性校验，且**未手工编辑**
+- ☑ `baseline-demo.json` 是**修复前**状态 → 它是 before/after 对照素材，**不得**直接当前端 demo 用
+- ☑ `deps.md` 的许可证信息来自包元数据，查不到的写"未在元数据中声明"
+- ☑ `architecture.md` 含 mermaid 图 + ASCII 版 + 事件流字段枚举
+- ☑ `defects-repro.md` **如实复现 4 个缺陷**，与预期不符的标注"与预期不符"
+- ☑ **D1 误报是否属实、磁器口/湖广会馆是否真被误删** —— 有明确结论
 
 ## Prompt 01B · 收敛检测 / 软硬分级 / leg 口径统一
 
-- ☐ V3 标记为 `severity="soft"`，V1/V2/V4/V5 为 `"hard"`
-- ☐ 软违规发 `validate/advisory` 事件，**不进修复循环**
-- ☐ 「校验通过」只看 hard 违规
-- ☐ 修复后违规集合**完全没变** → 立即跳出，发 `validate/unfixable`，**不空转**
-- ☐ 默认 3 天场景：事件流里**没有两条内容完全相同的违规事件**
-- ☐ 5 组参数组合下 V1 **零误报**（参数化测试）
-- ☐ 规划器用**相邻跳**复核内容时长，摘点优先级：低分 → 非必游 → 非夜间
-- ☐ 摘点在「选点」事件**之前**完成，事件里报的数字与最终结果一致
-- ☐ `pytest` 全绿，用例数 ≥ 36
-- ☐ `docs/baseline/` 的 5 个产物已重跑，**`defects-repro.md` 未被覆盖**
-- ☐ `debug-log-2026-10-28.md` 追加了新一节（未覆盖原内容）
+- ☑ V3 标记为 `severity="soft"`，V1/V2/V4/V5 为 `"hard"`
+- ☑ 软违规发 `validate/advisory` 事件，**不进修复循环**
+- ☑ 「校验通过」只看 hard 违规
+- ☑ 修复后违规集合**完全没变** → 立即跳出，发 `validate/unfixable`，**不空转**
+- ☑ 默认 3 天场景：事件流里**没有两条内容完全相同的违规事件**
+- ☑ 5 组参数组合下 V1 **零误报**（参数化测试）
+- ☑ 规划器用**相邻跳**复核内容时长，摘点优先级：低分 → 非必游 → 非夜间
+- ☑ 摘点在「选点」事件**之前**完成，事件里报的数字与最终结果一致
+- ☑ `pytest` 全绿，用例数 ≥ 36（现 96）
+- ☑ `docs/baseline/` 的 5 个产物已重跑，**`defects-repro.md` 未被覆盖**
+- ☑ `debug-log-2026-10-28.md` 追加了新一节（未覆盖原内容）
 
 ## Prompt 01C · 恢复夜景收尾 / 修正摘点排序键
 
-- ☐ **南山一棵树（CQ-07）在默认场景的重庆天行程里**，且 arrival ≥ 19:00
-- ☐ 校验段第 1 轮 `✔` 通过，**且有 1 条 soft advisory**（强度 12.2）
-- ☐ 事件流**无重复违规事件**
-- ☐ Day 3 叙事提到夜景时，**当天确实有夜景时段的点**（文案与行程一致）
-- ☐ `_trim_to_capacity` 次级排序键已修正为 `(score, must_see, night_friendly)`
-- ☐ 新增**同分**场景用例：断言先摘「非必游且非夜间」的点
-- ☐ `test_intensity_penalty_keeps_must_see` 已加强为**逐个点名**断言
-- ☐ `pytest` 全绿，用例数 ≥ 48
-- ☐ `docs/baseline/` 5 个产物已重跑；`defects-repro.md` 未被覆盖
-- ☐ `debug-log` 追加新一节（未覆盖原内容）
-- ☐ `--days 2 --budget 2000 --tags 夜景` 的**回流修复叙事**仍能演
+- ☑ **南山一棵树（CQ-07）在默认场景的重庆天行程里**，且 arrival ≥ 19:00
+- ☑ 校验段第 1 轮 `✔` 通过，**且有 1 条 soft advisory**（强度 12.2）
+- ☑ 事件流**无重复违规事件**
+- ☑ Day 3 叙事提到夜景时，**当天确实有夜景时段的点**（文案与行程一致）
+- ☑ `_trim_to_capacity` 次级排序键已修正为 `(score, must_see, night_friendly)`
+- ☑ 新增**同分**场景用例：断言先摘「非必游且非夜间」的点
+- ☑ `test_intensity_penalty_keeps_must_see` 已加强为**逐个点名**断言
+- ☑ `pytest` 全绿，用例数 ≥ 48（现 96）
+- ☑ `docs/baseline/` 5 个产物已重跑；`defects-repro.md` 未被覆盖
+- ☑ `debug-log` 追加新一节（未覆盖原内容）
+- ☑ `--days 2 --budget 2000 --tags 夜景` 的**回流修复叙事**仍能演
 
 ## Prompt 01 · 修复 W1 缺陷
 
-- ☐ `python -m pytest -q` 全绿，用例数 ≥ 24
-- ☐ `python cli.py --days 3 --budget 3000 --tags 美食,文化` → **第 3 天不再报 V1-duration**
-- ☐ **磁器口、湖广会馆仍在行程中**
-- ☐ 第 3 天仍报 V3-intensity（真实违规未被误修）
-- ☐ `python cli.py --days 1 --budget 2000` → 恰好 1 天
-- ☐ 在线模式：喂无 `load` 字段的假 LLM 计划 → 归一化后不抛异常；空 `days` → 降级离线且有 `plan/fallback` 事件
-- ☐ `pipeline.py` 无 `for...else: pass`；`EventBus` 每次实例化 seq 从 1 开始
-- ☐ `_day_load` 计入第一个点的 leg
-- ☐ **码道的"先红后绿"测试过程已被截图归档**
+- ☑ `python -m pytest -q` 全绿，用例数 ≥ 24（现 96）
+- ☑ `python cli.py --days 3 --budget 3000 --tags 美食,文化` → **第 3 天不再报 V1-duration**
+- ☑ **磁器口、湖广会馆仍在行程中**（01 完成时验证；03H 后默认场景选城扩为 成都+阆中+重庆，重庆天含湖广会馆）
+- ☑ 第 3 天仍报 V3-intensity（真实违规未被误修）
+- ☑ `python cli.py --days 1 --budget 2000` → 恰好 1 天
+- ☑ 在线模式：喂无 `load` 字段的假 LLM 计划 → 归一化后不抛异常；空 `days` → 降级离线且有 `plan/fallback` 事件
+- ☑ `pipeline.py` 无 `for...else: pass`；`EventBus` 每次实例化 seq 从 1 开始
+- ☑ `_day_load` 计入第一个点的 leg
+- ☐ **码道的"先红后绿"测试过程已被截图归档**（人工项，W1 截图仍缺——见 R12）
 
 ## Prompt 03 · 前端（mock 先行）
 
 **素材脚本**
-- ☐ `scripts/export_demo_assets.py` 产出 `static/demo.json` / `demo-revised.json` / `demo-geo.json`
-- ☐ 三个产物均由**真实 CLI 运行**生成，含字节数与 SHA-256 输出
-- ☐ `demo-geo.json` 的投影**成渝分开**（两城各一个 Projector）
+- ☑ `scripts/export_demo_assets.py` 产出 `static/demo.json` / `demo-revised.json` / `demo-geo.json`
+- ☑ 三个产物均由**真实 CLI 运行**生成，含字节数与 SHA-256 输出
+- ☑ `demo-geo.json` 的投影**成渝分开**（两城各一个 Projector）
 
 **数据源适配层**
-- ☐ `api.js` 导出 6 个方法，签名与契约一致
-- ☐ `LiveApi`（真 fetch+SSE）与 `MockApi`（本地回放）**同构**
-- ☐ 上层代码**无任何 `if (mock)` 分支**
-- ☐ health 2s 超时 → 自动切 MockApi，顶部显示徽标
-- ☐ Mock 模式下事件是**逐条流式出现**（350ms），不是一次性全出
+- ☑ `api.js` 导出 6 个方法，签名与契约一致
+- ☑ `LiveApi`（真 fetch+SSE）与 `MockApi`（本地回放）**同构**
+- ☑ 上层代码**无任何 `if (mock)` 分支**
+- ☑ health 2s 超时 → 自动切 MockApi，顶部显示徽标
+- ☑ Mock 模式下事件是**逐条流式出现**（350ms），不是一次性全出
 
 **界面**
-- ☐ 双城**两张** SVG，点位不挤成一团；成渝之间有高铁连线
-- ☐ 切天 → 路线高亮联动
-- ☐ 播放器：播放/暂停/单步/拖动进度条/倍速
-- ☐ **拖动进度条时，行程卡内容随事件推进而变化**
-- ☐ 点击事件能高亮对应点位
-- ☐ `第二天太赶` 能改行程（Mock 与真实两套都跑通）
-- ☐ **后端完全没启动时，刷新页面仍能看到完整可演的 demo（带徽标）**
-- ☐ 1366×768 无横向滚动、无重叠
-- ☐ `prefers-reduced-motion` 降级生效
-- ☐ 无任何 CDN 外链 / 外部字体 / 外部地图服务
+- ☑ 双城**两张** SVG，点位不挤成一团；成渝之间有高铁连线
+- ☑ 切天 → 路线高亮联动
+- ☑ 播放器：播放/暂停/单步/拖动进度条/倍速
+- ☑ **拖动进度条时，行程卡内容随事件推进而变化**
+- ☑ 点击事件能高亮对应点位
+- ☑ `第二天太赶` 能改行程（Mock 与真实两套都跑通）
+- ☑ **后端完全没启动时，刷新页面仍能看到完整可演的 demo（带徽标）**
+- ☑ 1366×768 无横向滚动、无重叠
+- ☑ `prefers-reduced-motion` 降级生效
+- ☑ 无任何 CDN 外链 / 外部字体 / 外部地图服务
 
 ## Prompt 02 · 后端（照前端契约实现）
 
-- ☐ `GET /api/health` → 200，`{"status":"ok"}`
-- ☐ `POST /api/plan` → 合法行程，天数 == 请求天数
-- ☐ **同请求两次 → itinerary 完全一致**（确定性）
-- ☐ SSE：能收到 `data:` 行，**最后一条是 done**
-- ☐ SSE 推的是**过程中**的事件，不是最后一次性吐出
-- ☐ 断网 + 无 key 时全部接口仍可用
-- ☐ `/revise` 传"第二天太赶" → 第 2 天点数或时长减少，且事件流出现 `stage=="revise"`
-- ☐ `/revise` 传无法解析的句子 → 200 且行程未损坏
-- ☐ `/api/plan/{id}/geo?city=成都` 支持按城投影，x/y 落在画布内
-- ☐ OBS 未配置 → 跳过并说明，**不影响主流程**；已配置 → 返回 URL
-- ☐ `FG_WEATHER_URL` 未配置 → 走本地快照；配置后失败 → 静默回落
-- ☐ `tests/test_api.py` 全绿
-- ☐ `scripts/start_server.sh` / `.bat` 可用
+- ☑ `GET /api/health` → 200，`{"status":"ok"}`
+- ☑ `POST /api/plan` → 合法行程，天数 == 请求天数
+- ☑ **同请求两次 → itinerary 完全一致**（确定性）
+- ☑ SSE：能收到 `data:` 行，**最后一条是 done**（03H 后倒数第二帧为 plan_result 行程帧）
+- ☑ SSE 推的是**过程中**的事件，不是最后一次性吐出
+- ☑ 断网 + 无 key 时全部接口仍可用
+- ☑ `/revise` 传"第二天太赶" → 第 2 天点数或时长减少，且事件流出现 `stage=="revise"`
+- ☑ `/revise` 传无法解析的句子 → 200 且行程未损坏
+- ☑ `/api/plan/{id}/geo?city=成都` 支持按城投影，x/y 落在画布内
+- ☑ OBS 未配置 → 跳过并说明，**不影响主流程**；已配置 → 返回 URL
+- ☑ `FG_WEATHER_URL` 未配置 → 走本地快照；配置后失败 → 静默回落
+- ☑ `tests/test_api.py` 全绿
+- ☐ `scripts/start_server.sh` / `.bat` 可用（人工项：未亲自跑过，ECS 部署时验证）
 
 ## Prompt 04 · readme / 一键安装
 
-- ☐ `readme/README.md` 含赛题要求的 4 条（环境依赖+一键安装 / 部署步骤 / 开源组件 / 码道应用总结）
-- ☐ `scripts/install.sh` 与 `install.bat` **亲自跑通**并贴真实输出
-- ☐ `scripts/start_server.*` 启动后 `curl /api/health` 通过
-- ☐ `readme/团队分工.md` 是**空模板**，含 `______`，含"与报名队伍信息一致"提示
-- ☐ README 里 **「本人专业」保留 `______`**（不编造）
-- ☐ 架构图有 mermaid + ASCII 两版
-- ☐ 有华为云**可选**配置的说明（不配不影响）
-- ☐ 有云上部署步骤（答辩"未上线视为放弃"）
-- ☐ `.gitignore` 补齐，清理 `__pycache__` / `.pytest_cache`
+- ☑ `readme/README.md` 含赛题要求的 4 条（环境依赖+一键安装 / 部署步骤 / 开源组件 / 码道应用总结）
+- ☐ `scripts/install.sh` 与 `install.bat` **亲自跑通**并贴真实输出（人工项，ECS 部署时一并做）
+- ☑ `scripts/start_server.*` 启动后 `curl /api/health` 通过（本地已多次验证；ECS 上复核）
+- ☑ `readme/团队分工.md` 是**空模板**，含 `______`，含"与报名队伍信息一致"提示
+- ☑ README 里 **「本人专业」保留 `______`**（不编造）
+- ☑ 架构图有 mermaid + ASCII 两版
+- ☑ 有华为云**可选**配置的说明（不配不影响）
+- ☑ 有云上部署步骤（答辩"未上线视为放弃"；含单 worker 与 SD_ALLOW_ONLINE 说明）
+- ☑ `.gitignore` 补齐，清理 `__pycache__` / `.pytest_cache`
 
 ## Prompt 05 · PPT / 视频
 

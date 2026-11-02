@@ -44,9 +44,24 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 1. 购买/使用 ECS（可用华为开发者空间云主机），安全组**放行 8000 端口**入方向
 2. 拉代码上云（CodeArts Repo 克隆或 scp zip 解包）
 3. `bash scripts/install.sh`（建 venv + 装依赖）
-4. `nohup python -m uvicorn server.app:app --host 0.0.0.0 --port 8000 &`
+4. `nohup python -m uvicorn server.app:app --host 0.0.0.0 --port 8000 --workers 1 &`
+   **必须单 worker**：`/api/revise` 依赖进程内计划缓存（`_PLANS` dict），多 worker 下
+   plan 与 revise 落到不同进程会 404（「对话改行程」演示项当场失效）。这是刻意的
+   架构取舍——单机演示场景下，跨进程存储带来的复杂度不值得
 5. 冒烟验证：`curl http://localhost:8000/api/health` → `{"status":"ok","mode":"offline","llm":false}`
 6. 公网访问 `http://<ECS公网IP>:8000/plan.html?auto=1`
+
+### 公网防护（上线前必读）
+
+公网开放后已内置三层防护（03H 任务F）：
+
+- **在线模式默认关闭**：`SD_LLM_MODE` 为 auto 时，须显式设 `SD_ALLOW_ONLINE=1`
+  才走 DeepSeek 在线规划——公网上别人用你的服务只会跑离线分支，**不烧你的 API 额度**。
+  答辩现场要开在线：在 `.env` 里设 `SD_LLM_MODE=online`（明确意图，最高优先级）或
+  `SD_ALLOW_ONLINE=1`
+- **输入长度上限**：`message ≤ 500 字`、`tags ≤ 8 项`、`cities ≤ 16 项`，超限返回 422
+- **IP 限流**：在线模式下每 IP 每秒 5 次规划类调用，超限 429（离线模式不限流，
+  本地演示不受影响）
 
 ### 断网兜底（答辩保命）
 
@@ -65,8 +80,9 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 **郑重声明**：
 - 前端**零框架、零构建工具、零 CDN 外链**（原生 HTML/CSS/ES Module，字体全系统本地栈）——
   断网答辩时页面 100% 自包含
-- POI 数据为**本地快照**（西南 15 城总表 + 深度层 6 城共 101 点分城文件，
-  字段与来源说明见 `project/server/data/schema.md`），
+- POI 数据为**本地快照**（西南 15 城 237 点，每城独立 JSON 文件，
+  字段与来源说明见 `project/server/data/schema.md`；新增城市零代码改动——
+  丢一个含 `city` 字段的 json 进 `server/data/` 即被自动收录），
   数据层可对接 OTA 开放接口（`server/cloud/` 已预留接入边界）
 - 不使用任何外部地图服务（自研经纬度→SVG 投影，`server/tools/geo.py`）
 
@@ -74,14 +90,14 @@ python scripts/ctl.py serve        # = uvicorn server.app:app --host 0.0.0.0 --p
 
 ### 4.1 覆盖度
 
-本项目**全程由华为云码道开发**（约 14 轮任务单驱动），覆盖四类活动：
+本项目**全程由华为云码道开发**（约 17 轮任务单驱动），覆盖四类活动：
 
 | 活动 | 证据（project/codearts_proof/） |
 |---|---|
 | 环境搭建 | 首轮任务单即含项目脚手架（CLI/管线/测试骨架） |
-| 代码生成 | 全部 Python/JS/HTML/CSS 均为码道产出；`prompts/_已执行/` 12 份任务单原文（00–04 全轮次 + 03E 批次1），05（PPT/视频分镜）待执行 |
-| 调试排错 | `debug-log-2026-10-28.md`：十四轮「先红后绿」记录（每轮含根因/修复/验证） |
-| 文档生成 | `docs/` 七份文档（架构/规则规格/API/华为云/开发指南/演示脚本）为码道撰写 |
+| 代码生成 | 全部 Python/JS/HTML/CSS 均为码道产出；`prompts/_已执行/` 14 份任务单原文（00–04 全轮次 + 03E/03F/03H），03G（自然语言入口）与 05（PPT/视频分镜，走码道 Space 模式）待执行 |
+| 调试排错 | `debug-log-2026-10-28.md`：十七轮「先红后绿」记录（每轮含根因/修复/验证） |
+| 文档生成 | `docs/` 七份文档（架构/规则规格/API/华为云/开发指南/演示脚本/开发历程）为码道撰写 |
 
 ### 4.2 Prompt 设计质量
 

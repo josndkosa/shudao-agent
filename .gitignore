@@ -23,3 +23,6 @@ node_modules/
 # 保留（勿忽略）：
 #   static/demo*.json  ← 前端离线兜底数据，必须提交
 #   docs/baseline/     ← 基线与缺陷复现证据，必须提交.uvicorn-8000.log
+
+# 打包产物不入库（重跑 package.py 时避免把旧 zip 打进新包）
+*.zip

@@ -80,11 +80,28 @@ def main():
     if len(shots) < 8:
         problems.append(f"codearts_proof/ 截图仅 {len(shots)} 张（要求 ≥ 8：码道对话/生成过程留痕）")
     prompts_dir = STAGE / "codearts_proof" / "prompts" / "_已执行"
+    # 已归档任务单前缀全量清单（03H 任务H6）：03E 此前漏列；03F 前缀被两个任务单
+    # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G/05 未归档不在列
     need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_",
-                    "03D_", "03F_", "04_"]
+                    "03D_", "03E_", "03F_", "03H_", "04_"]
+    archived = list(prompts_dir.glob("*.md")) if prompts_dir.exists() else []
     for tag in need_prompts:
-        if not any(prompt.name.startswith(tag) for prompt in prompts_dir.glob("*.md") if prompts_dir.exists()):
+        if not any(p.name.startswith(tag) for p in archived):
             problems.append(f"codearts_proof/prompts/_已执行/ 缺 {tag}* 任务单原文")
+    if len(archived) < len(need_prompts):
+        problems.append(f"归档任务单 {len(archived)} 份 < 清单 {len(need_prompts)} 项（有前缀漏归档）")
+    # tests/ 临时调试文件：会随 copy 进 zip 的 project/tests/（03H 任务H6——
+    # 03F 前夜 _tmp_debug2.py 曾 untracked 挡 lint 且险进包）
+    for bad in (ROOT / "tests").glob("_tmp*"):
+        problems.append(f"tests/ 下存在临时文件：{bad.name}（会打进 zip，先清理）")
+    # codearts_proof 01-07 编号子目录必须齐全且非空（空目录进 zip 就是空文件夹）
+    for i in range(1, 8):
+        subs = [d for d in (STAGE / "codearts_proof").iterdir()
+                if d.is_dir() and d.name.startswith(f"{i:02d}-")]
+        if not subs:
+            problems.append(f"codearts_proof/ 缺 {i:02d}- 编号子目录")
+        elif not any(sub.iterdir() for sub in subs):
+            problems.append(f"codearts_proof/{subs[0].name} 为空目录（补材料或删空目录）")
     # 密钥/缓存泄漏检查
     for bad in (STAGE).rglob(".env"):
         problems.append(f"包内出现 .env：{bad}")
