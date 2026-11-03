@@ -1,0 +1,36 @@
+# CI 配置（03L 任务L3/L8）——与 scripts/ctl.py ci 等价的流水线形态。
+#
+# 如实说明：本仓库当前为本地 git（无远端托管），本文件不会自动运行——
+# 它是「可直接接入 CodeArts 流水线 / GitHub Actions 的配置」，不是「已在跑的 CI」。
+# 仓库托管到任一远端后即生效；CodeArts 流水线可直接引用其中的步骤定义。
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: 安装依赖（主依赖 + 开发工具）
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: CI 三连（lint → test → smoke）
+        run: python scripts/ctl.py ci

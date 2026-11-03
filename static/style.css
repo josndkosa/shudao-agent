@@ -506,6 +506,17 @@ body.drawer-open::after {
 
 /* ── 事件列表：三列并排（序号 | 标题 | 原因）────────── */
 .evt-list { flex: 1; overflow-y: auto; padding: 6px 0 24px; }
+
+/* ── 决策报告导出（03L 任务L6）：抽屉底部唯一入口，样式沿用现有按钮语言 ── */
+.report-bar { padding: 10px 24px 14px; border-top: 1px solid var(--rule); }
+.report-bar button {
+  background: var(--bg); border: 1px solid var(--ink); color: var(--ink);
+  padding: 7px 16px; cursor: pointer; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; font-family: var(--sans);
+  transition: background .14s, color .14s;
+}
+.report-bar button:hover { background: var(--ink); color: var(--bg); }
+.report-bar button:disabled { opacity: .3; cursor: not-allowed; }
 .evt {
   position: relative;
   display: grid; grid-template-columns: 64px 1fr 1.15fr; gap: 0 20px;

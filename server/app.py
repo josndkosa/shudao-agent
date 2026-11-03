@@ -9,6 +9,7 @@
   POST /api/revise   → {itinerary, timeline, revised_day, message}
   GET  /api/geo      → {points: {城市: [...]}, cities: [...]}（分城投影）
   GET  /api/meta     → {cities, tags, meta}
+  GET  /api/plan/report?plan_id=… → text/markdown 决策报告（03L 任务L6，attachment 下载）
   GET  /             → static/index.html（零构建前端）
 断网保命：SD_LLM_MODE=offline 默认完整可用；在线分支失败一律降级不报错。
 """
@@ -23,7 +24,7 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, StringConstraints
 
@@ -32,6 +33,7 @@ from .agent import llm as llm_mod
 from .agent.events import EventBus
 from .agent.parse_request import parse_request
 from .agent.pipeline import _load_dotenv
+from .agent.report import render_report
 from .agent.revise import revise_plan
 from .tools import obs
 from .tools.geo import Projector
@@ -243,6 +245,38 @@ async def revise(req: ReviseRequest):
     entry["itinerary"] = result["itinerary"]   # 缓存更新为新行程（可继续 revise）
     entry["timeline"] = result["timeline"]
     return {**result, "budget": result["itinerary"].get("budget")}
+
+
+@app.get("/api/plan/report")
+async def report(plan_id: str):
+    """决策报告（03L 任务L6）：缓存计划 → 六节 Markdown，attachment 下载。
+
+    只读端点：不写任何状态、不动 _PLANS 缓存（revise 后缓存是新行程，
+    报告随之反映最新状态——这是缓存语义的自然结果，不是本端点改的）。
+    事件契约版本运行时读 server/agent/event.schema.json（随 server/ 进 zip），
+    不手抄——契约文件本身是唯一真相源。
+    """
+    entry = _PLANS.get(plan_id)
+    if not entry:
+        return JSONResponse({"error": "plan_id 不存在或已过期"}, status_code=404)
+    data_meta = _load_meta()
+    try:
+        contract_version = json.loads(
+            (Path(__file__).parent / "agent" / "event.schema.json").read_text("utf-8")
+        ).get("version", "unknown")
+    except (OSError, ValueError):
+        contract_version = "unknown"
+    md = render_report(entry["itinerary"], entry["timeline"], {
+        "data_version": data_meta.get("version"),
+        "contract_version": contract_version,
+        "poi_count": len(load_pois()),
+        "source": "local-snapshot",
+    })
+    return Response(
+        content=md,
+        media_type="text/markdown; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="shudao-report-{plan_id}.md"'},
+    )
 
 
 @app.get("/api/geo")

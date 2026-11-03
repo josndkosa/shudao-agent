@@ -15,6 +15,8 @@
   - 包内无 .env / __pycache__ / .pytest_cache（只有 .env.example）
   - 密钥扫描（03K 任务F4）：staging 内容级搜 sk- 前缀与带值的 DEEPSEEK_API_KEY=
     ——排除表正确不是可以依赖的假设，这是最后一道防线
+  - 占位残留检查（03L 任务L5）：staging 文本 + pptx 穿透查 _{6,}——
+    提交态不许有未填横杠（codearts_proof 历史任务单原文除外）
   - zip 体积 ≤ --max-mb（默认 100，超限删包退出并打印实际体积）
   - 收尾打印每个顶层目录的解压体积（评委一眼看出哪个目录畸大）
 """
@@ -30,9 +32,15 @@ ROOT = Path(__file__).resolve().parent.parent
 STAGE = ROOT / "_stage"
 NEED_DIRS = ["project", "codearts_proof", "readme", "ppt", "video"]
 
+# 03L 任务L5：staging 占位检查（check_placeholders.py 与本脚本同目录）
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import check_placeholders  # noqa: E402
+
 EXCLUDE_FILES = {".env", ".env.local"}
 EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".venv", "venv", ".git", "_stage",
-                ".mypy_cache", ".ruff_cache", "node_modules", ".codeartsdoer"}
+                ".mypy_cache", ".ruff_cache", "node_modules", ".codeartsdoer",
+                # 交付物分桶（03L 任务L0）：这两个目录**留在仓库里但绝不进 zip**
+                "答辩材料", "不上交"}
 
 # 密钥形态（字节级匹配）：
 #   sk- 后跟 ≥16 位字母数字 → DeepSeek/OpenAI 风格密钥（短词「sk-」不误伤文档叙述）
@@ -104,6 +112,20 @@ def main():
         else:
             dst.mkdir(parents=True)
 
+    # 答辩材料/ 本身不进 zip，但按 codearts_proof/zip-layout.md 的规划投放两份副本：
+    #   ppt/讲稿.md              ← 逐页讲稿，评委可对照 PPT 读
+    #   ppt/视频分镜.md          ← 逐镜头表，评委可对照 PPT 读
+    #   video/视频分镜.md        ← 逐镜头表副本，便于评委对照视频读
+    # 源文件只有一份（在 答辩材料/），这里复制出去——避免维护两份真相。
+    # 不想要讲稿进包？把下面 ("讲稿.md", ...) 这一项删掉即可（其余不受影响）。
+    ans = ROOT / "答辩材料"
+    for fname, targets in (("讲稿.md", ("ppt",)), ("视频分镜.md", ("ppt", "video"))):
+        src = ans / fname
+        if not src.is_file():
+            continue
+        for t in targets:
+            shutil.copy2(src, STAGE / t / fname)
+
     # 2. 自检
     # 2.0 密钥扫描（03K 任务F4）——**不可放行的失败**：媒体缺失可以 --allow-missing-media
     #     放行（开发期自测），密钥泄漏不行——排除表永远正确不是可以依赖的假设
@@ -127,10 +149,10 @@ def main():
         problems.append(f"codearts_proof/ 截图仅 {len(shots)} 张（要求 ≥ 8：码道对话/生成过程留痕）")
     prompts_dir = STAGE / "codearts_proof" / "prompts" / "_已执行"
     # 已归档任务单前缀全量清单（03H 任务H6）：03E 此前漏列；03F 前缀被两个任务单
-    # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G~03J/05 已归档补入
+    # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G~03K/05/03L 已归档补入
     need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_",
                     "03D_", "03E_", "03F_", "03G_", "03H_", "03I_", "03J_", "03K_",
-                    "04_", "05_"]
+                    "03L_", "04_", "05_"]
     archived = list(prompts_dir.glob("*.md")) if prompts_dir.exists() else []
     for tag in need_prompts:
         if not any(p.name.startswith(tag) for p in archived):
@@ -154,6 +176,16 @@ def main():
         problems.append(f"包内出现 .env：{bad}")
     for bad in (STAGE).rglob("__pycache__"):
         problems.append(f"包内出现 __pycache__：{bad}")
+    # 占位残留检查（03L 任务L5）：在 staging 上跑（交出去的东西才算数）。
+    # staging 根覆盖 readme/ppt 顶层；project/ 子根覆盖 README/docs/scripts/gen_ppt.py
+    # （codearts_proof 历史任务单原文里的连续下划线占位是证据、docs/baseline 与赛题情报
+    # 是存档——检查器内部排除，不误伤）。命中走 problems：正式提交必拦，
+    # --allow-missing-media 开发期结构自测放行
+    for stage_root, prefix in ((STAGE, ""), (STAGE / "project", "project/")):
+        if not stage_root.exists():
+            continue
+        for hit in check_placeholders.scan_text(stage_root) + check_placeholders.scan_pptx(stage_root):
+            problems.append(f"未填占位 {prefix}{hit}")
 
     if problems:
         print("自检未通过（不产出 zip）：")

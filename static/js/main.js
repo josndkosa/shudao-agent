@@ -416,6 +416,31 @@ async function boot() {
   $("chat-input").addEventListener("keydown", e => { if (e.key === "Enter") $("btn-send").click(); });
   updateChatPlaceholder();
 
+  // 03L 任务L6：决策报告导出——api.report 是唯一数据入口（Live=服务端 md /
+  // Mock=本地 renderReport 同构生成），UI 不直接 fetch、无 if (mock) 分支
+  $("btn-report")?.addEventListener("click", async () => {
+    if (!state.planId) return;
+    const btn = $("btn-report");
+    btn.disabled = true;
+    try {
+      const md = await api.report(state.planId);
+      const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `shudao-report-${state.planId}.md`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (err) {
+      // 与 run()/revise() 同款可见兜底：失败上徽标红字，不静默
+      console.error(err);
+      const b = $("badge-api");
+      b.textContent = "导出报告失败：" + (err?.message || err);
+      b.classList.add("badge-error");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
   // 示例提示语（点击即填）：无计划时的示例是「一句话规划」，与对话栏当前语义一致
   const hints = state.planId
     ? ["第二天太赶", "第一天太松了", "换掉九眼桥", "把宽窄巷子放最前面"]

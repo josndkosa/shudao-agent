@@ -4,6 +4,77 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.4.1] — 2026-11-03 · 03L 身份与材料收口（决策报告导出与占位自证）
+
+### Added
+
+- **决策报告导出（任务L6，补 03K 砍掉的任务 C）**：答辩时「评委可以自己下载一份
+  证据」的交付物——下载下来的 md 里每个决策的 reason 原样在。
+  - `server/agent/report.py`：`render_report(itinerary, timeline, meta)` 六节固定结构
+    （请求摘要 / 逐日行程 / **决策链事件流全量 reason 不截断** / 校验与修复 /
+    预算明细 / 数据与版本）；`unwrap_detail` 与前端 `payload(ev)` 逐字同语义
+    （嵌套取内层 / 扁平原样——直读 ev.detail = 第 4 节静默空白，03H 任务 H5
+    那次 P0 的报告版不许重演）；事件契约版本运行时读 `event.schema.json`
+    （不手抄）；生成时间真实时间。
+  - `GET /api/plan/report?plan_id=`：`text/markdown` + `attachment` 下载；query 参数
+    （对齐 geo 的约定）；404 与 revise 一致；只读端点不动 `_PLANS` 缓存。
+  - 前端：`static/js/report.js`（纯函数 renderReport，无 DOM/网络依赖）+
+    `api.js` 第 8 方法 `report(planId)`（Live=服务端 md / Mock=本地同构生成，
+    UI 零 `if (mock)`、不直接 fetch）+ 抽屉底部「⤓ 导出决策报告」按钮
+    （Blob 下载，失败上徽标红字与 run/revise 同款兜底）。**断网（Mock）也能导出**，
+    六节标题与服务端逐字一致（`tests/test_report.py` 锁章节序列 + JS 子进程渲染比对）。
+  - 测试 7 条：Python/JS 章节一致性（node 加载 report.js 喂真实 demo.json 比对）、
+    reason 全量不截断、报告点数 == 行程点数、双形状解包锁、夜景场景第 4 节
+    四类齐全（violation/fix removed/advisory 嵌套载荷）、端点契约（content-type /
+    disposition / 404 / 只读幂等）。冒烟 +1 步（**24 步**：真实 demo 产物断言
+    六节 + reason 原文 + 预算 + 断网如实标注）。
+- **占位残留闸（任务L5）**：`scripts/check_placeholders.py`——扫会进 zip 的
+  README / readme / docs / ppt 文本 + `scripts/gen_ppt.py`（身份信息源）+
+  **pptx 穿透**（当 zip 解开查 `ppt/slides/*.xml` 与 `notesSlides/*.xml`——二进制
+  grep 找不到）；判定 `_{6,}`（`___` 分隔线 / `__init__` 不误伤）；排除
+  codearts_proof（历史任务单原文里的 ______ 是证据）、docs/baseline、赛题情报。
+  接进 `package.py` 自检（staging 双根扫描：顶层 + project/ 子根，命中走 problems
+  ——正式提交必拦，`--allow-missing-media` 开发期放行）。
+- `.github/workflows/ci.yml`（任务L8）：与 `ctl.py ci` 等价的流水线配置
+  （push/PR 触发、Python 3.11+3.12 矩阵、装主+dev 依赖、跑三连）。
+  **文件头如实说明当前不自动运行（仓库无远端）——它是「可接入的配置」而不是
+  「已在跑的 CI」**，开发指南同口径说明。
+
+### Changed
+
+- **身份信息固化单一来源（任务L1）**：`gen_ppt.py` 顶部常量块（TEAM_NAME
+  「网恋被骗五毛钱」/ GROUP 高校组 / MAJOR 人工智能技术应用 / CONTACT 刘明超 /
+  MEMBERS 四人分工与 `readme/团队分工.md` 同源）。封面与尾页 5 处占位全部改从
+  常量取；尾页分工改四人两行（字号 18→16 装得下，不删成员不合并）；「仓库 /
+  演示地址二维码位：预留」整句删除换真实演示地址位。**SUBMIT_DATE / DEMO_URL
+  留占位由参赛者手填**（03L 任务单第六节）——这两项被 L5 的闸盯着，填完才转绿。
+- **措辞修正（任务L3）**：PPT 第 16 页「CodeArts Repo 托管工程」→「本地 git 仓库
+  （含完整 [prompt NN] 提交轨迹）」——本项目从无远端仓库，原表述会被评委一句
+  「仓库地址发我一下」问穿帮；讲稿/开发指南同步（开发指南补三行如实说明）。
+- **口径残留清理（任务L4）**：`server/data/meta.json` note（只改这一个字段，
+  diff 1 行）：「批次1 落地 6 城 / 广度层随批次2/3 补齐」→「批次 1–3 已全部落地，
+  合计 237 点」（与 schema.md 不再互相矛盾；`/api/meta` 不含 note，运行时口径
+  本就干净）。`docs/演示脚本.md` 第 9 镜旁白词：14 份任务单/96 测试/冒烟 18 步 →
+  **19 份任务单 + 24 轮先红后绿 + 139 测试 + 冒烟 23 步**（「十七轮」指 debug-log
+  轮数，保留）。
+- `package.py` need_prompts 清单加 `03L_`。
+- `docs/API.md`：端点表加 report（顺手把「六端点速览」的「六」去掉——数字会过期）；
+  新增「决策报告」一节；Mock 同构说明更新为八方法。
+
+### Tested
+
+- `python scripts/ctl.py ci` 三连全绿（**146 passed**（139+报告 7 条）+ 冒烟 24 步）
+- 真实端口实测：plan → report 全链路 200，content-type / disposition / 404 全对；
+  报告六节齐全、第 4 节双形状载荷正确、点数 14 == 行程点数
+- 断网 Mock 导出：六节标题与服务端逐字一致，第 6 节如实标注「后端未启动，
+  运行时版本不可读」
+- 占位闸：当前 4 处命中（gen_ppt.py:60/61 + pptx#slide1/slide18）——全部来自
+  SUBMIT_DATE / DEMO_URL 两个**有意占位**（等参赛者手填，填完转绿）；
+  staging 假探针文件被精确报出（`readme/_probe_placeholder.md:2`，文件+行号）
+- PPT 重出 + PDF COM 导出：封面（队名/专业/联系人）、尾页（四人分工）、
+  第 16 页（本地 git 措辞）逐页验证通过；实测口径行 pytest 146 / 冒烟 24 /
+  任务单 19（归档 03L 后终版重出为 20）
+
 ## [1.4.0] — 2026-11-03 · 03K 收口加固（决策协议化与可复现补强）
 
 ### Added

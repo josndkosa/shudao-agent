@@ -14,32 +14,37 @@
 ├── ppt/                       ← 作品整体介绍 PPT 或 PDF
 │   ├── 蜀道智行.pptx
 │   ├── 蜀道智行.pdf              （若能导出则放，赛题允许 PPT 或 PDF，PDF 兜底更保险）
-│   ├── 讲稿.md
-│   └── 视频分镜.md
+│   ├── 讲稿.md                  （副本：源在 答辩材料/，由 package.py 投放）
+│   └── 视频分镜.md              （副本：源在 答辩材料/，由 package.py 投放）
 ├── project/                   ← 可演示完整功能的 Demo
 │   ├── README.md                （快速上手；完整文档在 readme/）
+│   ├── CHANGELOG.md  LICENSE  pyproject.toml
 │   ├── cli.py
-│   ├── requirements.txt
+│   ├── requirements.txt  requirements-dev.txt
 │   ├── .env.example
 │   ├── server/
-│   │   ├── __init__.py
-│   │   ├── agent/{pipeline,planner,validator,narrator,llm,events}.py
+│   │   ├── app.py                （FastAPI：/api/plan /api/stream /api/revise /api/geo /api/meta …）
+│   │   ├── agent/{pipeline,planner,validator,narrator,parse_request,events,report,event_contract}.py
 │   │   ├── tools/{poi_search,route,weather,budget,geo,obs}.py
-│   │   └── data/pois.json
+│   │   └── data/{meta.json + 15 个分城 json + provenance.json + schema.md}
 │   ├── static/
-│   │   ├── index.html
-│   │   ├── app.js  (或 js/*.js)
+│   │   ├── index.html            （品牌首页）
+│   │   ├── plan.html             （规划工作台）
+│   │   ├── js/{api,view,player,timeline,map,main,home,report}.js
 │   │   ├── style.css
-│   │   └── demo.json             （真实运行产物的离线兜底）
+│   │   └── demo*.json             （真实运行产物的离线兜底）
 │   ├── scripts/
 │   │   ├── install.sh / install.bat
 │   │   ├── start_server.sh / start_server.bat
-│   │   └── demo_offline.sh / demo_offline.bat
+│   │   ├── ctl.py                 （test / lint / smoke / ci / assets / package / serve）
+│   │   ├── package.py             （提交包组装 + 自检闸）
+│   │   ├── check_placeholders.py  （占位残留自检）
+│   │   └── gen_ppt.py             （PPT 程序化生成）
 │   ├── tests/
 │   │   └── test_*.py
-│   └── requirements-dev.txt      （python-pptx 等文档工具，不影响运行）
+│   └── docs/                     （架构 / 规则规格 / API / 开发指南 / 开发历程 / 演示脚本 / baseline / images / 赛题情报）
 ├── video/                     ← 功能演示视频，≤ 3 分钟
-│   ├── 蜀道智行-演示视频.mp4
+│   ├── 蜀道智行-演示视频.mp4       （待录制）
 │   └── 视频分镜.md              （副本，便于评委对照）
 ├── codearts_proof/             ← 华为云码道使用证明材料
 │   ├── prompts/                 ← ★ 码道交互的原始素材（25 分「Prompt 设计质量」的正面证据）

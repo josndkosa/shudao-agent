@@ -1,6 +1,7 @@
 // api.js — 数据源适配层（本作品唯一的数据入口，上层不出现任何 mock 分支）
 // 契约（后端 Prompt 02 严格照此实现）：
 //   health()                                   → {status, mode, llm}
+//   parse(text)                                → {origin, cities, days, budget, tags, family, source, note}
 //   plan({days, budget, tags, family})         → {plan_id, itinerary, timeline, mode, budget}
 //   stream(req, onEvent)                       → 逐条回调事件；倒数第二次回调
 //                                                 {type:"plan_result", plan_id, itinerary, budget, mode}
@@ -9,6 +10,8 @@
 //   revise(plan_id, message)                   → {itinerary, timeline, revised_day, message}
 //   geo(plan_id, city)                         → {points:[...], cities:[...]}
 //   meta()                                     → {cities:[...], tags:[...], meta:{...}}
+//   report(plan_id)                            → string（六节 Markdown 决策报告，03L 任务L6）
+//                                                 Live=服务端渲染；Mock=本地 renderReport 同构生成
 
 const HEALTH_URL = "/api/health";
 const HEALTH_TIMEOUT = 2000;      // 2 秒内不响应即视为后端未启动
@@ -92,6 +95,12 @@ class LiveApi {
     const r = await fetch("/api/meta");
     if (!r.ok) throw new Error(`meta ${r.status}`);
     return r.json();
+  }
+
+  async report(planId) {
+    const r = await fetch(`/api/plan/report?plan_id=${encodeURIComponent(planId)}`);
+    if (!r.ok) throw new Error(`report ${r.status}`);
+    return r.text();
   }
 }
 
@@ -219,6 +228,21 @@ class MockApi {
     return { cities: Object.keys(pts), tags: [...tags],
              meta: { source: "local-snapshot", count } };
   }
+
+  async report(planId) {
+    // 与 LiveApi.report 同构：本地用 renderReport 生成六节 Markdown（断网也能导出，
+    // 「断网保命」的一环）；数据版本/契约版本后端未启动不可读——第 6 节如实标注。
+    const { renderReport } = await import("./report.js");
+    const data = await this._load("demo.json");
+    const timeline = this._history?.length ? this._history : data.timeline;
+    const itinerary = this._lastItinerary || data.itinerary;
+    const m = await this.meta();
+    return renderReport({
+      itinerary, timeline,
+      meta: { source: "local-snapshot", poi_count: m.meta.count,
+              data_version: null, contract_version: null },
+    });
+  }
 }
 
 // ───────────────────── 懒选择：后端 2 秒内应答走真实，否则 Mock ─────────────────────
@@ -248,4 +272,5 @@ export const api = {
   revise: (planId, message) => pick().then(i => i.revise(planId, message)),
   geo: (planId, city) => pick().then(i => i.geo(planId, city)),
   meta: () => pick().then(i => i.meta()),
+  report: (planId) => pick().then(i => i.report(planId)),
 };

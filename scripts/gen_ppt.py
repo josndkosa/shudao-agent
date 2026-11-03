@@ -41,6 +41,25 @@ FONT = "微软雅黑"
 
 W, H = Inches(13.333), Inches(7.5)
 
+# ── 参赛身份信息（03L 任务L1）────────────────────────────────
+# 由参赛者提供，报名截止后不可修改；码道不得编造、不得改写措辞。
+# 队名必须与平台报名信息一字不差（zip 文件名 --team 也用它）。
+TEAM_NAME = "网恋被骗五毛钱"
+GROUP = "高校组"
+MAJOR = "人工智能技术应用"
+CONTACT = "刘明超"
+# 成员分工与 readme/团队分工.md 同源；改一处改两处，别手抄。
+MEMBERS = [
+    ("刘明超", "队长 · 核心开发"),
+    ("申子涵", "数据与素材"),
+    ("郭思含", "文档与演示"),
+    ("唐宇桐", "测试与部署"),
+]
+# ⚠️ 以下两项由参赛者手填（03L 任务单第六节）。留占位会被 scripts/check_placeholders.py
+# 与 package.py 打包自检拦下——填完这两项，占位闸才转绿。
+SUBMIT_DATE = "__________"
+DEMO_URL = "__________"
+
 # ── 实测口径（03K 任务E2）：PPT 是快照型材料，数字必须与重出时点一致 ──
 def _ci_counts():
     """pytest 用例数 / 冒烟步数 / 任务单份数——重出时现读实测值。
@@ -206,8 +225,8 @@ txbox(s, Inches(1.25), Inches(3.05), Inches(11.0), Inches(0.8), [
     ("规划 → 校验 → 叙事 的三段式管线，把 Agent 的决策过程做成可回放的产品", 20, DIM, False, 0)])
 rect(s, Inches(1.25), Inches(4.35), Inches(10.9), Inches(1.5), fill=PANEL)
 txbox(s, Inches(1.55), Inches(4.55), Inches(10.4), Inches(1.2), [
-    ("参赛组别：高校组 ｜ 队伍名称：__________ ｜ 本人专业：__________", 16, TEXT, False, 6),
-    ("联系人与联系方式：__________ ｜ 版本 v1.0 ｜ 日期 __________", 16, TEXT, False, 0)])
+    (f"参赛组别：{GROUP} ｜ 队伍名称：{TEAM_NAME} ｜ 本人专业：{MAJOR}", 16, TEXT, False, 6),
+    (f"联系人与联系方式：{CONTACT} ｜ 版本 v1.0 ｜ 日期 {SUBMIT_DATE}", 16, TEXT, False, 0)])
 txbox(s, Inches(1.25), Inches(6.55), Inches(11.0), Inches(0.5), [
     ("2026 华为开发者大赛 · 智能体创新赛（西南赛区）", 14, DIM, False, 0)])
 
@@ -473,7 +492,7 @@ bullets(s, [
 s = new_slide(prs)
 header(s, "华为云三件套：CodeArts 流水线 + FunctionGraph + OBS，全部可选可降级", "技术架构 · 华为云服务结合", accent=CQ)
 bullets(s, [
-    (f"CodeArts Repo 托管工程；CI 已脚本化（ruff → pytest {T_STR} → 前端冒烟 {S_STR} 步），可直接接入流水线", TEXT),
+    (f"本地 git 仓库（含完整 [prompt NN] 提交轨迹）；CI 已脚本化（ruff → pytest {T_STR} → 前端冒烟 {S_STR} 步），可直接接入 CodeArts 流水线", TEXT),
     ("FunctionGraph：天气查询走函数计算，未配置时 2 秒超时静默回落本地快照", TEXT),
     ("OBS：行程快照对象存储，提交后生成可分享链接", TEXT),
     ("不配置任何华为云变量也不影响演示——「可选增强」而非「硬依赖」", TEXT),
@@ -499,8 +518,9 @@ s = new_slide(prs)
 header(s, "团队与分工", "参赛信息（占位由参赛者填写）")
 rect(s, Inches(0.85), Inches(1.9), Inches(11.6), Inches(2.6), fill=PANEL)
 txbox(s, Inches(1.15), Inches(2.15), Inches(11.0), Inches(2.2), [
-    ("组别：高校组（可设指导教师 1 名，本队不设） ｜ 队名：__________", 18, TEXT, False, 10),
-    ("分工：架构与后端 __________ ／ 前端与可视化 __________ ／ 数据与测试 __________", 18, TEXT, False, 10),
+    (f"组别：{GROUP}（可设指导教师 1 名，本队不设） ｜ 队名：{TEAM_NAME}", 18, TEXT, False, 10),
+    ("分工：刘明超 · 队长 · 核心开发 ／ 申子涵 · 数据与素材", 16, TEXT, False, 6),
+    ("　　　郭思含 · 文档与演示 ／ 唐宇桐 · 测试与部署", 16, TEXT, False, 10),
     ("（人工负责：任务单撰写与评审、方向决策、真实运行验证与截图录屏；码道负责：实现）", 15, DIM, False, 0),
 ])
 rect(s, Inches(0.85), Inches(4.9), Inches(0.09), Inches(1.3), fill=CD)
@@ -508,7 +528,7 @@ txbox(s, Inches(1.15), Inches(4.85), Inches(11.2), Inches(1.5), [
     ("「行程规划的价值不在于生成得漂亮，", 24, TEXT, True, 4),
     ("而在于每一步都解释得清、扛得住规则校验。」", 24, CD, True, 0)])
 txbox(s, Inches(1.15), Inches(6.5), Inches(11.0), Inches(0.6), [
-    ("联系方式：__________ ｜ 仓库 / 演示地址二维码位：预留", 15, DIM, False, 0)])
+    (f"联系方式：{CONTACT} ｜ 演示地址：{DEMO_URL}", 15, DIM, False, 0)])
 
 for i in range(1, 19):
     footer(prs.slides[i - 1], i)

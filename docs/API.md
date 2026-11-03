@@ -3,7 +3,7 @@
 > 契约以 `static/js/api.js` 的 LiveApi 实现为准（后端严格对齐，前端零改动切换）。
 > 实现见 `server/app.py`；测试见 `tests/test_api.py`（TestClient，11 用例）。
 
-## 六端点速览
+## 端点速览
 
 | 方法 | 路径 | 作用 | 返回 |
 |---|---|---|---|
@@ -14,6 +14,7 @@
 | POST | `/api/revise` | 对话式改行程 | `{itinerary, timeline, revised_day, message, budget}` |
 | GET | `/api/geo` | 分城投影坐标 | `{points: {城市: [...]}, cities: [...]}` |
 | GET | `/api/meta` | 快照元信息 | `{cities, tags, meta}` |
+| GET | `/api/plan/report` | **决策报告**（03L 任务L6，query 参数 `?plan_id=`） | `text/markdown`（attachment 下载，六节结构见 `server/agent/report.py`） |
 
 另有：`GET /`（静态前端）、`POST /api/plan/{plan_id}/save`（OBS 可选）、`GET /api/plan/{plan_id}/geo`（别名）。
 
@@ -198,6 +199,19 @@ curl "http://localhost:8000/api/geo?city=重庆"
   `tests/test_event_contract_schema.py`：真跑管线全事件过校验 + 非法 type 必报错（防恒真）。
 - **任何行程规划 Agent，只要按这五个字段发出事件流，就能接入本项目的可倒带回放器**（`static/js/player.js`）。
 
+## 决策报告（03L 任务L6）
+
+- `GET /api/plan/report?plan_id={id}` → `text/markdown; charset=utf-8` +
+  `Content-Disposition: attachment`（浏览器直接下载 `shudao-report-{plan_id}.md`）
+- 六节固定结构：请求摘要 / 逐日行程 / **决策链（事件流全量，reason 不截断）** /
+  校验与修复（violation / fix / advisory / unfixable） / 预算明细 / 数据与版本
+- 渲染器：服务端 `server/agent/report.py`；**断网（Mock）也能导出**——前端
+  `static/js/report.js` 的 `renderReport()` 与服务端六节标题逐字一致
+  （`tests/test_report.py` 锁章节序列），第 4 节 detail 解包与前端
+  `payload(ev)` 同语义（嵌套取内层 / 扁平原样）。前端唯一入口是 `api.js` 的
+  `report(planId)`（第 8 方法），UI 不直接 fetch。plan_id 不存在 → 404（与
+  revise 一致）。只读端点，不动计划缓存。
+
 ## geo 契约的三个关键点
 
 1. **`points` 必须是「城市 → 点位数组」对象**（不是扁平数组）——前端 `CityMaps`
@@ -212,5 +226,7 @@ curl "http://localhost:8000/api/geo?city=重庆"
   **最后同样发 `{type:"done"}`** —— 帧格式/顺序/收尾三者同构
 - Mock 的 `revise()` 切换 `demo-revised.json` 并把时间线接在原时间线后
   （`revise/start` 分组分隔），与真实 revise 的事件结构一致
-- 前端唯一数据入口是 `api.js` 六方法；上层（map/timeline/player/main）
-  **没有任何 `if (mock)` 分支**——两种模式界面与交互完全一致
+- 前端唯一数据入口是 `api.js`（health/parse/plan/stream/revise/geo/meta/report 八方法）；
+  上层（map/timeline/player/main）**没有任何 `if (mock)` 分支**——两种模式界面与交互完全一致
+- Mock 的 `report()` 用本地 `renderReport()` 生成与服务端同构的六节 Markdown
+  （第 6 节版本信息如实标注「后端未启动，运行时版本不可读」——断网不假装）

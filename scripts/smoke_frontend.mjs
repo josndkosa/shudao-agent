@@ -271,6 +271,37 @@ step("03J：偏好记忆分支存在（对话栏入口，零 UI 改动）", () =
   const apiSrc = readFileSync(path.join(STATIC, "js", "api.js"), "utf8");
   if (!apiSrc.includes("remember: false")) throw new Error("Mock.parse 缺记忆字段（结构不同构）");
 });
+step("03L：决策报告 renderReport（Mock 导出同构，六节 + reason 原文 + 预算）", async () => {
+  const { renderReport, SECTION_TITLES } = await import(pathToFileURL(path.join(STATIC, "js", "report.js")));
+  const demo = JSON.parse(readFileSync(path.join(STATIC, "demo.json"), "utf8"));
+  // 喂真实 demo 产物（不手工构造事件——冒烟只消费真实产物，第 15 轮的纪律）
+  const md = renderReport({ itinerary: demo.itinerary, timeline: demo.timeline,
+                            meta: { poi_count: 237, data_version: null, contract_version: null } });
+  const secs = [...md.matchAll(/^## (.+)$/gm)].map(m => m[1]);
+  if (JSON.stringify(secs) !== JSON.stringify(SECTION_TITLES)) {
+    throw new Error("六节缺失或乱序：" + JSON.stringify(secs));
+  }
+  // 已知事件 reason 原文（demo.json 的 start 事件）
+  const startEv = demo.timeline[0];
+  if (!md.includes(startEv.reason)) throw new Error("已知事件 reason 原文未出现在报告：" + startEv.reason);
+  // 预算明细（demo 的真实 budget）
+  const b = demo.itinerary.budget;
+  if (!md.includes(`¥${b.tickets}`) || !md.includes(`¥${b.total}`)) {
+    throw new Error("预算明细缺真实数字：" + JSON.stringify(b));
+  }
+  // 断网如实标注（后端未启动时版本信息不可读——不许假装）
+  if (!md.includes("后端未启动，运行时版本不可读")) throw new Error("Mock 版第 6 节缺如实标注");
+  // api.js 第 8 方法存在且 UI 不直接 fetch 报告端点
+  const apiSrc = readFileSync(path.join(STATIC, "js", "api.js"), "utf8");
+  if (!apiSrc.includes("report: (planId)") || !apiSrc.includes("/api/plan/report")) {
+    throw new Error("api.js 缺第 8 方法 report");
+  }
+  const mainSrc = readFileSync(path.join(STATIC, "js", "main.js"), "utf8");
+  if (!mainSrc.includes("api.report(state.planId)")) throw new Error("按钮未走 api.report（唯一数据入口）");
+  if (/fetch\([^)]*report/.test(mainSrc)) throw new Error("UI 层不许直接 fetch 报告端点");
+  const planHtml = readFileSync(path.join(STATIC, "plan.html"), "utf8");
+  if (!planHtml.includes('id="btn-report"')) throw new Error("plan.html 缺导出按钮容器");
+});
 
 let failed = 0;
 for (const [name, fn] of steps) {
