@@ -1,0 +1,4 @@
+# 开发与交付物工具（非运行时依赖——评委按 requirements.txt 跑项目不需要这些）。
+# 用法：pip install -r requirements-dev.txt
+ruff==0.17.3        # lint：scripts/ctl.py ci 第一步（未安装则跳过并提示）
+python-pptx==1.0.2  # 出 PPT：scripts/gen_ppt.py（生成 ppt/蜀道智行.pptx）

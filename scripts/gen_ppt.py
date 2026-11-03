@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
-"""生成 ppt/蜀道智行.pptx（05 任务单：16:9 / 18 页 / 深色主题 / 微软雅黑）。
+"""生成 ppt/蜀道智行.pptx（05 任务单：16:9 / 18 页 / 微软雅黑）。
 
-素材口径全部来自实测（2026-11-02）：
-- 15 城 237 点（server/data 实测），133 tests + 冒烟 23 步
-- _已执行/ 17 份任务单；debug-log 十七轮；幻觉 POI 17→0
+2026-11-02 视觉优化（用户指令）：深色主题 → **简洁清爽的浅色系**；
+同步修格式规范：标题统一 32pt、表格统一 18pt、正文 19pt、注脚 15pt、
+页码 12pt，行距统一 1.2 倍、段后间距统一、全部左对齐版式一致。
+浅色底对比度校验：正文 #1F2328（≈16:1）、次要 #57606A（≈6:1）、
+强调橙 #BC4C00（≈5.4:1）/ 蓝 #0969DA（≈5.5:1）均高于 WCAG AA 4.5:1。
+
+素材口径（03K 任务E2：易变计数由 _ci_counts() 重出时现读，不写死会过期的数字）：
+- 15 城 237 点（server/data 实测）；debug-log 十七轮；幻觉 POI 17→0（历史事实，稳定）
+- 测试用例数 / 冒烟步数 / 任务单份数：重出时自动实测（实测失败回落「—」，绝不印编造数）
 - docs/images/ 产品截图未拍——配图位如实写「待补录」，绝不画假界面
-python-pptx 仅为文档工具依赖，不进 requirements.txt 主依赖。
+python-pptx 仅为文档工具依赖（requirements-dev.txt），不进主依赖。
 """
+import re
+import subprocess
+import sys
+from pathlib import Path
+
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.dml import MSO_LINE_DASH_STYLE as MSO_LINE
@@ -15,18 +26,55 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
-# ── 色板（与前端产品一致的深色品牌）──
-BG = RGBColor(0x0E, 0x11, 0x16)     # 背景
-PANEL = RGBColor(0x16, 0x1B, 0x22)  # 面板
-TEXT = RGBColor(0xE6, 0xED, 0xF3)   # 正文
-DIM = RGBColor(0x8B, 0x94, 0x9E)    # 次要
-CD = RGBColor(0xE8, 0xA3, 0x3D)     # 成都暖橙
-CQ = RGBColor(0x4E, 0xA8, 0xDE)     # 重庆江蓝
-BAD = RGBColor(0xF8, 0x51, 0x49)    # 违规朱红
-OK = RGBColor(0x3F, 0xB9, 0x50)     # 通过绿
+# ── 浅色主题色板（清爽白底；强调色按白底对比度加深）──
+BG = RGBColor(0xFF, 0xFF, 0xFF)     # 背景：纯白
+PANEL = RGBColor(0xF6, 0xF8, 0xFA)  # 面板：极浅灰
+TEXT = RGBColor(0x1F, 0x23, 0x28)   # 正文：近黑（对比度 ≈16:1）
+DIM = RGBColor(0x57, 0x60, 0x6A)    # 次要：中灰（≈6:1）
+CD = RGBColor(0xBC, 0x4C, 0x00)     # 成都暖橙（加深保对比 ≈5.4:1）
+CQ = RGBColor(0x09, 0x69, 0xDA)     # 重庆江蓝（≈5.5:1）
+BAD = RGBColor(0xCF, 0x22, 0x2E)    # 违规朱红（≈4.8:1）
+OK = RGBColor(0x1A, 0x7F, 0x37)     # 通过绿（≈4.5:1）
+HEAD_BG = RGBColor(0xEA, 0xEE, 0xF2)  # 表头底色：浅灰蓝
+LINE = RGBColor(0xD0, 0xD7, 0xDE)   # 边框线色
 FONT = "微软雅黑"
 
 W, H = Inches(13.333), Inches(7.5)
+
+# ── 实测口径（03K 任务E2）：PPT 是快照型材料，数字必须与重出时点一致 ──
+def _ci_counts():
+    """pytest 用例数 / 冒烟步数 / 任务单份数——重出时现读实测值。
+    任一步失败返回 None（文案回落「—」）：宁可缺数也不印一个编造的数。"""
+    root = Path(__file__).resolve().parent.parent
+    out = {}
+    try:
+        # 注意：pytest 9 的 -q collect 模式不再输出总摘要行，用非 quiet 模式取「N tests collected」
+        r = subprocess.run([sys.executable, "-X", "utf8", "-m", "pytest", "--collect-only", "-p", "no:warnings"],
+                           cwd=root, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=180)
+        m = re.search(r"(\d+) tests? collected", r.stdout)
+        out["tests"] = int(m.group(1)) if m else None
+    except Exception:
+        out["tests"] = None
+    try:
+        r = subprocess.run(["node", "scripts/smoke_frontend.mjs"],
+                           cwd=root, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=120)
+        m = re.search(r"冒烟通过[（(](\d+) 步[）)]", r.stdout + r.stderr)
+        out["smoke"] = int(m.group(1)) if m else None
+    except Exception:
+        out["smoke"] = None
+    try:
+        out["prompts"] = len(list((root / "codearts_proof" / "prompts" / "_已执行").glob("*.md")))
+    except Exception:
+        out["prompts"] = None
+    return out
+
+
+_N = _ci_counts()
+T_STR = str(_N["tests"]) if _N["tests"] else "—"
+S_STR = str(_N["smoke"]) if _N["smoke"] else "—"
+P_STR = str(_N["prompts"]) if _N["prompts"] else "—"
 
 
 def set_font(run, size, color=TEXT, bold=False):
@@ -45,7 +93,9 @@ def set_font(run, size, color=TEXT, bold=False):
 
 
 def txbox(slide, lf, t, w, h, lines, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP):
-    """lines: [(text, size, color, bold, space_after_pt), ...]"""
+    """lines: [(text, size, color, bold, space_after_pt), ...]
+    版式统一（2026-11-02 视觉优化）：行距 1.2 倍、段后间距按 lines 给定、左对齐。
+    """
     tb = slide.shapes.add_textbox(lf, t, w, h)
     tf = tb.text_frame
     tf.word_wrap = True
@@ -55,6 +105,7 @@ def txbox(slide, lf, t, w, h, lines, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
         p = tf.paragraphs[0] if first else tf.add_paragraph()
         first = False
         p.alignment = align
+        p.line_spacing = 1.2
         p.space_after = Pt(gap)
         r = p.add_run()
         r.text = text
@@ -113,15 +164,15 @@ def new_slide(prs):
 
 
 def header(slide, title, sub=None, accent=CD):
-    """页眉：左上角竖条 + 标题（结论式）"""
+    """页眉：左上角竖条 + 标题（结论式）；标题统一 32pt（规范修正）"""
     rect(slide, Inches(0.55), Inches(0.42), Inches(0.09), Inches(0.78), fill=accent)
-    lines = [(title, 30, TEXT, True, 4)]
+    lines = [(title, 32, TEXT, True, 4)]
     if sub:
         lines.append((sub, 15, DIM, False, 0))
     txbox(slide, Inches(0.85), Inches(0.38), Inches(12.0), Inches(1.1), lines)
 
 
-def bullets(slide, items, top=Inches(1.75), left=Inches(0.85), width=Inches(11.6), size=19):
+def bullets(slide, items, top=Inches(1.75), left=Inches(0.85), width=Inches(11.6), size=19, height=None):
     lines = []
     for it in items:
         if isinstance(it, tuple):
@@ -129,7 +180,10 @@ def bullets(slide, items, top=Inches(1.75), left=Inches(0.85), width=Inches(11.6
         else:
             text, color = it, TEXT
         lines.append(("▸ " + text, size, color, False, 10))
-    txbox(slide, left, top, width, Inches(4.8), lines)
+    # 高度按 top 自适应（底边距 0.45″）：原硬编码 4.8″ 在 top=5.0 时框底 9.8″ 越出页面
+    if height is None:
+        height = Inches(7.05) - top
+    txbox(slide, left, top, width, height, lines)
 
 
 def footer(slide, no):
@@ -175,7 +229,9 @@ txbox(s, Inches(1.15), Inches(4.4), Inches(11.0), Inches(1.9), [
 # ═══════════ P3 整体架构 ═══════════
 s = new_slide(prs)
 header(s, "三段式管线：每段职责单一、可独立单测", "方案设计 · 整体架构")
-bw, bh, gap, y1 = Inches(2.15), Inches(1.05), Inches(0.32), Inches(2.05)
+# 布局修正：6 块（4 主 + 2 前端）原总宽 15.2″ 超出页宽 13.33″——
+# 块宽 2.15→1.85、间距 0.32→0.26，总宽 12.4″ + 左缘 0.7″，右留边距 0.23″
+bw, bh, gap, y1 = Inches(1.85), Inches(1.05), Inches(0.26), Inches(2.05)
 x = Inches(0.7)
 blocks = [
     ("用户输入\n天数/预算/偏好", PANEL, TEXT),
@@ -187,18 +243,21 @@ for i, (t, fill, lc) in enumerate(blocks):
     sp = rect(s, x, y1, bw, bh, fill=fill, line=lc)
     label(sp, t.replace("\n", " · "), 14, TEXT, True)
     if i < 3:
-        arrow(s, x + bw + Inches(0.03), y1 + Inches(0.34), Inches(0.26), Inches(0.36))
+        arrow(s, x + bw + Inches(0.02), y1 + Inches(0.34), Inches(0.22), Inches(0.36))
     x += bw + gap
-# 前端两块
+# 前端两块（图注字号与其他块统一 14pt）
 x2 = x
 for t, lc in [("前端 · 分城 SVG 路网图", CD), ("前端 · 可倒带决策时间轴", BAD)]:
     sp = rect(s, x2, y1, bw, bh, fill=PANEL, line=lc)
-    label(sp, t, 13, TEXT, True)
-    arrow(s, x2 - Inches(0.29), y1 + Inches(0.34), Inches(0.26), Inches(0.36))
+    label(sp, t, 14, TEXT, True)
+    arrow(s, x2 - Inches(0.24), y1 + Inches(0.34), Inches(0.22), Inches(0.36))
     x2 += bw + gap
-# 回流标注（校验段 → 规划段）
-back = slide_arrow = arrow(s, Inches(5.75), Inches(3.35), Inches(0.9), Inches(0.34), color=BAD)
-back.rotation = 0
+# 回流标注（校验段 → 规划段）：左向箭头才符合「回流」语义
+back = s.shapes.add_shape(MSO_SHAPE.LEFT_ARROW, Inches(3.5), Inches(3.35), Inches(0.9), Inches(0.34))
+back.fill.solid()
+back.fill.fore_color.rgb = BAD
+back.line.fill.background()
+back.shadow.inherit = False
 txbox(s, Inches(3.05), Inches(3.3), Inches(9.4), Inches(0.5), [
     ("⟲ 硬违规回流规划段定向修复：最多 3 轮 + 收敛检测（同一违规集不变即停，不空转）", 14, BAD, False, 0)],
     align=PP_ALIGN.CENTER)
@@ -206,7 +265,7 @@ txbox(s, Inches(3.05), Inches(3.3), Inches(9.4), Inches(0.5), [
 eb = rect(s, Inches(0.7), Inches(4.35), Inches(11.95), Inches(0.85), fill=None, line=CD)
 label(eb, "EventBus 事件流——每条决策带 reason（seq / stage / type / title / reason / detail），贯穿全流程", 15, CD, True)
 txbox(s, Inches(0.7), Inches(5.5), Inches(11.95), Inches(1.2), [
-    ("三个要点：① 三段职责单一、各段可独立单测（pytest 133 个用例 + 前端冒烟 23 步）", 16, TEXT, False, 6),
+    (f"三个要点：① 三段职责单一、各段可独立单测（pytest {T_STR} 个用例 + 前端冒烟 {S_STR} 步）", 16, TEXT, False, 6),
     ("② 事件流是一等公民——它是前端可倒带回放的数据源  ③ 单次管线：行程与事件流同源（在线模式也只跑一次）", 16, TEXT, False, 0),
 ])
 
@@ -264,18 +323,18 @@ for ri, row in enumerate(rows):
     for ci, val in enumerate(row):
         c = tbl.cell(ri, ci)
         c.fill.solid()
-        c.fill.fore_color.rgb = PANEL if ri else RGBColor(0x21, 0x27, 0x30)
+        c.fill.fore_color.rgb = PANEL if ri else HEAD_BG
         c.vertical_anchor = MSO_ANCHOR.MIDDLE
         c.margin_left, c.margin_top = Inches(0.12), Inches(0.03)
         p = c.text_frame.paragraphs[0]
         r = p.add_run()
         r.text = val
         if ri == 0:
-            set_font(r, 16, DIM, True)
+            set_font(r, 18, DIM, True)
         elif ci == 3:
-            set_font(r, 16, BAD if val == "hard" else CD, True)
+            set_font(r, 18, BAD if val == "hard" else CD, True)
         else:
-            set_font(r, 16, TEXT, val == "V3")
+            set_font(r, 18, TEXT, val == "V3")
 bullets(s, [
     ("硬违规自动回流修复（≤3 轮 + 收敛检测）；软硬分级是本页核心——见下", TEXT),
     ("V3 强度没有唯一正确的删点解：系统如实提示、把决策权交还用户，不自动删点（删会误伤必游地标与夜景压轴）", CD),
@@ -401,7 +460,7 @@ txbox(s, Inches(1.15), Inches(5.75), Inches(11.0), Inches(0.9), [
 
 # ═══════════ P15 码道 · Prompt 质量与证明材料 ═══════════
 s = new_slide(prs)
-header(s, "17 份任务单：背景 → 硬约束 → 验收标准；两次返工如实留存", "码道应用成果（三）Prompt 质量与证明材料")
+header(s, f"{P_STR} 份任务单：背景 → 硬约束 → 验收标准；两次返工如实留存", "码道应用成果（三）Prompt 质量与证明材料")
 bullets(s, [
     ("组织方式：背景与现状 → 硬约束（不许做的事）→ 逐条任务（含可执行验收标准）→ 交付要求", TEXT),
     ("两次视觉返工（03D 测绘图鉴 → 03F 瑞士网格）被人工评审否决后重做，原文如实归档——人机协作的证据", TEXT),
@@ -414,7 +473,7 @@ bullets(s, [
 s = new_slide(prs)
 header(s, "华为云三件套：CodeArts 流水线 + FunctionGraph + OBS，全部可选可降级", "技术架构 · 华为云服务结合", accent=CQ)
 bullets(s, [
-    ("CodeArts Repo 托管工程；CI 已脚本化（ruff → pytest 133 → 前端冒烟 23 步），可直接接入流水线", TEXT),
+    (f"CodeArts Repo 托管工程；CI 已脚本化（ruff → pytest {T_STR} → 前端冒烟 {S_STR} 步），可直接接入流水线", TEXT),
     ("FunctionGraph：天气查询走函数计算，未配置时 2 秒超时静默回落本地快照", TEXT),
     ("OBS：行程快照对象存储，提交后生成可分享链接", TEXT),
     ("不配置任何华为云变量也不影响演示——「可选增强」而非「硬依赖」", TEXT),
@@ -457,3 +516,5 @@ for i in range(1, 19):
 out = "ppt/蜀道智行.pptx"
 prs.save(out)
 print(f"已生成 {out}：{len(prs.slides.__iter__.__self__._sldIdLst)} 页")
+print(f"实测口径（重出时点现读）：pytest {T_STR} / 冒烟 {S_STR} 步 / 任务单 {P_STR} 份"
+      + ("（有「—」表示该项实测失败，跑 scripts/ctl.py ci 核对，绝不印编造数）" if "—" in (T_STR + S_STR + P_STR) else ""))

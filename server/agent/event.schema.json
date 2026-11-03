@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "蜀道智行事件契约（Event Contract）",
+  "description": "任何行程规划 Agent，只要按本契约的核心字段发出事件流，就能接入本项目的可倒带回放器（static/js/player.js）。校验实现：server/agent/event_contract.py（Python 标准库，零新依赖）；回归锁：tests/test_event_contract_schema.py。",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "实例级递增序号（EventBus 每次实例化从 1 重新计数）；回放器定位与 URL 深链（?seq=N）的寻址单位"
+    },
+    "t": {
+      "type": "number",
+      "description": "可选：进程级相对时间（秒，3 位小数）。Event 实例携带；SSE / timeline 序列化帧中可省略"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["start", "thought", "tool_call", "tool_result", "decision",
+               "violation", "fix", "pass", "advisory", "unfixable", "fallback", "done"],
+      "description": "事件类型（12 值，与 docs/API.md 事件枚举及前端 TYPE_MARK 同源）"
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["plan", "validate", "narrate", "revise", "system"],
+      "description": "所属阶段（三段式管线 + revise + system）"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "回放器第一列：一句话说清这一步做了什么"
+    },
+    "reason": {
+      "type": "string",
+      "description": "决策依据，回放器第二列（『└ 因为 …』）；可空字符串，但非空时应有信息量"
+    },
+    "detail": {
+      "type": "object",
+      "description": "结构化载荷（removed / day / pois / mode 等；嵌套与扁平两种形状的判定规则见 docs/API.md）"
+    }
+  },
+  "required": ["seq", "type", "stage", "title", "reason", "detail"]
+}

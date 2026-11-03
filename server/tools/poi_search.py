@@ -29,13 +29,15 @@ def _ensure_aliases():
 
 @lru_cache(maxsize=1)
 def load_pois():
-    """遍历 data/*.json（除 meta.json 外的城市快照）合并返回全量 POI 列表。
+    """遍历 data/*.json（城市快照）合并返回全量 POI 列表。
 
+    排除项：meta.json（总表）/ pois.json（v1 遗留名）/ provenance.json（03K 溯源旁挂，
+    是 dict 不是 POI 列表——不排除会把它的键当 POI 迭代，直接 TypeError）。
     对外接口与 v1（单文件 pois.json）完全一致：返回 list[dict]。
     """
     pois = []
     for fn in sorted(DATA_DIR.glob("*.json")):
-        if fn.name == "meta.json" or fn.name == "pois.json":
+        if fn.name in ("meta.json", "pois.json", "provenance.json"):
             continue
         with open(fn, encoding="utf-8") as f:
             pois.extend(json.load(f))
@@ -57,7 +59,7 @@ def _city_file_map():
     """
     m = {}
     for fn in sorted(DATA_DIR.glob("*.json")):
-        if fn.name in ("meta.json", "pois.json"):
+        if fn.name in ("meta.json", "pois.json", "provenance.json"):
             continue
         try:
             with open(fn, encoding="utf-8") as f:

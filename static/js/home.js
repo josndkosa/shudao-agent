@@ -22,10 +22,10 @@ function setBadges(h) {
 }
 
 /** 旧链接兼容：README/演示脚本里的 `?days=3&budget=3000&tags=…&auto=1`
- *  打到首页时原样透传给 plan.html（含 cities/family），不打断既有用法 */
+ *  打到首页时原样透传给 plan.html（含 cities/family/seq——03K 深链带 seq 进首页也能落到工作台对应位置），不打断既有用法 */
 function passThrough() {
   const u = new URLSearchParams(location.search);
-  const keys = ["days", "budget", "tags", "family", "cities", "auto"];
+  const keys = ["days", "budget", "tags", "family", "cities", "auto", "seq"];
   const hit = keys.filter(k => u.has(k));
   if (!hit.length) return;
   const q = hit.map(k => `${k}=${encodeURIComponent(u.get(k))}`).join("&");

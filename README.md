@@ -2,7 +2,7 @@
 
 > **规划 → 校验 → 叙事** 三段式管线，把 Agent 的决策过程做成**可回放的产品**。
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-000000) ![前端零构建](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E6%9E%84%E5%BB%BA-000000) ![测试](https://img.shields.io/badge/pytest-79%20passed-000000) ![许可证](https://img.shields.io/badge/License-MIT-000000) ![码道开发](https://img.shields.io/badge/%E5%BC%80%E5%8F%91-%E5%8D%8E%E4%B8%BA%E4%BA%91%E7%A0%81%E9%81%93-000000)
+![Python](https://img.shields.io/badge/Python-3.10%2B-000000) ![前端零构建](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E6%9E%84%E5%BB%BA-000000) ![测试](https://img.shields.io/badge/pytest-%E5%85%A8%E9%83%A8%E9%80%9A%E8%BF%87-000000) ![许可证](https://img.shields.io/badge/License-MIT-000000) ![码道开发](https://img.shields.io/badge/%E5%BC%80%E5%8F%91-%E5%8D%8E%E4%B8%BA%E4%BA%91%E7%A0%81%E9%81%93-000000)
 
 > 2026 华为开发者大赛·智能体创新赛（西南赛区）参赛作品。
 > 截图资产待人工补录（规格见 `docs/images/README.md`，下文配图位与之一一对应）。
@@ -70,7 +70,8 @@ flowchart TB
 
 ## 数据说明
 
-西南 15 城总表 + 批次1 落地 6 城 101 点快照（成都 22 / 重庆 18 / 昆明 15 / 大理 15 / 贵阳 15 / 桂林 16），
+西南 15 城总表 + 15 城 237 点本地快照（深度层 6 城 + 广度层 9 城，批次1/2/3 全部落地；
+数据核对状态见 `server/data/schema.md`），
 **分城文件 + meta.json 数据层**——新增城市零代码改动。
 厚字段（开放时段/预约难度/人流高峰/爬坡强度/亲子友好度/夜间体验）即决策依据；
 V3 强度阈值按城市地形分档（盆地/丘陵/喀斯特/高原/极高海拔），城际交通按枢纽距离自动生成。

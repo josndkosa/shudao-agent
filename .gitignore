@@ -22,7 +22,11 @@ node_modules/
 
 # 保留（勿忽略）：
 #   static/demo*.json  ← 前端离线兜底数据，必须提交
-#   docs/baseline/     ← 基线与缺陷复现证据，必须提交.uvicorn-8000.log
+#   docs/baseline/     ← 基线与缺陷复现证据，必须提交
+
+# 运行日志（uvicorn 重定向输出）不入库。
+# 03K 任务F3：此规则此前被上一行注释意外吞掉（"必须提交.uvicorn-8000.log"），实为断链——现独立成行。
+.uvicorn-8000.log
 
 # 打包产物不入库（重跑 package.py 时避免把旧 zip 打进新包）
 *.zip

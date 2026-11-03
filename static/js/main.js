@@ -21,6 +21,9 @@ const state = {
   activeDay: 1,
 };
 
+// 03K 深链：?seq=N 在管线跑完后定位到第 N 条事件（隐式 auto=1）。只在首次 run 生效。
+let pendingSeq = null;
+
 
 // ── 渲染 ─────────────────────────────────────────────────────
 const dayPanel = new DayPanel(day => { state.activeDay = day; renderAll(); });
@@ -73,6 +76,9 @@ state.player = new Player({
   onSeek: (cursor, events) => {
     state.activeDay = viewAt(cursor, events).activeDay || state.activeDay;
     renderAll(cursor);
+    // 03K 深链：URL 带 seq 时，cursor 同步写回地址栏（replaceState 不产生历史条目，
+    // 否则用户按返回键会连退 N 次）；不带 seq 的普通模式行为零变化
+    syncSeqParam(cursor);
   },
   onEventClick: ev => {
     // 点联动：从 detail 解析 poi id（嵌套/扁平统一走 payload 解包）
@@ -158,7 +164,9 @@ async function run() {
         updateChatPlaceholder();   // 有了计划 → 对话栏切到「改行程」语义
         return;
       }
-      if (ev.type === "done") { setStreaming(false); state.player.seek(state.events.length); return; }
+      // 哨兵=纯 type 无 stage（API.md 口径）；业务 narrate/system 的 done 事件带 stage，须正常入流——
+      // 吞掉它们会让事件数 < 后端 timeline，?seq=N 深链与 seq 契约随之错位
+      if (ev.type === "done" && ev.stage === undefined) { setStreaming(false); state.player.seek(state.events.length); return; }
       if (ev.type === "error") throw new Error("stream error");
       state.events.push(ev);
       // 流式直播跟随：新一天的选点决策到达时同步当前天（天状态单源 state.activeDay）
@@ -182,6 +190,9 @@ async function run() {
       syncMapCities();
     }
     renderAll(state.events.length);
+    // 03K 深链：流结束（或兜底 plan）后按 ?seq=N 定位——在 done 帧的 seek(length)
+    // 之后执行，覆盖其结果；之后 pendingSeq 置空，手动重跑不再定位
+    if (pendingSeq != null) applyDeepLinkSeq();
   } catch (err) {
     // 可见的失败：宁可红字报错，也不要白屏（答辩现场白屏等于 0 分）
     console.error(err);
@@ -200,6 +211,30 @@ function setStreaming(on) {
     $(id).disabled = on;
   }
   $("badge-offline").textContent = on ? "实时接收中…" : "离线";
+}
+
+// ── 03K 深链 ?seq=N：管线跑完定位到第 N 条事件 ──────────────────
+// 走与手动拖进度条完全相同的路径（player.seek）；越界落到最后一步并如实提示。
+function applyDeepLinkSeq() {
+  const n = pendingSeq;
+  pendingSeq = null;   // 深链定位只消费一次（之后的重跑/改行程走默认行为）
+  if (!state.events.length) return;
+  state.player.seek(Math.min(n, state.events.length));
+  if (n > state.events.length) {
+    const hint = $("params-hint");
+    if (hint) {
+      hint.textContent = `seq=${n} 超出范围（本次规划共 ${state.events.length} 条事件），已定位到最后一步`;
+      hint.hidden = false;
+    }
+  }
+}
+
+/** URL 带 seq 时，把 cursor 写回地址栏（replaceState：可分享精确位置，不污染浏览器历史） */
+function syncSeqParam(cursor) {
+  const u = new URLSearchParams(location.search);
+  if (!u.has("seq")) return;
+  u.set("seq", String(Math.max(1, cursor)));
+  history.replaceState(null, "", `${location.pathname}?${u.toString()}`);
 }
 
 // ── 对话栏双模式（03G）：无计划=自然语言规划入口，有计划=改行程（revise 语义零变化）──
@@ -422,7 +457,11 @@ async function boot() {
     }
   });
 
-  if (q.auto === "1" || q.auto === 1) run();
+  // 03K 深链：?seq=N 隐式 auto=1（带 seq 就是要看某一步，不该还要人再点一次开始）
+  const seqN = Number.parseInt(q.seq, 10);
+  if (Number.isFinite(seqN) && seqN >= 1) pendingSeq = seqN;
+
+  if (q.auto === "1" || q.auto === 1 || pendingSeq != null) run();
   else renderAll(0);   // 非自动播放时先渲染空态引导（此前只有 auto 才 run，
                        // dayPanel.render(null) 从不触发 → 空态占位从未挂载、结果区一片空白）
 }

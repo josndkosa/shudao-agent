@@ -1,9 +1,8 @@
 # POI 数据快照字段规范（schema.md）
 
-> 数据层 v3（03E 批次1）：**西南 15 城总表**（`meta.json` city_info）+ 批次1 落地 6 城快照
-> （`chengdu.json` 22 / `chongqing.json` 18 / `kunming.json` 15 / `dali.json` 15 / `guiyang.json` 15 / `guilin.json` 16，共 101 点）。
-> `load_pois()` 遍历合并——**新增城市只需新增数据文件，不用改代码**；15 城总表先行配齐（含地形分档/天气/枢纽），
-> 广度层 9 城 POI 随批次2/3 补充。
+> 数据层 v3：**西南 15 城总表**（`meta.json` city_info）+ 15 城快照全部落地
+> （`chengdu.json` 等 15 个分城文件，共 237 点；批次1 深度层 6 城 + 批次2/3 广度层 9 城）。
+> `load_pois()` 遍历合并——**新增城市只需新增数据文件，不用改代码**。
 > 字段不是随便堆的：每一个都直接参与规划/校验的某个决策，删掉任何一个，对应能力就退化。
 
 ## POI 字段
@@ -74,5 +73,14 @@
    若新增点的 slope 普遍偏高，会在该城 cap 下触发更多软提醒（是设计行为，不是 bug）。
 3. `id` 不可复用不可改名——`fix` 事件 `removed`、前端 `data-poi`、revise 的匹配都以它为键。
 4. **跨城日容量扣减用实际城际时长**（planner `_ic_leg` / validator `_ic_hours` 从行程的 intercity
-   条目推导），不再假设 1.8h；成都-重庆 经覆盖表仍为 1.8h，双城行为与历史一致。
+    条目推导），不再假设 1.8h；成都-重庆 经覆盖表仍为 1.8h，双城行为与历史一致。
 5. **城际票价按行程序列累计**（`route.intercity_cost`）：相邻异城各计一段，多城多段如实入账。
+
+## 数据核对状态（溯源旁挂，03K 任务D）
+
+237 点 POI 为人工整理的本地快照。**逐条核对过出处**的点及其证据登记在
+`server/data/provenance.json`（每条含 source / verified_at / note）——
+**不出现在该文件里的点 = 未逐条核对**，这个口径比给 237 条批量标注「人工整理」更诚实。
+溯源旁挂与数据文件零耦合：15 个分城 JSON 不因核对进展产生 diff。
+`tests/test_data_provenance.py` 锁两件事：登记的 id 真实存在（防手抖）、
+source 非空且 verified_at 为合法日期（防编造）。

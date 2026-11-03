@@ -190,6 +190,14 @@ curl "http://localhost:8000/api/geo?city=重庆"
 | `done` | ■ | 阶段/管线完成 |
 | `fallback` | ▽ | 降级（LLM→离线、文案→模板、校验异常跳过） |
 
+## 事件契约（03K 任务A）
+
+- 契约见 `server/agent/event.schema.json`（**version 1.0.0**，带版本号）：核心字段
+  `seq / type / stage / title / reason`（+ `detail` 载荷；`t` 可选）。
+- 校验实现 `server/agent/event_contract.py`（纯标准库，零新依赖）；回归锁
+  `tests/test_event_contract_schema.py`：真跑管线全事件过校验 + 非法 type 必报错（防恒真）。
+- **任何行程规划 Agent，只要按这五个字段发出事件流，就能接入本项目的可倒带回放器**（`static/js/player.js`）。
+
 ## geo 契约的三个关键点
 
 1. **`points` 必须是「城市 → 点位数组」对象**（不是扁平数组）——前端 `CityMaps`

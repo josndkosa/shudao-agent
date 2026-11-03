@@ -135,19 +135,26 @@ class MockApi {
     const data = await this._load("demo.json");
     const events = data.timeline;
     let i = 0, alive = true;
-    const tick = () => {
-      if (!alive) return;
-      if (i < events.length) {
-        onEvent(events[i++]);
-        setTimeout(tick, this._baseInterval);
-      } else {
-        // 与 LiveApi 契约对齐：业务事件之后先给 plan_result（行程随流返回），再发 done
-        onEvent({ type: "plan_result", plan_id: "mock-1",
-                  itinerary: data.itinerary, budget: data.budget, mode: "mock" });
-        onEvent({ type: "done" });
-      }
-    };
-    setTimeout(tick, this._baseInterval);
+    // 03K：Promise 等流真正推完再 resolve——与 LiveApi「读完 body 才返回」同构。
+    // 此前立即 resolve：main.js 的兜底分支（!gotResult && !itinerary）会在流开始前
+    // 触发 api.plan() 双跑，事件列表出现两份；done 帧的 seek 也会晚于深链定位执行，
+    // 把 ?seq=N 的定位覆盖回末尾（断网演示下深链失效）。同构修复，不改帧格式与顺序。
+    await new Promise(resolve => {
+      const tick = () => {
+        if (!alive) { resolve(); return; }
+        if (i < events.length) {
+          onEvent(events[i++]);
+          setTimeout(tick, this._baseInterval);
+        } else {
+          // 与 LiveApi 契约对齐：业务事件之后先给 plan_result（行程随流返回），再发 done
+          onEvent({ type: "plan_result", plan_id: "mock-1",
+                    itinerary: data.itinerary, budget: data.budget, mode: "mock" });
+          onEvent({ type: "done" });
+          resolve();
+        }
+      };
+      setTimeout(tick, this._baseInterval);
+    });
     return { unsubscribe: () => { alive = false; } };
   }
 

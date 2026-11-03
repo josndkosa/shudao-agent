@@ -4,6 +4,77 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.4.0] — 2026-11-03 · 03K 收口加固（决策协议化与可复现补强）
+
+### Added
+
+- **事件契约 v1.0.0（任务A）**：`server/agent/event.schema.json` 把 Event 的核心字段
+  （`seq / type / stage / title / reason` + `detail` 载荷；`t` 可选——序列化帧可省略）
+  固化成**带版本号**的契约。校验纯标准库实现（`server/agent/event_contract.py`，
+  零新依赖：字段存在性 + 枚举成员 + 类型 + 下界/非空）。
+  `tests/test_event_contract_schema.py` 三锁：真跑管线**所有事件**过校验 /
+  造非法 `type` 必报错（防恒真校验器）/ 缺必填字段必报错。
+  **任何行程规划 Agent 按这五字段发事件流即可接入本项目的可倒带回放器**（docs/API.md
+  已注明）。`events.py` 零改动——契约只读不写。
+- **深链 `?seq=N`（任务B）**：`plan.html?days=3&budget=3000&tags=…&seq=17` 隐式
+  `auto=1`，管线跑完定位到第 N 条事件（走与手动拖进度条**完全相同**的 seek 路径）；
+  N 越界落最后一步并在状态行如实提示；cursor 经 `history.replaceState` 写回 URL
+  （可分享精确位置、不产生历史条目）；首页参数透传带 `seq`。
+- **数据溯源旁挂（任务D）**：`server/data/provenance.json`——只登记**逐条核对过出处**
+  的点（当前 0 点，等人工核对表填入；**不出现 = 未核对**，比批量标注「人工整理」更
+  干净）。`tests/test_data_provenance.py` 两锁（id 真实存在于 POI 表 / source 非空 +
+  verified_at 合法日期）。`schema.md` 增「数据核对状态」节。**15 个数据文件 diff 为 0**。
+- **打包三闸（任务F4）**：`package.py` ①密钥扫描——staging 内容级搜 `sk-` 前缀与
+  带值的 `DEEPSEEK_API_KEY=`（`.env.example` 的注释空值模板不误伤），命中即败且
+  `--allow-missing-media` 也不放行（泄漏是唯一不可挽回的失败）；②`--max-mb`（默认
+  100，超限删包退出并打印实际体积）；③收尾打印每个顶层目录的解压体积（畸大目录
+  一眼可见）。实测：codearts_proof/ 9.9 MB 是 zip 里的大头。
+- `requirements-dev.txt`（ruff / python-pptx 开发与出 PPT 工具，与主依赖分离）。
+
+### Fixed
+
+- **`.gitignore` 断链（任务F3）**：`.uvicorn-8000.log` 的忽略规则此前被上一行注释
+  意外吞掉（「…必须提交.uvicorn-8000.log」），实为从未生效——拆为独立规则行，
+  `git check-ignore` 实证命中。
+- **Mock 流式 resolve 语义与 Live 不同构（顺手修的既有 bug）**：MockApi.stream 此前
+  立即 resolve，main.js 的兜底分支在流开始前就触发 `api.plan()` 双跑（事件列表出现
+  两份、`setStreaming` 提前解除），且 done 帧的 seek 会晚于深链定位执行、把 `?seq=N`
+  的定位覆盖回末尾（断网演示下深链失效）。改为**等流真正推完再 resolve**（与
+  LiveApi「读完 body 才返回」同构）。真实端口日志对照实证：修复前的会话
+  stream+plan 双请求，修复后仅 stream 单请求。
+- **业务 done 事件被哨兵判定误吞（顺手修的既有 bug）**：SSE 哨兵 = 纯 `type` 无
+  `stage`（API.md 口径），main.js 原判定只看 `type`——narrate/system 段的 `done`
+  **业务**事件被吞，前端事件数 < 后端 timeline，`seq` 深链随之错位。补 `stage`
+  区分后，事件流与后端 timeline 真正同源（demo 场景 19→23 条对齐）。
+- **`load_pois` 排除清单**：加 `provenance.json`（溯源旁挂是 dict 不是 POI 列表，
+  不排除会把它的键当 POI 迭代，直接 TypeError）。
+
+### Changed（任务F1/E：口径与复现治理）
+
+- **版本锁定**：`requirements.txt` 五包全部 pin 为 `==`（干净 venv 安装即复现；
+  pytest 留在主依赖——install 脚本以测试全绿收尾）；readme 版本表改实测值
+  （fastapi 0.136.3 / uvicorn 0.49.0 / pydantic 2.13.5 / openai 2.38.0 / pytest 9.1.1）。
+- **摘除易变数字（E2）**：README 徽标 / readme / 华为云接入说明 / 开发指南 / 讲稿 /
+  视频分镜中的测试数、冒烟步数、任务单份数改为「以 `scripts/ctl.py ci` 输出为准」；
+  POI 口径全站统一 **15 城 237 点**；**gen_ppt.py 改为重出时现读实测**（pytest
+  collect + 冒烟输出 + 任务单目录计数；实测失败回落「—」，绝不印编造数）——
+  PPT 是快照型材料，数字与重出时点**必然**一致（本次重出：139 tests / 23 步 / 18 份）。
+- 讲稿 P16「CodeArts Repo **加**流水线」→「CI 已脚本化（ctl.py ci），**可直接接入**
+  CodeArts 流水线」——仓库无流水线定义文件（CodeArts Repo 不执行 .github/），
+  原表述答辩时会被一句「流水线在哪看」问倒。
+- `package.py` 的 need_prompts 清单加 `03K_`。
+
+### Tested
+
+- `python scripts/ctl.py ci` 三连全绿（**139 passed** + 冒烟 23 步）
+- 默认场景与 `tests/fixtures/regression-chengdu-chongqing.json` 逐字一致（回归锁在跑）
+- 深链无头双场景断言：`?seq=17` → cursor=17 + URL 写回 seq=17；`?seq=999` →
+  落最后一步（23）+ 如实提示「超出范围，已定位到最后一步」
+- 干净 venv：`pip install -r requirements.txt` 装出版本与 readme 表逐项一致，测试全绿
+- `package.py`：`sk-` 探针文件被拦（打印命中路径 `project\zz_secret_probe.txt`）；
+  `--max-mb 1` 拦截（打印实际 10.6 MB）；完整打包 10.6 MB 通过
+- PPT 程序化重出 + PowerPoint COM 导出 PDF（实测口径自证打印）
+
 ## [1.3.0] — 2026-11-02 · 03J 显式偏好画像（「有长期记忆吗」的诚实答案）
 
 ### Added
