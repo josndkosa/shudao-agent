@@ -9,6 +9,7 @@
   P0-03 所有活动（poi/meal/intercity）时间单调不重叠
   P0-04 超预算时报告不得写「V4 预算校验通过」；费用统一用「预估」
   P0-05 合法空候选不崩溃、有明确降级事件；budget(0) 不除零
+  P1-02 用户锁定首站不被重排覆盖；排斥标签不因加长复活
   P1-04 否定词（不带娃/不要亲子）、城市文本顺序、阿拉伯+中文混合金额（2千）
 """
 import os
@@ -24,6 +25,7 @@ from server.agent import TripRequest, run_pipeline
 from server.agent.events import EventBus
 from server.agent.parse_request import parse_request
 from server.agent.report import render_report
+from server.agent.revise import revise_plan
 from server.app import app
 from server.tools.budget import budget as budget_tool
 
@@ -102,3 +104,40 @@ def test_budget_arabic_chinese_mixed_amount():
     assert parse_request("预算2千去成都3天", EventBus())["budget"] == 2000
     assert parse_request("预算两千去成都", EventBus())["budget"] == 2000
     assert parse_request("预算一万五去成都", EventBus())["budget"] == 15000
+
+def _entry_of(req, bus_result, bus):
+    return {"itinerary": bus_result["itinerary"], "timeline": bus_result["timeline"],
+            "request": req, "bus": bus}
+
+
+def test_reorder_locks_user_first_choice():
+    """P1-02：用户指定的首站必须保持第一——不得被最近邻重排覆盖。
+    此前「先去奎星楼街」后首站仍是武侯祠（_order_day 把锁定顺序冲掉）。"""
+    req = TripRequest(days=1, budget=3000, tags=["美食"], cities=["成都"])
+    bus = EventBus()
+    r = run_pipeline(req, bus)
+    day = r["itinerary"]["days"][0]
+    pois = [it for it in day["items"] if it["type"] == "poi"]
+    assert len(pois) >= 2, "测试前提：单日至少两个点才有重排意义"
+    target = pois[-1]                      # 取末位点作为用户想提前的目标（复现审查场景）
+    out = revise_plan(_entry_of(req, r, bus), f"第一天先去{target['name']}")
+    first = next(it for it in out["itinerary"]["days"][0]["items"] if it["type"] == "poi")
+    assert first["poi_id"] == target["poi_id"], \
+        f"用户点名首站 {target['name']}，实际首站却是 {first['name']}——指令被重排覆盖"
+
+
+def test_extend_never_resurrects_avoided_tags():
+    """P1-02：排斥标签的点位不得因「加一个」复活——加长候选必须过与初次规划
+    同款的排斥过滤。此前初始排斥「博物馆」后，revise 加长又把金沙遗址博物馆加回。"""
+    req = TripRequest(days=1, budget=5000, tags=["历史文化"], cities=["成都"],
+                      avoid_tags=["博物馆"])
+    bus = EventBus()
+    r = run_pipeline(req, bus)
+    day0 = r["itinerary"]["days"][0]
+    assert all("博物馆" not in (it.get("tags") or [])
+               for it in day0["items"] if it["type"] == "poi"), "测试前提：初始规划已排除博物馆"
+    out = revise_plan(_entry_of(req, r, bus), "第1天太松，多排一个")
+    day = out["itinerary"]["days"][0]
+    pois = [it for it in day["items"] if it["type"] == "poi"]
+    assert all("博物馆" not in (it.get("tags") or []) for it in pois), \
+        "排斥标签的点位因加长复活——初次规划与修改未共用候选过滤"

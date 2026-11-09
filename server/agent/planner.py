@@ -225,39 +225,49 @@ def _content_hours(pois, city):
     return total
 
 
-def _trim_to_capacity(ordered, city, ic=None):
+def _trim_to_capacity(ordered, city, ic=None, protect=None, start=None):
     """排序后用相邻跳真实值复核容量，超容摘点。
 
     ic 为城际段参数（{"hours": ...}）或 None；跨城日容量按实际城际时长扣减。
     摘点优先级：低分先摘 → 同分非必游先摘 → 再非夜间先摘（夜间点是压轴体验）。
     每次摘点后重算 content，直到满足容量；不允许摘到当天一个点都不剩。
+    protect（03M P1-02）：用户点名锁定的点位（如 revise 的「先去X」首站）不得
+    进入摘除候选——指令优先于容量优化；真超容由 validator 如实报违规，不静默摘。
+    start（03M P1-02）：推迟出发的时间（等待开门策略）——容量从 start 起算到 DAY_END。
     必须在 emit 选点 decision 之前调用，保证事件流就是最终结果。
     返回新列表，不修改调用方的 ordered。
     """
-    capacity = (DAY_END - DAY_START - MEAL_HOURS - BUFFER) - ((ic or {}).get("hours", 0.0))
+    t0 = DAY_START if start is None else start
+    capacity = (DAY_END - t0 - MEAL_HOURS - BUFFER) - ((ic or {}).get("hours", 0.0))
     kept = list(ordered)
     while len(kept) > 1 and _content_hours(kept, city) > capacity + 1e-9:
         # 升序键：低分先摘；同分时非必游（False=0）先摘、再非夜间（False=0）先摘
-        drop_rank = sorted(kept, key=lambda p: (
+        candidates = [p for p in kept if not (protect and p["id"] == protect["id"])]
+        if not candidates:
+            break               # 只剩被保护的点：宁可留待 validator 如实报，不静默摘
+        drop_rank = sorted(candidates, key=lambda p: (
             p.get("_score", 0), p.get("must_see", False), p.get("night_friendly", False)))
         kept.remove(drop_rank[0])
     return kept
 
 
-def _build_timeline(day_pois, hub, ic=None):
+def _build_timeline(day_pois, hub, ic=None, start=None):
     """时间线推算：逐点累加交通+游玩，午餐/晚餐各 1h。
 
     ic 为城际段参数（{"hours": ..., "label": ...}）或 None；跨城日以城际车次开场。
+    start（03M P1-02）：推迟出发的时刻（等待开门策略）——None 时为 DAY_START，
+    行为与历史版本逐字一致。
 
     餐点不得早于前一活动结束时间（03M P0-03）：此前固定写 12:00/18:00，
     前一活动若 12:10 才结束（如武侯祠 10:10–12:10），午餐 12:00 就与它重叠——
     不可执行的时间表却被判通过。改为 max(窗口起点, t) 起算，t=前一活动结束。
     """
-    items, t, cur = [], DAY_START, hub
+    t0 = DAY_START if start is None else start
+    items, t, cur = [], t0, hub
     if ic:
         items.append({"type": "intercity", "label": ic["label"],
-                      "arrival": _fmt(DAY_START), "departure": _fmt(DAY_START + ic["hours"])})
-        t = DAY_START + ic["hours"]
+                      "arrival": _fmt(t0), "departure": _fmt(t0 + ic["hours"])})
+        t = t0 + ic["hours"]
     lunch, dinner = False, False
     for p in day_pois:
         leg = leg_time(cur, p)

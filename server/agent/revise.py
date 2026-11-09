@@ -15,7 +15,7 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 
-from ..tools import poi_search
+from ..tools import leg_time, poi_search
 from .events import EventBus
 from .narrator import narrate
 from .planner import (
@@ -25,8 +25,10 @@ from .planner import (
     DAY_START,
     MEAL_HOURS,
     POI_INDEX,
+    _apply_avoid,
     _build_timeline,
     _day_load,
+    _fmt,
     _ic_of_day,
     _order_day,
     _pick_day_pois,
@@ -129,6 +131,8 @@ def revise_plan(entry, message: str) -> dict:
     for p in cur_pois:
         p["_score"] = smap.get(p["id"], 3.0)
 
+    locked_first = None
+    start_override = None
     if action == "reduce":
         cap = base_cap * 0.8
         picked = _pick_day_pois(cur_pois, cap, hub)
@@ -137,6 +141,9 @@ def revise_plan(entry, message: str) -> dict:
         cap = base_cap * 1.15
         used = {it["poi_id"] for x in days for it in x["items"] if it["type"] == "poi"}
         extra = [p for pid, p in POI_INDEX.items() if p["city"] == city and pid not in used]
+        # 03M P1-02：加长引入的新候选必须过排斥过滤（与初次规划同款 _apply_avoid）——
+        # 此前直接从全局 POI_INDEX 取，初始被排斥的点位（如博物馆）在「加一个」时复活
+        extra = _apply_avoid(extra, list(request.avoid_tags or []))
         for p in extra:
             p["_score"] = smap.get(p["id"], 3.0)
         picked = _pick_day_pois(cur_pois + extra, cap, hub)
@@ -151,13 +158,35 @@ def revise_plan(entry, message: str) -> dict:
         target = _match_poi(cur_pois, message)
         if target is None:
             return _fallback(entry, message, f"没在第{day_no}天找到想提前的点位，请直接说景点名")
-        picked = [target] + [p for p in cur_pois if p["id"] != target["id"]]
-        reason = f"因为你说{message}，把 {target['name']} 提到当天最先"
+        picked = [p for p in cur_pois if p["id"] != target["id"]]
+        locked_first = target
+        reason = (f"因为你说{message}，把 {target['name']} 锁定为当天首站"
+                  f"（用户锁定的顺序优先于最近邻重排）")
+        # 03M P1-02（等待开门策略）：锁定首站若开门晚于正常到达，推迟出发——
+        # 而不是让 V2 违规 → fix 摘掉用户点名的点（那是第三层指令违背：
+        # 重排覆盖→容量摘除→开放窗口摘除，层层都能把「先去X」变成「X没了」）
+        leg0 = leg_time(hub, target)
+        normal_arr = DAY_START + ((ic or {}).get("hours", 0.0)) + leg0
+        open0 = (target.get("open_hour") or [0, 24])[0]
+        if open0 > normal_arr:
+            start_override = DAY_START + (open0 - normal_arr)
+            reason += (f"；{target['name']} {open0:g} 点才开门，出发推迟到 {_fmt(start_override)}"
+                       f"（等待开门，不摘你点名的点）")
 
     before_n = len(cur_pois)
-    ordered = _order_day(picked, hub)
-    ordered = _trim_to_capacity(ordered, city, ic=ic)
-    d["items"] = _build_timeline(ordered, hub, ic=ic)
+    if locked_first is not None:
+        # 03M P1-02：用户锁定的首站不得被最近邻重排覆盖——此前 [target]+rest 整体进
+        # _order_day，用户指定的顺序被贪心重排冲掉（「先去奎星楼街」首站仍是武侯祠）。
+        # 修复：锁定点固定最前，其余点从锁定点位置出发最近邻排序；
+        # 容量复核时锁定点同样受保护（protect）——低分首站不得被静默摘除；
+        # 等待开门时容量从推迟后的出发时刻起算（start）。
+        ordered = [locked_first] + _order_day(picked, locked_first)
+        ordered = _trim_to_capacity(ordered, city, ic=ic, protect=locked_first,
+                                    start=start_override)
+    else:
+        ordered = _order_day(picked, hub)
+        ordered = _trim_to_capacity(ordered, city, ic=ic)
+    d["items"] = _build_timeline(ordered, hub, ic=ic, start=start_override)
     d["load"] = _day_load(ordered, city, ic=ic)
 
     bus.emit("revise", "decision", f"第{day_no}天重排：{before_n} → {len(ordered)} 个点", reason=reason)
