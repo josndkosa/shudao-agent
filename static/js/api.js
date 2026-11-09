@@ -67,12 +67,18 @@ class LiveApi {
         for (const f of frames) {
           const line = f.split("\n").find(l => l.startsWith("data:"));
           if (line) {
-            try { onEvent(JSON.parse(line.slice(5))); } catch { /* 忽略坏帧 */ }
+            // 03M P0-02：JSON 解析失败跳过坏帧；onEvent 回调异常不吞——
+            // 此前的 try{onEvent(JSON.parse(...))}catch{} 会把渲染异常当坏帧静默吞掉
+            let ev;
+            try { ev = JSON.parse(line.slice(5)); } catch { continue; }
+            onEvent(ev);
           }
         }
       }
     };
-    pump().catch(() => onEvent({ type: "error" }));
+    // 03M P0-02：与 MockApi 同构——等流真正读完才 resolve。此前启动 pump 后立即返回，
+    // main.js 的兜底分支会在流开始前触发 api.plan() 双跑（两套管线并行、事件交错）
+    await pump().catch(() => onEvent({ type: "error" }));
     return { unsubscribe: () => ctrl.abort() };
   }
 
@@ -86,7 +92,12 @@ class LiveApi {
   }
 
   async geo(planId, city) {
-    const r = await fetch(`/api/geo?plan_id=${encodeURIComponent(planId)}&city=${encodeURIComponent(city)}`);
+    // 03M P0-01：可选参数只在有值时写入——encodeURIComponent(null) 会变成字符串 "null"，
+    // 后端把它当城市名过滤 → 返回 0 城 0 点，真实后端首开地图空白（Mock 路径不经过后端，不暴露）
+    const u = new URLSearchParams();
+    if (planId) u.set("plan_id", planId);
+    if (city) u.set("city", city);
+    const r = await fetch(`/api/geo?${u.toString()}`);
     if (!r.ok) throw new Error(`geo ${r.status}`);
     return r.json();
   }

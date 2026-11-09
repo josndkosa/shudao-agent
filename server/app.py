@@ -128,8 +128,11 @@ def _build_geo(city: str | None = None) -> dict:
 
     城市集合 = 当前有 POI 快照的城市（meta 顺序），前端按行程涉及城市动态渲染图幅。
     city_meta 为每城图幅注记行（如 "CHENGDU · 30.67°N 104.07°E"）。
+    历史客户端兼容（03M P0-01）：字符串 "null"/"undefined"/"" 视为未指定——
+    旧前端 encodeURIComponent(null) 会把 null 变成字符串 "null"，不能当城市名过滤。
     """
-
+    if city in ("null", "undefined", ""):
+        city = None
     meta = _load_meta()
     lines = {c: v["line"] for c, v in meta["city_info"].items()}
     poi_cities = {p["city"] for p in load_pois()}
@@ -197,19 +200,33 @@ async def stream(req: PlanRequest, request: Request):
     （旧路径 plan + stream 各跑一次独立管线，temperature 0.3 非确定性下行程卡与事件流
     描述的是两个不同的行程）。plan_id 随流缓存，/api/revise 依赖它。
     """
-    q: asyncio.Queue = asyncio.Queue()
+    q: asyncio.Queue = asyncio.Queue(maxsize=500)
+    loop = asyncio.get_running_loop()
 
     def on_event(ev: dict):
-        q.put_nowait(ev)
+        # 03M P0-05：后台线程不能直调 asyncio.Queue.put_nowait（违反线程契约）——
+        # 经 call_soon_threadsafe 回事件循环入队；队列满时丢帧保流（不堵死管线）
+        def _put():
+            try:
+                q.put_nowait(ev)
+            except asyncio.QueueFull:
+                pass
+        loop.call_soon_threadsafe(_put)
 
     def run_and_signal():
-        bus = EventBus(on_emit=on_event)
-        result = run_pipeline(_to_trip(req), bus)
-        plan_id = _cache_plan(req, result, bus)
-        q.put_nowait({"type": "plan_result", "plan_id": plan_id,
+        # 03M P0-05：try/except/finally 保证终态——管线异常时也必须收尾，
+        # 否则队列永远没有 stream_end，客户端一直处于「实时接收中」
+        try:
+            bus = EventBus(on_emit=on_event)
+            result = run_pipeline(_to_trip(req), bus)
+            plan_id = _cache_plan(req, result, bus)
+            on_event({"type": "plan_result", "plan_id": plan_id,
                       "itinerary": result["itinerary"], "budget": result["budget"],
                       "mode": result["mode"]})
-        q.put_nowait({"type": "stream_end"})   # 流结束哨兵：与业务 done 事件（narrate/system）区分
+        except Exception as e:
+            on_event({"type": "error", "message": f"{type(e).__name__}: {e}"})
+        finally:
+            on_event({"type": "stream_end"})   # 流结束哨兵：与业务 done 事件（narrate/system）区分
 
     asyncio.get_running_loop().run_in_executor(None, run_and_signal)
 

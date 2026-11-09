@@ -71,7 +71,7 @@ export function renderReport({ itinerary, timeline, meta = {} }) {
   L.push(`- 天数：${days.length} 天`);
   L.push(`- 城市序列：${cities.join(" → ") || "—"}`);
   L.push(`- 偏好标签：${tags.join("、") || "—"}`);
-  L.push(`- 预算上限：${userBudget ? `¥${userBudget}` : "—"}（实际总花费见第 5 节）`);
+  L.push(`- 预算上限：${userBudget ? `¥${userBudget}` : "—"}（预估总花费见第 5 节）`);
   L.push(`- 引擎模式：${mode}（offline=离线确定性管线 / online=DeepSeek 在线规划）`, "");
 
   // ── 2. 逐日行程 ──
@@ -136,7 +136,15 @@ export function renderReport({ itinerary, timeline, meta = {} }) {
          `| ${money(budget.tickets)} | ${money(budget.meals)} | ${money(budget.transit)} ` +
          `| ${money(budget.total)} | ${money(budget.per_day)} |`);
   if (userBudget) {
-    L.push("", `实际总花费 ${money(budget.total)} / 预算上限 ¥${userBudget}（V4 预算校验通过）`);
+    // 03M P0-04：与 server/agent/report.py 同规则——结论反映真实状态，不无条件写「通过」；
+    // 费用为估算，统一用「预估」而非「实际总花费」
+    const over = Math.round(((budget.total || 0) - parseInt(userBudget, 10)) * 10) / 10;
+    const residual = timeline.some(ev => ev.type === "done" && ev.stage === "validate"
+                                   && (ev.title || "").includes("残留"));
+    const verdict = over > 0 ? `超出预算 ¥${over}，未通过 V4 预算校验`
+      : residual ? "预算内，但校验段仍有硬违规残留（如实标注）"
+      : "V4 预算校验通过";
+    L.push("", `预估总花费 ${money(budget.total)} / 预算上限 ¥${userBudget}（${verdict}）`);
   }
   L.push("");
 

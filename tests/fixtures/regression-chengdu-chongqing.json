@@ -1,140 +1,141 @@
 {
- "days": [
-  {
-   "day": 1,
-   "city": "成都",
-   "pois": [
+  "_note": "2026-11-09 重生成：03M P0-03 餐点不重叠修复（午餐/晚餐从固定钟点改为不早于前一活动结束时间）导致后续点位时刻后移——这是修复「武侯祠 10:10-12:10 与午餐 12:00 重叠」这类不可执行时间表的预期结果，点位/负载/预算不变。",
+  "days": [
     {
-     "id": "CD-09",
-     "arr": "08:32",
-     "dep": "10:02"
+      "day": 1,
+      "city": "成都",
+      "pois": [
+        {
+          "id": "CD-09",
+          "arr": "08:32",
+          "dep": "10:02"
+        },
+        {
+          "id": "CD-03",
+          "arr": "10:10",
+          "dep": "12:10"
+        },
+        {
+          "id": "CD-14",
+          "arr": "13:10",
+          "dep": "15:40"
+        },
+        {
+          "id": "CD-01",
+          "arr": "15:54",
+          "dep": "18:24"
+        },
+        {
+          "id": "CD-22",
+          "arr": "19:24",
+          "dep": "20:54"
+        }
+      ],
+      "load": {
+        "hours": 13.35,
+        "intensity": 5.8,
+        "tickets": 120
+      }
     },
     {
-     "id": "CD-03",
-     "arr": "10:10",
-     "dep": "12:10"
+      "day": 2,
+      "city": "成都",
+      "pois": [
+        {
+          "id": "CD-12",
+          "arr": "08:37",
+          "dep": "09:37"
+        },
+        {
+          "id": "CD-02",
+          "arr": "09:44",
+          "dep": "11:44"
+        },
+        {
+          "id": "CD-17",
+          "arr": "13:00",
+          "dep": "14:30"
+        },
+        {
+          "id": "CD-16",
+          "arr": "15:03",
+          "dep": "16:33"
+        },
+        {
+          "id": "CD-07",
+          "arr": "17:04",
+          "dep": "19:34"
+        }
+      ],
+      "load": {
+        "hours": 12.46,
+        "intensity": 5.6,
+        "tickets": 10
+      }
     },
     {
-     "id": "CD-14",
-     "arr": "13:00",
-     "dep": "15:30"
-    },
-    {
-     "id": "CD-01",
-     "arr": "15:44",
-     "dep": "18:14"
-    },
-    {
-     "id": "CD-22",
-     "arr": "19:00",
-     "dep": "20:30"
+      "day": 3,
+      "city": "重庆",
+      "pois": [
+        {
+          "id": "CQ-11",
+          "arr": "10:21",
+          "dep": "11:21"
+        },
+        {
+          "id": "CQ-03",
+          "arr": "13:00",
+          "dep": "16:00"
+        },
+        {
+          "id": "CQ-01",
+          "arr": "16:39",
+          "dep": "18:39"
+        },
+        {
+          "id": "CQ-07",
+          "arr": "19:39",
+          "dep": "21:09"
+        }
+      ],
+      "load": {
+        "hours": 13.36,
+        "intensity": 12.2,
+        "tickets": 60
+      }
     }
-   ],
-   "load": {
-    "hours": 13.35,
-    "intensity": 5.8,
-    "tickets": 120
-   }
+  ],
+  "budget": {
+    "tickets": 190,
+    "meals": 360,
+    "transit": 259,
+    "total": 809,
+    "per_day": 269.7
   },
-  {
-   "day": 2,
-   "city": "成都",
-   "pois": [
-    {
-     "id": "CD-12",
-     "arr": "08:37",
-     "dep": "09:37"
-    },
-    {
-     "id": "CD-02",
-     "arr": "09:44",
-     "dep": "11:44"
-    },
-    {
-     "id": "CD-17",
-     "arr": "13:00",
-     "dep": "14:30"
-    },
-    {
-     "id": "CD-16",
-     "arr": "15:03",
-     "dep": "16:33"
-    },
-    {
-     "id": "CD-07",
-     "arr": "17:04",
-     "dep": "19:34"
-    }
-   ],
-   "load": {
-    "hours": 12.46,
-    "intensity": 5.6,
-    "tickets": 10
-   }
-  },
-  {
-   "day": 3,
-   "city": "重庆",
-   "pois": [
-    {
-     "id": "CQ-11",
-     "arr": "10:21",
-     "dep": "11:21"
-    },
-    {
-     "id": "CQ-03",
-     "arr": "13:00",
-     "dep": "16:00"
-    },
-    {
-     "id": "CQ-01",
-     "arr": "16:39",
-     "dep": "18:39"
-    },
-    {
-     "id": "CQ-07",
-     "arr": "19:00",
-     "dep": "20:30"
-    }
-   ],
-   "load": {
-    "hours": 13.36,
-    "intensity": 12.2,
-    "tickets": 60
-   }
-  }
- ],
- "budget": {
-  "tickets": 190,
-  "meals": 360,
-  "transit": 259,
-  "total": 809,
-  "per_day": 269.7
- },
- "timeline_count": 23,
- "timeline_types": [
-  "start",
-  "start",
-  "thought",
-  "tool_call",
-  "tool_result",
-  "tool_call",
-  "tool_result",
-  "decision",
-  "tool_call",
-  "tool_result",
-  "decision",
-  "decision",
-  "decision",
-  "tool_call",
-  "tool_result",
-  "start",
-  "advisory",
-  "pass",
-  "start",
-  "done",
-  "done",
-  "done",
-  "done"
- ]
+  "timeline_count": 23,
+  "timeline_types": [
+    "start",
+    "start",
+    "thought",
+    "tool_call",
+    "tool_result",
+    "tool_call",
+    "tool_result",
+    "decision",
+    "tool_call",
+    "tool_result",
+    "decision",
+    "decision",
+    "decision",
+    "tool_call",
+    "tool_result",
+    "start",
+    "advisory",
+    "pass",
+    "start",
+    "done",
+    "done",
+    "done",
+    "done"
+  ]
 }

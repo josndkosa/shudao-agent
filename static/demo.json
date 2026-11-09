@@ -61,16 +61,16 @@
           {
             "type": "meal",
             "label": "午餐",
-            "arrival": "12:00",
-            "departure": "13:00"
+            "arrival": "12:10",
+            "departure": "13:10"
           },
           {
             "type": "poi",
             "poi_id": "CD-14",
             "name": "金沙遗址博物馆",
             "city": "成都",
-            "arrival": "13:00",
-            "departure": "15:30",
+            "arrival": "13:10",
+            "departure": "15:40",
             "leg_hours": 0.25,
             "visit_hours": 2.5,
             "ticket": 70,
@@ -89,8 +89,8 @@
             "poi_id": "CD-01",
             "name": "宽窄巷子",
             "city": "成都",
-            "arrival": "15:44",
-            "departure": "18:14",
+            "arrival": "15:54",
+            "departure": "18:24",
             "leg_hours": 0.24,
             "visit_hours": 2.5,
             "ticket": 0,
@@ -108,16 +108,16 @@
           {
             "type": "meal",
             "label": "晚餐",
-            "arrival": "18:00",
-            "departure": "19:00"
+            "arrival": "18:24",
+            "departure": "19:24"
           },
           {
             "type": "poi",
             "poi_id": "CD-22",
             "name": "玉林路·小酒馆",
             "city": "成都",
-            "arrival": "19:00",
-            "departure": "20:30",
+            "arrival": "19:24",
+            "departure": "20:54",
             "leg_hours": 0.19,
             "visit_hours": 1.5,
             "ticket": 0,
@@ -364,16 +364,16 @@
           {
             "type": "meal",
             "label": "晚餐",
-            "arrival": "18:00",
-            "departure": "19:00"
+            "arrival": "18:39",
+            "departure": "19:39"
           },
           {
             "type": "poi",
             "poi_id": "CQ-07",
             "name": "南山一棵树观景台",
             "city": "重庆",
-            "arrival": "19:00",
-            "departure": "20:30",
+            "arrival": "19:39",
+            "departure": "21:09",
             "leg_hours": 0.18,
             "visit_hours": 1.5,
             "ticket": 30,

@@ -395,7 +395,10 @@ async function boot() {
   const h = await api.health();   // 懒选择在此触发
   setBadge(h);
   await loadGeo();
-  buildCityPicker();              // 城市多选（不阻塞首屏）
+  // 03M P2：必须 await 建完城市选框再回填参数——此前 buildCityPicker() 未 await，
+  // applyParams 时 #p-cities 的 checkbox 可能尚未创建，URL 里的 cities 被静默丢弃
+  // （真实网络下尤为明显：api.meta() 是异步的，勾选框晚于参数回填出现）
+  await buildCityPicker();
   const q = restoreParams();
   applyParams(q);
 

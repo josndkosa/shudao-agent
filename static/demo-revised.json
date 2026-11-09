@@ -55,16 +55,16 @@
           {
             "type": "meal",
             "label": "午餐",
-            "arrival": "12:00",
-            "departure": "13:00"
+            "arrival": "13:21",
+            "departure": "14:21"
           },
           {
             "type": "poi",
             "poi_id": "CD-01",
             "name": "宽窄巷子",
             "city": "成都",
-            "arrival": "13:35",
-            "departure": "16:05",
+            "arrival": "14:21",
+            "departure": "16:51",
             "leg_hours": 0.24,
             "visit_hours": 2.5,
             "ticket": 0,
@@ -81,8 +81,8 @@
             "poi_id": "CD-17",
             "name": "奎星楼街",
             "city": "成都",
-            "arrival": "16:06",
-            "departure": "17:36",
+            "arrival": "16:52",
+            "departure": "18:22",
             "leg_hours": 0.02,
             "visit_hours": 1.5,
             "ticket": 0,
@@ -95,8 +95,8 @@
           {
             "type": "meal",
             "label": "晚餐",
-            "arrival": "17:36",
-            "departure": "18:36"
+            "arrival": "18:22",
+            "departure": "19:22"
           }
         ],
         "load": {
@@ -290,16 +290,16 @@
           {
             "type": "meal",
             "label": "午餐",
-            "arrival": "12:00",
-            "departure": "13:00"
+            "arrival": "12:20",
+            "departure": "13:20"
           },
           {
             "type": "poi",
             "poi_id": "CQ-07",
             "name": "南山一棵树观景台",
             "city": "重庆",
-            "arrival": "13:00",
-            "departure": "14:30",
+            "arrival": "13:20",
+            "departure": "14:50",
             "leg_hours": 0.18,
             "visit_hours": 1.5,
             "ticket": 30,
@@ -317,8 +317,8 @@
             "poi_id": "CQ-04",
             "name": "长江索道",
             "city": "重庆",
-            "arrival": "14:39",
-            "departure": "16:09",
+            "arrival": "14:59",
+            "departure": "16:29",
             "leg_hours": 0.14,
             "visit_hours": 1.5,
             "ticket": 30,
@@ -337,8 +337,8 @@
             "poi_id": "CQ-02",
             "name": "解放碑步行街",
             "city": "重庆",
-            "arrival": "16:11",
-            "departure": "17:41",
+            "arrival": "16:32",
+            "departure": "18:02",
             "leg_hours": 0.05,
             "visit_hours": 1.5,
             "ticket": 0,
@@ -353,12 +353,18 @@
             "summary": "抗战精神堡垒原址，八一路好吃街的酸辣粉从街头排到街尾"
           },
           {
+            "type": "meal",
+            "label": "晚餐",
+            "arrival": "18:02",
+            "departure": "19:02"
+          },
+          {
             "type": "poi",
             "poi_id": "CQ-13",
             "name": "北仓文创园",
             "city": "重庆",
-            "arrival": "17:52",
-            "departure": "19:22",
+            "arrival": "19:02",
+            "departure": "20:32",
             "leg_hours": 0.19,
             "visit_hours": 1.5,
             "ticket": 0,
@@ -369,12 +375,6 @@
               "基础候选"
             ],
             "summary": "老纺织仓库改造的社区图书馆式文创空间，闹中取静"
-          },
-          {
-            "type": "meal",
-            "label": "晚餐",
-            "arrival": "19:22",
-            "departure": "20:22"
           }
         ],
         "load": {
@@ -620,14 +620,14 @@
       "stage": "validate",
       "type": "violation",
       "title": "[V2-open-window] 第1天",
-      "reason": "排 16.3-17.8h 但开放 19-24h",
+      "reason": "排 17.0-18.5h 但开放 19-24h",
       "detail": {
         "detail": {
           "rule": "V2-open-window",
           "severity": "hard",
           "day": 1,
           "poi": "CD-22",
-          "detail": "排 16.3-17.8h 但开放 19-24h",
+          "detail": "排 17.0-18.5h 但开放 19-24h",
           "fix_hint": "drop"
         }
       }
@@ -645,7 +645,7 @@
       "stage": "plan",
       "type": "fix",
       "title": "第1天移除 玉林路·小酒馆",
-      "reason": "开放时间冲突：排 16.3-17.8h 但开放 19-24h",
+      "reason": "开放时间冲突：排 17.0-18.5h 但开放 19-24h",
       "detail": {
         "violation": "V2-open-window",
         "removed": [

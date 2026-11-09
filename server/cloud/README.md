@@ -9,7 +9,7 @@
 |---|---|---|---|---|
 | `obs.py` | OBS 对象存储 | `OBS_ENDPOINT` / `OBS_BUCKET` / `OBS_AK` / `OBS_SK` 四个环境变量齐全（可选 `OBS_REGION`，默认 cn-north-4） | `save_plan()` 返回 `{"enabled": false, "reason": "未配置 OBS 环境变量，已跳过"}` | `POST /api/plan/{plan_id}/save` → 返回 `enabled`/`ok`/`url` |
 | `functiongraph.py` | FunctionGraph 函数计算 | 环境变量 `FG_WEATHER_URL` 存在 | 返回 None → `weather()` 静默回落本地快照（source=local-snapshot） | 规划事件的 `weather` tool_result 中 `source` 字段 |
-| （仓库本身） | CodeArts Repo / 流水线 | — | — | CI 已脚本化（`scripts/ci.sh` / `ci.bat` / `python scripts/ctl.py ci`），可直接接入华为云 CodeArts 流水线；提交历史 `[prompt NN]` 即码道使用轨迹 |
+| （仓库本身） | CodeArts Repo / 流水线 | — | — | CI 已脚本化，**唯一入口** `python scripts/ctl.py ci`，可直接接入华为云 CodeArts 流水线；提交历史 `[prompt NN]` 即码道使用轨迹 |
 
 ## 设计边界（答辩口径）
 

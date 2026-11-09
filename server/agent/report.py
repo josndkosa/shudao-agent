@@ -112,7 +112,7 @@ def render_report(itinerary: dict, timeline: list[dict], meta: dict | None = Non
     L.append(f"- 城市序列：{' → '.join(cities) if cities else '—'}")
     L.append(f"- 偏好标签：{'、'.join(tags) if tags else '—'}")
     L.append(f"- 预算上限：{f'¥{user_budget}' if user_budget else '—'}"
-             f"（实际总花费见第 5 节）")
+             f"（预估总花费见第 5 节）")
     L.append(f"- 引擎模式：{mode}（offline=离线确定性管线 / online=DeepSeek 在线规划）")
     L.append("")
 
@@ -193,9 +193,21 @@ def render_report(itinerary: dict, timeline: list[dict], meta: dict | None = Non
              f"| {_fmt_money(budget.get('transit'))} | {_fmt_money(budget.get('total'))} "
              f"| {_fmt_money(budget.get('per_day'))} |")
     if user_budget:
+        # 03M P0-04：结论必须反映真实状态，不许无条件写「通过」——
+        # ① 总花费超上限 → 报超额与差额；② 校验段有「仍残留违规」done 事件 → 如实标注；
+        # ③ 费用是本地快照+固定费率估算，统一用「预估」而非「实际总花费」。
+        total_v = budget.get("total") or 0
+        over = round(total_v - int(user_budget), 1)
+        residual = any(ev.get("type") == "done" and ev.get("stage") == "validate"
+                       and "残留" in ev.get("title", "") for ev in timeline)
+        if over > 0:
+            verdict = f"超出预算 ¥{over}，未通过 V4 预算校验"
+        elif residual:
+            verdict = "预算内，但校验段仍有硬违规残留（如实标注）"
+        else:
+            verdict = "V4 预算校验通过"
         L.append("")
-        L.append(f"实际总花费 {_fmt_money(budget.get('total'))} / 预算上限 ¥{user_budget}"
-                 f"（V4 预算校验通过）")
+        L.append(f"预估总花费 {_fmt_money(total_v)} / 预算上限 ¥{user_budget}（{verdict}）")
     L.append("")
 
     # ── 6. 数据与版本 ──

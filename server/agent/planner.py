@@ -245,9 +245,13 @@ def _trim_to_capacity(ordered, city, ic=None):
 
 
 def _build_timeline(day_pois, hub, ic=None):
-    """时间线推算：逐点累加交通+游玩，12:00 午餐 / 18:00 晚餐各 1h。
+    """时间线推算：逐点累加交通+游玩，午餐/晚餐各 1h。
 
     ic 为城际段参数（{"hours": ..., "label": ...}）或 None；跨城日以城际车次开场。
+
+    餐点不得早于前一活动结束时间（03M P0-03）：此前固定写 12:00/18:00，
+    前一活动若 12:10 才结束（如武侯祠 10:10–12:10），午餐 12:00 就与它重叠——
+    不可执行的时间表却被判通过。改为 max(窗口起点, t) 起算，t=前一活动结束。
     """
     items, t, cur = [], DAY_START, hub
     if ic:
@@ -260,12 +264,16 @@ def _build_timeline(day_pois, hub, ic=None):
         arrival = t + leg
         if not lunch and arrival > 12.0 - p["visit_hours"] * 0.2:
             lunch = True
-            items.append({"type": "meal", "label": "午餐", "arrival": "12:00", "departure": "13:00"})
-            arrival = max(arrival, 13.0)
+            lunch_start = max(12.0, t)   # t=前一活动结束：午餐不得与之重叠
+            items.append({"type": "meal", "label": "午餐",
+                          "arrival": _fmt(lunch_start), "departure": _fmt(lunch_start + 1.0)})
+            arrival = max(arrival, lunch_start + 1.0)
         if not dinner and arrival > 18.0:
             dinner = True
-            items.append({"type": "meal", "label": "晚餐", "arrival": "18:00", "departure": "19:00"})
-            arrival = max(arrival, 19.0)
+            dinner_start = max(18.0, t)   # 同理：晚餐不得早于前一活动结束
+            items.append({"type": "meal", "label": "晚餐",
+                          "arrival": _fmt(dinner_start), "departure": _fmt(dinner_start + 1.0)})
+            arrival = max(arrival, dinner_start + 1.0)
         departure = arrival + p["visit_hours"]
         items.append({
             "type": "poi", "poi_id": p["id"], "name": p["name"], "city": p["city"],
@@ -329,6 +337,15 @@ def offline_plan(request, bus: EventBus):
         bus.emit("plan", "fallback", "无匹配候选", reason="偏好过滤后为空，放宽标签重试")
         # 放宽只针对「喜欢」标签——排斥标签（avoid_tags）是硬约束，重试里也保持排除
         pools = {c: _apply_avoid(poi_search(city=c)["pois"], request.avoid_tags) for c in pools}
+    if all(not pools[c] for c in pools):
+        # 03M P0-05：排斥硬约束下重试仍为空——不可行请求如实收尾：
+        # 不静默放宽排斥标签、不继续走分天/预算（budget(0) 曾在此除零崩溃）。
+        # 返回空行程 + 明确事件，由校验/叙事段对空 days 自然消化（不崩）。
+        bus.emit("plan", "fallback", "候选为空，无法规划",
+                 reason=f"偏好与排斥条件过滤后没有任何可安排的点位"
+                        f"（排斥：{'、'.join(request.avoid_tags) or '无'}）；请减少排斥条件或更换城市")
+        return {"days": [], "budget": {"tickets": 0, "meals": 0, "transit": 0,
+                                       "total": 0, "per_day": 0.0}}
 
     alloc = _allocate_days(request.days, pools)
     alloc_desc = "、".join(f"{c}{n}天" for c, n in alloc.items())

@@ -63,6 +63,19 @@ def _cn2int(s: str):
     return CN_NUM.get(s)
 
 
+# 03M P1-04：明确否定亲子模式的短语——「不带娃」「不要亲子」必须解析为 False。
+# 注意「一个人」不进否定词表：「一个人带娃去」仍是亲子，不能误判。
+NEG_FAMILY = ("不带娃", "不要亲子", "不带孩子", "不带小孩", "不要孩子",
+              "没有孩子", "没有小孩", "不是亲子")
+
+
+def _family_of(text: str) -> bool:
+    """亲子模式判定：明确否定短语优先于关键词命中。"""
+    if any(w in text for w in NEG_FAMILY):
+        return False
+    return any(w in text for w in FAMILY_WORDS)
+
+
 def _controlled_tags():
     """受控标签词表全集 = tag_aliases 所有映射目标的并集（expand_tags 只做别名映射、
     未知词原样透传，所以归一后还要过滤一道，不让任何自造标签进打分管线）。"""
@@ -218,7 +231,15 @@ def _cn_amount(s: str):
         return int(s)
     last_unit = 10000 if "万" in s else (1000 if "千" in s else 0)
     total = num = 0
+    arabic = ""   # 连续阿拉伯数字缓冲（03M P1-04：此前「2千」的「2」不在中文数字表，
+                  # 走 else 直接 return None →「预算2千」解析失败 budget=None）
     for ch in s:
+        if ch.isdigit():
+            arabic += ch
+            continue
+        if arabic:
+            num = int(arabic)
+            arabic = ""
         if ch in CN_DIGIT:
             num = CN_DIGIT[ch]
         elif ch == "万":
@@ -237,6 +258,8 @@ def _cn_amount(s: str):
             continue
         else:
             return None
+    if arabic:
+        num = int(arabic)
     if num and last_unit:               # 尾部裸数字：按低一级单位（一万五 → +5000）
         num = num * (last_unit // 10)
     return (total + num) if (total or num) else None
@@ -342,7 +365,7 @@ def _parse_rules(text: str) -> dict:
     if b:
         raw["budget"] = b
 
-    raw["family"] = any(w in text for w in FAMILY_WORDS)
+    raw["family"] = _family_of(text)
 
     hits = []
     for t in _ensure_aliases():
@@ -350,18 +373,23 @@ def _parse_rules(text: str) -> dict:
             hits.append((text.find(t), t))
     raw["tags"] = [t for _, t in sorted(hits)]   # 按用户说到的先后序
 
-    cities = []
-    rest = text
-    for c in meta["cities"]:                      # 全名优先（按 meta 顺序）
-        if c in rest:
-            cities.append(c)
-            rest = rest.replace(c, "，")
+    # 03M P1-04：城市按**文本中出现顺序**（先说先走），不是 meta 表顺序——
+    # 「先去重庆再去成都」应按用户表达排为 [重庆, 成都]，此前按 meta 顺序恒为 [成都, 重庆]。
+    # 全名优先；别名只补全名未命中的城（沿用原语义，含「成渝」这类简称命中）
+    found: dict[str, int] = {}
+    for c in meta["cities"]:
+        i = text.find(c)
+        if i >= 0:
+            found[c] = i
     for c, aliases in meta.get("city_aliases", {}).items():
-        if c in cities:
+        if c in found:
             continue
-        if any(a in rest for a in aliases):       # 别名只补全名未命中的城
-            cities.append(c)
-    raw["cities"] = cities
+        for a in aliases:
+            i = text.find(a)
+            if i >= 0:
+                found[c] = i
+                break
+    raw["cities"] = [c for c, _ in sorted(found.items(), key=lambda kv: kv[1])]
 
     for pat in ORIGIN_PATTERNS:
         m = pat.search(text)

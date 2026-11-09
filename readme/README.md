@@ -7,7 +7,7 @@
 
 ## 1. 环境依赖说明 + 一键安装
 
-**运行环境**：Python ≥ 3.10（Windows / macOS / Linux 均可）；Node ≥ 18（仅前端冒烟脚本用，非运行必需）。
+**运行环境**：Python ≥ 3.10（Windows / macOS / Linux 均可）；Node ≥ 20.11（仅前端冒烟脚本用，非运行必需；`import.meta.dirname` 需要此版本）。
 
 **核心依赖**（**实测版本、按 `requirements.txt` 锁死 `==`**——干净 venv 安装即复现本表；
 完整清单与许可证逐包核对见 `project/docs/baseline/deps.md`）：

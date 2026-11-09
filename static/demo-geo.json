@@ -2542,5 +2542,3430 @@
       "x": 173.9,
       "y": 338.3
     }
+  ],
+  "乐山": [
+    {
+      "id": "LS-01",
+      "name": "乐山大佛",
+      "city": "乐山",
+      "lat": 29.5446,
+      "lng": 103.7718,
+      "tags": [
+        "佛教",
+        "奇观",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        8,
+        18.5
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "713年开凿的71米弥勒坐佛，三江汇流处凿山而成，九曲栈道贴佛脚俯瞰大渡河青衣江岷江交汇",
+      "x": 742.6,
+      "y": 343.2
+    },
+    {
+      "id": "LS-02",
+      "name": "峨眉山金顶",
+      "city": "乐山",
+      "lat": 29.5219,
+      "lng": 103.3305,
+      "tags": [
+        "雪山",
+        "佛教",
+        "徒步",
+        "自然"
+      ],
+      "ticket": 160,
+      "open_hour": [
+        6,
+        17
+      ],
+      "slope": 3,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "海拔3079米的十方普贤金像与云海日出，索道直达但山顶常年比市区低15度要带外套",
+      "x": 60.0,
+      "y": 376.3
+    },
+    {
+      "id": "LS-03",
+      "name": "峨眉山报国寺",
+      "city": "乐山",
+      "lat": 29.5551,
+      "lng": 103.3386,
+      "tags": [
+        "佛教",
+        "宗教",
+        "园林"
+      ],
+      "ticket": 8,
+      "open_hour": [
+        7,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "峨眉山门户第一寺，康熙御题匾额仍在，山门外的峨眉山博物馆可免费先做功课",
+      "x": 72.5,
+      "y": 327.9
+    },
+    {
+      "id": "LS-04",
+      "name": "张公桥美食街",
+      "city": "乐山",
+      "lat": 29.5528,
+      "lng": 103.7656,
+      "tags": [
+        "夜市",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        17,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "乐山味道的总部的总部，跷脚牛肉钵钵鸡甜皮鸭油炸串串一条街吃完，本地人从桥头吃到桥尾",
+      "x": 733.0,
+      "y": 331.3
+    },
+    {
+      "id": "LS-05",
+      "name": "上中顺步行街",
+      "city": "乐山",
+      "lat": 29.5577,
+      "lng": 103.7661,
+      "tags": [
+        "街区",
+        "美食",
+        "文创"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "老城墙下的仿古街区，白天网红店拍照晚上灯笼亮起，乐山夜景最出片的一条街",
+      "x": 733.8,
+      "y": 324.1
+    },
+    {
+      "id": "LS-06",
+      "name": "东方佛都",
+      "city": "乐山",
+      "lat": 29.5377,
+      "lng": 103.7727,
+      "tags": [
+        "佛教",
+        "奇观",
+        "艺术"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "大佛对岸的佛像雕塑公园，170米卧佛横陈山体，仿石窟艺术适合拍人像大片",
+      "x": 744.0,
+      "y": 353.3
+    },
+    {
+      "id": "LS-07",
+      "name": "乌木苑博物馆",
+      "city": "乐山",
+      "lat": 29.5944,
+      "lng": 103.7529,
+      "tags": [
+        "博物馆",
+        "奇观",
+        "历史文化"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "阴沉木（乌木）雕刻的主题馆，埋藏数千年不腐的木头被雕成《西游记》全景，雨天好去处",
+      "x": 713.4,
+      "y": 270.6
+    },
+    {
+      "id": "LS-08",
+      "name": "苏稽古镇",
+      "city": "乐山",
+      "lat": 29.5764,
+      "lng": 103.7026,
+      "tags": [
+        "古镇",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "跷脚牛肉的发源地，峨眉河石桥两岸牛肉馆一字排开，周记翘脚牛肉中午要排队",
+      "x": 635.6,
+      "y": 296.9
+    },
+    {
+      "id": "LS-09",
+      "name": "罗城古镇",
+      "city": "乐山",
+      "lat": 29.4409,
+      "lng": 103.8994,
+      "tags": [
+        "古镇",
+        "历史文化",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "船形街的老镇，整条凉厅街修成一只船的样子，老茶客竹椅盖碗茶从早坐到晚",
+      "x": 940.0,
+      "y": 494.4
+    },
+    {
+      "id": "LS-10",
+      "name": "老霄顶",
+      "city": "乐山",
+      "lat": 29.5543,
+      "lng": 103.7603,
+      "tags": [
+        "历史文化",
+        "徒步",
+        "园林"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "乐山古城墙内最高点，万寿观与丁东街民居环绕，本地老人晨练的秘诀据点",
+      "x": 724.8,
+      "y": 329.1
+    },
+    {
+      "id": "LS-11",
+      "name": "嘉定坊",
+      "city": "乐山",
+      "lat": 29.5654,
+      "lng": 103.7682,
+      "tags": [
+        "街区",
+        "夜景",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "古嘉州城门复建的牌坊街，夜灯笼串起城楼与戏台，从大佛景区出来顺路就到",
+      "x": 737.1,
+      "y": 312.9
+    },
+    {
+      "id": "LS-12",
+      "name": "嘉阳小火车",
+      "city": "乐山",
+      "lat": 29.341,
+      "lng": 103.889,
+      "tags": [
+        "奇观",
+        "亲子",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        9,
+        16.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "世界上还在运营的窄轨蒸汽小火车，三月油菜花季穿过花海鸣笛喷蒸汽，全国唯一",
+      "x": 923.9,
+      "y": 640.0
+    },
+    {
+      "id": "LS-13",
+      "name": "夹江千佛岩",
+      "city": "乐山",
+      "lat": 29.7389,
+      "lng": 103.571,
+      "tags": [
+        "佛教",
+        "历史文化",
+        "山水"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "青衣江畔162窟2400余尊摩崖造像，聚贤街古驿站与清代手工造纸遗址同在一条栈道",
+      "x": 432.0,
+      "y": 60.0
+    },
+    {
+      "id": "LS-14",
+      "name": "沫若戏剧文创园",
+      "city": "乐山",
+      "lat": 29.5605,
+      "lng": 103.7538,
+      "tags": [
+        "文创",
+        "艺术",
+        "亲子"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9.5,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "郭沫若故乡的戏剧主题园区，老工业厂房改造，周末偶有小剧场演出适合遛娃",
+      "x": 714.8,
+      "y": 320.0
+    },
+    {
+      "id": "LS-15",
+      "name": "平羌小三峡",
+      "city": "乐山",
+      "lat": 29.658,
+      "lng": 103.823,
+      "tags": [
+        "山水",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "李白峨眉山月半轮秋写的就是这里，犁头峡背峨峡平羌峡的江水清得能数石头",
+      "x": 821.8,
+      "y": 177.9
+    }
+  ],
+  "阆中": [
+    {
+      "id": "LZ-01",
+      "name": "阆中古城",
+      "city": "阆中",
+      "lat": 31.5805,
+      "lng": 105.9775,
+      "tags": [
+        "古镇",
+        "历史文化",
+        "街区",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "嘉陵江三面环绕的千年古城，唐宋格局明清院落保存完整，张飞牛肉与保宁醋的味道满街都是",
+      "x": 758.6,
+      "y": 165.8
+    },
+    {
+      "id": "LZ-02",
+      "name": "汉桓侯祠（张飞庙）",
+      "city": "阆中",
+      "lat": 31.5789,
+      "lng": 105.9783,
+      "tags": [
+        "历史文化",
+        "古镇"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "张飞镇守阆中七年的墓地与祠庙，千年古柏与敌万楼匾额，三国迷的朝圣地",
+      "x": 768.4,
+      "y": 176.8
+    },
+    {
+      "id": "LZ-03",
+      "name": "川北道贡院",
+      "city": "阆中",
+      "lat": 31.5812,
+      "lng": 105.9768,
+      "tags": [
+        "历史文化",
+        "博物馆"
+      ],
+      "ticket": 35,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "全国保存最完整的清代科举考场，至公堂与号舍原样陈列，还能换考生服体验一场乡试",
+      "x": 749.9,
+      "y": 160.9
+    },
+    {
+      "id": "LZ-04",
+      "name": "中天楼",
+      "city": "阆中",
+      "lat": 31.5806,
+      "lng": 105.9781,
+      "tags": [
+        "建筑",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 25,
+      "open_hour": [
+        9,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "古城正中心的过街楼，东西南北四条街在此十字交汇，登楼看青瓦连片的风水棋盘",
+      "x": 766.0,
+      "y": 165.1
+    },
+    {
+      "id": "LZ-05",
+      "name": "华光楼",
+      "city": "阆中",
+      "lat": 31.5771,
+      "lng": 105.9812,
+      "tags": [
+        "建筑",
+        "夜景",
+        "摄影"
+      ],
+      "ticket": 20,
+      "open_hour": [
+        9,
+        20
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "古城临江第一楼，楼下石阶就是老码头，傍晚灯亮后江面倒影与楼影连成一线",
+      "x": 804.2,
+      "y": 189.3
+    },
+    {
+      "id": "LZ-06",
+      "name": "锦屏山",
+      "city": "阆中",
+      "lat": 31.5674,
+      "lng": 105.9801,
+      "tags": [
+        "自然",
+        "历史文化",
+        "徒步",
+        "园林"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "嘉陵江对岸的观山，杜甫陆游都留过诗，观星楼是拍古城全景与日落的最佳机位",
+      "x": 790.7,
+      "y": 256.3
+    },
+    {
+      "id": "LZ-07",
+      "name": "阆中滕王阁",
+      "city": "阆中",
+      "lat": 31.5902,
+      "lng": 105.9659,
+      "tags": [
+        "建筑",
+        "历史文化",
+        "徒步"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "王勃滕王阁序写的是南昌，但滕王李元婴先在阆中建的这座才是原版，玉台山腰俯瞰江流",
+      "x": 615.4,
+      "y": 98.7
+    },
+    {
+      "id": "LZ-08",
+      "name": "巴巴寺",
+      "city": "阆中",
+      "lat": 31.5885,
+      "lng": 105.9708,
+      "tags": [
+        "宗教",
+        "历史文化",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "伊斯兰教嘎德忍耶学派先贤陵墓，砖雕与大木作被誉为川北一绝，闹中取静少有人知",
+      "x": 675.9,
+      "y": 110.5
+    },
+    {
+      "id": "LZ-09",
+      "name": "大佛寺",
+      "city": "阆中",
+      "lat": 31.5732,
+      "lng": 105.9882,
+      "tags": [
+        "佛教",
+        "奇观",
+        "山水"
+      ],
+      "ticket": 10,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "唐代十米高摩崖大佛临江而坐，大佛脚下抬头看佛头在崖顶探出，唐代题刻还留在龛边",
+      "x": 890.6,
+      "y": 216.2
+    },
+    {
+      "id": "LZ-10",
+      "name": "白塔山",
+      "city": "阆中",
+      "lat": 31.5958,
+      "lng": 105.9866,
+      "tags": [
+        "徒步",
+        "摄影",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        20
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "明代白塔立山顶，日出前爬上去能同时看到古城晨雾与嘉陵江第一缕光，本地摄影据点",
+      "x": 870.9,
+      "y": 60.0
+    },
+    {
+      "id": "LZ-11",
+      "name": "状元洞",
+      "city": "阆中",
+      "lat": 31.5848,
+      "lng": 105.9922,
+      "tags": [
+        "历史文化",
+        "徒步"
+      ],
+      "ticket": 15,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "北宋陈氏三兄弟读书处，将相堂紫微亭读书岩一洞三名，阆中状元之乡的原点",
+      "x": 940.0,
+      "y": 136.0
+    },
+    {
+      "id": "LZ-12",
+      "name": "天宫院",
+      "city": "阆中",
+      "lat": 31.5119,
+      "lng": 105.9209,
+      "tags": [
+        "历史文化",
+        "奇观"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "唐代天文历算家袁天罡李淳风墓地所在，罗盘造型的文化景区，风水阆中的收官一站",
+      "x": 60.0,
+      "y": 640.0
+    },
+    {
+      "id": "LZ-13",
+      "name": "嘉陵江游船",
+      "city": "阆中",
+      "lat": 31.5769,
+      "lng": 105.9805,
+      "tags": [
+        "山水",
+        "夜景",
+        "亲子"
+      ],
+      "ticket": 68,
+      "open_hour": [
+        9.5,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "从华光楼码头出发绕古城半圈，夜航时两岸灯光把三面环水的格局看得最明白",
+      "x": 795.6,
+      "y": 190.7
+    },
+    {
+      "id": "LZ-14",
+      "name": "秦家大院",
+      "city": "阆中",
+      "lat": 31.5795,
+      "lng": 105.9752,
+      "tags": [
+        "建筑",
+        "历史文化"
+      ],
+      "ticket": 15,
+      "open_hour": [
+        9,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "古城里保存最完好的清代四合院，天井照壁雕花窗一样不缺，红色标语还留在墙上",
+      "x": 730.2,
+      "y": 172.7
+    },
+    {
+      "id": "LZ-15",
+      "name": "贡院广场夜市",
+      "city": "阆中",
+      "lat": 31.5809,
+      "lng": 105.9772,
+      "tags": [
+        "夜市",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        17,
+        23
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "古城入夜后的烟火中心，张飞牛肉面油茶馓子现做现卖，红灯笼下人手一碗热气",
+      "x": 754.9,
+      "y": 163.0
+    }
+  ],
+  "丽江": [
+    {
+      "id": "LJ-01",
+      "name": "丽江古城（大研）",
+      "city": "丽江",
+      "lat": 26.8733,
+      "lng": 100.2357,
+      "tags": [
+        "古镇",
+        "街区",
+        "夜生活",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "茶马古道上的高原水城，四方街向外辐射的五花石板巷，水渠穿街入宅昼夜不停",
+      "x": 929.7,
+      "y": 631.4
+    },
+    {
+      "id": "LJ-02",
+      "name": "木府",
+      "city": "丽江",
+      "lat": 26.8721,
+      "lng": 100.2373,
+      "tags": [
+        "历史文化",
+        "建筑",
+        "民族"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "木氏土司四百年的府邸，北望故宫之势，徐霞客笔下宫室之丽拟于王者说的就是它",
+      "x": 940.0,
+      "y": 633.0
+    },
+    {
+      "id": "LJ-03",
+      "name": "狮子山万古楼",
+      "city": "丽江",
+      "lat": 26.8709,
+      "lng": 100.2324,
+      "tags": [
+        "摄影",
+        "徒步",
+        "夜景"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        8.5,
+        21
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "古城制高点的五层楼阁，登顶一眼看尽青瓦海洋与远处玉龙雪山，日落时分最挤",
+      "x": 908.3,
+      "y": 634.6
+    },
+    {
+      "id": "LJ-04",
+      "name": "黑龙潭公园",
+      "city": "丽江",
+      "lat": 26.8862,
+      "lng": 100.2265,
+      "tags": [
+        "园林",
+        "自然",
+        "摄影",
+        "湖泊"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "象山脚下涌出的四十余泉眼汇成潭水，得月楼一柱亭与玉龙雪山同框是丽江明信片",
+      "x": 870.2,
+      "y": 614.5
+    },
+    {
+      "id": "LJ-05",
+      "name": "束河古镇",
+      "city": "丽江",
+      "lat": 26.9088,
+      "lng": 100.2104,
+      "tags": [
+        "古镇",
+        "街区",
+        "茶文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "比大研安静的茶马重镇，青龙桥四百年石拱还在马蹄印里，午后咖啡馆能坐一下午",
+      "x": 766.2,
+      "y": 584.7
+    },
+    {
+      "id": "LJ-06",
+      "name": "白沙古镇",
+      "city": "丽江",
+      "lat": 26.9366,
+      "lng": 100.1945,
+      "tags": [
+        "古镇",
+        "艺术",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "木氏家族的发祥地，白沙壁画的明代矿物颜料六百年不褪色，老街还看得到手工刺绣坊",
+      "x": 663.5,
+      "y": 548.1
+    },
+    {
+      "id": "LJ-07",
+      "name": "玉龙雪山",
+      "city": "丽江",
+      "lat": 27.1034,
+      "lng": 100.18,
+      "tags": [
+        "雪山",
+        "徒步",
+        "奇观",
+        "摄影"
+      ],
+      "ticket": 240,
+      "open_hour": [
+        7.5,
+        16
+      ],
+      "slope": 3,
+      "crowd_level": 5,
+      "family": 3,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "北半球最南的海洋性冰川，大索道直上4506米冰川公园，山脚蓝月谷的水是乳蓝色的",
+      "x": 569.8,
+      "y": 328.6
+    },
+    {
+      "id": "LJ-08",
+      "name": "蓝月谷",
+      "city": "丽江",
+      "lat": 27.0738,
+      "lng": 100.1702,
+      "tags": [
+        "山水",
+        "湖泊",
+        "摄影",
+        "自然"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "雪山融水在白水河谷层层跌落成四个湖，晴天蓝得像颜料，嫁衣瀑布是必拍机位",
+      "x": 506.5,
+      "y": 367.6
+    },
+    {
+      "id": "LJ-09",
+      "name": "玉水寨",
+      "city": "丽江",
+      "lat": 26.9519,
+      "lng": 100.2148,
+      "tags": [
+        "自然",
+        "民族",
+        "宗教"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        8,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "纳西族东巴教的圣地神泉，三叠水瀑布下的虹鳟鱼群与祭天场，出白沙古镇顺路",
+      "x": 794.6,
+      "y": 528.0
+    },
+    {
+      "id": "LJ-10",
+      "name": "拉市海湿地",
+      "city": "丽江",
+      "lat": 26.8784,
+      "lng": 100.1011,
+      "tags": [
+        "湖泊",
+        "自然",
+        "骑行",
+        "动物"
+      ],
+      "ticket": 30,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "高原季节性湖泊，冬季候鸟成群落在水面，湖边骑马走一段茶马古道再划船看山",
+      "x": 60.0,
+      "y": 624.7
+    },
+    {
+      "id": "LJ-11",
+      "name": "纳西古乐会",
+      "city": "丽江",
+      "lat": 26.8757,
+      "lng": 100.2338,
+      "tags": [
+        "艺术",
+        "民族",
+        "夜生活"
+      ],
+      "ticket": 140,
+      "open_hour": [
+        19.5,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "大研纳西古乐会每晚八点开演，唐宋词曲牌的活化石，老艺人多已八十高龄",
+      "x": 917.4,
+      "y": 628.3
+    },
+    {
+      "id": "LJ-12",
+      "name": "东巴文化博物馆",
+      "city": "丽江",
+      "lat": 26.885,
+      "lng": 100.2283,
+      "tags": [
+        "博物馆",
+        "民族",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "黑龙潭公园旁的东巴文字陈列，唯一活着的象形文字怎么写怎么念，看完再看壁画更懂",
+      "x": 881.9,
+      "y": 616.0
+    },
+    {
+      "id": "LJ-13",
+      "name": "玉湖村",
+      "city": "丽江",
+      "lat": 27.0142,
+      "lng": 100.1853,
+      "tags": [
+        "古镇",
+        "徒步",
+        "摄影",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "雪山脚下石头砌墙的纳西古村，洛克旧居在此住了二十七年，游客稀少雪景最正",
+      "x": 604.0,
+      "y": 446.0
+    },
+    {
+      "id": "LJ-14",
+      "name": "忠义市场",
+      "city": "丽江",
+      "lat": 26.8668,
+      "lng": 100.2342,
+      "tags": [
+        "购物",
+        "美食",
+        "街区",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19.5
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "丽江最大的本地农贸市场，纳西嬢嬢背着背篓卖山货菌子，物价与古城外一个天一个地",
+      "x": 920.0,
+      "y": 640.0
+    },
+    {
+      "id": "LJ-15",
+      "name": "虎跳峡（上虎跳）",
+      "city": "丽江",
+      "lat": 27.3075,
+      "lng": 100.1032,
+      "tags": [
+        "徒步",
+        "奇观",
+        "山水",
+        "自然"
+      ],
+      "ticket": 45,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 3,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "金沙江在玉龙哈巴两座雪山之间收窄成三十米，虎跳石前江水咆哮，栈道贴崖而行",
+      "x": 73.6,
+      "y": 60.0
+    }
+  ],
+  "西双版纳": [
+    {
+      "id": "BN-01",
+      "name": "告庄西双景·星光夜市",
+      "city": "西双版纳",
+      "lat": 22.0036,
+      "lng": 100.7942,
+      "tags": [
+        "夜市",
+        "街区",
+        "夜生活",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        17,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 5,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "大金塔下湄公河畔的东南亚最大夜市之一，六国水上市场摊位连绵，傣装旅拍到午夜",
+      "x": 296.0,
+      "y": 172.9
+    },
+    {
+      "id": "BN-02",
+      "name": "勐泐大佛寺",
+      "city": "西双版纳",
+      "lat": 22.0047,
+      "lng": 100.7862,
+      "tags": [
+        "佛教",
+        "奇观",
+        "建筑"
+      ],
+      "ticket": 120,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "傣王室寺院恢复重建的皇家寺庙，45米吉祥大佛立于山顶，孔雀放飞仪式每天两场",
+      "x": 289.6,
+      "y": 171.7
+    },
+    {
+      "id": "BN-03",
+      "name": "曼听公园",
+      "city": "西双版纳",
+      "lat": 22.0021,
+      "lng": 100.7885,
+      "tags": [
+        "园林",
+        "民族",
+        "亲子",
+        "夜生活"
+      ],
+      "ticket": 40,
+      "open_hour": [
+        8,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "傣王御花园一千三百年，白天看总佛寺与大象表演，晚上澜沧江·湄公河篝火晚会放水灯",
+      "x": 291.4,
+      "y": 174.5
+    },
+    {
+      "id": "BN-04",
+      "name": "西双版纳总佛寺",
+      "city": "西双版纳",
+      "lat": 22.0018,
+      "lng": 100.7873,
+      "tags": [
+        "佛教",
+        "宗教",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7.5,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "版纳佛教最高等级寺院，金顶褐瓦菩提树，与曼听公园一门之隔可顺路同游",
+      "x": 290.5,
+      "y": 174.8
+    },
+    {
+      "id": "BN-05",
+      "name": "中科院热带植物园",
+      "city": "西双版纳",
+      "lat": 21.9167,
+      "lng": 101.2756,
+      "tags": [
+        "自然",
+        "亲子",
+        "园林",
+        "徒步"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "蔡希陶创建的万种植物王国，王莲叶片能托住一个小孩，夜游场的萤火虫季一票难求",
+      "x": 684.2,
+      "y": 267.2
+    },
+    {
+      "id": "BN-06",
+      "name": "野象谷",
+      "city": "西双版纳",
+      "lat": 22.1075,
+      "lng": 100.8671,
+      "tags": [
+        "动物",
+        "亲子",
+        "自然",
+        "徒步"
+      ],
+      "ticket": 65,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "亚洲象在中国最后的栖息地，高空观象栈道四公里穿雨林，遇象全凭运气但蝴蝶园保底",
+      "x": 354.8,
+      "y": 60.0
+    },
+    {
+      "id": "BN-07",
+      "name": "原始森林公园",
+      "city": "西双版纳",
+      "lat": 22.0527,
+      "lng": 100.8321,
+      "tags": [
+        "自然",
+        "亲子",
+        "徒步"
+      ],
+      "ticket": 45,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "北回归线以南保存最完好的热带沟谷雨林，孔雀放飞几百只齐落的场面是园区招牌",
+      "x": 326.6,
+      "y": 119.5
+    },
+    {
+      "id": "BN-08",
+      "name": "基诺山寨",
+      "city": "西双版纳",
+      "lat": 22.0303,
+      "lng": 100.9234,
+      "tags": [
+        "民族",
+        "文化",
+        "徒步"
+      ],
+      "ticket": 120,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "最后一个被认定的少数民族基诺族聚居地，大鼓房里听创世传说，下山喝竹筒茶",
+      "x": 400.2,
+      "y": 143.9
+    },
+    {
+      "id": "BN-09",
+      "name": "傣族园",
+      "city": "西双版纳",
+      "lat": 21.9775,
+      "lng": 100.8756,
+      "tags": [
+        "民族",
+        "亲子",
+        "街区"
+      ],
+      "ticket": 45,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "橄榄坝五个傣族村寨连成一片，天天泼水节的广场下午最热闹，傣家竹楼可以进去坐坐",
+      "x": 361.7,
+      "y": 201.2
+    },
+    {
+      "id": "BN-10",
+      "name": "曼飞龙塔",
+      "city": "西双版纳",
+      "lat": 21.9286,
+      "lng": 100.8442,
+      "tags": [
+        "佛教",
+        "建筑",
+        "摄影"
+      ],
+      "ticket": 10,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "八角形九塔同基的笋塔群，傣语称塔糯，奶油色的塔尖在蓝天下是上过邮票的取景地",
+      "x": 336.3,
+      "y": 254.3
+    },
+    {
+      "id": "BN-11",
+      "name": "西双版纳民族博物馆",
+      "city": "西双版纳",
+      "lat": 22.0121,
+      "lng": 100.7904,
+      "tags": [
+        "博物馆",
+        "民族",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "澜沧江畔的傣汉双语博物馆，从召片领土司制度到泼水节源流，半小时看懂版纳",
+      "x": 293.0,
+      "y": 163.6
+    },
+    {
+      "id": "BN-12",
+      "name": "江边夜市",
+      "city": "西双版纳",
+      "lat": 22.0079,
+      "lng": 100.7968,
+      "tags": [
+        "夜市",
+        "美食",
+        "夜生活"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        18,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "澜沧江边的本地人夜市，傣味烧烤菠萝饭舂鸡脚一路吃过去，比星光夜市便宜一半",
+      "x": 298.1,
+      "y": 168.2
+    },
+    {
+      "id": "BN-13",
+      "name": "大金塔寺",
+      "city": "西双版纳",
+      "lat": 22.0045,
+      "lng": 100.7946,
+      "tags": [
+        "佛教",
+        "建筑",
+        "夜景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        23
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "告庄核心的六十六米金塔，白天庄严夜里通体金光，塔前广场就是夜市的中心舞台",
+      "x": 296.3,
+      "y": 171.9
+    },
+    {
+      "id": "BN-14",
+      "name": "望天树景区",
+      "city": "西双版纳",
+      "lat": 21.5735,
+      "lng": 101.5928,
+      "tags": [
+        "自然",
+        "奇观",
+        "徒步"
+      ],
+      "ticket": 55,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "勐腊补蚌的七十米望天树群落，树冠走廊悬空三十六米走过林海顶端，胆小者贴墙挪",
+      "x": 940.0,
+      "y": 640.0
+    },
+    {
+      "id": "BN-15",
+      "name": "南糯山茶山",
+      "city": "西双版纳",
+      "lat": 21.9854,
+      "lng": 100.5015,
+      "tags": [
+        "茶文化",
+        "自然",
+        "徒步",
+        "民族"
+      ],
+      "ticket": 20,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "普洱茶的重要产地八百年栽培型茶王树所在，哈尼族茶厂里从杀青到压饼看一遍再做一饼",
+      "x": 60.0,
+      "y": 192.6
+    }
+  ],
+  "安顺": [
+    {
+      "id": "AS-01",
+      "name": "黄果树瀑布",
+      "city": "安顺",
+      "lat": 26.0113,
+      "lng": 105.6752,
+      "tags": [
+        "山水",
+        "奇观",
+        "自然",
+        "喀斯特"
+      ],
+      "ticket": 160,
+      "open_hour": [
+        7.5,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 5,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "亚洲第一大瀑布，77.8米落差砸进犀牛潭，水帘洞从瀑布半腰横穿而过衣衫全湿也值",
+      "x": 139.9,
+      "y": 350.7
+    },
+    {
+      "id": "AS-02",
+      "name": "黄果树天星桥",
+      "city": "安顺",
+      "lat": 26.0348,
+      "lng": 105.6906,
+      "tags": [
+        "山水",
+        "喀斯特",
+        "徒步",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7.5,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "联票三景区之一，石林长在水上水上流在石间，数生步一步一块石头找自己的生日",
+      "x": 162.4,
+      "y": 328.2
+    },
+    {
+      "id": "AS-03",
+      "name": "陡坡塘瀑布",
+      "city": "安顺",
+      "lat": 26.0276,
+      "lng": 105.6557,
+      "tags": [
+        "山水",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7.5,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "黄果树上游最宽的钙化滩瀑布，西游记片尾师徒四人牵马走过的就是这里的石凳桥",
+      "x": 111.5,
+      "y": 335.1
+    },
+    {
+      "id": "AS-04",
+      "name": "龙宫",
+      "city": "安顺",
+      "lat": 26.0917,
+      "lng": 105.9167,
+      "tags": [
+        "溶洞",
+        "喀斯特",
+        "山水",
+        "奇观"
+      ],
+      "ticket": 130,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "两段水溶洞用船穿行，龙门飞瀑从洞口倾泻而下，中国最长最美的水上喀斯特洞穴",
+      "x": 492.3,
+      "y": 273.8
+    },
+    {
+      "id": "AS-05",
+      "name": "天龙屯堡",
+      "city": "安顺",
+      "lat": 26.3155,
+      "lng": 106.0769,
+      "tags": [
+        "古镇",
+        "历史文化",
+        "民族"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "朱元璋征南大军后裔六百年不改汉家旧制，石板房里地戏面具一戴就是一场军傩",
+      "x": 726.0,
+      "y": 60.0
+    },
+    {
+      "id": "AS-06",
+      "name": "云峰八寨",
+      "city": "安顺",
+      "lat": 26.2718,
+      "lng": 106.1139,
+      "tags": [
+        "古镇",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 45,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "八个屯堡村寨沿山势排开，本寨的碉楼四合院保存最完整，游客少适合慢慢拍",
+      "x": 780.0,
+      "y": 101.8
+    },
+    {
+      "id": "AS-07",
+      "name": "旧州古镇",
+      "city": "安顺",
+      "lat": 26.1973,
+      "lng": 106.0184,
+      "tags": [
+        "古镇",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "元明之际的安顺州治所在，东西南街石板路没翻新过，旧州鸡辣子要配着屯堡菜吃",
+      "x": 640.6,
+      "y": 172.9
+    },
+    {
+      "id": "AS-08",
+      "name": "安顺文庙",
+      "city": "安顺",
+      "lat": 26.2445,
+      "lng": 105.9317,
+      "tags": [
+        "历史文化",
+        "建筑"
+      ],
+      "ticket": 10,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "明代石雕大成殿前的透雕龙柱被称为石雕艺术的绝品，黔中学宫的建筑等级看配置便知",
+      "x": 514.2,
+      "y": 127.8
+    },
+    {
+      "id": "AS-09",
+      "name": "安顺武庙",
+      "city": "安顺",
+      "lat": 26.2462,
+      "lng": 105.9296,
+      "tags": [
+        "宗教",
+        "建筑",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "老城中心的关羽庙，四十二根石柱撑起的大殿比文庙朴素，门口老大爷下棋是日常",
+      "x": 511.1,
+      "y": 126.2
+    },
+    {
+      "id": "AS-10",
+      "name": "虹山湖公园",
+      "city": "安顺",
+      "lat": 26.2603,
+      "lng": 105.9285,
+      "tags": [
+        "湖泊",
+        "自然",
+        "亲子",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "安顺城心的湖，环湖步道三公里晨跑晚走都热闹，湖中小岛上白鹭比游客先到",
+      "x": 509.5,
+      "y": 112.7
+    },
+    {
+      "id": "AS-11",
+      "name": "坝陵河大桥观景台",
+      "city": "安顺",
+      "lat": 26.0148,
+      "lng": 105.6204,
+      "tags": [
+        "奇观",
+        "摄影",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "世界级高桥横跨坝陵河谷，桥面到水面370米，去黄果树顺路的贵州桥梁博物馆观景台",
+      "x": 60.0,
+      "y": 347.3
+    },
+    {
+      "id": "AS-12",
+      "name": "格凸河",
+      "city": "安顺",
+      "lat": 25.7085,
+      "lng": 106.2236,
+      "tags": [
+        "山水",
+        "喀斯特",
+        "奇观",
+        "徒步"
+      ],
+      "ticket": 70,
+      "open_hour": [
+        8.5,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "大河穿洞而过的喀斯特秘境，苗厅是世界第二大洞厅，蜘蛛人徒手攀岩表演在燕子洞",
+      "x": 940.0,
+      "y": 640.0
+    },
+    {
+      "id": "AS-13",
+      "name": "安顺古城历史文化街区",
+      "city": "安顺",
+      "lat": 26.2476,
+      "lng": 105.9308,
+      "tags": [
+        "街区",
+        "美食",
+        "夜景",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "儒林路与石板巷的老安顺底子，夜景灯亮后裹卷夺夺粉小锅凉粉从街头吃到巷尾",
+      "x": 512.8,
+      "y": 124.9
+    },
+    {
+      "id": "AS-14",
+      "name": "王若飞故居",
+      "city": "安顺",
+      "lat": 26.2487,
+      "lng": 105.9346,
+      "tags": [
+        "红色历史",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "一切要为人民打算的题词就在这座清代四合院里，安顺走出的革命家的出生地",
+      "x": 518.4,
+      "y": 123.8
+    },
+    {
+      "id": "AS-15",
+      "name": "安顺蜡染文化馆",
+      "city": "安顺",
+      "lat": 26.2432,
+      "lng": 105.9339,
+      "tags": [
+        "艺术",
+        "文创",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9.5,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "安顺蜡染被称为东方第一染，蓝白之间的冰纹怎么来的看完展览就能亲手画一版带走",
+      "x": 517.4,
+      "y": 129.1
+    }
+  ],
+  "西江千户苗寨": [
+    {
+      "id": "XJ-01",
+      "name": "西江千户苗寨",
+      "city": "西江千户苗寨",
+      "lat": 26.3777,
+      "lng": 108.3165,
+      "tags": [
+        "民族",
+        "古镇",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 110,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 5,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "一千多户吊脚楼从山脚叠到山脊的苗族聚落，门票是通票——博物馆、表演场、观景台全含，寨内石阶爬上爬下当锻炼",
+      "x": 156.3,
+      "y": 640.0
+    },
+    {
+      "id": "XJ-02",
+      "name": "嘎歌古巷",
+      "city": "西江千户苗寨",
+      "lat": 26.3802,
+      "lng": 108.3172,
+      "tags": [
+        "民族",
+        "街区",
+        "文创"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        21
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "寨子里最热闹的小巷，银匠锤声和拦门酒一起迎客，古歌堂里每天有苗族老人对着火塘唱迁徙史诗",
+      "x": 252.5,
+      "y": 454.1
+    },
+    {
+      "id": "XJ-03",
+      "name": "苗族博物馆",
+      "city": "西江千户苗寨",
+      "lat": 26.3805,
+      "lng": 108.3168,
+      "tags": [
+        "博物馆",
+        "民族",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "通票已含，五千年迁徙路用一件件绣片银饰讲完，看懂了再逛寨子完全是两个体验",
+      "x": 197.5,
+      "y": 431.8
+    },
+    {
+      "id": "XJ-04",
+      "name": "鼓藏头家",
+      "city": "西江千户苗寨",
+      "lat": 26.3822,
+      "lng": 108.3185,
+      "tags": [
+        "历史文化",
+        "民族",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "苗寨精神领袖鼓藏头的居所，十三年一次的鼓藏节祭祖在这里起鼓，门槛上的老木头有讲究别乱踩",
+      "x": 431.3,
+      "y": 305.4
+    },
+    {
+      "id": "XJ-05",
+      "name": "也东寨吊脚楼群",
+      "city": "西江千户苗寨",
+      "lat": 26.384,
+      "lng": 108.32,
+      "tags": [
+        "古镇",
+        "摄影",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "往山脊上走十分钟就躲开主街人流，黑瓦木楼顺着等高线层层退台，摄影位随手就是明信片",
+      "x": 637.5,
+      "y": 171.5
+    },
+    {
+      "id": "XJ-06",
+      "name": "西江夜景观景台",
+      "city": "西江千户苗寨",
+      "lat": 26.3835,
+      "lng": 108.3178,
+      "tags": [
+        "夜景",
+        "摄影",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        19,
+        23.5
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "一千多盏灯亮起来的瞬间整个山谷变成星河，所谓千户灯火就等这一眼，风大记得带外套",
+      "x": 335.0,
+      "y": 208.7
+    },
+    {
+      "id": "XJ-07",
+      "name": "苗家长桌宴",
+      "city": "西江千户苗寨",
+      "lat": 26.3808,
+      "lng": 108.3182,
+      "tags": [
+        "美食",
+        "民族"
+      ],
+      "ticket": 68,
+      "open_hour": [
+        17,
+        21
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "酸汤鱼、糯米饭、拦门酒沿着长桌一路摆开，高山流水敬酒歌一响不喝完不让走，量力而行",
+      "x": 390.0,
+      "y": 409.5
+    },
+    {
+      "id": "XJ-08",
+      "name": "银饰刺绣工坊",
+      "city": "西江千户苗寨",
+      "lat": 26.3798,
+      "lng": 108.3176,
+      "tags": [
+        "文创",
+        "艺术",
+        "购物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        19
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "苗银一根錾子敲出蝴蝶妈妈，看着老师傅现场拉丝再决定买不买，比景区门口的义乌货靠谱十倍",
+      "x": 307.5,
+      "y": 483.8
+    },
+    {
+      "id": "XJ-09",
+      "name": "白水河风雨桥",
+      "city": "西江千户苗寨",
+      "lat": 26.3785,
+      "lng": 108.3158,
+      "tags": [
+        "建筑",
+        "摄影",
+        "山水"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "寨门口的廊桥，桥下白水河穿寨而过，清晨有雾时桥头一站就是水墨画",
+      "x": 60.0,
+      "y": 580.5
+    },
+    {
+      "id": "XJ-10",
+      "name": "游方街夜市",
+      "city": "西江千户苗寨",
+      "lat": 26.3795,
+      "lng": 108.3188,
+      "tags": [
+        "夜市",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        18,
+        23
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "苗族青年以前在这里游方对歌找对象，现在是烤五花肉和米酒摊的主场，边走边吃正好消食",
+      "x": 472.5,
+      "y": 506.2
+    },
+    {
+      "id": "XJ-11",
+      "name": "西江梯田观景步道",
+      "city": "西江千户苗寨",
+      "lat": 26.3848,
+      "lng": 108.3222,
+      "tags": [
+        "梯田",
+        "徒步",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "寨子后山层层叠叠的稻田，秋天金黄一片，沿着田埂慢慢走比观景台拍照舒服得多",
+      "x": 940.0,
+      "y": 112.1
+    },
+    {
+      "id": "XJ-12",
+      "name": "苗家酸汤鱼老店",
+      "city": "西江千户苗寨",
+      "lat": 26.3792,
+      "lng": 108.318,
+      "tags": [
+        "美食"
+      ],
+      "ticket": 45,
+      "open_hour": [
+        10,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "红酸汤用毛辣果自然发酵，稻田鱼现捞现杀，汤泡饭能吃三碗，比长桌宴更适合安静吃饭",
+      "x": 362.5,
+      "y": 528.5
+    },
+    {
+      "id": "XJ-13",
+      "name": "芦笙场歌舞表演",
+      "city": "西江千户苗寨",
+      "lat": 26.381,
+      "lng": 108.317,
+      "tags": [
+        "民族",
+        "音乐",
+        "艺术"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        11,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "通票已含，每天固定场次，几十支芦笙一起响的震动从脚底传上来，锦鸡舞 finale 别提前走",
+      "x": 225.0,
+      "y": 394.6
+    },
+    {
+      "id": "XJ-14",
+      "name": "乌嘎苗寨",
+      "city": "西江千户苗寨",
+      "lat": 26.3855,
+      "lng": 108.3215,
+      "tags": [
+        "古镇",
+        "民族",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 2,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "山脊最上端的寨子，游客到这里已经很少，晒着玉米辣椒的木楼前坐一下午也没人催你",
+      "x": 843.8,
+      "y": 60.0
+    },
+    {
+      "id": "XJ-15",
+      "name": "苗族蜡染坊",
+      "city": "西江千户苗寨",
+      "lat": 26.38,
+      "lng": 108.319,
+      "tags": [
+        "文创",
+        "艺术",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "蜡刀蘸蜡在白布上画画再进靛蓝染缸，煮掉蜡就是青花纹样，可以上手体验半小时带走作品",
+      "x": 500.0,
+      "y": 469.0
+    }
+  ],
+  "北海": [
+    {
+      "id": "BH-01",
+      "name": "北海老街",
+      "city": "北海",
+      "lat": 21.4812,
+      "lng": 109.1138,
+      "tags": [
+        "历史文化",
+        "街区",
+        "建筑",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": true,
+      "summary": "1.44 公里中西合璧骑楼街，卷拱窗楣上长着榕树气根，虾饼和墨鱼丸的香味从街头飘到街尾",
+      "x": 436.4,
+      "y": 95.2
+    },
+    {
+      "id": "BH-02",
+      "name": "北海银滩",
+      "city": "北海",
+      "lat": 21.44,
+      "lng": 109.128,
+      "tags": [
+        "海滨",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "滩平沙白在阳光下真的泛银光，号称天下第一滩，退潮时赶小海能挖到沙蟹和蛤蜊",
+      "x": 610.0,
+      "y": 145.5
+    },
+    {
+      "id": "BH-03",
+      "name": "涠洲岛鳄鱼山",
+      "city": "北海",
+      "lat": 21.035,
+      "lng": 109.111,
+      "tags": [
+        "海滨",
+        "奇观",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 98,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "中国最年轻的火山岛南端，玄武岩柱状节理被海浪啃出鳄鱼嘴的轮廓，上岛票已含此景区",
+      "x": 402.2,
+      "y": 640.0
+    },
+    {
+      "id": "BH-04",
+      "name": "涠洲岛五彩滩",
+      "city": "北海",
+      "lat": 21.06,
+      "lng": 109.125,
+      "tags": [
+        "海滨",
+        "摄影",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        5,
+        19
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "全岛看日出的正位，退潮后火山岩平台上积一层海水映出朝霞，芝麻滩的黑沙白沙纹路像抽象画",
+      "x": 573.3,
+      "y": 609.5
+    },
+    {
+      "id": "BH-05",
+      "name": "涠洲岛滴水丹屏",
+      "city": "北海",
+      "lat": 21.048,
+      "lng": 109.083,
+      "tags": [
+        "海滨",
+        "摄影",
+        "奇观"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "赤红的火山崖壁上藤蔓垂挂终日滴水，日头落到海平线的十分钟里整面崖壁被染成金红",
+      "x": 60.0,
+      "y": 624.1
+    },
+    {
+      "id": "BH-06",
+      "name": "涠洲岛盛塘天主堂",
+      "city": "北海",
+      "lat": 21.065,
+      "lng": 109.095,
+      "tags": [
+        "宗教",
+        "建筑",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "1853 年珊瑚石块砌成的哥特教堂，村民后裔至今仍在里面做弥撒，堂前老榕树有百年树龄",
+      "x": 206.7,
+      "y": 603.4
+    },
+    {
+      "id": "BH-07",
+      "name": "侨港风情街",
+      "city": "北海",
+      "lat": 21.448,
+      "lng": 109.115,
+      "tags": [
+        "夜市",
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "越南归侨聚居区的糖水一条街，炒冰、蟹仔粉、滴漏咖啡混着越南话叫卖声，宵夜首选地",
+      "x": 451.1,
+      "y": 135.7
+    },
+    {
+      "id": "BH-08",
+      "name": "冠头岭森林公园",
+      "city": "北海",
+      "lat": 21.43,
+      "lng": 109.09,
+      "tags": [
+        "自然",
+        "摄影",
+        "徒步"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19
+      ],
+      "slope": 2,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "市区唯一山头，日出日落都能看，礁石区潮池里有海葵和小螃蟹，日落档位需提前半小时占位",
+      "x": 145.6,
+      "y": 157.7
+    },
+    {
+      "id": "BH-09",
+      "name": "金海湾红树林",
+      "city": "北海",
+      "lat": 21.425,
+      "lng": 109.155,
+      "tags": [
+        "自然",
+        "亲子",
+        "动物"
+      ],
+      "ticket": 80,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "万亩红树林栈道走到观景塔，退潮时本地人拿着小铲子带娃赶海，弹涂鱼和招潮蟹遍地都是",
+      "x": 940.0,
+      "y": 163.8
+    },
+    {
+      "id": "BH-10",
+      "name": "北海海底世界",
+      "city": "北海",
+      "lat": 21.478,
+      "lng": 109.112,
+      "tags": [
+        "亲子",
+        "动物",
+        "博物馆"
+      ],
+      "ticket": 138,
+      "open_hour": [
+        8.5,
+        17.5
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "老牌海洋馆有 360 度全景海底隧道，鲨鱼从头顶游过的瞬间小孩能安静五分钟，雨天备选首选",
+      "x": 414.4,
+      "y": 99.1
+    },
+    {
+      "id": "BH-11",
+      "name": "外沙岛海鲜岛",
+      "city": "北海",
+      "lat": 21.495,
+      "lng": 109.11,
+      "tags": [
+        "美食",
+        "海滨"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "渔船直接靠档的海鲜集散地，一楼挑二楼做，椒盐濑尿虾和白灼沙虫是本地人的点单暗号",
+      "x": 390.0,
+      "y": 78.3
+    },
+    {
+      "id": "BH-12",
+      "name": "海滩公园",
+      "city": "北海",
+      "lat": 21.448,
+      "lng": 109.125,
+      "tags": [
+        "海滨",
+        "夜景"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "银滩中段的珍珠广场，晚上音乐喷泉开了以后 locals 拖家带口来遛弯，海风配喷泉很治愈",
+      "x": 573.3,
+      "y": 135.7
+    },
+    {
+      "id": "BH-13",
+      "name": "北海近代海关旧址",
+      "city": "北海",
+      "lat": 21.482,
+      "lng": 109.1145,
+      "tags": [
+        "历史文化",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        17
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "1877 年开埠的老海关办公楼，现在是小展览馆，看完才知道这条骑楼街当年是面向大海的商埠前排",
+      "x": 445.0,
+      "y": 94.2
+    },
+    {
+      "id": "BH-14",
+      "name": "高德古镇",
+      "city": "北海",
+      "lat": 21.51,
+      "lng": 109.12,
+      "tags": [
+        "古镇",
+        "美食",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        20
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "老北海的发源地之一，骑楼比老街旧得多也安静得多，高德妈仔和笠汁是只有本地人知道的早餐",
+      "x": 512.2,
+      "y": 60.0
+    },
+    {
+      "id": "BH-15",
+      "name": "冯家江湿地公园",
+      "city": "北海",
+      "lat": 21.455,
+      "lng": 109.135,
+      "tags": [
+        "自然",
+        "徒步",
+        "亲子"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "治污修复后再生的入海口湿地，木栈道穿芦苇荡，观鸟季白鹭起飞的画面比任何公园都值",
+      "x": 695.6,
+      "y": 127.2
+    }
+  ],
+  "三亚": [
+    {
+      "id": "SY-01",
+      "name": "亚龙湾",
+      "city": "三亚",
+      "lat": 18.216,
+      "lng": 109.647,
+      "tags": [
+        "海滨",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        20
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 5,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "七千米月牙湾配着能见度八米的海水，天下第一湾名不虚传，沙滩椅区外卷着毛巾躺平免费",
+      "x": 767.3,
+      "y": 634.5
+    },
+    {
+      "id": "SY-02",
+      "name": "蜈支洲岛",
+      "city": "三亚",
+      "lat": 18.313,
+      "lng": 109.763,
+      "tags": [
+        "海滨",
+        "奇观",
+        "自然"
+      ],
+      "ticket": 144,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 5,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "船票上岛看情人桥和观日岩，海水是果冻质感的渐变蓝，环岛电瓶车一站一停最省腿",
+      "x": 940.0,
+      "y": 457.0
+    },
+    {
+      "id": "SY-03",
+      "name": "天涯海角",
+      "city": "三亚",
+      "lat": 18.245,
+      "lng": 109.201,
+      "tags": [
+        "海滨",
+        "历史文化",
+        "摄影"
+      ],
+      "ticket": 68,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "天涯石和海角石就立在海岸线上，被贬谪的文人给它写了几百年诗，日落前一小时人最少光线最柔",
+      "x": 103.2,
+      "y": 581.5
+    },
+    {
+      "id": "SY-04",
+      "name": "南山文化旅游区",
+      "city": "三亚",
+      "lat": 18.29,
+      "lng": 109.2,
+      "tags": [
+        "宗教",
+        "佛教",
+        "历史文化",
+        "园林"
+      ],
+      "ticket": 108,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "108 米海上观音一体化三尊正面看持莲、侧面看持珠，园区大如小镇，电瓶车票值得买",
+      "x": 101.7,
+      "y": 499.1
+    },
+    {
+      "id": "SY-05",
+      "name": "亚龙湾热带天堂森林公园",
+      "city": "三亚",
+      "lat": 18.229,
+      "lng": 109.655,
+      "tags": [
+        "自然",
+        "徒步",
+        "奇观"
+      ],
+      "ticket": 140,
+      "open_hour": [
+        7.5,
+        17.5
+      ],
+      "slope": 2,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "过江龙索桥横跨两山之间走一步晃三步，俯瞰亚龙湾的全景机位在千里伞观景台，非诚勿扰取景地",
+      "x": 779.2,
+      "y": 610.7
+    },
+    {
+      "id": "SY-06",
+      "name": "大东海",
+      "city": "三亚",
+      "lat": 18.213,
+      "lng": 109.515,
+      "tags": [
+        "海滨",
+        "夜生活",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "离市区最近的湾区，傍晚沙滩排球和酒吧驻唱一起开张，晚上踩着浪散步是三亚夜生活的平民版",
+      "x": 570.7,
+      "y": 640.0
+    },
+    {
+      "id": "SY-07",
+      "name": "三亚湾椰梦长廊",
+      "city": "三亚",
+      "lat": 18.247,
+      "lng": 109.455,
+      "tags": [
+        "海滨",
+        "夜景",
+        "自然"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "二十公里椰林贴着海岸线铺开，本地人骑车遛弯的主场，看日落的最佳免费机位没有之一",
+      "x": 481.4,
+      "y": 577.8
+    },
+    {
+      "id": "SY-08",
+      "name": "第一市场",
+      "city": "三亚",
+      "lat": 18.255,
+      "lng": 109.508,
+      "tags": [
+        "美食",
+        "夜市",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 5,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "海鲜现挑现加工的老牌市场，和乐蟹、芒果螺、椰子饭一站配齐，牢记先问价再下单防刺客",
+      "x": 560.3,
+      "y": 563.2
+    },
+    {
+      "id": "SY-09",
+      "name": "大小洞天",
+      "city": "三亚",
+      "lat": 18.305,
+      "lng": 109.185,
+      "tags": [
+        "山水",
+        "宗教",
+        "历史文化"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        8,
+        17
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "南山脚下的道教文化区，小洞天三个字是南宋崖州郡守手书，鳌山脚下礁石群配古榕很有仙气",
+      "x": 79.4,
+      "y": 471.7
+    },
+    {
+      "id": "SY-10",
+      "name": "鹿回头山顶公园",
+      "city": "三亚",
+      "lat": 18.235,
+      "lng": 109.525,
+      "tags": [
+        "夜景",
+        "摄影",
+        "历史文化"
+      ],
+      "ticket": 35,
+      "open_hour": [
+        7,
+        22.5
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "黎族猎鹿传说发生地，山顶俯瞰三亚湾全景灯火，夜景档的票价值回，雕塑打卡人多要排队",
+      "x": 585.6,
+      "y": 599.7
+    },
+    {
+      "id": "SY-11",
+      "name": "后海村",
+      "city": "三亚",
+      "lat": 18.29,
+      "lng": 109.71,
+      "tags": [
+        "海滨",
+        "文创",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "冲浪教练比游客多的渔村，早上六点浪最好，村口早餐店的抱罗粉加个蛋就是本地冲浪人的标配",
+      "x": 861.1,
+      "y": 499.1
+    },
+    {
+      "id": "SY-12",
+      "name": "崖州古城",
+      "city": "三亚",
+      "lat": 18.53,
+      "lng": 109.172,
+      "tags": [
+        "古镇",
+        "历史文化",
+        "建筑"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "两千年历史的崖州治所，文明门和孔庙还留着，黄道婆在这里学艺的传说写在学宫碑刻里",
+      "x": 60.0,
+      "y": 60.0
+    },
+    {
+      "id": "SY-13",
+      "name": "南田温泉",
+      "city": "三亚",
+      "lat": 18.335,
+      "lng": 109.735,
+      "tags": [
+        "自然",
+        "亲子"
+      ],
+      "ticket": 150,
+      "open_hour": [
+        9,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "神州第一泉的硅酸重碳酸钠型热矿水，泡完皮肤滑两天，带娃的家庭池水温刚好不烫",
+      "x": 898.3,
+      "y": 416.8
+    },
+    {
+      "id": "SY-14",
+      "name": "三亚千古情",
+      "city": "三亚",
+      "lat": 18.26,
+      "lng": 109.518,
+      "tags": [
+        "夜生活",
+        "文创",
+        "民族"
+      ],
+      "ticket": 300,
+      "open_hour": [
+        14,
+        21
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "落洞救鹿的黎族传说舞台化，水特效从头顶倾泻那一下全场惊呼，戏外的崖州古街有NPC拉你成亲",
+      "x": 575.2,
+      "y": 554.0
+    },
+    {
+      "id": "SY-15",
+      "name": "西岛",
+      "city": "三亚",
+      "lat": 18.23,
+      "lng": 109.39,
+      "tags": [
+        "海滨",
+        "亲子"
+      ],
+      "ticket": 98,
+      "open_hour": [
+        8,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 5,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "比蜈支洲便宜一半的珊瑚岛，女民兵连的故事还在岛上流传，牛王岭看海霞是本地摄影师私藏机位",
+      "x": 384.6,
+      "y": 608.9
+    },
+    {
+      "id": "SY-16",
+      "name": "三亚国际免税城",
+      "city": "三亚",
+      "lat": 18.3,
+      "lng": 109.695,
+      "tags": [
+        "购物"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        10,
+        22
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "全球最大单体免税店之一，离岛免税额度内的购物清单在这里一站式清空，离岛当天提货别记错",
+      "x": 838.7,
+      "y": 480.8
+    }
+  ],
+  "拉萨": [
+    {
+      "id": "LH-01",
+      "name": "布达拉宫",
+      "city": "拉萨",
+      "lat": 29.6579,
+      "lng": 91.117,
+      "tags": [
+        "宗教",
+        "历史文化",
+        "建筑",
+        "奇观"
+      ],
+      "ticket": 200,
+      "open_hour": [
+        8.5,
+        16
+      ],
+      "slope": 3,
+      "crowd_level": 5,
+      "family": 2,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "红山之巅的宫堡 3700 米海拔，预约制一天只放几千人，爬白宫石阶慢慢走，金顶群的鎏金在高原阳光下晃眼",
+      "x": 915.6,
+      "y": 89.8
+    },
+    {
+      "id": "LH-02",
+      "name": "大昭寺",
+      "city": "拉萨",
+      "lat": 29.652,
+      "lng": 91.131,
+      "tags": [
+        "宗教",
+        "佛教",
+        "历史文化"
+      ],
+      "ticket": 85,
+      "open_hour": [
+        7.5,
+        17
+      ],
+      "slope": 1,
+      "crowd_level": 5,
+      "family": 2,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "先有大昭寺后有拉萨城，殿内等身觉卧佛前酥油灯长明，天台看布宫全景是摄影党的隐藏机位",
+      "x": 933.6,
+      "y": 97.8
+    },
+    {
+      "id": "LH-03",
+      "name": "八廓街",
+      "city": "拉萨",
+      "lat": 29.6525,
+      "lng": 91.13,
+      "tags": [
+        "街区",
+        "购物",
+        "民族",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 4,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "绕着大昭寺转了一千三百年的转经道，顺时针跟着人流走别逆行，甜茶馆和尼泊尔杂货铺都在转角",
+      "x": 932.3,
+      "y": 97.1
+    },
+    {
+      "id": "LH-04",
+      "name": "药王山观景台",
+      "city": "拉萨",
+      "lat": 29.654,
+      "lng": 91.112,
+      "tags": [
+        "摄影",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        6,
+        19
+      ],
+      "slope": 1,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "五十元人民币背面取景地，清晨长枪短炮一字排开等布宫倒影和晨光，两块钱门票都不收",
+      "x": 909.2,
+      "y": 95.1
+    },
+    {
+      "id": "LH-05",
+      "name": "色拉寺",
+      "city": "拉萨",
+      "lat": 29.68,
+      "lng": 91.136,
+      "tags": [
+        "宗教",
+        "佛教",
+        "历史文化"
+      ],
+      "ticket": 50,
+      "open_hour": [
+        9,
+        16.5
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "辩经场下午三点半准时开辩，击掌起势提问拍案叫绝全用手势完成，看不懂逻辑也看得懂气势",
+      "x": 940.0,
+      "y": 60.0
+    },
+    {
+      "id": "LH-06",
+      "name": "哲蚌寺",
+      "city": "拉萨",
+      "lat": 29.67,
+      "lng": 91.086,
+      "tags": [
+        "宗教",
+        "历史文化",
+        "建筑"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        9,
+        16
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 2,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "白色建筑群铺满整面山坡如巨大米堆，雪顿节展佛那天三十米唐卡从山顶铺下来，甘丹颇章的历史比布宫展厅安静",
+      "x": 875.9,
+      "y": 73.5
+    },
+    {
+      "id": "LH-07",
+      "name": "罗布林卡",
+      "city": "拉萨",
+      "lat": 29.648,
+      "lng": 91.105,
+      "tags": [
+        "园林",
+        "历史文化",
+        "自然"
+      ],
+      "ticket": 60,
+      "open_hour": [
+        9,
+        17.5
+      ],
+      "slope": 1,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "历代达赖的夏宫，高原上难得的一片茂盛林卡，过林卡节时本地人在草地上搭帐篷野餐一整天",
+      "x": 900.2,
+      "y": 103.2
+    },
+    {
+      "id": "LH-08",
+      "name": "西藏博物馆",
+      "city": "拉萨",
+      "lat": 29.645,
+      "lng": 91.108,
+      "tags": [
+        "博物馆",
+        "历史文化"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        16
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "免费预约制新馆，从唐卡到贝叶经到古格文物讲透高原文明史，高反体力不支时的室内避难所",
+      "x": 904.1,
+      "y": 107.2
+    },
+    {
+      "id": "LH-09",
+      "name": "光明港琼甜茶馆",
+      "city": "拉萨",
+      "lat": 29.653,
+      "lng": 91.132,
+      "tags": [
+        "美食",
+        "街区"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        7,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "全拉萨最市井的甜茶馆，零钱堆桌上自己找零，一块钱一暖壶续到饱，藏面配甜茶就是本地人的早茶",
+      "x": 934.9,
+      "y": 96.4
+    },
+    {
+      "id": "LH-10",
+      "name": "宗角禄康公园",
+      "city": "拉萨",
+      "lat": 29.661,
+      "lng": 91.118,
+      "tags": [
+        "自然",
+        "园林"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "布宫背后的龙王潭，清晨转经人流和锅庄舞队同时开动，水面上倒映着布宫北墙是免费明信片",
+      "x": 916.9,
+      "y": 85.6
+    },
+    {
+      "id": "LH-11",
+      "name": "仓姑寺甜茶馆",
+      "city": "拉萨",
+      "lat": 29.651,
+      "lng": 91.128,
+      "tags": [
+        "美食",
+        "宗教"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        19
+      ],
+      "slope": 0,
+      "crowd_level": 2,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "尼姑庵自己经营的甜茶馆，藏面和牛肉包子全是庵里师太手作，所得用于寺院维护，吃着比别处多一分安心",
+      "x": 929.7,
+      "y": 99.1
+    },
+    {
+      "id": "LH-12",
+      "name": "拉萨河畔",
+      "city": "拉萨",
+      "lat": 29.635,
+      "lng": 91.125,
+      "tags": [
+        "自然",
+        "夜景",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        0,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 4,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "吉曲河在城南沙洲上摊开，傍晚南岸看落日把整座城染成蜂蜜色，仙足岛的栈道是散步终点",
+      "x": 925.9,
+      "y": 120.7
+    },
+    {
+      "id": "LH-13",
+      "name": "唐卡画院",
+      "city": "拉萨",
+      "lat": 29.655,
+      "lng": 91.129,
+      "tags": [
+        "艺术",
+        "文创",
+        "民族"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        9,
+        18
+      ],
+      "slope": 0,
+      "crowd_level": 1,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": false,
+      "summary": "学徒从研矿物颜料开始学五年才能独立开脸，看一副坛城从白布到金线的过程比买现成品更值",
+      "x": 931.0,
+      "y": 93.7
+    },
+    {
+      "id": "LH-14",
+      "name": "天海夜市",
+      "city": "拉萨",
+      "lat": 29.66,
+      "lng": 91.11,
+      "tags": [
+        "夜市",
+        "美食"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        18,
+        24
+      ],
+      "slope": 0,
+      "crowd_level": 3,
+      "family": 3,
+      "must_see": false,
+      "night_friendly": true,
+      "summary": "拉萨夜里的烟火气回答了高原有没有夜生活，烤羊肉串和青稞啤酒碰杯，海拔 3650 米的微醺来得特别快",
+      "x": 906.6,
+      "y": 87.0
+    },
+    {
+      "id": "LH-15",
+      "name": "羊卓雍措",
+      "city": "拉萨",
+      "lat": 29.25,
+      "lng": 90.45,
+      "tags": [
+        "湖泊",
+        "山水",
+        "自然",
+        "摄影"
+      ],
+      "ticket": 0,
+      "open_hour": [
+        8,
+        18
+      ],
+      "slope": 2,
+      "crowd_level": 3,
+      "family": 2,
+      "must_see": true,
+      "night_friendly": false,
+      "summary": "翻过岗巴拉山口圣湖突然撞进视野，绿松石般的蓝分不出层次，一日往返两百公里但每个过来人都说不亏",
+      "x": 60.0,
+      "y": 640.0
+    }
   ]
 }
