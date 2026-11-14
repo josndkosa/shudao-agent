@@ -88,6 +88,12 @@ def ppt_constants(root: Path = ROOT) -> dict:
     for name in ("SUBMIT_DATE", "DEMO_URL", "VERSION"):
         m = re.search(rf'^{name}\s*=\s*"([^"]*)"', src, re.M)
         out[name] = m.group(1) if m else None
+    # 03M 任务D 起 gen_ppt 的 VERSION 是 `VERSION = _changelog_top_version()`，
+    # 不是字面量。它不是独立的真相源，只是 CHANGELOG 顶条的镜像——这里直接求值。
+    # 不补这一段，第 7 项永远报「读取不全」，版本号闸形同虚设。
+    if out.get("VERSION") is None and re.search(
+            r"^VERSION\s*=\s*_changelog_top_version\(\)", src, re.M):
+        out["VERSION"] = changelog_top_version(root)
     return out
 
 

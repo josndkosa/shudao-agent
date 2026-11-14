@@ -4,6 +4,53 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
+## [1.4.3] — 2026-11-14 · 03M 拍摄模式与预检板 + 提交闸 Windows 编码修复
+
+> 03M 是「交付收口」轮：不加业务功能、不改一像素视觉，只把**人做的那两个动作**
+> （录屏、截图）的成本压到接近零，并把「现在能不能交」做成一条命令。
+> 任务单原文：`codearts_proof/prompts/_已执行/03M_拍摄模式与预检板_把人的两个动作压到最短.md`。
+
+### Added
+
+- **拍摄模式**（任务 A）：六个 URL 参数直达目标状态（`?shot=overview|player|map|replay|chat`），
+  全部复用既有函数（`run()` / `state.player.seek(n)` / `drawer-open` / `revise()`），
+  **不加 UI、不加样式**——保证加参数后画面与现状完全一致，录屏与截图可复现。
+  `map.png` 的 tooltip 需人工悬停，已在 `docs/images/README.md` 如实标注。
+- **提交预检板**（任务 B）：`python scripts/ctl.py preflight`，七项检查
+  （视频 / 六图 / PPT 常量 / 地址可达 / 占位残留 / 任务单份数 / 版本号一致），
+  每行给一句「下一步该干嘛」的人话，而不是只给退出码。`--offline` 跳过地址可达项。
+- **公网部署验证**（任务 C）：`python scripts/ctl.py verify <url>`，
+  逐项打 `/api/health`、`/api/meta`、`/api/plan` 并给耗时与结论。
+
+### Changed
+
+- **版本号单一真相源**（任务 D）：`gen_ppt.VERSION` 改为运行时读 CHANGELOG 顶条，
+  不再与 zip 名 / 提交清单各写一份。
+- **package.py 补两闸**（任务 E）：`video/` 内 mp4 时长 ≤ 190 秒、
+  归档任务单份数 ≥ 清单项数；mp4 时长复用 preflight 的纯标准库解析（不写第二份实现）。
+
+### Fixed
+
+- **提交三闸在 Windows 上全部跑不完（严重）**：`ctl.py` / `package.py` / `preflight.py` /
+  `check_placeholders.py` / `verify_deploy.py` / `export_demo_assets.py` 均 print 了
+  `✓`/`✗`/`✅`/`⚠️` 等 GBK 不可编码字符，却没有 `sys.stdout.reconfigure(encoding="utf-8")`。
+  Windows 控制台按 GBK 编码 → 最后一行 `UnicodeEncodeError` 崩溃。
+  后果：**`ci` / `preflight` / `package` 在这台机上从未真正跑完**，缺陷得以漏检到远端。
+  修法：照抄 `cli.py` 既有守卫写法，六处统一补齐。
+- **ruff W292**：`preflight.py` / `verify_deploy.py` 末行缺换行，导致 GitHub Actions
+  CI 三连失败（3.12 矩阵）。补换行，零逻辑改动。
+- **预检板版本号项永远红**：`preflight.ppt_constants()` 用正则读 `VERSION = "..."` 字面量，
+  而 03M 任务D 已把 `VERSION` 改成 `_changelog_top_version()` 函数调用 → 永远读到 `None`。
+  改为识别该形式并直接对 CHANGELOG 求值（它不是独立真相源，只是镜像）。
+
+### Tested
+
+- `python scripts/ctl.py ci` → lint + pytest（146 用例）+ 前端冒烟（24 步）**全绿，并完整跑完最后一行**（修复前会在末行崩溃）
+- `python scripts/preflight.py` → 七项正常出表（此前崩溃）
+- GitHub Actions：`main` 推送上后三连通过
+
+---
+
 ## [1.4.2] — 2026-11-09 · 外部审查修复轮（P0 正确性与可信度收口）
 
 > 来源：外部审查报告《蜀道智行：赛事解析、项目锐评与实施方案》（2026-11-09，Codex）。
