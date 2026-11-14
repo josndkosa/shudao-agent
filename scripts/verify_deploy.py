@@ -50,6 +50,10 @@ def _hit(base: str, path: str, payload: dict | None = None) -> tuple[int, float,
 
 
 def main() -> int:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     if len(sys.argv) < 2 or not sys.argv[1].startswith("http"):
         print(__doc__)
         print("示例：python scripts/verify_deploy.py http://124.xx.xx.xx:8000")

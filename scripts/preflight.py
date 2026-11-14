@@ -198,6 +198,10 @@ def check_versions(root: Path) -> tuple[str, str]:
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser(description="提交预检板：现在能不能交、还差什么")
     ap.add_argument("--offline", action="store_true", help="跳过「演示地址可达」一项（无网络时用）")
     args = ap.parse_args()

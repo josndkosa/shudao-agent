@@ -94,6 +94,10 @@ def scan_pptx(root: Path) -> list[str]:
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser(description="占位残留自检（_{6,} = 未填占位）")
     ap.add_argument("root", nargs="?", default=".", help="要扫的根目录（默认当前目录）")
     args = ap.parse_args()

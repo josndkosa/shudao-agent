@@ -87,6 +87,10 @@ def scan_secrets(stage: Path) -> list[str]:
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--team", required=True, help="队伍名（必填）")
     ap.add_argument("--version", required=True, help="版本号（必填，如 1.0.0）")

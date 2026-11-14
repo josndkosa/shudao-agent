@@ -93,6 +93,10 @@ COMMANDS = {
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
         print(__doc__)
         return 2

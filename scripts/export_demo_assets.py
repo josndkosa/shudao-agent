@@ -66,6 +66,10 @@ def dump(path, data):
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="static")
     args = ap.parse_args()
