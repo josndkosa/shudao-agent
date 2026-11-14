@@ -33,8 +33,10 @@ STAGE = ROOT / "_stage"
 NEED_DIRS = ["project", "codearts_proof", "readme", "ppt", "video"]
 
 # 03L 任务L5：staging 占位检查（check_placeholders.py 与本脚本同目录）
+# 03M 任务E：六图/视频时长闸复用 preflight 的解析函数（同一份实现，别写两遍）
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check_placeholders  # noqa: E402
+import preflight  # noqa: E402
 
 EXCLUDE_FILES = {".env", ".env.local"}
 EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".venv", "venv", ".git", "_stage",
@@ -143,6 +145,24 @@ def main():
     media = list((STAGE / "video").glob("*.mp4"))
     if not media:
         problems.append("video/ 中没有 .mp4（3 分钟演示视频尚未录制）")
+    else:
+        # 03M 任务E：时长闸——复用 preflight.mp4_duration（同一份实现，别写两遍）。
+        # 读不出时长如实报（不假装通过）；超 190 秒按赛题硬限拦
+        for m4 in media:
+            dur = preflight.mp4_duration(m4)
+            if dur is None:
+                problems.append(f"video/{m4.name} 读不出时长（非标准 mp4？人工核 ≤ 3 分钟后删此条）")
+            elif dur > 190:
+                problems.append(f"video/{m4.name} 实际 {dur:.0f} 秒 > 190 秒（赛题 ≤3 分钟，重剪或重录）")
+    # 03M 任务E：六张规格图闸——清单从 docs/images/README.md 表格解析（复用
+    # preflight.image_spec_list，不硬编码第二份）；缺图/空图 = readme 里是空图位，
+    # 评委解压第一眼就看到
+    for img in preflight.image_spec_list(ROOT):
+        p = STAGE / "project" / "docs" / "images" / img
+        if not p.is_file():
+            problems.append(f"docs/images/ 缺 {img}（规格见 docs/images/README.md；用 ?shot= 拍摄模式直开直截）")
+        elif p.stat().st_size < 1024:
+            problems.append(f"docs/images/{img} 为空文件（<1KB，重截一张）")
     shots = [p for p in (STAGE / "codearts_proof").rglob("*.png")] + \
             [p for p in (STAGE / "codearts_proof").rglob("*.jpg")]
     if len(shots) < 8:

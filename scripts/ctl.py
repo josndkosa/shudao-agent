@@ -7,6 +7,8 @@
   python scripts/ctl.py assets    # 重新生成 static/demo*.json 演示资产
   python scripts/ctl.py serve     # 启动 uvicorn（0.0.0.0:8000）
   python scripts/ctl.py ci        # 依次 lint → test → smoke，任一失败非零退出
+  python scripts/ctl.py preflight # 提交预检板：视频/六图/常量/地址/占位/任务单/版本号（03M）
+  python scripts/ctl.py verify    # 公网部署验证：python scripts/ctl.py verify http://IP:8000
   python scripts/ctl.py package   # 组装提交 zip（scripts/package.py）
 """
 import subprocess
@@ -24,7 +26,6 @@ def sh(cmd, **kw):
 
 def cmd_test():
     return sh([sys.executable, "-X", "utf8", "-m", "pytest"])
-
 
 
 def cmd_lint_safe():
@@ -67,6 +68,19 @@ def cmd_ci():
     return 0
 
 
+def cmd_preflight():
+    """提交预检板（03M 任务B）：--offline 跳过地址可达项。"""
+    return sh([sys.executable, "-X", "utf8", "scripts/preflight.py", *sys.argv[2:]])
+
+
+def cmd_verify():
+    """公网部署验证（03M 任务C）：python scripts/ctl.py verify http://IP:8000"""
+    if len(sys.argv) < 3:
+        print("用法：python scripts/ctl.py verify http://<公网IP>:8000")
+        return 2
+    return sh([sys.executable, "-X", "utf8", "scripts/verify_deploy.py", sys.argv[2]])
+
+
 def cmd_package():
     return sh([sys.executable, "-X", "utf8", "scripts/package.py", *sys.argv[2:]])
 
@@ -74,6 +88,7 @@ def cmd_package():
 COMMANDS = {
     "test": cmd_test, "lint": cmd_lint_safe, "smoke": cmd_smoke,
     "assets": cmd_assets, "serve": cmd_serve, "ci": cmd_ci, "package": cmd_package,
+    "preflight": cmd_preflight, "verify": cmd_verify,
 }
 
 
@@ -86,3 +101,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

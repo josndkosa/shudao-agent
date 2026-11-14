@@ -24,6 +24,12 @@ const state = {
 // 03K 深链：?seq=N 在管线跑完后定位到第 N 条事件（隐式 auto=1）。只在首次 run 生效。
 let pendingSeq = null;
 
+// 03M 任务A 拍摄模式：?shot=<name> 管线跑完直接停在指定拍摄状态（隐式 auto=1）。
+// 只复用现有函数（seek/renderAll/revise/drawer-open），不新增视图逻辑、不动 CSS——
+// 「加了参数，画面和现在一模一样」，人只需要按截图键。只在首次 run 生效。
+const SHOT_NAMES = ["overview", "map", "player", "replay", "chat", "budget"];
+let pendingShot = null;
+
 
 // ── 渲染 ─────────────────────────────────────────────────────
 const dayPanel = new DayPanel(day => { state.activeDay = day; renderAll(); });
@@ -193,6 +199,9 @@ async function run() {
     // 03K 深链：流结束（或兜底 plan）后按 ?seq=N 定位——在 done 帧的 seek(length)
     // 之后执行，覆盖其结果；之后 pendingSeq 置空，手动重跑不再定位
     if (pendingSeq != null) applyDeepLinkSeq();
+    // 03M 任务A：?shot=<模式> 在管线跑完后进入指定拍摄状态（seq 优先于 shot——
+    // 两者同带时按 seq 定位，shot 忽略，boot 里已 console 说明）
+    else if (pendingShot) await applyShot(pendingShot);
   } catch (err) {
     // 可见的失败：宁可红字报错，也不要白屏（答辩现场白屏等于 0 分）
     console.error(err);
@@ -235,6 +244,57 @@ function syncSeqParam(cursor) {
   if (!u.has("seq")) return;
   u.set("seq", String(Math.max(1, cursor)));
   history.replaceState(null, "", `${location.pathname}?${u.toString()}`);
+}
+
+// ── 03M 任务A：拍摄模式 ?shot=<name> ────────────────────────────
+// 六个状态全部复用现有函数；到位后只在 <html data-shot> 上做标记（控制台可见），
+// 界面不显示任何提示文字（它会进截图）。CSS 零改动。
+async function applyShot(name) {
+  const shot = pendingShot;
+  pendingShot = null;              // 只消费一次（重跑/改行程走默认行为）
+  document.documentElement.dataset.shot = name;   // 控制台查 document.documentElement.dataset.shot
+  const evs = state.events;
+  const scrollInto = (sel, block) => document.querySelector(sel)?.scrollIntoView({ block, behavior: "instant" });
+
+  if (shot === "overview") {
+    // 全页稳定态：抽屉关闭 → Day 1 → 页顶
+    document.body.classList.remove("drawer-open");
+    state.activeDay = 1;
+    renderAll(state.events.length);
+    scrollInto(".layout", "start");
+  } else if (shot === "map") {
+    // 地图区视口内 + 全部点位点亮（跑完即全亮——tooltip 需人工悬停，README 已如实标注）
+    document.body.classList.remove("drawer-open");
+    state.activeDay = 1;
+    renderAll(state.events.length);
+    scrollInto(".map-row", "center");
+  } else if (shot === "player") {
+    // 抽屉展开 + 事件列表滚入视口（当前项焦点在末尾，与手动展开观感一致）
+    document.body.classList.add("drawer-open");
+    state.player.seek(evs.length);
+    scrollInto(".evt-list", "center");
+  } else if (shot === "replay") {
+    // 中段（约 60% 处最近的一条 decision）：与 ?seq 完全同一条 seek 路径 + 抽屉展开
+    const half = Math.ceil(evs.length * 0.5);
+    let n = evs.find(e => e.type === "decision" && e.seq >= half)?.seq;
+    if (n == null) {
+      const decs = evs.filter(e => e.type === "decision");
+      n = decs.length ? decs[decs.length - 1].seq : evs.length;
+    }
+    document.body.classList.add("drawer-open");
+    state.player.seek(n);          // 与手动拖进度条/深链同一路径；地图随 cursor 点亮
+    await new Promise(r => setTimeout(r, 60));   // 等 renderAll 一帧
+    document.querySelector(".evt.cur")?.scrollIntoView({ block: "center", behavior: "instant" });
+  } else if (shot === "chat") {
+    // 真实发一次「第二天太赶」（走与人工完全相同的 revise()）→ 抽屉展开读第二幕
+    // 不伪造第二幕事件——塞进 state 的是假画面，评委一点就穿帮
+    await revise("第二天太赶");
+    document.body.classList.add("drawer-open");
+    await new Promise(r => setTimeout(r, 120));  // 等 revise 重建与 seek 完成
+    scrollInto(".evt-list", "center");
+  }
+  // budget：无独立到位逻辑——它只是 URL 预置预算 900 跑完（镜 11 违规修复场景），
+  // boot 里已把 budget 参数写进表单，run() 完成态即所需画面
 }
 
 // ── 对话栏双模式（03G）：无计划=自然语言规划入口，有计划=改行程（revise 语义零变化）──
@@ -489,7 +549,20 @@ async function boot() {
   const seqN = Number.parseInt(q.seq, 10);
   if (Number.isFinite(seqN) && seqN >= 1) pendingSeq = seqN;
 
-  if (q.auto === "1" || q.auto === 1 || pendingSeq != null) run();
+  // 03M 任务A：?shot=<拍摄模式>（隐式 auto=1；seq 优先于 shot——同带时按 seq 定位）
+  if (q.shot && SHOT_NAMES.includes(q.shot)) {
+    pendingShot = q.shot;
+    if (pendingSeq != null) {
+      // seq 优先：shot 忽略，console 说明（不进界面——提示会进截图）
+      console.info(`[shot] URL 同时带 seq=${pendingSeq} 与 shot=${q.shot}：按 seq 定位，shot 忽略`);
+      pendingShot = null;
+    } else if (q.shot === "budget" && !q.budget) {
+      // 镜 11 场景：预算 900 的违规修复叙事（只在未显式给 budget 时预置）
+      $("p-budget").value = 900;
+    }
+  }
+
+  if (q.auto === "1" || q.auto === 1 || pendingSeq != null || pendingShot != null) run();
   else renderAll(0);   // 非自动播放时先渲染空态引导（此前只有 auto 才 run，
                        // dayPanel.render(null) 从不触发 → 空态占位从未挂载、结果区一片空白）
 }

@@ -1,7 +1,7 @@
 [project]
 name = "shudao-agent"
 version = "1.0.0"
-description = "蜀道智行 · 成渝行程规划智能体——三段式管线（规划→校验→叙事），把 Agent 的决策过程做成可回放的产品"
+description = "蜀道智行 · 西南行程规划智能体——三段式管线（规划→校验→叙事），把 Agent 的决策过程做成可回放的产品"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"

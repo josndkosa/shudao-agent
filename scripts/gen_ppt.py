@@ -60,6 +60,17 @@ MEMBERS = [
 SUBMIT_DATE = "__________"
 DEMO_URL = "__________"
 
+# ── 版本号：读 CHANGELOG 顶条（03M 任务D）──────────────────────
+# 此前封面写死「v1.0」与 zip 名/提交清单对不上（评委先看 PPT 再看 zip 名，两个版本号
+# 矛盾直接印在材料上）。把「手写版本号」这个动作删掉——唯一真相源是 CHANGELOG 顶条；
+# preflight 的「版本号一致」检查三处（CHANGELOG/gen_ppt/提交清单）同源比对。
+def _changelog_top_version() -> str:
+    src = (Path(__file__).resolve().parent.parent / "CHANGELOG.md").read_text("utf-8")
+    m = re.search(r"^## \[([0-9][0-9A-Za-z.\-]*)\]", src, re.M)
+    return m.group(1) if m else "0.0.0"
+
+VERSION = _changelog_top_version()
+
 # ── 实测口径（03K 任务E2）：PPT 是快照型材料，数字必须与重出时点一致 ──
 def _ci_counts():
     """pytest 用例数 / 冒烟步数 / 任务单份数——重出时现读实测值。
@@ -226,7 +237,7 @@ txbox(s, Inches(1.25), Inches(3.05), Inches(11.0), Inches(0.8), [
 rect(s, Inches(1.25), Inches(4.35), Inches(10.9), Inches(1.5), fill=PANEL)
 txbox(s, Inches(1.55), Inches(4.55), Inches(10.4), Inches(1.2), [
     (f"参赛组别：{GROUP} ｜ 队伍名称：{TEAM_NAME} ｜ 本人专业：{MAJOR}", 16, TEXT, False, 6),
-    (f"联系人与联系方式：{CONTACT} ｜ 版本 v1.0 ｜ 日期 {SUBMIT_DATE}", 16, TEXT, False, 0)])
+    (f"联系人与联系方式：{CONTACT} ｜ 版本 v{VERSION} ｜ 日期 {SUBMIT_DATE}", 16, TEXT, False, 0)])
 txbox(s, Inches(1.25), Inches(6.55), Inches(11.0), Inches(0.5), [
     ("2026 华为开发者大赛 · 智能体创新赛（西南赛区）", 14, DIM, False, 0)])
 

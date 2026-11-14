@@ -16,3 +16,6 @@
 
 截图环境与 `docs/演示脚本.md` 镜号一致；带后端跑（`python scripts/ctl.py serve`）可同时展示
 「● 已连接后端」徽标（8765 纯静态则显示「本地演示数据」）。
+> 03M 拍摄模式：`plan.html?shot=<name>`（overview / map / player / replay / chat / budget）
+> 打开即到位（隐式 auto=1，无需任何鼠标操作直接截）。**map 的 tooltip 需人工悬停 1 秒
+> 再截**，其余状态由 `?shot=map` 预置——hover 态无法用 URL 稳定复现，如实说明。
