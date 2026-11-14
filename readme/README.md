@@ -5,6 +5,19 @@
 
 > **参赛组别**：高校组 ｜ **队伍名称**：网恋被骗五毛钱 ｜ **本人专业**：人工智能技术应用 ｜ **联系人**：刘明超
 
+## 0. 作品预览
+
+![品牌首页](../project/docs/images/home.png)
+
+![规划工作台](../project/docs/images/overview.png)
+
+![可倒带决策时间轴](../project/docs/images/player.png)
+
+![对话式改行程](../project/docs/images/chat.png)
+
+> 在线演示地址：<https://josndkosa.github.io/shudao-agent/>（纯静态前端，后端缺席时自动切本地演示数据并如实标注）
+> 演示视频：`video/蜀道智行-演示视频.mp4`（177 秒）
+
 ## 1. 环境依赖说明 + 一键安装
 
 **运行环境**：Python ≥ 3.10（Windows / macOS / Linux 均可）；Node ≥ 20.11（仅前端冒烟脚本用，非运行必需；`import.meta.dirname` 需要此版本）。
