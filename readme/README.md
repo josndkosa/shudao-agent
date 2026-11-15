@@ -15,8 +15,10 @@
 
 ![对话式改行程](../docs/images/chat.png)
 
-> 在线演示地址：<https://josndkosa.github.io/shudao-agent/>（纯静态前端，后端缺席时自动切本地演示数据并如实标注）
+> **在线演示地址：<https://shudao-agent.onrender.com/>**（云端完整部署：FastAPI 后端 + SSE 事件流 + 对话式改行程全部可用；
+> 后端异常时前端自动切本地演示数据并如实标注，演示永不中断）
 > 演示视频：`video/蜀道智行-演示视频.mp4`（177 秒）
+> 代码仓库：<https://github.com/josndkosa/shudao-agent>（`git log` 即码道开发弧线，38+ 条提交逐轮可查）
 
 ## 1. 环境依赖说明 + 一键安装
 

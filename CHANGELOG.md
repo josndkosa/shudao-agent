@@ -4,14 +4,20 @@
 版本号遵循语义化版本。本项目由华为云码道（AI Coding）全程开发，
 每轮任务对应 `codearts_proof/prompts/` 下的一份任务单原文。
 
-## [1.4.3] — 2026-11-14 · 03M 拍摄模式与预检板 + 提交闸 Windows 编码修复
+## [1.4.3] — 2026-11-15 · 03M 拍摄模式与预检板 + 交付素材落位 + 云端部署
 
 > 03M 是「交付收口」轮：不加业务功能、不改一像素视觉，只把**人做的那两个动作**
 > （录屏、截图）的成本压到接近零，并把「现在能不能交」做成一条命令。
 > 任务单原文：`codearts_proof/prompts/_已执行/03M_拍摄模式与预检板_把人的两个动作压到最短.md`。
+>
+> **云端部署**：<https://shudao-agent.onrender.com/> —— 云端完整 FastAPI 后端，
+> SSE 事件流与对话式改行程全部可用（`/api/health` 返回 `mode: offline`，离线优先不依赖外部 LLM）。
 
 ### Added
 
+- **交付素材落位**：`docs/images/` 六张规格图（home / overview / player / map / replay / chat，取自实际运行画面）与
+  `video/蜀道智行-演示视频.mp4`（**177 秒**，赛题限 180 秒）。文件名须与 `docs/images/README.md` 规格表一致
+  （`package.py` 的闸从那张表解析文件名）。README 两处改为真实嵌图。
 - **拍摄模式**（任务 A）：六个 URL 参数直达目标状态（`?shot=overview|player|map|replay|chat`），
   全部复用既有函数（`run()` / `state.player.seek(n)` / `drawer-open` / `revise()`），
   **不加 UI、不加样式**——保证加参数后画面与现状完全一致，录屏与截图可复现。

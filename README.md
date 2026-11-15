@@ -18,6 +18,9 @@
 
 ## 快速开始（四种运行方式）
 
+**在线演示**：<https://shudao-agent.onrender.com/>（云端完整部署，SSE 与对话改行程可用）｜
+**代码仓库**：<https://github.com/josndkosa/shudao-agent>
+
 ```bash
 # ① CLI（断网保命形态，仅标准库零依赖）
 python cli.py --days 3 --budget 3000 --tags 美食,文化

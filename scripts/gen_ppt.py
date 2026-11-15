@@ -58,7 +58,7 @@ MEMBERS = [
 # ⚠️ 以下两项由参赛者手填（03L 任务单第六节）。留占位会被 scripts/check_placeholders.py
 # 与 package.py 打包自检拦下——填完这两项，占位闸才转绿。
 SUBMIT_DATE = "2026-11-16"
-DEMO_URL = "https://josndkosa.github.io/shudao-agent/"
+DEMO_URL = "https://shudao-agent.onrender.com/"
 
 # ── 版本号：读 CHANGELOG 顶条（03M 任务D）──────────────────────
 # 此前封面写死「v1.0」与 zip 名/提交清单对不上（评委先看 PPT 再看 zip 名，两个版本号
