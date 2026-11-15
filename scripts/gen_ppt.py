@@ -10,9 +10,11 @@
 素材口径（03K 任务E2：易变计数由 _ci_counts() 重出时现读，不写死会过期的数字）：
 - 15 城 237 点（server/data 实测）；debug-log 十七轮；幻觉 POI 17→0（历史事实，稳定）
 - 测试用例数 / 冒烟步数 / 任务单份数：重出时自动实测（实测失败回落「—」，绝不印编造数）
-- docs/images/ 产品截图未拍——配图位如实写「待补录」，绝不画假界面
+- docs/images/ 产品截图**已补齐**（2026-11-14 实际运行画面，177 秒演示视频同一次运行）——
+  配图位用 shot() **真实嵌图**；图缺失时如实标注「截图缺失」，绝不画假界面充数
 python-pptx 仅为文档工具依赖（requirements-dev.txt），不进主依赖。
 """
+import io
 import re
 import subprocess
 import sys
@@ -25,6 +27,8 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
+
+ROOT = Path(__file__).resolve().parent.parent   # 仓库根（本文件在 scripts/ 下）
 
 # ── 浅色主题色板（清爽白底；强调色按白底对比度加深）──
 BG = RGBColor(0xFF, 0xFF, 0xFF)     # 背景：纯白
@@ -184,6 +188,48 @@ def label(sp, text, size=16, color=TEXT, bold=False):
     r = p.add_run()
     r.text = text
     set_font(r, size, color, bold)
+
+
+def shot(slide, name, lf, t, w, h, caption=None, crop=None):
+    """把 docs/images/<name>.png 真实嵌进幻灯片（截图已补齐后取代虚线占位框）。
+
+    crop: PIL 裁剪框 (left, upper, right, lower)，先把无关区域切掉再缩放——
+    1920px 宽的整屏截图塞进 4.7in 栏位时文字完全不可读，裁剪是唯一解法。
+    图片按 (w, h) 框等比缩放并居中；图缺失时**如实留空并标注**——
+    绝不画假界面充数（这是本项目的一贯纪律）。
+    z 序：先画边框矩形、后加图片，图片自然盖在框上。
+    """
+    from PIL import Image
+    path = ROOT / "docs" / "images" / f"{name}.png"
+    if not path.is_file():
+        sp = rect(slide, lf, t, w, Inches(2.4), fill=None, line=DIM, dash=True)
+        label(sp, f"截图缺失：{name}.png\n（见 docs/images/README.md 规格）", 16, DIM)
+        return None
+    buf = io.BytesIO()
+    with Image.open(path) as im:
+        im = im.convert("RGB")
+        if crop:
+            im = im.crop(crop)
+        iw, ih = im.size
+        # 目标框换算成英寸 → 目标像素（DPI=200 印刷级；允许至多 2 倍放大以填满框，
+        # LANCZOS 插值下截图文字仍清晰；不放大超过 2 倍以免糊）
+        emu_in = 914400
+        w_in, h_in = w / emu_in, h / emu_in
+        dpi = 200
+        scale = min(w_in * dpi / iw, h_in * dpi / ih, 2.0)
+        nw, nh = max(1, int(iw * scale)), max(1, int(ih * scale))
+        im = im.resize((nw, nh), Image.LANCZOS)
+        im.save(buf, "PNG")
+    buf.seek(0)
+    disp_w, disp_h = int(nw / dpi * emu_in), int(nh / dpi * emu_in)
+    left = lf + int((w - disp_w) / 2)
+    top = t + int((h - disp_h) / 2)
+    rect(slide, left, top, disp_w, disp_h, fill=None, line=LINE)   # 细边框（在图下）
+    slide.shapes.add_picture(buf, left, top, width=disp_w, height=disp_h)  # 图在后 → 盖住框
+    if caption:
+        txbox(slide, lf, top + disp_h + Inches(0.06), w, Inches(0.3),
+              [(caption, 13, DIM, False, 0)], align=PP_ALIGN.CENTER)
+    return path
 
 
 def new_slide(prs):
@@ -392,21 +438,10 @@ bullets(s, [
     ("本作品：每个决策带 reason，前端做成可拖动、可回放的时间轴", TEXT),
     ("回放到任意一步：地图点位同步点亮、行程卡随之变化", TEXT),
     ("回放器支持播放/暂停/单步/倍速/事件搜索与点击定位", TEXT),
-], top=Inches(1.95), width=Inches(6.6))
-ph = rect(s, Inches(7.8), Inches(1.95), Inches(4.7), Inches(4.4), fill=None, line=DIM, dash=True)
-tf = ph.text_frame
-tf.word_wrap = True
-tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-p = tf.paragraphs[0]
-p.alignment = PP_ALIGN.CENTER
-r = p.add_run()
-r.text = "截图待补录：player.png\n\n（回放器真实界面）"
-set_font(r, 18, DIM, False)
-p2 = tf.add_paragraph()
-p2.alignment = PP_ALIGN.CENTER
-r2 = p2.add_run()
-r2.text = "界面已冻结；录视频后与视频画面一致补拍\n规格见 docs/images/README.md"
-set_font(r2, 13, DIM, False)
+], top=Inches(1.72), width=Inches(11.6), size=17)
+shot(s, "player", Inches(0.85), Inches(3.58), Inches(11.6), Inches(3.02),
+     "docs/images/player.png —— 回放器真实界面：序号 / 阶段 / 事件 / 「因为…」决策理由（与演示视频同一次运行）",
+     crop=(0, 276, 1460, 700))
 
 # ═══════════ P10 对话式交互 ═══════════
 s = new_slide(prs)
@@ -428,21 +463,10 @@ bullets(s, [
     ("按天着色 / 路线描绘动效 / 点位 tooltip / 负载与预算条", TEXT),
     ("双页面：index.html 品牌首页（定位+数据+CTA）/ plan.html 工作台；旧链接自动透传，零破坏", TEXT),
     ("参数条 + 对话栏 + 决策回放抽屉：一屏完成「输入→生成→解释」", TEXT),
-], top=Inches(1.95), width=Inches(6.6))
-ph = rect(s, Inches(7.8), Inches(1.95), Inches(4.7), Inches(4.4), fill=None, line=DIM, dash=True)
-tf = ph.text_frame
-tf.word_wrap = True
-tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-p = tf.paragraphs[0]
-p.alignment = PP_ALIGN.CENTER
-r = p.add_run()
-r.text = "截图待补录：map.png\n\n（双城路网真实界面）"
-set_font(r, 18, DIM, False)
-p2 = tf.add_paragraph()
-p2.alignment = PP_ALIGN.CENTER
-r2 = p2.add_run()
-r2.text = "界面已冻结；录视频后与视频画面一致补拍\n规格见 docs/images/README.md"
-set_font(r2, 13, DIM, False)
+], top=Inches(1.72), width=Inches(11.6), size=17)
+shot(s, "map", Inches(0.85), Inches(3.58), Inches(11.6), Inches(3.02),
+     "docs/images/map.png —— 分城路网真实界面：朱红当日路线 + 黑色点位 + 黑底白字 tooltip",
+     crop=(352, 340, 1560, 730))
 
 # ═══════════ P12 创新亮点 ═══════════
 s = new_slide(prs)
@@ -526,7 +550,7 @@ txbox(s, Inches(0.85), Inches(5.6), Inches(11.6), Inches(0.8), [
 
 # ═══════════ P18 团队与结束 ═══════════
 s = new_slide(prs)
-header(s, "团队与分工", "参赛信息（占位由参赛者填写）")
+header(s, "团队与分工", "参赛信息")
 rect(s, Inches(0.85), Inches(1.9), Inches(11.6), Inches(2.6), fill=PANEL)
 txbox(s, Inches(1.15), Inches(2.15), Inches(11.0), Inches(2.2), [
     (f"组别：{GROUP}（可设指导教师 1 名，本队不设） ｜ 队名：{TEAM_NAME}", 18, TEXT, False, 10),
