@@ -118,6 +118,18 @@ def main():
         else:
             dst.mkdir(parents=True)
 
+    # 同一份 readme/README.md 在两处出现，两个「根」不同，相对路径不能两通：
+    #   仓库/GitHub：readme/ 的上一层 = 仓库根 → 图片在 docs/images/
+    #   zip 顶层    ：readme/ 的上一层 = 包根   → 图片在 project/docs/images/
+    #   zip 内 project/readme/ 的副本：上一层 = project/ → docs/images/ 正好对上
+    # 所以源文件写「仓库正确」的 ../docs/images/（GitHub 与 project/ 副本都对），
+    # 只把 zip 顶层那份改写一次。改写是纯文本替换，不影响其余内容。
+    top_readme = STAGE / "readme" / "README.md"
+    if top_readme.is_file():
+        txt = top_readme.read_text("utf-8")
+        if "../docs/images/" in txt:
+            top_readme.write_text(txt.replace("../docs/images/", "../project/docs/images/"), "utf-8")
+
     # 答辩材料/ 本身不进 zip，但按 codearts_proof/zip-layout.md 的规划投放两份副本：
     #   ppt/讲稿.md              ← 逐页讲稿，评委可对照 PPT 读
     #   ppt/视频分镜.md          ← 逐镜头表，评委可对照 PPT 读

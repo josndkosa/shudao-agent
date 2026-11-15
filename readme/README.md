@@ -7,13 +7,13 @@
 
 ## 0. 作品预览
 
-![品牌首页](../project/docs/images/home.png)
+![品牌首页](../docs/images/home.png)
 
-![规划工作台](../project/docs/images/overview.png)
+![规划工作台](../docs/images/overview.png)
 
-![可倒带决策时间轴](../project/docs/images/player.png)
+![可倒带决策时间轴](../docs/images/player.png)
 
-![对话式改行程](../project/docs/images/chat.png)
+![对话式改行程](../docs/images/chat.png)
 
 > 在线演示地址：<https://josndkosa.github.io/shudao-agent/>（纯静态前端，后端缺席时自动切本地演示数据并如实标注）
 > 演示视频：`video/蜀道智行-演示视频.mp4`（177 秒）
