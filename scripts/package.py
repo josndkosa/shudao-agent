@@ -188,7 +188,7 @@ def main():
     # 历史复用（瑞士网格/在线截断修复），一个前缀匹配多份原文属预期；03G~03K/05/03L 已归档补入
     need_prompts = ["00_", "01_", "01B_", "01C_", "02_", "03_", "03B_", "03C_",
                     "03D_", "03E_", "03F_", "03G_", "03H_", "03I_", "03J_", "03K_",
-                    "03L_", "04_", "05_"]
+                    "03L_", "03M_", "04_", "05_"]
     archived = list(prompts_dir.glob("*.md")) if prompts_dir.exists() else []
     for tag in need_prompts:
         if not any(p.name.startswith(tag) for p in archived):
